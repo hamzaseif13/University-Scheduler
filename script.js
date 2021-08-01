@@ -1,14 +1,15 @@
 class Course {
-  constructor(Name, LineNumber,CreditHours) {
+  constructor(Name, LineNumber,CreditHours,Department) {
     this.creditHours=CreditHours;
     this.name = Name;
     this.lineNumber = LineNumber;
+    this.department=Department;
   }
 }
 
 class Section extends Course {
-  constructor(Name,LineNumber,CreditHours,sNumber, Days,Time,Hall, Capacity, Registered, Instructor ) {
-    super(Name, LineNumber,CreditHours);
+  constructor(Name,LineNumber,CreditHours,Department,sNumber, Days,Time,Hall, Capacity, Registered, Instructor ) {
+    super(Name, LineNumber,CreditHours,Department);
 
     this.sectionNumber = sNumber;
     this.days = Days;
@@ -19,6 +20,7 @@ class Section extends Course {
     this.instructor = Instructor;
   }
 }
+
 /*
 var Se230 = new Section("FUNDAMENTALS OF SOFTWARE ENGINEERING",1762300,3,1,"Sun Mon Tue Wed","10:00-11:30","online", 35, 35,"خلدون طارق احمد الزعبي	"
 );
@@ -27,7 +29,7 @@ var courseTable = document.createElement("table");
 courseTable.className="table table-hover"
 courseTable.innerHTML = `<tr>
 <td>Credit Hours</td>
-
+<td>Department</td>
 <td>Name</td>
 <td>Line number</td>
 <td>Section</td>
@@ -40,6 +42,7 @@ courseTable.innerHTML = `<tr>
 
 </tr>
 <tr>
+<td>${Se230.department}</td>
 <td>${Se230.creditHours}</td>
 <td>${Se230.name}</td>
 <td>${Se230.lineNumber}</td>
