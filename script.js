@@ -21,11 +21,10 @@ class Section extends Course {
   }
 }
 
-/*
-var Se230 = new Section("FUNDAMENTALS OF SOFTWARE ENGINEERING",1762300,3,1,"Sun Mon Tue Wed","10:00-11:30","online", 35, 35,"خلدون طارق احمد الزعبي	"
-);
 
-var courseTable = document.createElement("table");
+var Se230 = new Section("FUNDAMENTALS OF SOFTWARE ENGINEERING",1762300,3,1,"Sun Mon Tue Wed","10:00-11:30","online", 35, 35,"خلدون طارق احمد الزعبي	");
+
+var courseTable = document.getElementById("tb")
 courseTable.className="table table-hover"
 courseTable.innerHTML = `<tr>
 <td>Credit Hours</td>
@@ -39,7 +38,6 @@ courseTable.innerHTML = `<tr>
 <td>Capacity</td>
 <td>Registred</td>
 <td>Instructor</td>
-
 </tr>
 <tr>
 <td>${Se230.department}</td>
@@ -54,4 +52,4 @@ courseTable.innerHTML = `<tr>
 <td>${Se230.registered}</td>
 <td>${Se230.instructor}</td>
 </tr>`;
-document.body.appendChild(courseTable);*/
+document.getElementById("table").appendChild(courseTable);
