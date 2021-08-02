@@ -49,6 +49,25 @@ body{
     aspect-ratio: 1/1;
     margin: auto;
 }
+#options{
+    display: flex;
+    flex-direction: column;
+}
+#options .option{
+    border: 1px solid black;
+    margin: 2px;
+
+}
+#options .big.option{
+    display: grid;
+    grid-template: 1fr/ 1fr 2fr;
+}
+#options .option *{
+    margin: 1px;
+}
+#options .big.option button{
+    grid-column: 1 / span 2;
+}
 #container > div{
     margin: 2px;
     border: 1px solid black;
