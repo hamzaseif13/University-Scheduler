@@ -1,4 +1,4 @@
-
+const database = [];//processed data from HTMLData var from data.js file
 
 class Scheduler{
 
@@ -8,6 +8,7 @@ class SchedulerGUI{
     #app;
     #options;
     constructor(){
+        console.log(dataParser());
         this.#options = {};
 
         this.#getElements();
@@ -54,6 +55,22 @@ class Section extends Course {
     this.registered = Registered;
     this.instructor = Instructor;
   }
+}
+
+
+function dataParser(){
+    let tmp , arr;
+    tmp = HTMLData.replace(/\s+/gm,""); //remove spaces
+    tmp = tmp.replace(/<.*?>/gm,"."); //replace all html tags with dots
+    tmp = tmp.replace(/.*?linenumber/i,"LineNumber"); //remove everything before the first course(Line number)
+    tmp = tmp.replace(/[.]+/mg,"|"); //replace multi (.) with |
+    
+    arr = tmp.split(/linenumber/i); //split every course alone
+    arr = arr.map((s)=>{return s.split("|")}); //split data for every course
+    
+    arr.shift(); //remove first element becsuse it is empty (when splitting the first element is empty)
+
+    return arr;
 }
 
 /*
