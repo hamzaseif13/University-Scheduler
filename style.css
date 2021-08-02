@@ -72,3 +72,9 @@ body{
     margin: 2px;
     border: 1px solid black;
 }
+form{
+    display:inline  !important;
+}
+#lineNumber{
+    text-align: center;
+}
