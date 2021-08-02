@@ -1,3 +1,38 @@
+
+
+class Scheduler{
+
+}
+
+class SchedulerGUI{
+    #app;
+    #options;
+    constructor(){
+        this.#options = {};
+
+        this.#getElements();
+    }
+    #getElements(){
+        //this code gets the inputs of all options and puts them in #options
+        //in this order #options = {option1Name:{input1Name, input2Name, ...}}
+        let options = document.querySelectorAll("#options .option");
+        for(const option of options){ 
+            let opName = option.title;
+            opName = opName.toLowerCase();
+            this.#options[opName] = {};
+
+            let inputFields = option.querySelectorAll("input");
+            for(const input of inputFields){
+                let inputName = input.name;
+                inputName = inputName.toLowerCase();
+                this.#options[opName][inputName] = input;
+            }
+            this.#options[opName]["submit"] = option.querySelector(".submit");
+
+        }
+    }
+}
+
 class Course {
   constructor(Name, LineNumber,CreditHours,Department) {
     this.creditHours=CreditHours;
