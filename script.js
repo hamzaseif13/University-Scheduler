@@ -144,9 +144,7 @@ function dataParser(){
 /*
 var Se230 = new Section("FUNDAMENTALS OF SOFTWARE ENGINEERING",1762300,3,1,"Sun Mon Tue Wed","10:00-11:30","online", 35, 35,"خلدون طارق احمد الزعبي	"
 );
-
 var Se230 = new Section("FUNDAMENTALS OF SOFTWARE ENGINEERING",1762300,3,1,"Sun Mon Tue Wed","10:00-11:30","online", 35, 35,"خلدون طارق احمد الزعبي	");
-
 var courseTable = document.getElementById("tb")
 courseTable.className="table table-hover"
 courseTable.innerHTML = `<tr>
