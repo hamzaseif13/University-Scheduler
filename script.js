@@ -9,9 +9,11 @@ class Scheduler{
 class SchedulerGUI{
   #app;
   #options;
+  #table;
   constructor(){
         dataParser();
         this.#options = {};
+        this.#table = [];
 
         this.#getElements();
   }
@@ -34,6 +36,15 @@ class SchedulerGUI{
             this.#options[opName]["submit"] = option.querySelector(".submit");
 
         }
+
+        const tableRows = document.querySelectorAll("#table tbody tr");
+        for(const row of tableRows){
+          let cells = row.querySelectorAll("td");
+          cells = Array.from(cells);
+          cells.shift(); //remove hour cell
+          this.#table.push(cells);
+        }
+
   }
 }
 
