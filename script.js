@@ -1,5 +1,5 @@
-const database = {};//processed data from HTMLData var from data.js file
-//database = {faculty1:{department1:{course1:{section1,section2}}}}
+const database = [];//processed data from HTMLData var from data.js file
+//database = [course1:{section1,section2}]
 class Scheduler{
   constructor(){
 
@@ -38,49 +38,19 @@ class SchedulerGUI{
 }
 
 
-class Faculty{
-  constructor(name=""){
-    this.name=name;
-    this.departments = [];
-  }
-  addDepartment(dep){
-    // if(typeof d != Department)
-    //   throw new Error("incorrect var type");
-    // else
-      this.departments.push(dep)
-  }
-  getDepartment(name){
-    return this.departments.find((dep)=>{
-      return dep.name == name;
-    });
-  }
-}
-class Department{
-  constructor(name = ""){
-    this.name = name;
-    this.courses = [];
-  }
-  addCourse(c){
-    // if(typeof c != Course)
-    //   throw new Error("incorrect var type");
-    // else
-      this.courses.push(c)
-  }
-  getCourse(val,searchBy = "lineNumber"){
-    return this.courses.find((course)=>{
-      return course[searchBy] == val;
-    });
-  }
-}
 class Course {
   constructor() {
+    this.faculty;
+    this.department;
     this.lineNumber;
     this.symbol;
     this.name;
     this.creditHours;
     this.sections = [];
   }
-  set(lineNumber, symbol,name,creditHours){//order is important (same order of html)
+  set(faculty,department,lineNumber, symbol,name,creditHours){//order is important (same order of html)
+    this.faculty = faculty;
+    this.department = department;
     this.lineNumber = lineNumber;
     this.symbol = symbol;
     this.name = name;
@@ -127,9 +97,9 @@ class Section {
 
 function dataParser(){
     const arabicLetter = "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF]";
-    for(const departmentData of HTMLData){
+    for(let i=0,l=HTMLData.length;i<l;i++){
       let tmp , arr, facultyName, departmentName;
-      tmp = departmentData.replace(new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`,"gm"),"@@");//mark spaces between words
+      tmp = HTMLData.shift().replace(new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`,"gm"),"@@");//mark spaces between words
       tmp = tmp.replace(/\s+/gm,""); //remove extra spaces
       tmp = tmp.replace(/@@/g," ");//return spaces between words
       tmp = tmp.replace(/selected="selected"/igm,">@@@<");//mark selected semester,faculty,department,view
@@ -146,11 +116,7 @@ function dataParser(){
       arr = tmp.split(/(?=line number)/i); //split every course alone
       arr = arr.map((s)=>{return s.split("|")}); //split data for every course
       
-
-      if(database[facultyName] === undefined)
-        database[facultyName] = new Faculty(facultyName);
-        
-      const d = new Department(departmentName);
+      
       for(const course of arr){
         const courseData = [],c = new Course();
 
@@ -158,7 +124,7 @@ function dataParser(){
           course.shift();
           courseData.push(course.shift());
         }
-        c.set(...courseData);
+        c.set(facultyName,departmentName,...courseData);
 
         course.splice(0,10);//remove table heads
 
@@ -170,9 +136,8 @@ function dataParser(){
           s.set(...sectionData);
           c.addSection(s);
         }
-        d.addCourse(c);
+        database.push(c);
       }
-      database[facultyName].addDepartment(d);
     }
 }
 
