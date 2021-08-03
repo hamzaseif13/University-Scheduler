@@ -1,6 +1,5 @@
 const database = {};//processed data from HTMLData var from data.js file
 //database = {faculty1:{department1:{course1:{section1,section2}}}}
-//all data is without spaces
 class Scheduler{
   constructor(){
 
@@ -40,15 +39,20 @@ class SchedulerGUI{
 
 
 class Faculty{
-  constructor(){
-    this.name;
+  constructor(name=""){
+    this.name=name;
     this.departments = [];
   }
-  addDepartment(d){
-    if(typeof d != Department)
-      throw new Error("incorrect var type");
-    else
-      this.departments.push(sec)
+  addDepartment(dep){
+    // if(typeof d != Department)
+    //   throw new Error("incorrect var type");
+    // else
+      this.departments.push(dep)
+  }
+  getDepartment(name){
+    return this.departments.find((dep)=>{
+      return dep.name == name;
+    });
   }
 }
 class Department{
@@ -62,6 +66,11 @@ class Department{
     // else
       this.courses.push(c)
   }
+  getCourse(val,searchBy = "lineNumber"){
+    return this.courses.find((course)=>{
+      return course[searchBy] == val;
+    });
+  }
 }
 class Course {
   constructor() {
@@ -71,7 +80,7 @@ class Course {
     this.creditHours;
     this.sections = [];
   }
-  set(lineNumber, symbol,name,creditHours){
+  set(lineNumber, symbol,name,creditHours){//order is important (same order of html)
     this.lineNumber = lineNumber;
     this.symbol = symbol;
     this.name = name;
@@ -82,6 +91,11 @@ class Course {
     //   throw new Error("incorrect var type");
     // else
       this.sections.push(sec)
+  }
+  getsection(val,searchBy = "sectionNumber"){
+    return this.sections.find((sec)=>{
+      return sec[searchBy] == val;
+    });
   }
 }
 class Section {
@@ -97,7 +111,7 @@ class Section {
     this.status;
     this.teachingType;
   }
-  set(sectionNumber, days, time, hall, seatCount, capacity, registered, instructor, status, teachingType) {
+  set(sectionNumber, days, time, hall, seatCount, capacity, registered, instructor, status, teachingType) {//order is important (same order of html)
     this.sectionNumber = sectionNumber;
     this.days = days;
     this.time = time;
@@ -112,39 +126,53 @@ class Section {
 }
 
 function dataParser(){
-    let tmp , arr;
-    tmp = HTMLData.replace(/\s+/gm,""); //remove spaces
-    tmp = tmp.replace(/<.*?>/gm,"."); //replace all html tags with dots
-    tmp = tmp.replace(/.*?linenumber/i,"LineNumber"); //remove everything before the first course(Line number)
-    tmp = tmp.replace(/[.]+/mg,"|"); //replace multi (.) with |
-    tmp = tmp.replace(/:/mg,"");
-    
-    arr = tmp.split(/linenumber/i); //split every course alone
-    arr = arr.map((s)=>{return s.split("|")}); //split data for every course
-    
-    arr.shift(); //remove first element becsuse it is empty (when splitting the first element is empty)
+    const arabicLetter = "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF]";
+    for(const departmentData of HTMLData){
+      let tmp , arr, facultyName, departmentName;
+      tmp = departmentData.replace(new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`,"gm"),"@@");//mark spaces between words
+      tmp = tmp.replace(/\s+/gm,""); //remove extra spaces
+      tmp = tmp.replace(/@@/g," ");//return spaces between words
+      tmp = tmp.replace(/selected="selected"/igm,">@@@<");//mark selected semester,faculty,department,view
+      tmp = tmp.replace(/<.*?>/gm,"."); //replace all html tags with dots
+      tmp = tmp.replace(/[.]+/mg,"|"); //replace multi (.) with |
+      tmp = tmp.replace(/:/mg,"").replace(/&amp;/g," & "); //remove [:] and add [&]
 
-    const d = new Department("Computer Science");
-    for(const course of arr){
-      const courseData = [],c = new Course();
+      arr = [...tmp.matchAll(/(?<=@@@[|]).*?(?=[|])/gm)];
+      facultyName = arr[1][0];
+      departmentName = arr[2][0];
 
-      for (let i = 0; i < 4; i++) {
-        course.shift();
-        courseData.push(course.shift());
-      }
-      c.set(...courseData);
+      tmp = tmp.replace(/.*?line number/i,"Line Number"); //remove everything before the first course(Line number)
 
-      course.splice(0,10);
+      arr = tmp.split(/(?=line number)/i); //split every course alone
+      arr = arr.map((s)=>{return s.split("|")}); //split data for every course
+      
 
-      while(course.length >= 10){
-        const sectionData = [] , s = new Section();
-        for(let i = 0; i < 10; i++){
-          sectionData.push(course.shift()); 
+      if(database[facultyName] === undefined)
+        database[facultyName] = new Faculty(facultyName);
+        
+      const d = new Department(departmentName);
+      for(const course of arr){
+        const courseData = [],c = new Course();
+
+        for (let i = 0; i < 4; i++) {
+          course.shift();
+          courseData.push(course.shift());
         }
-        s.set(...sectionData);
-        c.addSection(s);
+        c.set(...courseData);
+
+        course.splice(0,10);//remove table heads
+
+        while(course.length >= 10){
+          const sectionData = [] , s = new Section();
+          for(let i = 0; i < 10; i++){
+            sectionData.push(course.shift()); 
+          }
+          s.set(...sectionData);
+          c.addSection(s);
+        }
+        d.addCourse(c);
       }
-      d.addCourse(c);
+      database[facultyName].addDepartment(d);
     }
 }
 

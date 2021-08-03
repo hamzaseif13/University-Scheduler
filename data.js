@@ -1,4 +1,5 @@
-const HTMLData=`
+const HTMLData = [];
+HTMLData.push(`
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -2943,4 +2944,3514 @@ function __doPostBack(eventTarget, eventArgument) {
     </div>
     </form>
 </body>
-</html>`;
+</html>`);
+HTMLData.push(`
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="ctl00_Head2"><title>
+	الجدول الدراسي
+</title>
+
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>
+
+    
+    
+
+    <script type="text/javascript">
+        
+        
+    </script>
+
+<link href="styles/style_en.css" rel="stylesheet" type="text/css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <form name="aspnetForm" method="post" action="./Default_En.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="1C4F4B61" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="PzeUBcXEy/6ihUaNXAAo4Ip1n8MDZBJplvxgnVCfbRSYYLRizmxP2ST6bkBjt0yLFi/tqOXnK2zj/4mwhtTtxl6j22syNB3fCBuN46KEyiy4kYedbYTuZvhTOMprHArFM4GsC1BSA0H90EkAewyTNhFODXhrShSzGi7b3Aa3IHHoCysW9a/s9miifX8SpjubEAAcIZJcAnrnbYzD0vqSkUD0ftMWgGarpcTSBOsL3s6JZnscA8Fa19tZj3bsOeQlkeNYf/D6pV5xWCbiGKsIesL0y+KXx2/5eK5MglE9mUOIp+4ov6YfGccH2vJ3gLR+S9+YCuj4D6kFpE3QkfyVEvlh6zkuiIrH2jclj+xOD/kaOWV7rMw27e9Tvj7uIvmfkkFRljRyczjzC2GEUAaxswtimn29gLp+80NjWthYBAvjpj5veqBva56cCmHKDV9pbRaog4+p8MZKUQBYgHVTA4chNtpzRlFF02dH+6GMHEoL1irk0g0smSWmRs/AS04G/zPCpiDv2/WS5VhiPF4VX9yyfiRWYqkfMSDUdn9ak6Z4eqNRdjDFK4E9Txm9te3be4AuS4VLKBpi0lDjJefYnN9hXeQrT+Q1HKiaktLznN0Fr/SWkK5kMsDU5tyNn6aDEKPgOYLvdTgmRCrIoYS3eAYtoLNQv/tGt9HEdU69t2I7Am3nDhWgpEMeTul6qxYfmyfJVuMzFU+CukBe0WbeEjc3Rnq2UIFrYaHJyrNM+cpeYSZr6LBgjgNEScsDV6pQmmIUpo06bfTJS2VssJZUMA==" />
+</div>
+    <div id="header">
+        <a href="http://www.just.edu.jo">
+            <img src="images/CoursesSchedule-logo.png" alt="Banner" style="height: 150px; margin: auto; width: 1000px; " />
+        </a>
+    </div>
+    <div id="main">
+        <div id="content">
+            <span style="display: block; font-size: 14pt; font-weight: bold; text-align: center;">
+                للنسخة العربية <a href="/CourseSchedule">اضغط هنا</a>
+            </span>
+            
+    <div>
+        <table id="mainTable">
+            <tr>
+                <td colspan="3">
+                    <fieldset>
+                        <legend style="color: #000000; font-family: Tahoma; font-weight: bold;">Courses Schedule</legend>
+                        <table id="secondaryTable">
+                            <tr>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Semesters&nbsp;</legend>
+                                        <select name="ctl00$contentPH$ddlSemester" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$contentPH$ddlSemester\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_contentPH_ddlSemester" style="width:100%;">
+	<option value="-1">- Select Semester -</option>
+	<option selected="selected" value="202120203">Summer Semester 2020-2021</option>
+	<option value="202120202">Second Semester 2020-2021</option>
+	<option value="202120201">First Semester 2020-2021</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td colspan="2" />
+                            </tr>
+                            <tr>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Faculty </legend>
+                                        <select name="ctl00$contentPH$ddlFaculty" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$contentPH$ddlFaculty\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_contentPH_ddlFaculty" style="width:100%;">
+	<option value="-1">- Select Faculty -</option>
+	<option value="10">Medicine</option>
+	<option value="12">Applied Medical Sciences</option>
+	<option value="20">Engineering</option>
+	<option value="30">Pharmacy</option>
+	<option value="40">Nursing</option>
+	<option value="50">Dentistry</option>
+	<option value="60">Agriculture</option>
+	<option value="66">Veterinary Medicine</option>
+	<option selected="selected" value="70">Computer &amp; Information Technology</option>
+	<option value="80">Martial Sciences</option>
+	<option value="90">Science &amp; Arts</option>
+	<option value="122">Language Center</option>
+	<option value="124">Institute Of Nanotechnology</option>
+	<option value="220">Architecture And Design</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Department </legend>
+                                        <select name="ctl00$contentPH$ddlDept" id="ctl00_contentPH_ddlDept" style="width:100%;">
+	<option value="-1">- Select Department -</option>
+	<option value="171">Computer Engineering</option>
+	<option value="173">Computer Science</option>
+	<option selected="selected" value="174">Computer Information Systems</option>
+	<option value="175">Network Engineering And Security</option>
+	<option value="176">Software Engineering</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Section Status 
+                                        </legend>
+                                        <select name="ctl00$contentPH$ddlSectionStatus" id="ctl00_contentPH_ddlSectionStatus" style="width:100%;">
+	<option selected="selected" value="-1">All</option>
+	<option value="1">Opened</option>
+	<option value="2">Closed</option>
+
+</select>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr id="ctl00_contentPH_trCaptcha">
+	<td colspan="3">
+                                    <fieldset>
+                                        <table style="width: 100%; text-align: center">
+                                            <tr>
+                                                <td>
+                                                    <center>
+                                                        <div class="g-recaptcha" data-sitekey="6LfkxwATAAAAAIbGwP13Fm6DHZcNMwlYYOqv5AOg"></div>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </fieldset>
+                                </td>
+</tr>
+
+                            <tr>
+                                <td colspan="3" style="text-align: center;">
+                                    <center>
+                                        
+                                        
+                                        <input type="submit" name="ctl00$contentPH$btnSubmit" value="Submit" id="ctl00_contentPH_btnSubmit" style="font-size:12pt;width:250px;" />
+                                        <br />
+                                        
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <fieldset id="ctl00_contentPH_fsNotes">
+                                        <span style="font-family: Tahoma; font-size: 8pt;">
+                                            <span style="font-family: Tahoma; font-size: 9pt">
+                                                <span style="color: white; background-color: green; padding: 3px;">Green: Opened</span>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <span style="color: black; background-color: yellow; padding: 3px;">Yellow: Closed</span>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <span style="color: black; background-color: Red; padding: 3px;">Red: Canceled</span>
+                                            </span>
+
+                                            
+                                        </span>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="height: 139px">
+                                    <div>
+	<table class="gvSchedule" cellspacing="1" rules="rows" border="1" id="ctl00_contentPH_gvSchedule" style="border-width:1px;border-style:solid;width:100%;">
+		<tr style="color:White;background-color:LightSlateGray;">
+			<th align="center" valign="middle" scope="col" style="font-family:Tahoma;width:23%;">Course Information</th><th align="center" valign="middle" scope="col" style="font-family:Tahoma;width:77%;">Section Information</th>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1740990
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs99
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                COMPUTER SKILLS (REMEDIAL COURSE)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl02_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">80</td><td align="center" valign="middle" style="width:7%;">81</td><td align="center" valign="middle" style="width:24%;">قيس امجد جبران مرجي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">82</td><td align="center" valign="middle" style="width:7%;">83</td><td align="center" valign="middle" style="width:24%;">احمد اموفق صالح العياد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">3</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">90</td><td align="center" valign="middle" style="width:7%;">89</td><td align="center" valign="middle" style="width:24%;">مهند قاسم محمد قويدر</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">4</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">83</td><td align="center" valign="middle" style="width:7%;">83</td><td align="center" valign="middle" style="width:24%;">هشام محمد مصطفى عبنده</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">5</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">82</td><td align="center" valign="middle" style="width:7%;">82</td><td align="center" valign="middle" style="width:24%;">احمد اموفق صالح العياد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">6</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">82</td><td align="center" valign="middle" style="width:7%;">82</td><td align="center" valign="middle" style="width:24%;">مصطفى زياد مصطفى علي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">7</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">85</td><td align="center" valign="middle" style="width:7%;">88</td><td align="center" valign="middle" style="width:24%;">قيس امجد جبران مرجي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">8</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">84</td><td align="center" valign="middle" style="width:7%;">83</td><td align="center" valign="middle" style="width:24%;">مصطفى يحيى مصطفى ردايده</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">9</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">80</td><td align="center" valign="middle" style="width:7%;">80</td><td align="center" valign="middle" style="width:24%;">رحاب مصطفى محمد دويري</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">10</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">84</td><td align="center" valign="middle" style="width:7%;">86</td><td align="center" valign="middle" style="width:24%;">عامر فضيل عبد البدارنه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">11</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">82</td><td align="center" valign="middle" style="width:7%;">84</td><td align="center" valign="middle" style="width:24%;">روان تيسير هولو خصاونه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">12</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     7:00** 8:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">87</td><td align="center" valign="middle" style="width:7%;">90</td><td align="center" valign="middle" style="width:24%;">اسماعيل ابراهيم مفلح الحميدي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">13</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     7:00** 8:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">90</td><td align="center" valign="middle" style="width:7%;">92</td><td align="center" valign="middle" style="width:24%;">منير عقله عبدالرحمن بني ياسين</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">14</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     7:00** 8:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">89</td><td align="center" valign="middle" style="width:7%;">91</td><td align="center" valign="middle" style="width:24%;">امل عادل ضامن الزعبي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">15</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     7:00** 8:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">89</td><td align="center" valign="middle" style="width:7%;">93</td><td align="center" valign="middle" style="width:24%;">محمد قاسم موسى شطناوي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1741000
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs100
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                COMPUTER SKILLS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl03_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">80</td><td align="center" valign="middle" style="width:7%;">4</td><td align="center" valign="middle" style="width:24%;">مصطفى يحيى مصطفى ردايده</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Asynchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1742000
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs200
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                PROFESSIONAL AND ETHICAL ISSUES IN COMPUTING
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                1
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl04_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Tue <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30**12:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">27</td><td align="center" valign="middle" style="width:24%;">غير محدد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Tue <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">27</td><td align="center" valign="middle" style="width:24%;">مصطفى يحيى مصطفى ردايده</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">4</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Mon Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 3:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">26</td><td align="center" valign="middle" style="width:24%;">غير محدد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1742010
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs201
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                INTRODUCTION TO WEB DESIGN
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                1
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl05_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Tue <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">27</td><td align="center" valign="middle" style="width:24%;">محمد قاسم موسى شطناوي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">On Campus</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">3</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Mon Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">22</td><td align="center" valign="middle" style="width:24%;">محمد قاسم موسى شطناوي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">On Campus</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1742020
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs202
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                COMMUNICATION SKILLS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                2
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl06_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30** 9:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">29</td><td align="center" valign="middle" style="width:24%;">غير محدد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">26</td><td align="center" valign="middle" style="width:24%;">روان تيسير هولو خصاونه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">3</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30**12:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">28</td><td align="center" valign="middle" style="width:24%;">روان تيسير هولو خصاونه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">4</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">30</td><td align="center" valign="middle" style="width:24%;">غير محدد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">5</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 3:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">31</td><td align="center" valign="middle" style="width:7%;">31</td><td align="center" valign="middle" style="width:24%;">غير محدد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">6</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 3:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">29</td><td align="center" valign="middle" style="width:24%;">غير محدد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">7</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30** 9:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">21</td><td align="center" valign="middle" style="width:24%;">غير محدد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1742210
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs221
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Fundamentals of Database Systems
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl07_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">45</td><td align="center" valign="middle" style="width:7%;">33</td><td align="center" valign="middle" style="width:24%;">عامر فضيل عبد البدارنه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">40</td><td align="center" valign="middle" style="width:7%;">37</td><td align="center" valign="middle" style="width:24%;">هشام محمد مصطفى عبنده</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">3</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">45</td><td align="center" valign="middle" style="width:7%;">43</td><td align="center" valign="middle" style="width:24%;">اياد عبدالفتاح محمد الشريف</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1742310
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs231
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Introduction to information systems
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl08_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">35</td><td align="center" valign="middle" style="width:7%;">29</td><td align="center" valign="middle" style="width:24%;">روان تيسير هولو خصاونه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1743210
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs321
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Data mining
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl09_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">14</td><td align="center" valign="middle" style="width:24%;">رحاب مصطفى محمد دويري</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1743321
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs332
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Systems analysis and design
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl10_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">10</td><td align="center" valign="middle" style="width:24%;">امل عادل ضامن الزعبي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1743410
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs341
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Web applications development
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl11_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">23</td><td align="center" valign="middle" style="width:24%;">قصي قاسم محمد ابوعين</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">31</td><td align="center" valign="middle" style="width:7%;">31</td><td align="center" valign="middle" style="width:24%;">قصي قاسم محمد ابوعين</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1743520
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs352
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Business process management
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl12_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">41</td><td align="center" valign="middle" style="width:7%;">41</td><td align="center" valign="middle" style="width:24%;">هشام محمد مصطفى عبنده</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1743900
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs390
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                PRACTICAL TRAINING
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl13_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    U<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    حسب القسم<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    U<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">1000</td><td align="center" valign="middle" style="width:5%;">32</td><td align="center" valign="middle" style="width:7%;">38</td><td align="center" valign="middle" style="width:24%;">اسماعيل ابراهيم مفلح الحميدي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">On Campus</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1744210
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs421
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                DATABASE APPLICATIONS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl14_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">35</td><td align="center" valign="middle" style="width:7%;">34</td><td align="center" valign="middle" style="width:24%;">اياد عبدالفتاح محمد الشريف</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">34</td><td align="center" valign="middle" style="width:7%;">34</td><td align="center" valign="middle" style="width:24%;">مصطفى زياد مصطفى علي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1744320
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs432
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Enterprise information systems
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl15_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">20</td><td align="center" valign="middle" style="width:24%;">امل عادل ضامن الزعبي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1744351
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs435
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Information retrieval
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl16_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">35</td><td align="center" valign="middle" style="width:7%;">33</td><td align="center" valign="middle" style="width:24%;">احمد محمد عوض مصطفى</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1744410
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs441
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Business Data Communication
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl17_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">45</td><td align="center" valign="middle" style="width:7%;">41</td><td align="center" valign="middle" style="width:24%;">رضوان محمد رضوان بطيحه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1744520
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs452
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Business Planning and Control
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl18_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">28</td><td align="center" valign="middle" style="width:24%;">خالد عزالدين بركات الخطيب</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1744760
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs476
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                Cloud computing
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl19_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">31</td><td align="center" valign="middle" style="width:24%;">احمد محمد عوض مصطفى</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1744920
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs492
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                GRADUATION PROJECT 2
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                2
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl20_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    U<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    حسب القسم<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    LAB<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">35</td><td align="center" valign="middle" style="width:5%;">4</td><td align="center" valign="middle" style="width:7%;">4</td><td align="center" valign="middle" style="width:24%;">اياد عبدالفتاح محمد الشريف</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1744951
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs495
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                SPECIAL TOPICS IN COMPUTER INFORMATION SYSTEMS(3)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl21_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">30</td><td align="center" valign="middle" style="width:7%;">21</td><td align="center" valign="middle" style="width:24%;">خالد عزالدين بركات الخطيب</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                1747993
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                CIs799D
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                MASTER THESIS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                0
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl22_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    U<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    حسب القسم<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    U<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">1000</td><td align="center" valign="middle" style="width:5%;">20</td><td align="center" valign="middle" style="width:7%;">1</td><td align="center" valign="middle" style="width:24%;">غير محدد</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">On Campus</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr>
+	</table>
+</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+        </div>
+    </div>
+    <div id="footer">
+    </div>
+    </form>
+</body>
+</html>`);
+HTMLData.push(`
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="ctl00_Head2"><title>
+	الجدول الدراسي
+</title>
+
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>
+
+    
+    
+
+    <script type="text/javascript">
+        
+        
+    </script>
+
+<link href="styles/style_en.css" rel="stylesheet" type="text/css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <form name="aspnetForm" method="post" action="./Default_En.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="1C4F4B61" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="4VReTFygDsqTDhY1yo/DvyC5i1RdgbMW1YbAmR5yaIMWQjd8RW9fVq5jbB2K3BpDtWdMwtFrAPRrWzzxK+tKLARMcPo255o2ydmzMg2LMZEhlF3y2LYtgO4gxyj6N72Q4OTYF5pIv9LJvvdAi+xkihK1DbodxxiBaMPxWlPR4gMQ2k9YPlBwPTT/jZNcBpp87ApbFyXBrmhHnbd4RtR4Zs/OLtEmb8opG8uJzQjH0DO8eALypa/+62aTL63G3AwlY14bTn8UqKStMurhPD8J8QdjIEaZSEmCjRnzQrD2UDYcaFOpCnVJ0JSSOTQcHGvqnfNiclkHv78BeDVQIcCXuwNZaPhocy9tlADAm6guQNo9pZWH9z8mNUPMa10ZJgbDk+HbdOFh1fZR90ZBlpaiB279+avlPh4v0BwuxYR2KWyGHdhNt09ODkzlvmZrlbvS8Jz0+LNLph5J0U1m++hlPgxH4PtRhX5B/1VpygHUiAsJQ2vxwcmHHREKVczpYQXxpGeFMFgk/hmtl1Xj5AVP9gsZrP8sNTnV/q9yA05pnxgGQafKkJ5RPitN0EP5/5dM0bmUF2G0DhOKy/2dswxyVHGrReInTSb8V9ND6wqZuGQMfvQxqE/uB0IuU6rapLJZi1gmO24D3+s7265dmq+pO+COB817YMTXlSe8zzqyqo18FL1w1/oh5QP7ahNrkLXpW1FYQVZkrXRBV5eXvFuhDqt+KzGA+1scA4VNnLQ1J0YSLKgSwpf2TFWqZGri373kQ2UF2jS65PT25/DP6gNGrb9EKb9VhwrNKhGtDboNxd7RA9sxSFVpvetVfk32oy0/903fP+TXKiuLaOHtCaN3mA==" />
+</div>
+    <div id="header">
+        <a href="http://www.just.edu.jo">
+            <img src="images/CoursesSchedule-logo.png" alt="Banner" style="height: 150px; margin: auto; width: 1000px; " />
+        </a>
+    </div>
+    <div id="main">
+        <div id="content">
+            <span style="display: block; font-size: 14pt; font-weight: bold; text-align: center;">
+                للنسخة العربية <a href="/CourseSchedule">اضغط هنا</a>
+            </span>
+            
+    <div>
+        <table id="mainTable">
+            <tr>
+                <td colspan="3">
+                    <fieldset>
+                        <legend style="color: #000000; font-family: Tahoma; font-weight: bold;">Courses Schedule</legend>
+                        <table id="secondaryTable">
+                            <tr>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Semesters&nbsp;</legend>
+                                        <select name="ctl00$contentPH$ddlSemester" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$contentPH$ddlSemester\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_contentPH_ddlSemester" style="width:100%;">
+	<option value="-1">- Select Semester -</option>
+	<option selected="selected" value="202120203">Summer Semester 2020-2021</option>
+	<option value="202120202">Second Semester 2020-2021</option>
+	<option value="202120201">First Semester 2020-2021</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td colspan="2" />
+                            </tr>
+                            <tr>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Faculty </legend>
+                                        <select name="ctl00$contentPH$ddlFaculty" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$contentPH$ddlFaculty\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_contentPH_ddlFaculty" style="width:100%;">
+	<option value="-1">- Select Faculty -</option>
+	<option value="10">Medicine</option>
+	<option value="12">Applied Medical Sciences</option>
+	<option value="20">Engineering</option>
+	<option value="30">Pharmacy</option>
+	<option value="40">Nursing</option>
+	<option value="50">Dentistry</option>
+	<option value="60">Agriculture</option>
+	<option value="66">Veterinary Medicine</option>
+	<option value="70">Computer &amp; Information Technology</option>
+	<option value="80">Martial Sciences</option>
+	<option selected="selected" value="90">Science &amp; Arts</option>
+	<option value="122">Language Center</option>
+	<option value="124">Institute Of Nanotechnology</option>
+	<option value="220">Architecture And Design</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Department </legend>
+                                        <select name="ctl00$contentPH$ddlDept" id="ctl00_contentPH_ddlDept" style="width:100%;">
+	<option value="-1">- Select Department -</option>
+	<option selected="selected" value="80">Arabic Language</option>
+	<option value="81">English Language &amp; Linguistics</option>
+	<option value="82">Humanities</option>
+	<option value="90">Mathematics</option>
+	<option value="91">Chemistry</option>
+	<option value="92">Physics</option>
+	<option value="93">Applied Biological Sciences</option>
+	<option value="96">Biotechnology &amp; Genetic Engineering</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Section Status 
+                                        </legend>
+                                        <select name="ctl00$contentPH$ddlSectionStatus" id="ctl00_contentPH_ddlSectionStatus" style="width:100%;">
+	<option selected="selected" value="-1">All</option>
+	<option value="1">Opened</option>
+	<option value="2">Closed</option>
+
+</select>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr id="ctl00_contentPH_trCaptcha">
+	<td colspan="3">
+                                    <fieldset>
+                                        <table style="width: 100%; text-align: center">
+                                            <tr>
+                                                <td>
+                                                    <center>
+                                                        <div class="g-recaptcha" data-sitekey="6LfkxwATAAAAAIbGwP13Fm6DHZcNMwlYYOqv5AOg"></div>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </fieldset>
+                                </td>
+</tr>
+
+                            <tr>
+                                <td colspan="3" style="text-align: center;">
+                                    <center>
+                                        
+                                        
+                                        <input type="submit" name="ctl00$contentPH$btnSubmit" value="Submit" id="ctl00_contentPH_btnSubmit" style="font-size:12pt;width:250px;" />
+                                        <br />
+                                        
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <fieldset id="ctl00_contentPH_fsNotes">
+                                        <span style="font-family: Tahoma; font-size: 8pt;">
+                                            <span style="font-family: Tahoma; font-size: 9pt">
+                                                <span style="color: white; background-color: green; padding: 3px;">Green: Opened</span>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <span style="color: black; background-color: yellow; padding: 3px;">Yellow: Closed</span>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <span style="color: black; background-color: Red; padding: 3px;">Red: Canceled</span>
+                                            </span>
+
+                                            
+                                        </span>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="height: 139px">
+                                    <div>
+	<table class="gvSchedule" cellspacing="1" rules="rows" border="1" id="ctl00_contentPH_gvSchedule" style="border-width:1px;border-style:solid;width:100%;">
+		<tr style="color:White;background-color:LightSlateGray;">
+			<th align="center" valign="middle" scope="col" style="font-family:Tahoma;width:23%;">Course Information</th><th align="center" valign="middle" scope="col" style="font-family:Tahoma;width:77%;">Section Information</th>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                801011
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ARB101A
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                FUNDAMENTALS OF ARABIC LANG FOR NON-ARABS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl02_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:7%;">44</td><td align="center" valign="middle" style="width:24%;">اسماء احمد رشيد المومني</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                801012
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ARB101
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                ARABIC LANGUAGE
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl03_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">250</td><td align="center" valign="middle" style="width:7%;">250</td><td align="center" valign="middle" style="width:24%;">سهيل محمد جميل خصاونه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">250</td><td align="center" valign="middle" style="width:7%;">245</td><td align="center" valign="middle" style="width:24%;">سهيل محمد جميل خصاونه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">3</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">250</td><td align="center" valign="middle" style="width:7%;">228</td><td align="center" valign="middle" style="width:24%;">مي نايف احمد المغايره</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">4</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">250</td><td align="center" valign="middle" style="width:7%;">252</td><td align="center" valign="middle" style="width:24%;">عبدالمهدي هاشم حسين الجراح</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">5</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">250</td><td align="center" valign="middle" style="width:7%;">250</td><td align="center" valign="middle" style="width:24%;">عبدالمهدي هاشم حسين الجراح</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">6</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">250</td><td align="center" valign="middle" style="width:7%;">252</td><td align="center" valign="middle" style="width:24%;">افتخار سليم مصطفى محي الدين</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">7</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">250</td><td align="center" valign="middle" style="width:7%;">255</td><td align="center" valign="middle" style="width:24%;">افتخار سليم مصطفى محي الدين</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                802000
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ARB200
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                APPRECIATION OF LITERARY TEXTS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl04_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">220</td><td align="center" valign="middle" style="width:7%;">222</td><td align="center" valign="middle" style="width:24%;">محمد علي موسى ابنيان</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">400</td><td align="center" valign="middle" style="width:7%;">401</td><td align="center" valign="middle" style="width:24%;">محمد علي موسى ابنيان</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">4</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">400</td><td align="center" valign="middle" style="width:7%;">401</td><td align="center" valign="middle" style="width:24%;">مها علي محمد الشطناوي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">6</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">220</td><td align="center" valign="middle" style="width:7%;">223</td><td align="center" valign="middle" style="width:24%;">مها علي محمد الشطناوي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">7</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">500</td><td align="center" valign="middle" style="width:5%;">220</td><td align="center" valign="middle" style="width:7%;">222</td><td align="center" valign="middle" style="width:24%;">اسماء احمد رشيد المومني</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr>
+	</table>
+</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+        </div>
+    </div>
+    <div id="footer">
+    </div>
+    </form>
+</body>
+</html>`);
+HTMLData.push(`
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="ctl00_Head2"><title>
+	الجدول الدراسي
+</title>
+
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>
+
+    
+    
+
+    <script type="text/javascript">
+        
+        
+    </script>
+
+<link href="styles/style_en.css" rel="stylesheet" type="text/css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <form name="aspnetForm" method="post" action="./Default_En.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="1C4F4B61" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/WCUIVqAkYdNdWCrJA53x/3S8x8dYVBFyx6ZgKKEVIXtgAIEnCLwrhmdmQi2rRrTlPWLf2XsIyLpmVbm2c0Y4xfyxrBjfgUcj2Rp/z3PDj8XRJ24smscGFrJMBRkePLp/xdIHzkn3uzH1GeULMOEAShH/xNFg+cwfF1ZI08EtpmPB6FBAYIzOz2mYt3tsm1TyshjUv/BSHU3GiHcw6IknCVwKA41ypUWa5VFGu/XJpSUPy+Ue64pSck+/qPPC7Mq1qVtfIWOVix3Fp29HIAUzpsqpOmK5mtNyw75ZiN7zMHjQT7xLlBMVknt5E1cP7R96RX46eWk23TWKLyORon7RaM0lgWB5uOYDJ+6msKsksbJXKkdJ5NTi2CYsbEI1cdy69ybhq5clp9e6uQqTESVux6b/Nl5+Is4Gk//tl1bJ50zeGYDEFG+Wud6XfDNuIDosSG8rj7+24OTKiQLX24tf5nAEGu0ptAPbOUEaXpes5LUUnc1P/vzXrL29kX0p+hd+z6T/3da3UMf/+bQDGV68p5YqPHGhyzkDt9im+GlDxitOneVYLa0mlzo8dL5lXv/rjt4aXl8B+QFhOgon1HsqgPp2hVKrvtILBnZ3U87erT7n/n9jpoWuWFoYa0bRfUtODz0N9JXwZEc5Tgl0TffSqQLNWKTAu5u36yo2UeIQPNfxRXpjqwdUeD8OEROFfdcWpON1L6r6PsE5FUydz9LDKUS1c0ioekEjtdjeOhkAB41iq1eqPZY+xd5YJlBAyrqLZKcWd6EWd7wGPdBW2P2d4Cep0TmioKscRJXqUVqcya/J7E4x7v08O4/PaThZDykCuKXAj5mLI/r5jX1CkVyUw==" />
+</div>
+    <div id="header">
+        <a href="http://www.just.edu.jo">
+            <img src="images/CoursesSchedule-logo.png" alt="Banner" style="height: 150px; margin: auto; width: 1000px; " />
+        </a>
+    </div>
+    <div id="main">
+        <div id="content">
+            <span style="display: block; font-size: 14pt; font-weight: bold; text-align: center;">
+                للنسخة العربية <a href="/CourseSchedule">اضغط هنا</a>
+            </span>
+            
+    <div>
+        <table id="mainTable">
+            <tr>
+                <td colspan="3">
+                    <fieldset>
+                        <legend style="color: #000000; font-family: Tahoma; font-weight: bold;">Courses Schedule</legend>
+                        <table id="secondaryTable">
+                            <tr>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Semesters&nbsp;</legend>
+                                        <select name="ctl00$contentPH$ddlSemester" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$contentPH$ddlSemester\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_contentPH_ddlSemester" style="width:100%;">
+	<option value="-1">- Select Semester -</option>
+	<option selected="selected" value="202120203">Summer Semester 2020-2021</option>
+	<option value="202120202">Second Semester 2020-2021</option>
+	<option value="202120201">First Semester 2020-2021</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td colspan="2" />
+                            </tr>
+                            <tr>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Faculty </legend>
+                                        <select name="ctl00$contentPH$ddlFaculty" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$contentPH$ddlFaculty\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_contentPH_ddlFaculty" style="width:100%;">
+	<option value="-1">- Select Faculty -</option>
+	<option value="10">Medicine</option>
+	<option value="12">Applied Medical Sciences</option>
+	<option value="20">Engineering</option>
+	<option value="30">Pharmacy</option>
+	<option value="40">Nursing</option>
+	<option value="50">Dentistry</option>
+	<option value="60">Agriculture</option>
+	<option value="66">Veterinary Medicine</option>
+	<option value="70">Computer &amp; Information Technology</option>
+	<option value="80">Martial Sciences</option>
+	<option selected="selected" value="90">Science &amp; Arts</option>
+	<option value="122">Language Center</option>
+	<option value="124">Institute Of Nanotechnology</option>
+	<option value="220">Architecture And Design</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Department </legend>
+                                        <select name="ctl00$contentPH$ddlDept" id="ctl00_contentPH_ddlDept" style="width:100%;">
+	<option value="-1">- Select Department -</option>
+	<option value="80">Arabic Language</option>
+	<option selected="selected" value="81">English Language &amp; Linguistics</option>
+	<option value="82">Humanities</option>
+	<option value="90">Mathematics</option>
+	<option value="91">Chemistry</option>
+	<option value="92">Physics</option>
+	<option value="93">Applied Biological Sciences</option>
+	<option value="96">Biotechnology &amp; Genetic Engineering</option>
+
+</select>
+
+                                        
+                                    </fieldset>
+                                </td>
+                                <td>
+                                    <fieldset>
+                                        <legend style="color: black; font-weight: bold; font-family: Tahoma;">Section Status 
+                                        </legend>
+                                        <select name="ctl00$contentPH$ddlSectionStatus" id="ctl00_contentPH_ddlSectionStatus" style="width:100%;">
+	<option selected="selected" value="-1">All</option>
+	<option value="1">Opened</option>
+	<option value="2">Closed</option>
+
+</select>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr id="ctl00_contentPH_trCaptcha">
+	<td colspan="3">
+                                    <fieldset>
+                                        <table style="width: 100%; text-align: center">
+                                            <tr>
+                                                <td>
+                                                    <center>
+                                                        <div class="g-recaptcha" data-sitekey="6LfkxwATAAAAAIbGwP13Fm6DHZcNMwlYYOqv5AOg"></div>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </fieldset>
+                                </td>
+</tr>
+
+                            <tr>
+                                <td colspan="3" style="text-align: center;">
+                                    <center>
+                                        
+                                        
+                                        <input type="submit" name="ctl00$contentPH$btnSubmit" value="Submit" id="ctl00_contentPH_btnSubmit" style="font-size:12pt;width:250px;" />
+                                        <br />
+                                        
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <fieldset id="ctl00_contentPH_fsNotes">
+                                        <span style="font-family: Tahoma; font-size: 8pt;">
+                                            <span style="font-family: Tahoma; font-size: 9pt">
+                                                <span style="color: white; background-color: green; padding: 3px;">Green: Opened</span>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <span style="color: black; background-color: yellow; padding: 3px;">Yellow: Closed</span>
+                                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <span style="color: black; background-color: Red; padding: 3px;">Red: Canceled</span>
+                                            </span>
+
+                                            
+                                        </span>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="height: 139px">
+                                    <div>
+	<table class="gvSchedule" cellspacing="1" rules="rows" border="1" id="ctl00_contentPH_gvSchedule" style="border-width:1px;border-style:solid;width:100%;">
+		<tr style="color:White;background-color:LightSlateGray;">
+			<th align="center" valign="middle" scope="col" style="font-family:Tahoma;width:23%;">Course Information</th><th align="center" valign="middle" scope="col" style="font-family:Tahoma;width:77%;">Section Information</th>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                811031
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG103
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                LINGUISTICS (2)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl02_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">94</td><td align="center" valign="middle" style="width:7%;">17</td><td align="center" valign="middle" style="width:24%;">اسامه عبدالرحمن يوسف عبدالغافر</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                811200
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG120
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                WRITING (1)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl03_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">94</td><td align="center" valign="middle" style="width:7%;">22</td><td align="center" valign="middle" style="width:24%;">وائل فهمي نمر البيطار</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                811410
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG141
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                THE LANGUAGE OF LITERATURE
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl04_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">28</td><td align="center" valign="middle" style="width:7%;">28</td><td align="center" valign="middle" style="width:24%;">ثائر طراد سعود القاضي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">2</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">22</td><td align="center" valign="middle" style="width:7%;">22</td><td align="center" valign="middle" style="width:24%;">وائل فهمي نمر البيطار</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                812100
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG210
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                WRITING (2)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl05_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">84</td><td align="center" valign="middle" style="width:7%;">64</td><td align="center" valign="middle" style="width:24%;">وائل فهمي نمر البيطار</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                812211
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG221
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                PRINCIPLES OF TRANSLATION
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl06_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:Black;background-color:Yellow;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">95</td><td align="center" valign="middle" style="width:7%;">95</td><td align="center" valign="middle" style="width:24%;">خالد حسن محمد ابوعباس</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                812413
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG241
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                LITERARY GENRES
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl07_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">135</td><td align="center" valign="middle" style="width:7%;">133</td><td align="center" valign="middle" style="width:24%;">ثائر طراد سعود القاضي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                812712
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG271
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENGLISH FORMS & FUNCTIONS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl08_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">84</td><td align="center" valign="middle" style="width:7%;">44</td><td align="center" valign="middle" style="width:24%;">فتحي حسن عقله مقدادي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                812810
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG281
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                PHONETICS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl09_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">84</td><td align="center" valign="middle" style="width:7%;">50</td><td align="center" valign="middle" style="width:24%;">سعدى سلمان عيسى بدر</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                812820
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG282
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                PHONOLOGY
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl10_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">94</td><td align="center" valign="middle" style="width:7%;">48</td><td align="center" valign="middle" style="width:24%;">خالد حسن محمد ابوعباس</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                813010
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG301
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                APPLIED LINGUISTICS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl11_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">90</td><td align="center" valign="middle" style="width:7%;">56</td><td align="center" valign="middle" style="width:24%;">عبدالله عايد المحمود خويله</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                813050
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG305
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                HISTORY OF THE ENGLISH LANGUAGE
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl12_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     8:30**10:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">94</td><td align="center" valign="middle" style="width:7%;">57</td><td align="center" valign="middle" style="width:24%;">عبدالعزيز احمد صالح الزعبي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                813251
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG325
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                TRANSLATION (2)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl13_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">100</td><td align="center" valign="middle" style="width:7%;">99</td><td align="center" valign="middle" style="width:24%;">رولى عبدالرحيم هاشم ناجي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                813321
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG332
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                THEORIES OF ENGLISH LANGUAGE TEACHING AND LEARNING
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl14_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">115</td><td align="center" valign="middle" style="width:7%;">114</td><td align="center" valign="middle" style="width:24%;">عبدالله عايد المحمود خويله</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                813512
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG351
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                MORPHOLOGY
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl15_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">115</td><td align="center" valign="middle" style="width:7%;">110</td><td align="center" valign="middle" style="width:24%;">عبدالعزيز احمد صالح الزعبي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                813600
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG360
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                SEMANTICS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl16_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">85</td><td align="center" valign="middle" style="width:7%;">42</td><td align="center" valign="middle" style="width:24%;">محمود عبد احمد الخطيب</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                813722
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG372
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                FUNCTIONAL GRAMMAR
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl17_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">90</td><td align="center" valign="middle" style="width:7%;">50</td><td align="center" valign="middle" style="width:24%;">ميرا بشاره فرحان سهاونه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                814020
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG402
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                DISCOURSE ANALYSIS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl18_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">90</td><td align="center" valign="middle" style="width:7%;">59</td><td align="center" valign="middle" style="width:24%;">محمد نهار المحمود العلي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                814030
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG403
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                CONTRASTIVE LINGUISTICS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl19_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">90</td><td align="center" valign="middle" style="width:7%;">17</td><td align="center" valign="middle" style="width:24%;">فتحي حسن عقله مقدادي</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                814040
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG404
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                PRAGMATICS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl20_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    10:00**11:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">95</td><td align="center" valign="middle" style="width:7%;">63</td><td align="center" valign="middle" style="width:24%;">محمد عبدالكريم فلاح بدارنه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                814060
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG406
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                SOCIOLINGUISTICS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl21_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    11:30** 1:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">85</td><td align="center" valign="middle" style="width:7%;">70</td><td align="center" valign="middle" style="width:24%;">محمود عبد احمد الخطيب</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                814731
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG473
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                SYNTAX
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl22_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     2:30** 4:00<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">90</td><td align="center" valign="middle" style="width:7%;">19</td><td align="center" valign="middle" style="width:24%;">ميرا بشاره فرحان سهاونه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                814921
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG492
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                TECHNICAL WRITING AND RESEARCH METHODOLOGY
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                3
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl23_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    Sun Mon Tue Wed <br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                     1:00** 2:30<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    منصة الكترونية 150<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">150</td><td align="center" valign="middle" style="width:5%;">80</td><td align="center" valign="middle" style="width:7%;">34</td><td align="center" valign="middle" style="width:24%;">سعدى سلمان عيسى بدر</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">Synchronous attendance</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr><tr style="border-color:Red;border-width:1px;border-style:Solid;">
+			<td align="left" valign="middle" style="color:Black;width:23%;">
+                                                    <table id="innerTable" style="vertical-align: top">
+                                                        <tr>
+                                                            <td align="left" style="font-weight: bold;">Line Number:
+                                                            </td>
+                                                            <td align="left">
+                                                                817995
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Symbol:
+                                                            </td>
+                                                            <td align="left">
+                                                                ENG799
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Course Name:
+                                                            </td>
+                                                            <td align="left">
+                                                                MASTER THESIS
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">Credit Hours:
+                                                            </td>
+                                                            <td align="left">
+                                                                0
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td><td align="center" valign="middle" style="width:77%;">
+                                                    <div>
+				<table class="gvSections" cellspacing="0" rules="all" border="1" id="ctl00_contentPH_gvSchedule_ctl24_gvSections" style="border-color:Black;border-width:1px;border-style:solid;font-family:Tahoma;width:98%;border-collapse:collapse;">
+					<tr>
+						<th align="center" valign="middle" scope="col">Section</th><th align="center" valign="middle" scope="col">Days</th><th align="center" valign="middle" scope="col">Time</th><th align="center" valign="middle" scope="col">Hall</th><th align="center" valign="middle" scope="col">Seat Count</th><th align="center" valign="middle" scope="col">Capacity</th><th align="center" valign="middle" scope="col">Registered</th><th align="center" valign="middle" scope="col">Instructor</th><th align="center" valign="middle" scope="col">Status</th><th align="center" valign="middle" scope="col">Teaching Type</th>
+					</tr><tr>
+						<td align="center" valign="middle" style="color:White;background-color:Green;width:7%;">1</td><td align="center" valign="middle" style="width:18%;">
+                                                                    U<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:17%;">
+                                                                    حسب القسم<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:15%;">
+                                                                    LAB<br />
+                                                                    
+                                                                </td><td align="center" valign="middle" style="width:5%;">35</td><td align="center" valign="middle" style="width:5%;">10</td><td align="center" valign="middle" style="width:7%;">5</td><td align="center" valign="middle" style="width:24%;">محمد عبدالكريم فلاح بدارنه</td><td align="center" valign="middle" style="width:7%;">Active</td><td align="center" valign="middle" style="width:7%;">On Campus</td>
+					</tr>
+				</table>
+			</div>
+                                                </td>
+		</tr>
+	</table>
+</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+        </div>
+    </div>
+    <div id="footer">
+    </div>
+    </form>
+</body>
+</html>`);
