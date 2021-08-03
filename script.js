@@ -141,36 +141,3 @@ function dataParser(){
     }
 }
 
-/*
-var Se230 = new Section("FUNDAMENTALS OF SOFTWARE ENGINEERING",1762300,3,1,"Sun Mon Tue Wed","10:00-11:30","online", 35, 35,"خلدون طارق احمد الزعبي	"
-);
-var Se230 = new Section("FUNDAMENTALS OF SOFTWARE ENGINEERING",1762300,3,1,"Sun Mon Tue Wed","10:00-11:30","online", 35, 35,"خلدون طارق احمد الزعبي	");
-var courseTable = document.getElementById("tb")
-courseTable.className="table table-hover"
-courseTable.innerHTML = `<tr>
-<td>Credit Hours</td>
-<td>Department</td>
-<td>Name</td>
-<td>Line number</td>
-<td>Section</td>
-<td>Days</td>
-<td>Time</td>
-<td>Hall</td>
-<td>Capacity</td>
-<td>Registred</td>
-<td>Instructor</td>
-</tr>
-<tr>
-<td>${Se230.department}</td>
-<td>${Se230.creditHours}</td>
-<td>${Se230.name}</td>
-<td>${Se230.lineNumber}</td>
-<td>${Se230.sectionNumber}</td>
-<td>${Se230.days}</td>
-<td>${Se230.time}</td>
-<td>${Se230.hall}</td>
-<td>${Se230.capacity}</td>
-<td>${Se230.registered}</td>
-<td>${Se230.instructor}</td>
-</tr>`;
-document.getElementById("table").appendChild(courseTable);*/
