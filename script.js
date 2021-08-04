@@ -1,8 +1,80 @@
-const database = [];//processed data from HTMLData var from data.js file
-//database = [course1:{section1,section2}]
-class Scheduler{
-  constructor(){
 
+class Database{
+  #courses;
+  constructor(){
+    this.#courses = [];
+
+    this.#dataExtractor();
+  }
+  #addCourse(c){
+    this.#courses.push(c);
+  }
+  #dataExtractor(){
+      const arabicLetter = "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF]";
+      for(let i=0,l=HTMLData.length;i<l;i++){
+        let tmp , arr, facultyName, departmentName;
+        tmp = HTMLData.shift().replace(new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`,"gm"),"@@");//mark spaces between words
+        tmp = tmp.replace(/\s+/gm,""); //remove extra spaces
+        tmp = tmp.replace(/@@/g," ");//return spaces between words
+        tmp = tmp.replace(/selected="selected"/igm,">@@@<");//mark selected semester,faculty,department,view
+        tmp = tmp.replace(/<.*?>/gm,"."); //replace all html tags with dots
+        tmp = tmp.replace(/[.]+/mg,"|"); //replace multi (.) with |
+        tmp = tmp.replace(/:/mg,"").replace(/&amp;/g," & "); //remove [:] and add [&]
+
+        arr = [...tmp.matchAll(/(?<=@@@[|]).*?(?=[|])/gm)];
+        facultyName = arr[1][0];
+        departmentName = arr[2][0];
+
+        tmp = tmp.replace(/.*?line number/i,"Line Number"); //remove everything before the first course(Line number)
+
+        arr = tmp.split(/(?=line number)/i); //split every course alone
+        arr = arr.map((s)=>{return s.split("|")}); //split data for every course
+        
+        
+        for(const course of arr){
+          const courseData = [],c = new Course();
+
+          for (let i = 0; i < 4; i++) {
+            course.shift();
+            courseData.push(course.shift());
+          }
+          c.set(facultyName,departmentName,...courseData);
+
+          course.splice(0,10);//remove table heads
+
+          while(course.length >= 10){
+            const sectionData = [] , s = new Section();
+            for(let i = 0; i < 10; i++){
+              sectionData.push(course.shift()); 
+            }
+            s.set(...sectionData);
+            c.addSection(s);
+          }
+          this.#addCourse(c);
+        }
+      }
+  }
+  search(val,searchBy = "lineNumber"){ //returns an array with all matches
+    if(!(new Course()).hasOwnProperty(searchBy)){
+      // throw Error("err");
+      return;
+    }
+    return this.#courses.filter((course)=>{
+      return course[searchBy] == val;
+    });
+  }
+}
+//processed data from HTMLData var from data.js file
+
+class Scheduler{
+  #database;
+  #courses;
+  constructor(){
+        this.#database = new Database();
+        this.#courses = [];
+  }
+  _search(val , searchBy){
+    return this.#database.getCourses(val , searchBy); 
   }
 }
 
@@ -11,11 +83,12 @@ class SchedulerGUI{
   #options;
   #table;
   constructor(){
-        dataParser();
         this.#options = {};
         this.#table = [];
 
         this.#getElements();
+
+        this.#app = new Scheduler();
   }
   #getElements(){
         //this code gets the inputs of all options and puts them in #options
@@ -51,12 +124,12 @@ class SchedulerGUI{
 
 class Course {
   constructor() {
-    this.faculty;
-    this.department;
-    this.lineNumber;
-    this.symbol;
-    this.name;
-    this.creditHours;
+    this.faculty = "";
+    this.department = "";
+    this.lineNumber = "";
+    this.symbol = "";
+    this.name = "";
+    this.creditHours = "";
     this.sections = [];
   }
   set(faculty,department,lineNumber, symbol,name,creditHours){//order is important (same order of html)
@@ -73,7 +146,7 @@ class Course {
     // else
       this.sections.push(sec)
   }
-  getsection(val,searchBy = "sectionNumber"){
+  getSection(val,searchBy = "sectionNumber"){
     return this.sections.find((sec)=>{
       return sec[searchBy] == val;
     });
@@ -81,16 +154,16 @@ class Course {
 }
 class Section {
   constructor() {
-    this.sectionNumber;
-    this.days;
-    this.time;
-    this.hall;
-    this.seatCount;
-    this.capacity;
-    this.registered;
-    this.instructor;
-    this.status;
-    this.teachingType;
+    this.sectionNumber = "";
+    this.days = "";
+    this.time = "";
+    this.hall = "";
+    this.seatCount = "";
+    this.capacity = "";
+    this.registered = "";
+    this.instructor = "";
+    this.status = "";
+    this.teachingType = "";
   }
   set(sectionNumber, days, time, hall, seatCount, capacity, registered, instructor, status, teachingType) {//order is important (same order of html)
     this.sectionNumber = sectionNumber;
@@ -106,51 +179,7 @@ class Section {
   }
 }
 
-function dataParser(){
-    const arabicLetter = "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF]";
-    for(let i=0,l=HTMLData.length;i<l;i++){
-      let tmp , arr, facultyName, departmentName;
-      tmp = HTMLData.shift().replace(new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`,"gm"),"@@");//mark spaces between words
-      tmp = tmp.replace(/\s+/gm,""); //remove extra spaces
-      tmp = tmp.replace(/@@/g," ");//return spaces between words
-      tmp = tmp.replace(/selected="selected"/igm,">@@@<");//mark selected semester,faculty,department,view
-      tmp = tmp.replace(/<.*?>/gm,"."); //replace all html tags with dots
-      tmp = tmp.replace(/[.]+/mg,"|"); //replace multi (.) with |
-      tmp = tmp.replace(/:/mg,"").replace(/&amp;/g," & "); //remove [:] and add [&]
 
-      arr = [...tmp.matchAll(/(?<=@@@[|]).*?(?=[|])/gm)];
-      facultyName = arr[1][0];
-      departmentName = arr[2][0];
-
-      tmp = tmp.replace(/.*?line number/i,"Line Number"); //remove everything before the first course(Line number)
-
-      arr = tmp.split(/(?=line number)/i); //split every course alone
-      arr = arr.map((s)=>{return s.split("|")}); //split data for every course
-      
-      
-      for(const course of arr){
-        const courseData = [],c = new Course();
-
-        for (let i = 0; i < 4; i++) {
-          course.shift();
-          courseData.push(course.shift());
-        }
-        c.set(facultyName,departmentName,...courseData);
-
-        course.splice(0,10);//remove table heads
-
-        while(course.length >= 10){
-          const sectionData = [] , s = new Section();
-          for(let i = 0; i < 10; i++){
-            sectionData.push(course.shift()); 
-          }
-          s.set(...sectionData);
-          c.addSection(s);
-        }
-        database.push(c);
-      }
-    }
-}
 
 /*
 var Se230 = new Section("FUNDAMENTALS OF SOFTWARE ENGINEERING",1762300,3,1,"Sun Mon Tue Wed","10:00-11:30","online", 35, 35,"خلدون طارق احمد الزعبي	"

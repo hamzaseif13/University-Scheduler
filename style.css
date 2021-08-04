@@ -74,7 +74,7 @@ body{
     grid-template: 1fr / 1fr 1fr; */
 }
 #table .schedule{
-    font-size: 1.5vw;
+    /* font-size: 1.5vw; */
     /* border: 1px solid black; */
 }
 #container > div{
