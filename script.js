@@ -1,4 +1,3 @@
-
 class Database{
   #courses;
   constructor(){
@@ -145,6 +144,10 @@ class SchedulerGUI{
 
     const op = self.#options["search"];
     op.submit.addEventListener("click",function(){
+      //fixed a bug where if you search with symbol it has to be uppercase for ex CS101 will work but cs101 wont 
+      if(op.searchby.value=="symbol"){
+        op.searchval.value=op.searchval.value
+      }
       self.#myModal.children = self.#app["_searchFunction"](op.searchval.value,op.searchby.value);
       self.updateModal();
     });
@@ -248,5 +251,3 @@ function htmlCreator(tag,parent,id="",clss="",inHTML=""){
 
   return t;
 }
-
-
