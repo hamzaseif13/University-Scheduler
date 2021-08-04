@@ -65,7 +65,9 @@ body{
 #options .option *{
     margin: 1px;
 }
-#options .big.option button{
+#options .big.option button, 
+#options .big.option input
+{
     grid-column: 1 / span 2;
 }
 #table{

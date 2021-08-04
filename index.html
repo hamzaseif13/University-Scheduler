@@ -21,30 +21,37 @@
   </head>
   <body>
     <div id="container">
-        <div id="header">
+        <div id="header" >
             Welcome to University Scheduler
         </div>
         <div id="stats">
-            <div class="display">
+            <!-- <div class="display">
                 <h2>Number of Courses</h2>
                 <div class="value">0</div>
             </div>
             <div class="display">
                 <h2>Number of Hours</h2>
                 <div class="value">0</div>
-            </div>
+            </div> -->
         </div>
         <div id="options">
-            <div class="big option" title="addCourse">
-                <p>Search Course</p><input type="text" name="Department">
-                <button class="submit">Add Course</button>
-            </div>
-            <div>
-                
+            <div class="big option" title="search">
+
+                <p class="text-center">Search Course By</p>
+                <select name="searchBy" class="form-select-sm">
+                    <option value="lineNumber">Line Number</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="department">Department</option>
+                    <option value="symbol">Symbol</option>
+                    <option value="name">Name</option>
+                </select>
+
+                <input type="text" name="searchval">
+                <button type="button" class="submit btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Search</button>
             </div>
         </div>
         <div id="table" class="overflow-auto">
-            <table class="schedule table table-bordered table-sm ">
+            <table class="schedule table table-bordered table-sm fs-6">
                 <thead>
                     <tr><th>#</th><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
                 </thead>
@@ -63,6 +70,26 @@
             </table>
         </div>
     </div>
+    <!-- this is a modal (like a popup window) to display courses (made using bootstrap) (courses are added using JS)-->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-fullscreen modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Courses</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Add Selected</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const app = new SchedulerGUI();  
     </script>

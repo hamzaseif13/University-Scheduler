@@ -73,8 +73,13 @@ class Scheduler{
         this.#database = new Database();
         this.#courses = [];
   }
-  _search(val , searchBy){
-    return this.#database.getCourses(val , searchBy); 
+  _searchFunction(val , searchBy){
+    const result = this.#database.search(val , searchBy);
+    const cards = [];
+    for (const course of result) {
+      cards.push(course.generateHTMLcard());
+    }
+    return cards;
   }
 }
 
@@ -82,13 +87,24 @@ class SchedulerGUI{
   #app;
   #options;
   #table;
+  #myModal;
   constructor(){
         this.#options = {};
         this.#table = [];
 
+        this.#myModal = {
+          body:undefined,
+          title:undefined,
+          submit:undefined,
+          cancel:undefined,
+          children: []
+        };
+
         this.#getElements();
 
         this.#app = new Scheduler();
+
+        this.#addEvents();
   }
   #getElements(){
         //this code gets the inputs of all options and puts them in #options
@@ -100,7 +116,7 @@ class SchedulerGUI{
             opName = opName.toLowerCase();
             this.#options[opName] = {};
 
-            let inputFields = option.querySelectorAll("input");
+            let inputFields = option.querySelectorAll("input , select");
             for(const input of inputFields){
                 let inputName = input.name;
                 inputName = inputName.toLowerCase();
@@ -118,7 +134,29 @@ class SchedulerGUI{
           this.#table.push(cells);
         }
 
+        const modal = document.getElementById("myModal");
+        this.#myModal.body = modal.querySelector(".modal-body .row");
+        this.#myModal.title = modal.querySelector(".modal-title");
+        this.#myModal.submit = modal.querySelector(".btn-primary");
+        this.#myModal.cancel = modal.querySelector(".btn-secondary");
   }
+  #addEvents(){
+    const self = this;
+
+    const op = self.#options["search"];
+    op.submit.addEventListener("click",function(){
+      self.#myModal.children = self.#app["_searchFunction"](op.searchval.value,op.searchby.value);
+      self.updateModal();
+    });
+  }
+  updateModal(title = "Found"){
+    this.#myModal.title.innerHTML = title + "  " + this.#myModal.children.length + " items"
+    this.#myModal.body.innerHTML = "";
+    for (const child of this.#myModal.children) {
+      this.#myModal.body.appendChild(child);
+    }
+  }
+  
 }
 
 
@@ -151,6 +189,26 @@ class Course {
       return sec[searchBy] == val;
     });
   }
+  generateHTMLcard(){
+    const col = htmlCreator("div", "", "", "col");
+    let card = htmlCreator("div", col, "", "card");
+    
+    let cardBody = htmlCreator("div", card, "", "card-body");
+    htmlCreator("h5", cardBody, "", "card-title", this.name);
+    
+    let listGroup = htmlCreator("ol", card, "", "list-group list-group-flush");
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Faculty:</span> "+this.faculty);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Department:</span> "+this.department);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Line Number:</span> "+this.lineNumber);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Symbol:</span> "+this.symbol);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Credit Hours:</span> "+this.creditHours);
+
+    let cardFooter = htmlCreator("div", card, "", "card-footer text-center");
+    let checkbox = htmlCreator("input", cardFooter, "", "form-check-input ml-5");
+    checkbox.type = "checkbox";
+
+    return col;
+  }
 }
 class Section {
   constructor() {
@@ -179,5 +237,16 @@ class Section {
   }
 }
 
+
+function htmlCreator(tag,parent,id="",clss="",inHTML=""){
+  let t = document.createElement(tag);
+  if(parent != "")
+    parent.appendChild(t);
+  t.id = id;
+  t.className = clss;
+  t.innerHTML = inHTML;
+
+  return t;
+}
 
 
