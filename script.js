@@ -59,8 +59,20 @@ class Database{
       // throw Error("err");
       return;
     }
+    if(val.search(/\w.*\w/) == -1)//val has at least 2s alpha-numeric chars
+      return [];
     return this.#courses.filter((course)=>{
-      return course[searchBy] == val;
+      let original = course[searchBy];
+
+      original = original.toLowerCase();
+      original = original.trim();
+
+      if(typeof val === "number")
+        val.toString();
+      val = val.toLowerCase();
+      val = val.trim();
+      
+      return  original.includes(val);
     });
   }
 }
@@ -75,11 +87,11 @@ class Scheduler{
   }
   _searchFunction(val , searchBy){
     const result = this.#database.search(val , searchBy);
-    const cards = [];
+    const matchedCourses = [];
     for (const course of result) {
-      cards.push(course.generateHTMLcard());
+      matchedCourses.push(course);
     }
-    return cards;
+    return matchedCourses;
   }
 }
 
@@ -88,16 +100,17 @@ class SchedulerGUI{
   #options;
   #table;
   #myModal;
+  #matchedCourses;
   constructor(){
         this.#options = {};
         this.#table = [];
+        this.#matchedCourses = [];
 
         this.#myModal = {
           body:undefined,
           title:undefined,
           submit:undefined,
           cancel:undefined,
-          children: []
         };
 
         this.#getElements();
@@ -145,16 +158,36 @@ class SchedulerGUI{
 
     const op = self.#options["search"];
     op.submit.addEventListener("click",function(){
-      self.#myModal.children = self.#app["_searchFunction"](op.searchval.value,op.searchby.value);
-      self.updateModal();
+      self.#matchedCourses = self.#app["_searchFunction"](op.searchval.value,op.searchby.value);
+      self.updateModal("Found");
     });
   }
   updateModal(title = "Found"){
-    this.#myModal.title.innerHTML = title + "  " + this.#myModal.children.length + " items"
+    this.#myModal.title.innerHTML = title + "  " + this.#matchedCourses.length + " items"
     this.#myModal.body.innerHTML = "";
-    for (const child of this.#myModal.children) {
-      this.#myModal.body.appendChild(child);
+    for (const course of this.#matchedCourses) {
+      this.#myModal.body.appendChild(this.#generateHTMLcard(course));
     }
+  }
+  #generateHTMLcard(course){
+    const col = htmlCreator("div", "", "", "col");
+    let card = htmlCreator("div", col, "", "card");
+    
+    let cardBody = htmlCreator("div", card, "", "card-body");
+    htmlCreator("h5", cardBody, "", "card-title", course.name);
+    
+    let listGroup = htmlCreator("ol", card, "", "list-group list-group-flush");
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Faculty:</span> "+course.faculty);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Department:</span> "+course.department);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Line Number:</span> "+course.lineNumber);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Symbol:</span> "+course.symbol);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Credit Hours:</span> "+course.creditHours);
+
+    let cardFooter = htmlCreator("div", card, "", "card-footer text-center");
+    let checkbox = htmlCreator("input", cardFooter, "", "form-check-input ml-5");
+    checkbox.type = "checkbox";
+
+    return col;
   }
   
 }
@@ -188,26 +221,6 @@ class Course {
     return this.sections.find((sec)=>{
       return sec[searchBy] == val;
     });
-  }
-  generateHTMLcard(){
-    const col = htmlCreator("div", "", "", "col");
-    let card = htmlCreator("div", col, "", "card");
-    
-    let cardBody = htmlCreator("div", card, "", "card-body");
-    htmlCreator("h5", cardBody, "", "card-title", this.name);
-    
-    let listGroup = htmlCreator("ol", card, "", "list-group list-group-flush");
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Faculty:</span> "+this.faculty);
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Department:</span> "+this.department);
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Line Number:</span> "+this.lineNumber);
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Symbol:</span> "+this.symbol);
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Credit Hours:</span> "+this.creditHours);
-
-    let cardFooter = htmlCreator("div", card, "", "card-footer text-center");
-    let checkbox = htmlCreator("input", cardFooter, "", "form-check-input ml-5");
-    checkbox.type = "checkbox";
-
-    return col;
   }
 }
 class Section {
