@@ -58,8 +58,6 @@ class Database{
       // throw Error("err");
       return;
     }
-    if(val.search(/\w.*\w/) == -1)//val has at least 2s alpha-numeric chars
-      return [];
     return this.#courses.filter((course)=>{
       let original = course[searchBy];
 
@@ -72,6 +70,8 @@ class Database{
       val = val.trim();
       
       return  original.includes(val);
+    }).map((course)=>{ //change returned array items from original courses (from database) to copies
+      return {...course};
     });
   }
 }
@@ -79,18 +79,35 @@ class Database{
 
 class Scheduler{
   #database;
-  #courses;
+  #myCourses;
   constructor(){
         this.#database = new Database();
-        this.#courses = [];
+        this.#myCourses = [];
+  }
+  get courses(){// getter to access #myCourses from outside the class
+    return this.#myCourses;
+  }
+  courseIndex(courseNum){//function to search the index of a course inside #myCourses
+    return this.#myCourses.findIndex((item)=>{
+      return item.lineNumber === courseNum;
+    });
   }
   _searchFunction(val , searchBy){
     const result = this.#database.search(val , searchBy);
-    const matchedCourses = [];
-    for (const course of result) {
-      matchedCourses.push(course);
-    }
-    return matchedCourses;
+    return result;
+  }
+  _addCourseFunction(courseNum){
+    if(this.courseIndex(courseNum) != -1)//check if the course already exist
+      return;
+      
+    const course = this.#database.search(courseNum);
+    this.#myCourses.push(...course);
+  }
+  _removeCourseFunction(courseNum){
+    let index = this.courseIndex(courseNum);
+
+    if(index != -1)
+      this.#myCourses.splice(index, 1);
   }
 }
 
@@ -106,10 +123,13 @@ class SchedulerGUI{
         this.#matchedCourses = [];
 
         this.#myModal = {
+          bootstrapModal: undefined,
           body:undefined,
           title:undefined,
           submit:undefined,
+          submitFunction: undefined, //this is used to change the function of the submit button (add/remove courses)
           cancel:undefined,
+          selected: [] //contains the line numbers of the selected courses in the modal
         };
 
         this.#getElements();
@@ -151,12 +171,16 @@ class SchedulerGUI{
         this.#myModal.title = modal.querySelector(".modal-title");
         this.#myModal.submit = modal.querySelector(".btn-primary");
         this.#myModal.cancel = modal.querySelector(".btn-secondary");
+        
+        this.#myModal.bootstrapModal = new bootstrap.Modal(modal, {
+          keyboard: false
+        });
   }
   #addEvents(){
     const self = this;
 
     const op = self.#options["search"];
-    op.submit.addEventListener("click",function(){
+    self.#options["search"].submit.addEventListener("click",function(){
       
      /* changed search algorithm in Database class
      
@@ -164,34 +188,74 @@ class SchedulerGUI{
       if(op.searchby.value=="symbol"){
         op.searchval.value=op.searchval.value
       }*/
+      if(op.searchval.value.search(/\w.*\w/) == -1){//val has at least 2s alpha-numeric chars
+        self.updateModal([],"Found", "Add Courses");//to reset modal
+        return;
+      }
       self.#matchedCourses = self.#app["_searchFunction"](op.searchval.value,op.searchby.value);
-      self.updateModal("Found");
+      self.updateModal(self.#matchedCourses,"Found", "Add Courses", op.searchval.value, op.searchby.value);
+      self.#myModal.submitFunction = function(){
+        for(const lineNum of self.#myModal.selected){
+          self.#app._addCourseFunction(lineNum);
+        }
+      }
+    });
+    self.#options["courses"].submit.addEventListener("click", function(){
+      self.updateModal(self.#app.courses,"My Courses: ", "Remove Courses");
+      self.#myModal.submitFunction = function(){
+        for(const lineNum of self.#myModal.selected){
+          self.#app._removeCourseFunction(lineNum);
+        }
+      }
+    });
+
+    self.#myModal.submit.addEventListener("click", function(){
+      self.#myModal.submitFunction();
+      self.#myModal.bootstrapModal.hide();
+      self.#myModal.selected = [];
     });
   }
-  updateModal(title = "Found"){
-    this.#myModal.title.innerHTML = title + "  " + this.#matchedCourses.length + " items"
+  updateModal(arr,title = "Found", submitBtn = "Submit", highlight = "", prop = ""){
+    this.#myModal.title.innerHTML = title + "  " + arr.length + " items";
+    this.#myModal.submit.innerHTML = submitBtn;
     this.#myModal.body.innerHTML = "";
-    for (const course of this.#matchedCourses) {
-      this.#myModal.body.appendChild(this.#generateHTMLcard(course));
+    for (const course of arr) {
+      this.#myModal.body.appendChild(this.#generateCoursecard(course , highlight, prop));
     }
   }
-  #generateHTMLcard(course){
+  #generateCoursecard(course , highlight = "", prop = ""){
+    const self = this;
+    const copy = {...course};
+    if(highlight != "")
+      if(typeof copy[prop] === "string")
+        copy[prop] = copy[prop].replace(new RegExp(highlight.trim(),"i"),"<span class=\"bg-primary text-light\">" + highlight + "</span>");
     const col = htmlCreator("div", "", "", "col");
     let card = htmlCreator("div", col, "", "card");
     
     let cardBody = htmlCreator("div", card, "", "card-body");
-    htmlCreator("h5", cardBody, "", "card-title", course.name);
+    htmlCreator("h5", cardBody, "", "card-title", copy.name);
     
     let listGroup = htmlCreator("ol", card, "", "list-group list-group-flush");
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Faculty:</span> "+course.faculty);
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Department:</span> "+course.department);
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Line Number:</span> "+course.lineNumber);
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Symbol:</span> "+course.symbol);
-    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Credit Hours:</span> "+course.creditHours);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Faculty:</span> "+copy.faculty);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Department:</span> "+copy.department);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Line Number:</span> "+copy.lineNumber);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Symbol:</span> "+copy.symbol);
+    htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Credit Hours:</span> "+copy.creditHours);
 
     let cardFooter = htmlCreator("div", card, "", "card-footer text-center");
-    let checkbox = htmlCreator("input", cardFooter, "", "form-check-input ml-5");
+    let checkbox = htmlCreator("input", cardFooter, "", "form-check-input");
     checkbox.type = "checkbox";
+    checkbox.addEventListener("change", function(){//event to add course to #myModal.selected if checkbox is checked
+      if(this.checked)
+        self.#myModal.selected.push(course.lineNumber);
+      else{
+        let index = self.#myModal.selected.findIndex((courseNum)=>{
+          return courseNum === course.lineNumber;
+        });
+        if(index != -1)
+          self.#myModal.selected.splice(index, 1);
+      }
+    });
 
     return col;
   }
