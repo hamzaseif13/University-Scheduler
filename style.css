@@ -58,12 +58,14 @@ body{
     margin: 2px;
 
 }
-#options .big.option{
+#options .option{
     display: grid;
-    grid-template: 1fr/ 1fr 2fr;
 }
 #options .option *{
     margin: 1px;
+}
+#options .big.option{
+    grid-template: 1fr/ 1fr 2fr;
 }
 #options .big.option button, 
 #options .big.option input
