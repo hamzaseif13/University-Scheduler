@@ -46,7 +46,7 @@ class Database{
             for(let i = 0; i < 10; i++){
               sectionData.push(course.shift()); 
             }
-            s.set(...sectionData);
+            s.set(c.name,...sectionData);
             c.addSection(s);
           }
           this.#addCourse(c);
@@ -180,26 +180,27 @@ class SchedulerGUI{
     const self = this;
 
     const op = self.#options["search"];
-    self.#options["search"].submit.addEventListener("click",function(){
-      
-     /* changed search algorithm in Database class
-     
-     //fixed a bug where if you search with symbol it has to be uppercase for ex CS101 will work but cs101 wont 
-      if(op.searchby.value=="symbol"){
-        op.searchval.value=op.searchval.value
-      }*/
-      if(op.searchval.value.search(/\w.*\w/) == -1){//val has at least 2s alpha-numeric chars
-        self.updateModal([],"Found", "Add Courses");//to reset modal
-        return;
-      }
-      self.#matchedCourses = self.#app["_searchFunction"](op.searchval.value,op.searchby.value);
-      self.updateModal(self.#matchedCourses,"Found", "Add Courses", op.searchval.value, op.searchby.value);
-      self.#myModal.submitFunction = function(){
-        for(const lineNum of self.#myModal.selected){
-          self.#app._addCourseFunction(lineNum);
-        }
+    const submitSearch = function(){ //function to call when searching (by varius methods like mouse, keyboard)
+       if(op.searchval.value.search(/\w.*\w/) == -1){//val has at least 2s alpha-numeric chars
+         self.updateModal([],"Found", "Add Courses");//to reset modal
+         return;
+       }
+       self.#matchedCourses = self.#app["_searchFunction"](op.searchval.value,op.searchby.value);
+       self.updateModal(self.#matchedCourses,"Found", "Add Courses", op.searchval.value, op.searchby.value);
+       self.#myModal.submitFunction = function(){
+         for(const lineNum of self.#myModal.selected){
+           self.#app._addCourseFunction(lineNum);
+         }
+       }
+     };
+    op.submit.addEventListener("click", submitSearch);
+    op.searchval.addEventListener("keydown", function(event){
+      if(event.key === "Enter"){
+        submitSearch();
+        self.#myModal.bootstrapModal.show();
       }
     });
+
     self.#options["courses"].submit.addEventListener("click", function(){
       self.updateModal(self.#app.courses,"My Courses: ", "Remove Courses");
       self.#myModal.submitFunction = function(){
@@ -220,15 +221,15 @@ class SchedulerGUI{
     this.#myModal.submit.innerHTML = submitBtn;
     this.#myModal.body.innerHTML = "";
     for (const course of arr) {
-      this.#myModal.body.appendChild(this.#generateCoursecard(course , highlight, prop));
+      this.#myModal.body.appendChild(this.#generateCourseCard(course , highlight, prop));
     }
   }
-  #generateCoursecard(course , highlight = "", prop = ""){
+  #generateCourseCard(course , highlight = "", prop = ""){
     const self = this;
     const copy = {...course};
     if(highlight != "")
       if(typeof copy[prop] === "string")
-        copy[prop] = copy[prop].replace(new RegExp(highlight.trim(),"i"),"<span class=\"bg-primary text-light\">" + highlight + "</span>");
+        copy[prop] = copy[prop].replace(new RegExp(highlight.trim(),"i"),"<span class=\"bg-warning\">" + highlight + "</span>");
     const col = htmlCreator("div", "", "", "col");
     let card = htmlCreator("div", col, "", "card");
     
@@ -295,9 +296,9 @@ class Course {
 }
 class Section {
   constructor() {
+    this.courseName = "";
     this.sectionNumber = "";
     this.days = "";
-    this.time = "";
     this.hall = "";
     this.seatCount = "";
     this.capacity = "";
@@ -305,8 +306,11 @@ class Section {
     this.instructor = "";
     this.status = "";
     this.teachingType = "";
+    this.startTime = undefined;
+    this.endTime = undefined;
   }
-  set(sectionNumber, days, time, hall, seatCount, capacity, registered, instructor, status, teachingType) {//order is important (same order of html)
+  set(courseName, sectionNumber, days, time, hall, seatCount, capacity, registered, instructor, status, teachingType) {//order is important (same order of html)
+    this.courseName = courseName;
     this.sectionNumber = sectionNumber;
     this.days = days;
     this.time = time;
@@ -317,6 +321,18 @@ class Section {
     this.instructor = instructor;
     this.status = status;
     this.teachingType = teachingType;
+  }
+  set time(val){
+    let arr = val.split("**");
+    arr = arr.map((val)=>{
+      val = parseInt(val , 10);
+      if(val < 800)//if time < 8:00 then it is PM so add 12 hours to convert to 24 Hours
+        val += 1200;
+
+      return val;
+    })//.sort((a, b)=> a - b);
+    this.startTime = arr[0];
+    this.endTime = arr[1];
   }
 }
 
