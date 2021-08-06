@@ -80,9 +80,11 @@ class Database{
 class Scheduler{
   #database;
   #myCourses;
+  #schedule;
   constructor(){
         this.#database = new Database();
         this.#myCourses = [];
+        this.#schedule=[];
   }
   get courses(){// getter to access #myCourses from outside the class
     return this.#myCourses;
@@ -108,6 +110,12 @@ class Scheduler{
 
     if(index != -1)
       this.#myCourses.splice(index, 1);
+  }
+  _generateScheduleFunction(){
+    for(let y=0;y<this.#myCourses.length;y++){
+      console.log(this.#myCourses[y].sections[0])
+    }
+    
   }
 }
 
@@ -183,8 +191,14 @@ class SchedulerGUI{
   }
   #addEvents(){
     const self = this;
-
+   
     const op = self.#options["search"];
+    const generateButton=document.getElementById("generate") //i couldnt access the generate button from options so i 
+    //this u can fix it if u want 
+    generateButton.addEventListener("click",()=>{//when generate button clicked it will call the fucntion _generateSchedule
+      self.#app._generateScheduleFunction();
+    })
+
     const submitSearch = function(){ //function to call when searching (by varius methods like mouse, keyboard)
        if(op.searchval.value.search(/\w.*\w/) == -1){//val has at least 2s alpha-numeric chars
          self.updateModal([],"Found", "Add Courses");//to reset modal
