@@ -114,12 +114,12 @@ class Scheduler{
 class SchedulerGUI{
   #app;
   #options;
-  #table;
+  #tableCols;
   #myModal;
   #matchedCourses;
   constructor(){
         this.#options = {};
-        this.#table = [];
+        this.#tableCols = [];
         this.#matchedCourses = [];
 
         this.#myModal = {
@@ -158,13 +158,18 @@ class SchedulerGUI{
 
         }
 
-        const tableRows = document.querySelectorAll("#table tbody tr");
-        for(const row of tableRows){
-          let cells = row.querySelectorAll("td");
-          cells = Array.from(cells);
-          cells.shift(); //remove hour cell
-          this.#table.push(cells);
+        this.#tableCols = document.querySelectorAll("#table .schedule .tableCol") ;
+        for (const col of this.#tableCols) {
+          col.style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
+          "width='"+ col.offsetHeight * 0.09 /2 +"' height='"+ col.offsetHeight * 0.09 /2 +
+          "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' "+
+          "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
         }
+        /**
+         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' 
+         width='337' height='337' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1.8' 
+         %3E%3Crect fill='%23F5F5F5' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E")
+         */
 
         const modal = document.getElementById("myModal");
         this.#myModal.body = modal.querySelector(".modal-body .row");
