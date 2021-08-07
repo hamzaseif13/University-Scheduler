@@ -192,34 +192,27 @@ class SchedulerGUI{
   #addEvents(){
     const self = this;
    
-    const op = self.#options["search"];
-    const generateButton=document.getElementById("generate") //i couldnt access the generate button from options so i 
-    //this u can fix it if u want 
-    generateButton.addEventListener("click",()=>{//when generate button clicked it will call the fucntion _generateSchedule
-      self.#app._generateScheduleFunction();
-    })
-
+    const option = self.#options["search"];
     const submitSearch = function(){ //function to call when searching (by varius methods like mouse, keyboard)
-       if(op.searchval.value.search(/\w.*\w/) == -1){//val has at least 2s alpha-numeric chars
+       if(option.searchval.value.search(/\w.*\w/) == -1){//val has at least 2s alpha-numeric chars
          self.updateModal([],"Found", "Add Courses");//to reset modal
          return;
        }
-       self.#matchedCourses = self.#app["_searchFunction"](op.searchval.value,op.searchby.value);
-       self.updateModal(self.#matchedCourses,"Found", "Add Courses", op.searchval.value, op.searchby.value);
+       self.#matchedCourses = self.#app["_searchFunction"](option.searchval.value,option.searchby.value);
+       self.updateModal(self.#matchedCourses,"Found", "Add Courses", option.searchval.value, option.searchby.value);
        self.#myModal.submitFunction = function(){
          for(const lineNum of self.#myModal.selected){
            self.#app._addCourseFunction(lineNum);
          }
        }
      };
-    op.submit.addEventListener("click", submitSearch);
-    op.searchval.addEventListener("keydown", function(event){
+    option.submit.addEventListener("click", submitSearch);
+    option.searchval.addEventListener("keydown", function(event){
       if(event.key === "Enter"){
         submitSearch();
         self.#myModal.bootstrapModal.show();
       }
     });
-
     self.#options["courses"].submit.addEventListener("click", function(){
       self.updateModal(self.#app.courses,"My Courses: ", "Remove Courses");
       self.#myModal.submitFunction = function(){
@@ -227,6 +220,9 @@ class SchedulerGUI{
           self.#app._removeCourseFunction(lineNum);
         }
       }
+    });
+    self.#options["generateschedule"].submit.addEventListener("click",()=>{//when generate button clicked it will call the fucntion _generateSchedule
+      self.#app._generateScheduleFunction();
     });
 
     self.#myModal.submit.addEventListener("click", function(){
