@@ -114,7 +114,7 @@ class Scheduler{
   _generateScheduleFunction(){
     let arr = [];
     for(let y=0;y<this.#myCourses.length;y++){
-      arr.push(this.#myCourses[y].sections[Math.floor(Math.random()*this.#myCourses[y].sections.length)]); //choose random section from each course 
+      arr.push(this.#myCourses[y].sections[ random(0, this.#myCourses[y].sections.length) ]); //choose random section from each course 
     }
     return arr;
   }
@@ -123,12 +123,10 @@ class Scheduler{
 class SchedulerGUI{
   #app;
   #options;
-  #tableCols;
   #myModal;
   #matchedCourses;
   constructor(){
         this.#options = {};
-        this.#tableCols = [];
         this.#matchedCourses = [];
 
         this.#myModal = {
@@ -164,14 +162,6 @@ class SchedulerGUI{
             }
             this.#options[opName]["submit"] = option.querySelector(".submit");
 
-        }
-
-        this.#tableCols = document.querySelectorAll("#table .timeTable .tableCol") ;
-        for (const col of this.#tableCols) {
-          col.style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
-          "width='"+ col.offsetHeight * 0.09 /2 +"' height='"+ col.offsetHeight * 0.09 /2 +
-          "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' "+
-          "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
         }
 
         const modal = document.getElementById("myModal");
@@ -335,7 +325,7 @@ class Section {
         h:0,
         m:0
       },
-      deltaH:function(){return this.end.h-this.start.h},
+      deltaH:function(){return (this.end.h-this.start.h+12)%12},//if less than 0 add 12
       deltaM:function(){return this.end.m-this.start.m},
       deltaT:function(){return this.deltaH() + this.deltaM()/60},
       string:function(){
@@ -391,34 +381,37 @@ class TimeTable{
   constructor(){
     this.#sections = [];
     this.#columns = [];
-    this.colHeight = Math.max(window.innerHeight,window.innerWidth) * (100/100) * 0.90; //css: 100vmax * 90% (.timeTable[height] * .tableCol[height])
+    this.cellHeight = (Math.max(window.innerHeight,window.innerWidth) * (100/100) * (90/100) * (9/100)); //css: 100vmax * 90% * 9%(.timeTable[height] * .tableCol[height] * .hours[height])
     
     this.table = this.#generateHTMLTable();
+
+    this.#resizeEvents();
   }
   addSection(sec){
-    this.#sections.push(sec);
     const secCard = this.#generateHTMLSectionCard(sec);
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu"];
     for (let i=0;i<5;i++) {
       if(sec.days.includes(days[i])){
         this.#columns[i].appendChild(secCard.cloneNode(true));
       }
-    }
+    this.#sections.push({card:secCard,obj:sec});
+  }
   }
   #generateHTMLSectionCard(sec){
     const self = this;
     
     let card = htmlCreator("div", "", "", "card text-center w-100 overflow-hidden fw-bold");
-    card.style.height = (this.colHeight * 0.09) * sec.timeObj.deltaT() + "px";
     card.style.position = "absolute";
-    card.style.top = (this.colHeight * 0.09) * (sec.timeObj.start.h - 8 + sec.timeObj.start.m/60) + "px";
-    card.style.backgroundColor = `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`
+    card.style.height = this.cellHeight * sec.timeObj.deltaT() + "px";
+    card.style.top = this.cellHeight * (sec.timeObj.start.h - 8 + sec.timeObj.start.m/60) + "px";
+    
+    card.style.backgroundColor = `rgb(${random(100,230)},${random(100,230)},${random(100,230)})`;
     
     let cardBody = htmlCreator("div", card, "", "card-body");
     cardBody.style.fontSize = "x-small"
-    htmlCreator("div", cardBody, "", "card-title", sec.course.symbol);
-    htmlCreator("div", cardBody, "", "card-subtitle", sec.timeObj.string());
+    htmlCreator("div", cardBody, "", "", sec.course.symbol);
     htmlCreator("div", cardBody, "", "", "Sec: "+sec.sectionNumber);
+    htmlCreator("div", cardBody, "", "", sec.timeObj.string());
 
     return card;
   }
@@ -437,25 +430,35 @@ class TimeTable{
       this.#columns[i] = htmlCreator("div", table, "", "tableCol");
       {
         this.#columns[i].style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
-          "width='"+ this.colHeight * 0.09 /2 +"' height='"+ this.colHeight * 0.09 /2 +
+          "width='"+ this.cellHeight /2 +"' height='"+ this.cellHeight /2 +
           "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' "+
           "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
       }
           //add lines to table columns as background
-          window.addEventListener("resize", ()=>{
-            this.colHeight = Math.max(window.innerHeight,window.innerWidth) * (100/100) * 0.90;
-            
-            this.#columns[i].style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
-            "width='"+ this.colHeight * 0.09 /2 +"' height='"+ this.colHeight * 0.09 /2 +
-            "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' "+
-            "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
-          });
+          
     }
 
     return table;
     
   }
-
+  #resizeEvents(){
+    window.addEventListener("resize", ()=>{
+      const oldHeight = this.cellHeight;
+      this.cellHeight = (Math.max(window.innerHeight,window.innerWidth) * (100/100) * (90/100) * (9/100));
+      
+      for(const col of this.#columns)
+        col.style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
+        "width='"+ this.cellHeight /2 +"' height='"+ this.cellHeight /2 +
+        "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' "+
+        "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
+    
+      const cards = table.querySelectorAll(".card");
+      for (const card of cards) {
+        card.style.height = parseFloat(card.style.height)/oldHeight * this.cellHeight + "px";
+        card.style.top = parseFloat(card.style.top)/oldHeight * this.cellHeight + "px";
+      }
+    });
+  }
 }
 
 function htmlCreator(tag,parent,id="",clss="",inHTML=""){
@@ -467,4 +470,7 @@ function htmlCreator(tag,parent,id="",clss="",inHTML=""){
   t.innerHTML = inHTML;
 
   return t;
+}
+function random(min, max){
+  return Math.floor(Math.random()*(max-min) + min);
 }
