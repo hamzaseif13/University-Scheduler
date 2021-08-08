@@ -114,7 +114,7 @@ class Scheduler{
   _generateScheduleFunction(){
     let arr = [];
     for(let y=0;y<this.#myCourses.length;y++){
-      arr.push(this.#myCourses[y].sections[ random(0, this.#myCourses[y].sections.length) ]); //choose random section from each course 
+      arr.push(this.#myCourses[y].sections[ random(0, this.#myCourses[y].sections.length - 1) ]); //choose random section from each course 
     }
     return arr;
   }
@@ -243,9 +243,9 @@ class SchedulerGUI{
         copy[prop] = copy[prop].replace(new RegExp(highlight.trim(),"i"),"<span class=\"bg-warning\">" + highlight + "</span>");
     const col = htmlCreator("div", "", "", "col");
     
-    let btn = htmlCreator("div", col, "", "btn-lg");
-    let card = htmlCreator("div", btn, "", "card shadow");
-    
+    let card = htmlCreator("div", col, "", "card shadow");
+    card.style.cursor = "pointer";
+
     let cardBody = htmlCreator("div", card, "", "card-body");
     htmlCreator("h5", cardBody, "", "card-title", copy.name);
     
@@ -256,7 +256,7 @@ class SchedulerGUI{
     htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Symbol:</span> "+copy.symbol);
     htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Credit Hours:</span> "+copy.creditHours);
 
-    btn.addEventListener("click", function(){//event to add course to #myModal.selected if card is clicked
+    card.addEventListener("click", function(){//event to add course to #myModal.selected if card is clicked
       checked = !checked;
       if(checked){
         self.#myModal.selected.push(course.lineNumber);
@@ -410,7 +410,7 @@ class TimeTable{
     let card = htmlCreator("div", "", "", "card text-center w-100 overflow-hidden fw-bold");
     card.style.position = "absolute";
     card.style.height = this.cellHeight * sec.timeObj.deltaT() + "px";
-    card.style.top = this.cellHeight * (sec.timeObj.start.h - 8 + sec.timeObj.start.m/60) + "px";
+    card.style.top = this.cellHeight * ((sec.timeObj.start.h - 8 +12)%12 + sec.timeObj.start.m/60) + "px";
     
     card.style.backgroundColor = `rgb(${random(100,230)},${random(100,230)},${random(100,230)})`;
     
