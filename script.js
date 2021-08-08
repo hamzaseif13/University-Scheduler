@@ -234,12 +234,17 @@ class SchedulerGUI{
   }
   #generateHTMLCourseCard(course , highlight = "", prop = ""){
     const self = this;
+    let checked = false;
+
     const copy = {...course};
+    
     if(highlight != "")
       if(typeof copy[prop] === "string")
         copy[prop] = copy[prop].replace(new RegExp(highlight.trim(),"i"),"<span class=\"bg-warning\">" + highlight + "</span>");
     const col = htmlCreator("div", "", "", "col");
-    let card = htmlCreator("div", col, "", "card");
+    
+    let btn = htmlCreator("div", col, "", "btn-lg");
+    let card = htmlCreator("div", btn, "", "card shadow");
     
     let cardBody = htmlCreator("div", card, "", "card-body");
     htmlCreator("h5", cardBody, "", "card-title", copy.name);
@@ -251,18 +256,20 @@ class SchedulerGUI{
     htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Symbol:</span> "+copy.symbol);
     htmlCreator("li", listGroup, "", "list-group-item", "<span class=\"h6\">Credit Hours:</span> "+copy.creditHours);
 
-    let cardFooter = htmlCreator("div", card, "", "card-footer text-center");
-    let checkbox = htmlCreator("input", cardFooter, "", "form-check-input");
-    checkbox.type = "checkbox";
-    checkbox.addEventListener("change", function(){//event to add course to #myModal.selected if checkbox is checked
-      if(this.checked)
+    btn.addEventListener("click", function(){//event to add course to #myModal.selected if card is clicked
+      checked = !checked;
+      if(checked){
         self.#myModal.selected.push(course.lineNumber);
+        card.className += " border-success";
+      }
       else{
         let index = self.#myModal.selected.findIndex((courseNum)=>{
           return courseNum === course.lineNumber;
         });
-        if(index != -1)
+        if(index != -1){
           self.#myModal.selected.splice(index, 1);
+          card.className = card.className.replace(" border-success","");
+        }
       }
     });
 
@@ -381,7 +388,7 @@ class TimeTable{
   constructor(){
     this.#sections = [];
     this.#columns = [];
-    this.cellHeight = (Math.max(window.innerHeight,window.innerWidth) * (100/100) * (90/100) * (9/100)); //css: 100vmax * 90% * 9%(.timeTable[height] * .tableCol[height] * .hours[height])
+    this.cellHeight = (Math.max(window.innerHeight,window.innerWidth) * (50/100) * (90/100) * (9/100)); //css: 100vmax * 90% * 9%(.timeTable[height] * .tableCol[height] * .hours[height])
     
     this.table = this.#generateHTMLTable();
 
@@ -407,7 +414,7 @@ class TimeTable{
     
     card.style.backgroundColor = `rgb(${random(100,230)},${random(100,230)},${random(100,230)})`;
     
-    let cardBody = htmlCreator("div", card, "", "card-body");
+    let cardBody = htmlCreator("div", card, "", "m-auto ");
     cardBody.style.fontSize = "x-small"
     htmlCreator("div", cardBody, "", "", sec.course.symbol);
     htmlCreator("div", cardBody, "", "", "Sec: "+sec.sectionNumber);
@@ -444,7 +451,7 @@ class TimeTable{
   #resizeEvents(){
     window.addEventListener("resize", ()=>{
       const oldHeight = this.cellHeight;
-      this.cellHeight = (Math.max(window.innerHeight,window.innerWidth) * (100/100) * (90/100) * (9/100));
+      this.cellHeight = (Math.max(window.innerHeight,window.innerWidth) * (50/100) * (90/100) * (9/100));
       
       for(const col of this.#columns)
         col.style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
