@@ -46,7 +46,7 @@ class Database{
             for(let i = 0; i < 10; i++){
               sectionData.push(course.shift()); 
             }
-            s.set(c.name,...sectionData);
+            s.set(...sectionData);
             c.addSection(s);
           }
           this.#addCourse(c);
@@ -112,10 +112,11 @@ class Scheduler{
       this.#myCourses.splice(index, 1);
   }
   _generateScheduleFunction(){
+    let arr = [];
     for(let y=0;y<this.#myCourses.length;y++){
-      console.log(this.#myCourses[y].sections[0])
+      arr.push(this.#myCourses[y].sections[Math.floor(Math.random()*this.#myCourses[y].sections.length)]); //choose random section from each course 
     }
-    
+    return arr;
   }
 }
 
@@ -139,12 +140,11 @@ class SchedulerGUI{
           cancel:undefined,
           selected: [] //contains the line numbers of the selected courses in the modal
         };
-
         this.#getElements();
 
         this.#app = new Scheduler();
 
-        this.#addEvents();
+        this.#addEvents()
   }
   #getElements(){
         //this code gets the inputs of all options and puts them in #options
@@ -166,18 +166,13 @@ class SchedulerGUI{
 
         }
 
-        this.#tableCols = document.querySelectorAll("#table .schedule .tableCol") ;
+        this.#tableCols = document.querySelectorAll("#table .timeTable .tableCol") ;
         for (const col of this.#tableCols) {
           col.style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
           "width='"+ col.offsetHeight * 0.09 /2 +"' height='"+ col.offsetHeight * 0.09 /2 +
           "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' "+
           "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
         }
-        /**
-         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' 
-         width='337' height='337' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1.8' 
-         %3E%3Crect fill='%23F5F5F5' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E")
-         */
 
         const modal = document.getElementById("myModal");
         this.#myModal.body = modal.querySelector(".modal-body .row");
@@ -222,7 +217,15 @@ class SchedulerGUI{
       }
     });
     self.#options["generateschedule"].submit.addEventListener("click",()=>{//when generate button clicked it will call the fucntion _generateSchedule
-      self.#app._generateScheduleFunction();
+      const schedule = self.#app._generateScheduleFunction();
+      
+      let t = new TimeTable();
+      let twrap = document.getElementById("table");
+      twrap.innerHTML = "";
+      twrap.appendChild(t.table);
+      for (const sec of schedule) {        
+        t.addSection(sec);
+      }
     });
 
     self.#myModal.submit.addEventListener("click", function(){
@@ -236,10 +239,10 @@ class SchedulerGUI{
     this.#myModal.submit.innerHTML = submitBtn;
     this.#myModal.body.innerHTML = "";
     for (const course of arr) {
-      this.#myModal.body.appendChild(this.#generateCourseCard(course , highlight, prop));
+      this.#myModal.body.appendChild(this.#generateHTMLCourseCard(course , highlight, prop));
     }
   }
-  #generateCourseCard(course , highlight = "", prop = ""){
+  #generateHTMLCourseCard(course , highlight = "", prop = ""){
     const self = this;
     const copy = {...course};
     if(highlight != "")
@@ -302,6 +305,7 @@ class Course {
     //   throw new Error("incorrect var type");
     // else
       this.sections.push(sec)
+      sec.course = this; //a pointer to the course of the section
   }
   getSection(val,searchBy = "sectionNumber"){
     return this.sections.find((sec)=>{
@@ -311,7 +315,6 @@ class Course {
 }
 class Section {
   constructor() {
-    this.courseName = "";
     this.sectionNumber = "";
     this.days = "";
     this.hall = "";
@@ -323,9 +326,26 @@ class Section {
     this.teachingType = "";
     this.startTime = undefined;
     this.endTime = undefined;
+    this.timeObj = {
+      start:{
+        h:0,
+        m:0
+      },
+      end:{
+        h:0,
+        m:0
+      },
+      deltaH:function(){return this.end.h-this.start.h},
+      deltaM:function(){return this.end.m-this.start.m},
+      deltaT:function(){return this.deltaH() + this.deltaM()/60},
+      string:function(){
+          return ( this.start.h + ":" + this.start.m + " - " + 
+        this.end.h + ":" + this.end.m);
+      }
+    };
+    this.course = {}; //a pointer to the course of the section
   }
-  set(courseName, sectionNumber, days, time, hall, seatCount, capacity, registered, instructor, status, teachingType) {//order is important (same order of html)
-    this.courseName = courseName;
+  set(sectionNumber, days, time, hall, seatCount, capacity, registered, instructor, status, teachingType) {//order is important (same order of html)
     this.sectionNumber = sectionNumber;
     this.days = days;
     this.time = time;
@@ -348,9 +368,95 @@ class Section {
     })//.sort((a, b)=> a - b);
     this.startTime = arr[0];
     this.endTime = arr[1];
+    
+    let tsH = Math.floor(this.startTime/100);
+    tsH = tsH > 12? tsH-12 : tsH;
+    let tsM = this.startTime%100 == 0?"00": this.startTime%100;
+    
+    this.timeObj.start.h = tsH;
+    this.timeObj.start.m = tsM;
+
+    let teH = Math.floor(this.endTime/100);
+    teH = teH > 12? teH-12 : teH;
+    let teM = this.endTime%100 == 0?"00": this.endTime%100;
+    
+    this.timeObj.end.h = teH;
+    this.timeObj.end.m = teM;
   }
 }
 
+class TimeTable{
+  #sections;
+  #columns;
+  constructor(){
+    this.#sections = [];
+    this.#columns = [];
+    this.colHeight = Math.max(window.innerHeight,window.innerWidth) * (100/100) * 0.90; //css: 100vmax * 90% (.timeTable[height] * .tableCol[height])
+    
+    this.table = this.#generateHTMLTable();
+  }
+  addSection(sec){
+    this.#sections.push(sec);
+    const secCard = this.#generateHTMLSectionCard(sec);
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu"];
+    for (let i=0;i<5;i++) {
+      if(sec.days.includes(days[i])){
+        this.#columns[i].appendChild(secCard.cloneNode(true));
+      }
+    }
+  }
+  #generateHTMLSectionCard(sec){
+    const self = this;
+    
+    let card = htmlCreator("div", "", "", "card text-center w-100 overflow-hidden fw-bold");
+    card.style.height = (this.colHeight * 0.09) * sec.timeObj.deltaT() + "px";
+    card.style.position = "absolute";
+    card.style.top = (this.colHeight * 0.09) * (sec.timeObj.start.h - 8 + sec.timeObj.start.m/60) + "px";
+    card.style.backgroundColor = `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`
+    
+    let cardBody = htmlCreator("div", card, "", "card-body");
+    cardBody.style.fontSize = "x-small"
+    htmlCreator("div", cardBody, "", "card-title", sec.course.symbol);
+    htmlCreator("div", cardBody, "", "card-subtitle", sec.timeObj.string());
+    htmlCreator("div", cardBody, "", "", "Sec: "+sec.sectionNumber);
+
+    return card;
+  }
+  #generateHTMLTable(){
+    const table = htmlCreator("div", "", "", "timeTable row row-cols-6 g-0");
+
+    const headTitles = ["#", "Sun", "Mon", "Tue", "Wed", "Thu"];
+    for (const head of headTitles) {
+      htmlCreator("div", table, "", "tableHead",`<span>${head}</span>`);
+    }
+    const tableKeys = htmlCreator("div", table, "", "tableKeys");
+    for(let i=8; i<=18; i++){
+      htmlCreator("div", tableKeys, "", "hours", `<span>${i<=12?i:i%12}:30 ${i<12?"AM":"PM"}</span>`);
+    }
+    for (let i = 0; i < 5; i++) {
+      this.#columns[i] = htmlCreator("div", table, "", "tableCol");
+      {
+        this.#columns[i].style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
+          "width='"+ this.colHeight * 0.09 /2 +"' height='"+ this.colHeight * 0.09 /2 +
+          "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' "+
+          "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
+      }
+          //add lines to table columns as background
+          window.addEventListener("resize", ()=>{
+            this.colHeight = Math.max(window.innerHeight,window.innerWidth) * (100/100) * 0.90;
+            
+            this.#columns[i].style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "+
+            "width='"+ this.colHeight * 0.09 /2 +"' height='"+ this.colHeight * 0.09 /2 +
+            "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' "+
+            "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
+          });
+    }
+
+    return table;
+    
+  }
+
+}
 
 function htmlCreator(tag,parent,id="",clss="",inHTML=""){
   let t = document.createElement(tag);
