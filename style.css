@@ -83,7 +83,7 @@ body{
 }
 .timeTable{
     /* font-size: 1.5vw; */
-    height: 100vmax;
+    height: 50vmax;
     border: 1px solid black;
 }
 .timeTable .tableHead{
