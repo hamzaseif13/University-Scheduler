@@ -1,22 +1,13 @@
 import app from "./Scheduler.js";
-//processed data from HTMLData var from data.js file
-
 
 class TimeTable {
   #sections;
   #columns;
+  #table;
   constructor() {
     this.#sections = [];
     this.#columns = [];
-    this.cellHeight =
-      Math.max(window.innerHeight, window.innerWidth) *
-      (50 / 100) *
-      (90 / 100) *
-      (9 / 100); //css: 100vmax * 90% * 9%(.timeTable[height] * .tableCol[height] * .hours[height])
-
-    this.table = this.#generateHTMLTable();
-
-    this.#resizeEvents();
+    this.cellHeight = undefined;
   }
   addSection(sec) {
     const secCard = this.#generateHTMLSectionCard(sec);
@@ -57,59 +48,11 @@ class TimeTable {
 
     return card;
   }
-  #generateHTMLTable() {
-    const table = htmlCreator("div", "", "", "timeTable row row-cols-6 g-0");
-
-    const headTitles = ["#", "Sun", "Mon", "Tue", "Wed", "Thu"];
-    for (const head of headTitles) {
-      htmlCreator("div", table, "", "tableHead",head);
-    }
-    const tableKeys = htmlCreator("div", table, "", "tableKeys");
-    for (let i = 8; i <= 18; i++) {
-      htmlCreator(
-        "div",
-        tableKeys,
-        "",
-        "hours",
-        `<span>${i <= 12 ? i : i % 12}:30 ${i < 12 ? "AM" : "PM"}</span>`
-      );
-    }
-    for (let i = 0; i < 5; i++) {
-      this.#columns[i] = htmlCreator("div", table, "", "tableCol");
-      {
-        this.#columns[i].style.backgroundImage =
-          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
-          "width='" +
-          this.cellHeight / 2 +
-          "' height='" +
-          this.cellHeight / 2 +
-          "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' " +
-          "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
-      }
-      //add lines to table columns as background
-    }
-
-    return table;
-  }
   #resizeEvents() {
     window.addEventListener("resize", () => {
       const oldHeight = this.cellHeight;
-      this.cellHeight =
-        Math.max(window.innerHeight, window.innerWidth) *
-        (50 / 100) *
-        (90 / 100) *
-        (9 / 100);
-
-      for (const col of this.#columns)
-        col.style.backgroundImage =
-          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
-          "width='" +
-          this.cellHeight / 2 +
-          "' height='" +
-          this.cellHeight / 2 +
-          "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' " +
-          "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
-
+      this.#updateCellHeight();
+      
       const cards = table.querySelectorAll(".card");
       for (const card of cards) {
         card.style.height =
@@ -123,11 +66,27 @@ class TimeTable {
     for (const col of this.#columns) {
       col.innerHTML = "";
     }
-    this.cellHeight =
-    Math.max(window.innerHeight, window.innerWidth) *
-    (50 / 100) *
-    (90 / 100) *
-    (9 / 100);
+    this.#updateCellHeight();
+  }
+  #updateCellHeight(){
+    this.cellHeight = this.#table.querySelector(".hours").offsetHeight;
+
+    for (const col of this.#columns) {
+      col.style.backgroundImage =
+      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
+      "width='" +
+      this.cellHeight / 2 +
+      "' height='" +
+      this.cellHeight / 2 +
+      "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' " +
+      "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
+    }
+  }
+  set table(t){
+    this.#table = t;
+    this.#columns = t.querySelectorAll(".tableCol");
+    this.#updateCellHeight();
+    this.#resizeEvents();
   }
 }
 
@@ -265,12 +224,11 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
     const t = document.getElementById("table");
     table.title = t.querySelector(".title");
-    table.content = t.querySelector(".content");
     table.next = t.querySelector(".next");
     table.prev = t.querySelector(".prev");
 
     table.tableObj = new TimeTable();
-    table.content.appendChild(table.tableObj.table);
+    table.tableObj.table = t.querySelector(".timeTable");;
 
     const modal = document.getElementById("myModal");
     myModal.body = modal.querySelector(".modal-body .row");
