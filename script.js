@@ -102,12 +102,11 @@ const options = {},
   },
   table = {
     title:undefined,
-    content:undefined,
+    indexInput:undefined,
     next:undefined,
     prev:undefined,
     tableObj:undefined
   };
-
 let matchedCourses = [];
 
 
@@ -223,12 +222,13 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     }
 
     const t = document.getElementById("table");
-    table.title = t.querySelector(".title");
+    table.numOfTables = t.querySelectorAll(".input-group span")[1];
+    table.indexInput = t.querySelector(".input-group input")
     table.next = t.querySelector(".next");
     table.prev = t.querySelector(".prev");
 
     table.tableObj = new TimeTable();
-    table.tableObj.table = t.querySelector(".timeTable");;
+    table.tableObj.table = t.querySelector(".timeTable");
 
     const modal = document.getElementById("myModal");
     myModal.body = modal.querySelector(".modal-body .row");
@@ -287,7 +287,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   { //table events
     let schedules = [], scheduleIndex = 0;
     const displaySchedule = function(){
-      table.title.innerHTML = "Schedule No. "+ (scheduleIndex + 1) +" / " + schedules.length;
+      table.indexInput.value = (scheduleIndex + 1) ;
+      table.numOfTables.innerHTML = " / " + Math.max(1,schedules.length);
       if(schedules.length == 0)
         return;
       table.tableObj.reset();
@@ -302,6 +303,20 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       displaySchedule();
     });
 
+    table.indexInput.addEventListener("change", function(){
+      let val = parseInt(this.value);
+      if(val > schedules.length ||val < 1){
+        if(val == schedules.length+1 || val == 0)
+          this.value = val = (val + schedules.length - 1)%schedules.length+1;
+        else{
+          displaySchedule();
+          return
+        }
+      }
+
+      scheduleIndex = val - 1;
+      displaySchedule();
+    });
     table.next.addEventListener("click", function(){
       scheduleIndex++;
       scheduleIndex = scheduleIndex >= schedules.length? 0 : scheduleIndex;
