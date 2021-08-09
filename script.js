@@ -124,15 +124,14 @@ class Scheduler {
     if (index != -1) this.#myCourses.splice(index, 1);
   }
   _generateScheduleFunction() {
-    
-    let tempArray=[]//create a temp array to store all sections from all courses, 
+    let tempArray = []; //create a temp array to store all sections from all courses,
     //tempArray=[[section1,section2], [section1,section2]...  ]
-    for(let j=0;j<this.#myCourses.length;j++){
-      tempArray.push(this.#myCourses[j].sections)
+    for (let j = 0; j < this.#myCourses.length; j++) {
+      tempArray.push(this.#myCourses[j].sections);
     }
-    let generatedArray=cartProd(...tempArray)//this array includes 15560 combinations 
+    let generatedArray = cartesianProduct(...tempArray); //this array includes 15560 combinations
     let arr = [];
-    arr=generatedArray[ random(0, 15555)]//choose a random set of sections from the generated array 
+    arr = generatedArray[random(0, 15555)]; //choose a random set of sections from the generated array
     /*
     for (let y = 0; y < this.#myCourses.length; y++) {
       arr.push(
@@ -616,7 +615,7 @@ function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-function cartProd(paramArray) {
+function cartesianProduct(paramArray) {
   function addTo(curr, args) {
     var i,
       copy,
