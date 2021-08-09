@@ -130,10 +130,11 @@ class Scheduler {
       tempArray.push(this.#myCourses[j].sections);
     }
     let generatedArray = cartesianProduct(...tempArray); //this array includes 15560 combinations
-    let arr = [];
-    arr = generatedArray[random(0, 15555)]; //choose a random set of sections from the generated array
+    
+    // let arr = []; // I need all combinations
+    // arr = generatedArray[random(0, 15555)]; //choose a random set of sections from the generated array
 
-    return arr;
+    return generatedArray;
   }
 }
 
@@ -141,6 +142,7 @@ class SchedulerGUI {
   #app;
   #options;
   #myModal;
+  #table;
   #matchedCourses;
   constructor() {
     this.#options = {};
@@ -155,6 +157,14 @@ class SchedulerGUI {
       cancel: undefined,
       selected: [], //contains the line numbers of the selected courses in the modal
     };
+    this.#table = {
+      title:undefined,
+      content:undefined,
+      next:undefined,
+      prev:undefined,
+      tableObj:undefined
+    }
+
     this.#getElements();
 
     this.#app = new Scheduler();
@@ -180,80 +190,106 @@ class SchedulerGUI {
       this.#options[opName]["submit"] = option.querySelector(".submit");
     }
 
+    const table = document.getElementById("table");
+    this.#table.title = table.querySelector(".title");
+    this.#table.content = table.querySelector(".content");
+    this.#table.next = table.querySelector(".next");
+    this.#table.prev = table.querySelector(".prev");
+
+    this.#table.tableObj = new TimeTable();
+    this.#table.content.appendChild(this.#table.tableObj.table);
+
     const modal = document.getElementById("myModal");
     this.#myModal.body = modal.querySelector(".modal-body .row");
     this.#myModal.title = modal.querySelector(".modal-title");
     this.#myModal.submit = modal.querySelector(".btn-primary");
     this.#myModal.cancel = modal.querySelector(".btn-secondary");
 
-    this.#myModal.bootstrapModal = new bootstrap.Modal(modal, {
-      keyboard: false,
-    });
+    this.#myModal.bootstrapModal = new bootstrap.Modal(modal, {keyboard: false});
+
   }
   #addEvents() {
     const self = this;
 
-    const option = self.#options["search"];
-    const submitSearch = function () {
-      //function to call when searching (by varius methods like mouse, keyboard)
-      if (option.searchval.value.search(/\w.*\w/) == -1) {
-        //val has at least 2s alpha-numeric chars
-        self.updateModal([], "Found", "Add Courses"); //to reset modal
-        return;
-      }
-      self.#matchedCourses = self.#app["_searchFunction"](
-        option.searchval.value,
-        option.searchby.value
-      );
-      self.updateModal(
-        self.#matchedCourses,
-        "Found",
-        "Add Courses",
-        option.searchval.value,
-        option.searchby.value
-      );
-      self.#myModal.submitFunction = function () {
-        for (const lineNum of self.#myModal.selected) {
-          self.#app._addCourseFunction(lineNum);
+    { //options events
+      const option = self.#options["search"];
+      const submitSearch = function() {
+        //function to call when searching (by varius methods like mouse, keyboard)
+        if (option.searchval.value.search(/\w.*\w/) == -1) {
+          //val has at least 2s alpha-numeric chars
+          self.updateModal([], "Found", "Add Courses"); //to reset modal
+          return;
         }
+        self.#matchedCourses = self.#app["_searchFunction"](
+          option.searchval.value,
+          option.searchby.value
+        );
+        self.updateModal(
+          self.#matchedCourses,
+          "Found",
+          "Add Courses",
+          option.searchval.value,
+          option.searchby.value
+        );
+        self.#myModal.submitFunction = function () {
+          for (const lineNum of self.#myModal.selected) {
+            self.#app._addCourseFunction(lineNum);
+          }
+        };
       };
-    };
-    option.submit.addEventListener("click", submitSearch);
-    option.searchval.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        submitSearch();
-        self.#myModal.bootstrapModal.show();
-      }
-    });
-    self.#options["courses"].submit.addEventListener("click", function () {
-      self.updateModal(self.#app.courses, "My Courses: ", "Remove Courses");
-      self.#myModal.submitFunction = function () {
-        for (const lineNum of self.#myModal.selected) {
-          self.#app._removeCourseFunction(lineNum);
+      option.submit.addEventListener("click", submitSearch);
+      option.searchval.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          submitSearch();
+          self.#myModal.bootstrapModal.show();
         }
-      };
-    });
-    self.#options["generateschedule"].submit.addEventListener("click",()=>{//when generate button clicked it will call the fucntion _generateSchedule
-      
-      const schedules = self.#app._generateScheduleFunction();
-      
-      let twrap = document.querySelector("#table .content");
-      twrap.innerHTML = "";
-      for (const schedule of schedules) {
-        let t = new TimeTable();
-        twrap.appendChild(t.table);
-        for (const sec of schedule) {   
-        t.addSection(sec);
+      });
+      self.#options["courses"].submit.addEventListener("click", function () {
+        self.updateModal(self.#app.courses, "My Courses: ", "Remove Courses");
+        self.#myModal.submitFunction = function () {
+          for (const lineNum of self.#myModal.selected) {
+            self.#app._removeCourseFunction(lineNum);
+          }
+        };
+      });
+    }
+
+    { //table events
+      let schedules = [], scheduleIndex = 0;
+      const displaySchedule = function(){
+        self.#table.title.innerHTML = "Schedule No. "+ (scheduleIndex + 1) +" / " + schedules.length;
+        if(schedules.length == 0)
+          return;
+        self.#table.tableObj.reset();
+        for (const sec of schedules[scheduleIndex]) {
+          self.#table.tableObj.addSection(Array.isArray(sec)?sec[0]:sec);
         }
       }
-      
-    });
+
+      self.#options["generateschedule"].submit.addEventListener("click",()=>{
+        schedules = [...self.#app._generateScheduleFunction()];
+        scheduleIndex = 0;
+        displaySchedule();
+      });
+
+      self.#table.next.addEventListener("click", function(){
+        scheduleIndex++;
+        scheduleIndex = scheduleIndex >= schedules.length? 0 : scheduleIndex;
+        displaySchedule();
+      });
+      self.#table.prev.addEventListener("click", function(){
+        scheduleIndex--;
+        scheduleIndex = scheduleIndex < 0? schedules.length - 1: scheduleIndex;
+        displaySchedule();
+      });
+    }
 
     self.#myModal.submit.addEventListener("click", function () {
       self.#myModal.submitFunction();
       self.#myModal.bootstrapModal.hide();
       self.#myModal.selected = [];
     });
+
   }
   updateModal(
     arr,
@@ -596,6 +632,16 @@ class TimeTable {
       }
     });
   }
+  reset(){
+    for (const col of this.#columns) {
+      col.innerHTML = "";
+    }
+    this.cellHeight =
+    Math.max(window.innerHeight, window.innerWidth) *
+    (50 / 100) *
+    (90 / 100) *
+    (9 / 100);
+  }
 }
 
 function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
@@ -610,9 +656,10 @@ function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-function cartesianProduct(paramArray) {
+
+function cartesianProduct(...paramArray) {//(...) => rest parameter (put all args in an array [paramArray])
   function addTo(curr, args) {
-    var i,
+    let i, //always use let/const because they have better scoping (block scoping)
       copy,
       rest = args.slice(1),
       last = !rest.length,
@@ -632,5 +679,5 @@ function cartesianProduct(paramArray) {
     return result;
   }
 
-  return addTo([], Array.prototype.slice.call(arguments));
+  return addTo([], paramArray);
 }
