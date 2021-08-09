@@ -1,4 +1,6 @@
 const HTMLData = [];
+export {HTMLData as default};
+
 HTMLData.push(`
 
 
