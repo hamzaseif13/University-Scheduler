@@ -304,8 +304,12 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     });
 
     table.indexInput.addEventListener("change", function(){
-      if(this.value >= schedules.length ||this.value < 0)
+      if(this.value >= schedules.length ||this.value < 0){
+        this.value = 0;
         return;
+      }
+
+      scheduleIndex = this.value;
     });
     table.next.addEventListener("click", function(){
       scheduleIndex++;
