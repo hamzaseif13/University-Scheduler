@@ -7,12 +7,13 @@ body{
     height: 100vh;
     margin: 0;
     border: 0;
+    overflow: hidden;
 
-    /* display: grid;
-    grid-template: 5vh 15vh 80vh / 1fr 2fr; */
+    display: grid;
+    grid-template: 5vh 95vh / 1fr 2fr;
 }
 #header{
-    /* grid-column: 1 / span 2; */
+    grid-column: 1 / span 2;
     
     text-align: center;
     /* font-family: Arial, Helvetica, sans-serif; */
@@ -21,8 +22,8 @@ body{
 
     height: fit-content;
 }
-#stats{
-    /* grid-column: 1 / span 2; */
+/* #stats{
+    grid-column: 1 / span 2;
     background-color: #025dac;
     height: 15vh;
 
@@ -51,7 +52,7 @@ body{
     height: 60%;
     aspect-ratio: 1/1;
     margin: auto;
-}
+} */
 #options{
     display: flex;
     flex-direction: column;
@@ -76,18 +77,22 @@ body{
     grid-column: 1 / span 2;
 }
 #table{
-    /* overflow: scroll; */
-    /* display: grid;
-    grid-template: 1fr / 1fr 1fr; */
+    overflow: hidden;
+    display: grid;
+    grid-template: 90% 10%/ 1fr;
     min-height: 80%;
 }
 .timeTable{
     /* font-size: 1.5vw; */
-    height: 50vmax;
+    height: 100%;
+    min-height: 100%;
     border: 1px solid black;
 }
 .timeTable .tableHead{
     height: 10%;
+    line-height: 200%;
+    font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+    font-weight: bold;
     text-align: center;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
@@ -101,7 +106,7 @@ body{
 .timeTable .tableKeys .hours{
     width: 100%;
     height: 9%;
-    font-size: small;
+    font-size: calc(10px + 6 * ((100vw - 320px) / 680));
     position: relative;
 }
 .timeTable .tableKeys .hours span{

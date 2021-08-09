@@ -16,21 +16,11 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="container" class="row overflow-auto g-0">
-        <div id="header" class="col-12">
+    <div id="container" tabindex="-1">
+        <div id="header" class="">
             Welcome to University Scheduler
         </div>
-        <div id="stats" class="col-12">
-            <!-- <div class="display">
-                <h2>Number of Courses</h2>
-                <div class="value">0</div>
-            </div>
-            <div class="display">
-                <h2>Number of Hours</h2>
-                <div class="value">0</div>
-            </div> -->
-        </div>
-        <div id="options" class="col-4">
+        <div id="options" class="">
             <div class="big option" title="search">
 
                 <p class="text-center">Search Course By</p>
@@ -53,8 +43,12 @@
                 <button type="button" class="submit btn-sm btn-primary" >Generate</button>
             </div>
         </div>
-        <div id="table" class="overflow-auto col">
-
+        <div id="table" tabindex="-1">
+            <div class="content overflow-auto"></div>
+            <div class="btn-group-lg">
+                <div class="btn btn-lg btn-secondary">prev</div>
+                <div class="btn btn-lg btn-secondary">next</div>
+            </div>
         </div>
     </div>
     <!-- this is a modal (like a popup window) to display courses (made using bootstrap) (courses are added using JS)-->

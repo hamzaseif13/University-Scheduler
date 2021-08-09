@@ -132,14 +132,6 @@ class Scheduler {
     let generatedArray = cartesianProduct(...tempArray); //this array includes 15560 combinations
     let arr = [];
     arr = generatedArray[random(0, 15555)]; //choose a random set of sections from the generated array
-    /*
-    for (let y = 0; y < this.#myCourses.length; y++) {
-      arr.push(
-        this.#myCourses[y].sections[
-          random(0, this.#myCourses[y].sections.length - 1)
-        ]
-      ); //choose random section from each course
-    }*/
 
     return arr;
   }
@@ -241,17 +233,20 @@ class SchedulerGUI {
         }
       };
     });
-    self.#options["generateschedule"].submit.addEventListener("click", () => {
-      //when generate button clicked it will call the fucntion _generateSchedule
-      const schedule = self.#app._generateScheduleFunction();
-
-      let t = new TimeTable();
-      let twrap = document.getElementById("table");
+    self.#options["generateschedule"].submit.addEventListener("click",()=>{//when generate button clicked it will call the fucntion _generateSchedule
+      
+      const schedules = self.#app._generateScheduleFunction();
+      
+      let twrap = document.querySelector("#table .content");
       twrap.innerHTML = "";
-      twrap.appendChild(t.table);
-      for (const sec of schedule) {
+      for (const schedule of schedules) {
+        let t = new TimeTable();
+        twrap.appendChild(t.table);
+        for (const sec of schedule) {   
         t.addSection(sec);
+        }
       }
+      
     });
 
     self.#myModal.submit.addEventListener("click", function () {
@@ -544,7 +539,7 @@ class TimeTable {
 
     const headTitles = ["#", "Sun", "Mon", "Tue", "Wed", "Thu"];
     for (const head of headTitles) {
-      htmlCreator("div", table, "", "tableHead", `<span>${head}</span>`);
+      htmlCreator("div", table, "", "tableHead",head);
     }
     const tableKeys = htmlCreator("div", table, "", "tableKeys");
     for (let i = 8; i <= 18; i++) {
