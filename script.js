@@ -124,6 +124,8 @@ class Scheduler {
     if (index != -1) this.#myCourses.splice(index, 1);
   }
   _generateScheduleFunction() {
+    if(this.#myCourses.length <= 0)
+      return [];
     let tempArray = []; //create a temp array to store all sections from all courses,
     //tempArray=[[section1,section2], [section1,section2]...  ]
     for (let j = 0; j < this.#myCourses.length; j++) {
@@ -257,7 +259,7 @@ class SchedulerGUI {
     { //table events
       let schedules = [], scheduleIndex = 0;
       const displaySchedule = function(){
-        self.#table.title.innerHTML = "Schedule No. "+ (scheduleIndex + 1) +" / " + schedules.length;
+        self.#table.title.innerHTML = "Schedule No. "+ (scheduleIndex + 1) +" / " + Math.max(1,schedules.length);
         if(schedules.length == 0)
           return;
         self.#table.tableObj.reset();
