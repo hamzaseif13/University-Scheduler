@@ -79,7 +79,7 @@ body{
 #table{
     overflow: hidden;
     display: grid;
-    grid-template: 90% 10%/ 1fr;
+    grid-template: 5% 85% 10%/ 1fr;
     min-height: 80%;
 }
 .timeTable{
