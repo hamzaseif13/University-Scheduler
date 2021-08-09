@@ -33,7 +33,7 @@ function _generateScheduleFunction() {
     for (let j = 0; j < myCourses.length; j++) {
       tempArray.push(myCourses[j].sections);
     }
-    let generatedArray = cartesianProduct(...tempArray); //this array includes 15560 combinations
+    let generatedArray = generateSchedules(...tempArray); //this array includes 15560 combinations
     
     return generatedArray;
 }
@@ -61,6 +61,45 @@ function cartesianProduct(...paramArray) {//(...) => rest parameter (put all arg
     }
   
     return addTo([], paramArray);
+}
+function generateSchedules(...sets){ //with loops instead of recursion
+  const copy = [...sets];
+  function addSet(mainSet,set){
+    const arr = [];
+    if(mainSet.length == 0)
+      mainSet.push([]);
+    for(const itemArr of mainSet){
+      for (const item of set) {
+        arr.push([...itemArr,item]);
+      }
+    }
+    return arr;
+  }
+  function reduceSet(set){//sorts then put courses with the same time together (greatly reduce the number of combinations)
+    const copy = [...set];
+    const result = [];
+    copy.sort((a,b)=>{
+      return a.endTime - b.endTime;
+    });
+    for(let i=0;i<copy.length;){
+      let item = copy[i];
+      const arr = [];
+      while(i<copy.length && item.endTime === copy[i].endTime){
+        arr.push(copy[i]);
+        i++;
+      }
+      result.push(arr);
+    }
+    return result;
+  }
+  let l=1;
+  let result = [];
+  for (const set of copy){
+    result = addSet(result,reduceSet(set));
+    l*=set.length;
+  }
+  console.log("Courses: ",sets.length, "\nnot reduced: ",l, "\nreduced: ",result.length)
+  return result;
 }
 
 export default {
