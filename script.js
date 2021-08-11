@@ -1,4 +1,5 @@
 import app from "./Scheduler.js";
+let c=0;
 
 class TimeTable {
   #sections;
@@ -9,30 +10,54 @@ class TimeTable {
     this.#columns = [];
     this.cellHeight = undefined;
   }
+  set table(t){
+    this.#table = t;
+    this.#columns = t.querySelectorAll(".tableCol");
+    this.#updateCellHeight();
+    this.#resizeEvents();
+  }
   addSection(sec) {
     const secCard = this.#generateHTMLSectionCard(sec);
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu"];
+    const clones = [];
     for (let i = 0; i < 5; i++) {
-      if (sec.days.includes(days[i])) {
-        this.#columns[i].appendChild(secCard.cloneNode(true));
+      if (sec[0].days.includes(days[i])) {
+        const clone = secCard.cloneNode(true);
+        this.#columns[i].appendChild(clone);
+        clones.push(clone);
       }
-      this.#sections.push({ card: secCard, obj: sec });
     }
+      if(sec.length > 1){
+        for (const clone of clones) {
+          clone.addEventListener("click",function(event){
+            if(event.target.className.includes("dropdown-item")){
+              const secNum = event.target.innerHTML.replace("Sec: ","");
+              const s = sec.find((val)=>{return val.sectionNumber == secNum});
+              const cardsBody = clones.map((val)=>{
+                return val.querySelector(".cardBody");
+              });
+              for (const cardBody of cardsBody) {
+                cardBody.children[1].innerHTML = "Sec: " + s.sectionNumber;
+              }
+            }
+          });
+        }
+      }
+      this.#sections.push({ clones: clones, obj: sec[0] });
   }
-  #generateHTMLSectionCard(sec) {
-    const self = this;
-
+  #generateHTMLSectionCard(sections) {
+    
     let card = htmlCreator(
       "div",
       "",
       "",
-      "card text-center w-100 overflow-hidden fw-bold"
+      "dropend card text-center w-100 overflow-visible fw-bold"
     );
     card.style.position = "absolute";
-    card.style.height = this.cellHeight * sec.timeObj.deltaT() + "px";
+    card.style.height = this.cellHeight * sections[0].timeObj.deltaT() + "px";
     card.style.top =
       this.cellHeight *
-        (((sec.timeObj.start.h - 8 + 12) % 12) + sec.timeObj.start.m / 60) +
+        (((sections[0].timeObj.start.h - 8 + 12) % 12) + sections[0].timeObj.start.m / 60) +
       "px";
 
     card.style.backgroundColor = `rgb(${random(100, 230)},${random(
@@ -40,11 +65,25 @@ class TimeTable {
       230
     )},${random(100, 230)})`;
 
-    let cardBody = htmlCreator("div", card, "", "m-auto ");
+    let cardBody = htmlCreator("div", card, "", "m-auto cardBody");
     cardBody.style.fontSize = "x-small";
-    htmlCreator("div", cardBody, "", "", sec.course.symbol);
-    htmlCreator("div", cardBody, "", "", "Sec: " + sec.sectionNumber);
-    htmlCreator("div", cardBody, "", "", sec.timeObj.string());
+    htmlCreator("div", cardBody, "", "", sections[0].course.symbol);
+    // htmlCreator("div", cardBody, "", "cardHidden", sec.course.name);
+    // htmlCreator("div", cardBody, "", "cardHidden", sec.instructor);
+    htmlCreator("div", cardBody, "", "", "Sec: " + sections[0].sectionNumber);
+    htmlCreator("div", cardBody, "", "", sections[0].timeObj.string());
+
+    if(sections.length > 1){
+      let badge = htmlCreator("span",card,"","dropdown-toggle btn position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger " , sections.length)
+      badge.style.zIndex = 100;
+      badge.setAttribute("data-bs-toggle","dropdown");
+      let list = htmlCreator("ul", card, "", "dropdown-menu");
+      list.style.minWidth = "fit-content";
+      
+      for (let i=0;i<sections.length;i++) {
+        let item = htmlCreator("a",htmlCreator("li",list),"","dropdown-item","Sec: "+ sections[i].sectionNumber);
+      }
+    }
 
     return card;
   }
@@ -53,7 +92,7 @@ class TimeTable {
       const oldHeight = this.cellHeight;
       this.#updateCellHeight();
       
-      const cards = table.querySelectorAll(".card");
+      const cards = this.#table.querySelectorAll(".card");
       for (const card of cards) {
         card.style.height =
           (parseFloat(card.style.height) / oldHeight) * this.cellHeight + "px";
@@ -81,12 +120,6 @@ class TimeTable {
       "' viewBox='0 0 100 100'%3E%3Cg stroke='%23000000' stroke-width='1' " +
       "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
     }
-  }
-  set table(t){
-    this.#table = t;
-    this.#columns = t.querySelectorAll(".tableCol");
-    this.#updateCellHeight();
-    this.#resizeEvents();
   }
 }
 
@@ -293,7 +326,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         return;
       table.tableObj.reset();
       for (const sec of schedules[scheduleIndex]) {
-        table.tableObj.addSection(Array.isArray(sec)?sec[0]:sec);
+        table.tableObj.addSection(sec);
       }
     }
 
