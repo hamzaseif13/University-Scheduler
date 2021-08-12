@@ -1,50 +1,180 @@
 import app from "./Scheduler.js";
 
 class TimeTable {
-  #sections;
+  #sectionGroups;
   #columns;
   #table;
-  constructor() {
-    this.#sections = [];
+  #modal;
+  #activeGroupIndex;
+  constructor(table ,modal) {
+    this.#sectionGroups = [];
     this.#columns = [];
+    this.#modal = {
+      body: modal.querySelector(".modal-body .col-10"),
+      title: modal.querySelector(".modal-title"),
+      bootstrapModal: new bootstrap.Modal(modal)
+    }
     this.cellHeight = undefined;
+    this.#activeGroupIndex = undefined;
+
+    this.#table = table;
+    this.#columns = table.querySelectorAll(".tableCol");
+    this.#updateCellHeight();
+    this.#resizeEvents();
   }
-  addSection(sec) {
-    const secCard = this.#generateHTMLSectionCard(sec);
+  addSection(secGroup) {
+    const secCard = this.#generateHTMLSectionCard(secGroup);
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu"];
+    const clones = [];
+    const groupIndex = this.#sectionGroups.length;
+    
     for (let i = 0; i < 5; i++) {
-      if (sec.days.includes(days[i])) {
-        this.#columns[i].appendChild(secCard.cloneNode(true));
+      if (secGroup[0].days.includes(days[i])) {
+        const clone = secCard.cloneNode(true);
+        this.#columns[i].appendChild(clone);
+        clones.push(clone);
       }
-      this.#sections.push({ card: secCard, obj: sec });
+    }
+    for (const clone of clones) {
+      clone.addEventListener("click",(event)=>{
+        this.#activeGroupIndex = groupIndex;
+        if(event.target.className.includes("dropdown-item")){
+          const secNum = event.target.innerHTML.replace("Sec: ","");
+          this.changeActiveSec(secNum);
+        }
+        else if(!event.target.className.includes("badge")){
+          this.displaySectionDetails();
+        }
+      });
+    }
+    this.#sectionGroups.push({ 
+      cards: clones, 
+      arr: secGroup ,
+      set activeSecIndex(i){this._index = (i+this.arr.length)%this.arr.length;},
+      get activeSecIndex(){return this._index;},
+      _index:0
+    });
+  }
+  changeActiveSec(activeSecNum, activeSecIndex = ""){
+    if(this.#activeGroupIndex == undefined){
+      return;
+    }
+    const secGroup = this.#sectionGroups[this.#activeGroupIndex];
+    if(activeSecIndex === "")
+      activeSecIndex = secGroup.arr.findIndex((val)=>{
+        return val.sectionNumber == activeSecNum
+      });
+    secGroup.activeSecIndex = activeSecIndex;
+    const cardsBody = secGroup.cards.map((val)=>{
+      return val.querySelector(".cardBody");
+    });
+    for (const cardBody of cardsBody) {
+      cardBody.children[1].innerHTML = "Sec: " + secGroup.arr[secGroup.activeSecIndex].sectionNumber;
     }
   }
-  #generateHTMLSectionCard(sec) {
-    const self = this;
+  displaySectionDetails(){
+    if(this.#activeGroupIndex == undefined){
+      return;
+    }
+    const secGroup = this.#sectionGroups[this.#activeGroupIndex];
+    const sec = secGroup.arr[secGroup.activeSecIndex];
+    const col = htmlCreator("div", "", "", "col");
 
+    let card = htmlCreator("div", col, "", "card shadow");
+
+    let cardBody = htmlCreator("div", card, "", "card-body");
+    htmlCreator("h5", cardBody, "", "card-title", sec.course.name);
+
+    let listGroup = htmlCreator("ol", card, "", "list-group list-group-flush");
+    htmlCreator(
+      "li",
+      listGroup,
+      "",
+      "list-group-item",
+      '<span class="h6">Symbol:</span> ' + sec.course.symbol
+    );
+    htmlCreator(
+      "li",
+      listGroup,
+      "",
+      "list-group-item",
+      '<span class="h6">Section:</span> ' + sec.sectionNumber
+    );
+    htmlCreator(
+      "li",
+      listGroup,
+      "",
+      "list-group-item",
+      '<span class="h6">Instructor:</span> ' + sec.instructor
+    );
+    htmlCreator(
+      "li",
+      listGroup,
+      "",
+      "list-group-item",
+      '<span class="h6">Days:</span> ' + sec.days
+    );
+    htmlCreator(
+      "li",
+      listGroup,
+      "",
+      "list-group-item",
+      '<span class="h6">Time:</span> ' + sec.timeObj.string()
+    );
+    htmlCreator(
+      "li",
+      listGroup,
+      "",
+      "list-group-item",
+      '<span class="h6">Credit Hours:</span> ' + sec.course.creditHours
+    );
+    this.#modal.title.innerHTML = `Section ${this.activeGroup.activeSecIndex+1} of ${this.activeGroup.arr.length}`;
+    this.#modal.body.innerHTML = "";
+    this.#modal.body.appendChild(col);
+    this.#modal.bootstrapModal.show();
+  }
+  #generateHTMLSectionCard(sections) {
+    
     let card = htmlCreator(
       "div",
       "",
       "",
-      "card text-center w-100 overflow-hidden fw-bold"
+      "dropend card text-center w-100 overflow-visible fw-bold"
     );
     card.style.position = "absolute";
-    card.style.height = this.cellHeight * sec.timeObj.deltaT() + "px";
+    card.style.height = this.cellHeight * sections[0].timeObj.deltaT() + "px";
     card.style.top =
       this.cellHeight *
-        (((sec.timeObj.start.h - 8 + 12) % 12) + sec.timeObj.start.m / 60) +
+        (((sections[0].timeObj.start.h - 8 + 12) % 12) + sections[0].timeObj.start.m / 60) +
       "px";
 
     card.style.backgroundColor = `rgb(${random(100, 230)},${random(
       100,
       230
     )},${random(100, 230)})`;
+    card.style.cursor = "pointer";
+    card.title = "Show Details";
 
-    let cardBody = htmlCreator("div", card, "", "m-auto ");
+    let cardBody = htmlCreator("div", card, "", "m-auto cardBody");
     cardBody.style.fontSize = "x-small";
-    htmlCreator("div", cardBody, "", "", sec.course.symbol);
-    htmlCreator("div", cardBody, "", "", "Sec: " + sec.sectionNumber);
-    htmlCreator("div", cardBody, "", "", sec.timeObj.string());
+    htmlCreator("div", cardBody, "", "", sections[0].course.symbol);
+    htmlCreator("div", cardBody, "", "", "Sec: " + sections[0].sectionNumber);
+    htmlCreator("div", cardBody, "", "", sections[0].timeObj.string());
+
+    if(sections.length > 1){
+      let badge = htmlCreator("span",card,"","dropdown-toggle btn position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger " , sections.length)
+      badge.style.zIndex = 100;
+      badge.setAttribute("data-bs-toggle","dropdown");
+      badge.title = "More Sections";
+
+      let list = htmlCreator("ul", card, "", "dropdown-menu");
+      list.title = "Change Section";
+      list.style.minWidth = "fit-content";
+      
+      for (let i=0;i<sections.length;i++) {
+        let item = htmlCreator("a",htmlCreator("li",list),"","dropdown-item","Sec: "+ sections[i].sectionNumber);
+      }
+    }
 
     return card;
   }
@@ -53,7 +183,7 @@ class TimeTable {
       const oldHeight = this.cellHeight;
       this.#updateCellHeight();
       
-      const cards = table.querySelectorAll(".card");
+      const cards = this.#table.querySelectorAll(".card");
       for (const card of cards) {
         card.style.height =
           (parseFloat(card.style.height) / oldHeight) * this.cellHeight + "px";
@@ -82,16 +212,13 @@ class TimeTable {
       "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
     }
   }
-  set table(t){
-    this.#table = t;
-    this.#columns = t.querySelectorAll(".tableCol");
-    this.#updateCellHeight();
-    this.#resizeEvents();
+  get activeGroup(){
+    return {...this.#sectionGroups[this.#activeGroupIndex]};
   }
 }
 
 const options = {},
-  myModal = {
+  cousresModal = {
     bootstrapModal: undefined,
     body: undefined,
     title: undefined,
@@ -101,11 +228,16 @@ const options = {},
     selected: [], //contains the line numbers of the selected courses in the modal
   },
   table = {
-    title:undefined,
-    indexInput:undefined,
-    next:undefined,
-    prev:undefined,
-    tableObj:undefined
+    title: undefined,
+    indexInput: undefined,
+    next: undefined,
+    prev: undefined,
+    tableObj: undefined
+  },
+  sectionModal = {
+    body: undefined,
+    next: undefined,
+    prev: undefined
   };
 let matchedCourses = [];
 
@@ -118,11 +250,11 @@ function updateModal(
   highlight = "",
   prop = ""
 ) {
-  myModal.title.innerHTML = title + "  " + arr.length + " items";
-  myModal.submit.innerHTML = submitBtn;
-  myModal.body.innerHTML = "";
+  cousresModal.title.innerHTML = title + "  " + arr.length + " items";
+  cousresModal.submit.innerHTML = submitBtn;
+  cousresModal.body.innerHTML = "";
   for (const course of arr) {
-    myModal.body.appendChild(
+    cousresModal.body.appendChild(
       generateHTMLCourseCard(course, highlight, prop)
     );
   }
@@ -184,17 +316,17 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   );
 
   card.addEventListener("click", function () {
-    //event to add course to #myModal.selected if card is clicked
+    //event to add course to coursesModal.selected if card is clicked
     checked = !checked;
     if (checked) {
-      myModal.selected.push(course.lineNumber);
+      cousresModal.selected.push(course.lineNumber);
       card.className += " border-success";
     } else {
-      let index = myModal.selected.findIndex((courseNum) => {
+      let index = cousresModal.selected.findIndex((courseNum) => {
         return courseNum === course.lineNumber;
       });
       if (index != -1) {
-        myModal.selected.splice(index, 1);
+        cousresModal.selected.splice(index, 1);
         card.className = card.className.replace(" border-success", "");
       }
     }
@@ -227,16 +359,21 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     table.next = t.querySelector(".next");
     table.prev = t.querySelector(".prev");
 
-    table.tableObj = new TimeTable();
-    table.tableObj.table = t.querySelector(".timeTable");
+    const secModal = document.getElementById("sectionModal");
+    sectionModal.body = secModal.querySelector(".modal-body .col-10");
+    sectionModal.next = secModal.querySelector(".modal-body .next");
+    sectionModal.prev = secModal.querySelector(".modal-body .prev");
 
-    const modal = document.getElementById("myModal");
-    myModal.body = modal.querySelector(".modal-body .row");
-    myModal.title = modal.querySelector(".modal-title");
-    myModal.submit = modal.querySelector(".btn-primary");
-    myModal.cancel = modal.querySelector(".btn-secondary");
+    table.tableObj = new TimeTable(t.querySelector(".timeTable"),secModal);
 
-    myModal.bootstrapModal = new bootstrap.Modal(modal, {keyboard: false});
+    
+    const cModal = document.getElementById("coursesModal");
+    cousresModal.body = cModal.querySelector(".modal-body .row");
+    cousresModal.title = cModal.querySelector(".modal-title");
+    cousresModal.submit = cModal.querySelector(".btn-primary");
+    cousresModal.cancel = cModal.querySelector(".btn-secondary");
+
+    cousresModal.bootstrapModal = new bootstrap.Modal(cModal, {keyboard: false});
 
 })();
 (function addEvents() {
@@ -261,8 +398,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         option.searchval.value,
         option.searchby.value
       );
-      myModal.submitFunction = function () {
-        for (const lineNum of myModal.selected) {
+      cousresModal.submitFunction = function () {
+        for (const lineNum of cousresModal.selected) {
           app._addCourseFunction(lineNum);
         }
       };
@@ -271,13 +408,13 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     option.searchval.addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         submitSearch();
-        myModal.bootstrapModal.show();
+        cousresModal.bootstrapModal.show();
       }
     });
     options["courses"].submit.addEventListener("click", function () {
       updateModal(app.courses, "My Courses: ", "Remove Courses");
-      myModal.submitFunction = function () {
-        for (const lineNum of myModal.selected) {
+      cousresModal.submitFunction = function () {
+        for (const lineNum of cousresModal.selected) {
           app._removeCourseFunction(lineNum);
         }
       };
@@ -293,7 +430,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         return;
       table.tableObj.reset();
       for (const sec of schedules[scheduleIndex]) {
-        table.tableObj.addSection(Array.isArray(sec)?sec[0]:sec);
+        table.tableObj.addSection(sec);
       }
     }
 
@@ -329,10 +466,21 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     });
   }
 
-  myModal.submit.addEventListener("click", function () {
-    myModal.submitFunction();
-    myModal.bootstrapModal.hide();
-    myModal.selected = [];
+  sectionModal.next.addEventListener("click", function(){
+    const t = table.tableObj;
+    t.changeActiveSec("",t.activeGroup.activeSecIndex + 1);
+    t.displaySectionDetails();
+  });
+  sectionModal.prev.addEventListener("click", function(){
+    const t = table.tableObj;
+    t.changeActiveSec("",t.activeGroup.activeSecIndex - 1);
+    t.displaySectionDetails();
+  });
+
+  cousresModal.submit.addEventListener("click", function () {
+    cousresModal.submitFunction();
+    cousresModal.bootstrapModal.hide();
+    cousresModal.selected = [];
   });
 
 })();
