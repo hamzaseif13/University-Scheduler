@@ -211,12 +211,13 @@ function advancedSearch(arr,strict,...conditions){
   return result;
 } 
 
-(function dataExtractor() {
-    const arabicLetter =
-      "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF]";
-    for (let i = 0, l = HTMLData.length; i < l; i++) {
-      let tmp, arr, semester, facultyName, departmentName;
-      tmp = HTMLData.shift().replace(
+function filterHTML(html){
+  if(html.search(/semester/igm) < 20)//check if input is filtered
+      return html;
+  const arabicLetter =
+    "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF]";
+  let tmp, arr, semester, facultyName, departmentName;
+      tmp = html.replace(
         new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`, "gm"),
         "@@"
       ); //mark spaces between words
@@ -234,10 +235,25 @@ function advancedSearch(arr,strict,...conditions){
 
       tmp = tmp.replace(/.*?line number/i, "Line Number"); //remove everything before the first course(Line number)
 
-      arr = tmp.split(/(?=line number)/i); //split every course alone
+      tmp = semester+"|"+facultyName+"|"+departmentName+"|"+tmp;
+
+      return tmp;
+}
+
+(function dataExtractor() {
+    for (let i = 0, l = HTMLData.length; i < l; i++) {
+      let tmp = filterHTML(HTMLData.shift());
+      
+      let arr = tmp.split(/(?=line number)/i); //split every course alone
       arr = arr.map((s) => {
         return s.split("|");
       }); //split data for every course
+
+      const semester = arr[0][0];
+      const facultyName = arr[0][1];
+      const departmentName = arr[0][2];
+
+      arr.shift();
 
       for (const course of arr) {
         const courseData = [],
@@ -268,4 +284,4 @@ function advancedSearch(arr,strict,...conditions){
 // console.table(advancedSearch("",false,[/second/i,"semester"],[/cs/i,"symbol","or"]));
 
 export default search;
-export {advancedSearch};
+export {advancedSearch, filterHTML};
