@@ -119,9 +119,38 @@ body{
     background-color: #ffffff;
     border-right: 1px solid black;
 }
+#table .input-group input{
+    width: 3em;
+    font-size: x-large;
+}
+#sectionModal .modal-body .col-1 span{
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 0;
+    right: 0;
+
+    font-size: 30px;
+}
+/* #sectionModal .modal-body .col-1 span .next{
+    right: 0;
+}
+#sectionModal .modal-body .col-1 span .next{
+    left: 0;
+} */
 #container > div{
     margin: 2px;
     border: 1px solid black;
+}
+/* remove arrows from number input */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 /* form{
     display:inline  !important;
@@ -130,3 +159,21 @@ body{
     text-align: center;
 } */
 
+/* .cardHover:hover{
+    transform: scale(1.1,1.7);
+    z-index: 1000;
+}
+.cardHover:hover *{
+    font-size: 80%;
+    transform: scale(1,0.8);
+}
+.cardHover:hover .cardHidden{
+    display: block;
+} */
+.cardHover .cardHidden{
+    display: none;
+}
+.cardHover:hover ::before ::before{
+    transform: scale(1.5);
+    z-index: 1001;
+}

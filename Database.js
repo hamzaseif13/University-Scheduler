@@ -2,6 +2,7 @@ import HTMLData from "./data.js";
 
 class Course {
     constructor() {
+      this.semester = "";
       this.faculty = "";
       this.department = "";
       this.lineNumber = "";
@@ -10,8 +11,9 @@ class Course {
       this.creditHours = "";
       this.sections = [];
     }
-    set(faculty, department, lineNumber, symbol, name, creditHours) {
+    set(semester, faculty, department, lineNumber, symbol, name, creditHours) {
       //order is important (same order of html)
+      this.semester = semester;
       this.faculty = faculty;
       this.department = department;
       this.lineNumber = lineNumber;
@@ -142,30 +144,78 @@ function search(val, searchBy = "lineNumber") {
       // throw Error("err");
       return;
     }
-    return courses
-      .filter((course) => {
-        let original = course[searchBy];
-
-        original = original.toLowerCase();
-        original = original.trim();
-
-        if (typeof val === "number") val.toString();
-        val = val.toLowerCase();
-        val = val.trim();
-
-        return original.includes(val);
-      })
-      .map((course) => {
-        //change returned array items from original courses (from database) to copies
-        return { ...course };
-      });
+    return advancedSearch(false,[val,searchBy]);
 }
+
+function advancedSearch(arr,strict,...conditions){
+  // strict:(true/false) ,condition => {val:"val" , searchBy: "searchBy" , op:(and/or)} /OR/ ["val","searchBy","and/or"]
+  // in strict = true => (cond.val === course[prop])
+  //in strict = false => val(string/RegExp) if val(string) => case-insensetive , spaces are trimmed from the start and end
+  if(!Array.isArray(arr))
+    arr = courses;
+  let dataArr = arr;
+  let sectionFlag = false;
+  for(let i=0,l=conditions.length;i<l;i++){
+    if(Array.isArray(conditions[i])){//if condition items are arrays change them to objects
+      conditions[i] = {val:conditions[i][0],searchBy:conditions[i][1],op:conditions[i][2]};
+    }
+    if (!new Course().hasOwnProperty(conditions[i].searchBy)) {//check if cond.searchBy is a property of Course / Section classes
+      if (!new Section().hasOwnProperty(conditions[i].searchBy)){
+        console.error(conditions[i].searchBy + " is not a property of Course or Section classes")
+        return [];
+      }
+      sectionFlag = true;
+      dataArr = [];
+      for(const item of arr){// if searchBy is a property of Section class change search dataArr from array of Courses to array of Sections
+        dataArr.push(...item.sections);
+      }
+    }
+  }
+  function compare(cond,obj){
+    if(strict)
+      return (obj[cond.searchBy] === cond.val);
+    
+    let original = obj[cond.searchBy];
+
+    if (typeof cond.val === "number")cond.val = cond.val.toString();
+
+    if(!(cond.val instanceof RegExp)){
+      original = original.toLowerCase();
+      original = original.trim();
+      
+      cond.val = cond.val.toLowerCase();
+      cond.val = cond.val.trim();
+    }
+    
+    return original.search(cond.val) != -1;
+  }
+  let result = dataArr.filter((item)=>{
+    let res;
+    for (let i=0,l=conditions.length;i<l;i++) {
+      const cond = conditions[i];
+      if(sectionFlag && (new Course().hasOwnProperty(cond.searchBy)))
+        item = item.course;
+      
+      if(cond.op === "and")
+        res = res && compare(cond, item);
+      else if(cond.op === "or")
+        res = res || compare(cond, item);
+      else if(i === 0)
+        res = compare(cond, item);
+    }
+    return res;
+  }).map((item) => {
+    //change returned array items from original courses (from database) to copies
+    return { ...item };
+  });
+  return result;
+} 
 
 (function dataExtractor() {
     const arabicLetter =
       "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF]";
     for (let i = 0, l = HTMLData.length; i < l; i++) {
-      let tmp, arr, facultyName, departmentName;
+      let tmp, arr, semester, facultyName, departmentName;
       tmp = HTMLData.shift().replace(
         new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`, "gm"),
         "@@"
@@ -178,6 +228,7 @@ function search(val, searchBy = "lineNumber") {
       tmp = tmp.replace(/:/gm, "").replace(/&amp;/g, " & "); //remove [:] and add [&]
 
       arr = [...tmp.matchAll(/(?<=@@@[|]).*?(?=[|])/gm)];
+      semester = arr[0][0];
       facultyName = arr[1][0];
       departmentName = arr[2][0];
 
@@ -196,7 +247,7 @@ function search(val, searchBy = "lineNumber") {
           course.shift();
           courseData.push(course.shift());
         }
-        c.set(facultyName, departmentName, ...courseData);
+        c.set(semester, facultyName, departmentName, ...courseData);
 
         course.splice(0, 10); //remove table heads
 
@@ -214,4 +265,7 @@ function search(val, searchBy = "lineNumber") {
     }
 })();
 
+// console.table(advancedSearch("",false,[/second/i,"semester"],[/cs/i,"symbol","or"]));
+
 export default search;
+export {advancedSearch};

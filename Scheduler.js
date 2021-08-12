@@ -1,4 +1,5 @@
 import searchDatabase from "./Database.js";
+import {advancedSearch}  from "./Database.js";
 
 const myCourses = [],
     schedule = [];
@@ -10,7 +11,7 @@ function courseIndex(courseNum) {
     });
 }
 function _searchFunction(val, searchBy) {
-  const result = searchDatabase(val, searchBy);
+  const result = advancedSearch("",false,["second","semester"],[val,searchBy,"and"]);
   return result;
 }
 function _addCourseFunction(courseNum) {
@@ -84,7 +85,7 @@ function generateSchedules(...sets){ //with loops instead of recursion
     for(let i=0;i<copy.length;){
       let item = copy[i];
       const arr = [];
-      while(i<copy.length && item.endTime === copy[i].endTime){
+      while(i<copy.length && item.endTime === copy[i].endTime && item.days === copy[i].days){
         arr.push(copy[i]);
         i++;
       }
