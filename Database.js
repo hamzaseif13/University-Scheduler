@@ -144,7 +144,7 @@ function search(val, searchBy = "lineNumber") {
       // throw Error("err");
       return;
     }
-    return advancedSearch(false,[val,searchBy]);
+    return advancedSearch("",false,[val,searchBy]);
 }
 
 function advancedSearch(arr,strict,...conditions){
