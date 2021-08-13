@@ -1,5 +1,5 @@
 import searchDatabase from "./Database.js";
-import { advancedSearch } from "./Database.js";
+import {advancedSearch}  from "./Database.js";
 
 const myCourses = [],
   schedule = [];
@@ -11,12 +11,7 @@ function courseIndex(courseNum) {
   });
 }
 function _searchFunction(val, searchBy) {
-  const result = advancedSearch(
-    "",
-    false,
-    ["second", "semester"],
-    [val, searchBy, "and"]
-  );
+  const result = advancedSearch("",false,["comp","faculty"],[val,searchBy,"and"]);
   return result;
 }
 function _addCourseFunction(courseNum) {
@@ -39,7 +34,6 @@ function _generateScheduleFunction() {
   }
 
   let generatedArray = generateSchedules(...tempArray); //this array includes 15560 combinations
-  
   generatedArray = filterSchedule(generatedArray);
   return generatedArray;
 }
@@ -93,11 +87,8 @@ function generateSchedules(...sets) {
       let item = copy[i];
       const arr = [];
 
-      while (
-        i < copy.length &&
-        item.endTime === copy[i].endTime &&
-        item.days === copy[i].days
-      ) {
+      while(i<copy.length && item.endTime === copy[i].endTime && item.days === copy[i].days){
+
         arr.push(copy[i]);
         i++;
       }
@@ -139,133 +130,123 @@ function filterSchedule(list) {
     "Thu",
     "Sat Thu",
   ];
+  let filteredArray = [];// this must be outside the for loop to access it (return filteredArray;) (read about let/const and closures in ES6)
   let interSectionIndexes = [];
   console.log("the total is " + list.length);
-  for (let j = 0; j < lengthArray; j++) {
-    let shedule = list[j]
-    
-    let sun = [],
-      sat = [],
+  for (let j = 0; j <lengthArray; j++) {
+    let shedule = list[j].map((val)=>{
+      return val[0];
+    }); // to change array of sections to a section
+    let invalidSchedule = false;
+    let sun = [],sat=[],
       mon = [],
       tue = [],
       wed = [],
       thu = [];
     for (let k = 0; k < shedule.length; k++) {
-      if (shedule[k][0].days.includes("Sun")) {
-        sun.push({ start: shedule[k][0].startTime, end: shedule[k][0].endTime });
+      if (shedule[k].days.includes("Sun")) {
+        sun.push({ start: shedule[k].startTime, end: shedule[k].endTime });
       }
-      if (shedule[k][0].days.includes("Mon")) {
-        mon.push({ start: shedule[k][0].startTime, end: shedule[k][0].endTime });
+      if (shedule[k].days.includes("Mon")) {
+        mon.push({ start: shedule[k].startTime, end: shedule[k].endTime });
       }
-      if (shedule[k][0].days.includes("Tue")) {
-        tue.push({ start: shedule[k][0].startTime, end: shedule[k][0].endTime });
+      if (shedule[k].days.includes("Tue")) {
+        tue.push({ start: shedule[k].startTime, end: shedule[k].endTime });
       }
-      if (shedule[k][0].days.includes("Wed")) {
-        wed.push({ start: shedule[k][0].startTime, end: shedule[k][0].endTime });
+      if (shedule[k].days.includes("Wed")) {
+        wed.push({ start: shedule[k].startTime, end: shedule[k].endTime });
       }
-      if (shedule[k][0].days.includes("Thu")) {
-        thu.push({ start: shedule[k][0].startTime, end: shedule[k][0].endTime });
+      if (shedule[k].days.includes("Thu")) {
+        thu.push({ start: shedule[k].startTime, end: shedule[k].endTime });
       }
-      if (shedule[k][0].days.includes("Sat")) {
-        sat.push({ start: shedule[k][0].startTime, end: shedule[k][0].endTime });
-      }
-    }
-if(j==39){
-  console.log(sun)
-  console.log(mon)
-  console.log(tue)
-  console.log(wed)
-  console.log(thu)
-}
-    if (sun.length > 1) {
-      for (let k = 0; k < sun.length; k++) {
-        for (let b = k+1; b < sun.length; b++) {
-          if (checkInterSection(sun[k], sun[b])) {
-            
-            if(!interSectionIndexes.includes(j))interSectionIndexes.push(j);
-          }
-        }
+      if (shedule[k].days.includes("Sat")) {
+        sat.push({ start: shedule[k].startTime, end: shedule[k].endTime });
       }
     }
 
-    if (mon.length > 1) {
-      for (let k = 0; k < mon.length; k++) {
+    if (sun.length > 0) {
+      for (let k = 0; k < sun.length-1; k++) {
+        for (let b = k+1; b < sun.length; b++) {//b = k+1 => do not check the section with itself
+          if(checkInterSection(sun[k],sun[b])){
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
+          }
+
+        }
+      }
+    }
+    if (mon.length > 0) {
+      for (let k = 0; k < mon.length-1; k++) {
         for (let b = k+1; b < mon.length; b++) {
-          if (checkInterSection(mon[k], mon[b])) {
-            if(!interSectionIndexes.includes(j))interSectionIndexes.push(j);
+          if(checkInterSection(mon[k],mon[b])){
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
         }
       }
     }
-    if (wed.length > 1) {
-      for (let k = 0; k < wed.length; k++) {
+    if (wed.length > 0) {
+      for (let k = 0; k < wed.length-1; k++) {
         for (let b = k+1; b < wed.length; b++) {
-          if (checkInterSection(wed[k], wed[b])) {
-            if(!interSectionIndexes.includes(j))interSectionIndexes.push(j);
+          if(checkInterSection(wed[k],wed[b])){
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
         }
       }
     }
-    if (thu.length > 1) {
-      for (let k = 0; k < thu.length; k++) {
+    if (thu.length > 0) {
+      for (let k = 0; k < thu.length-1; k++) {
         for (let b = k+1; b < thu.length; b++) {
-          if (checkInterSection(thu[k], thu[b])) {
-            if(!interSectionIndexes.includes(j))interSectionIndexes.push(j);
+          if(checkInterSection(thu[k],thu[b])){
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
         }
       }
     }
-
-    if (tue.length > 1) {
-      for (let k = 0; k < tue.length; k++) {
-        for (let b = k+1; b < tue.leingth; b++) {
-          if (checkInterSection(tue[k], tue[b])) {
-            if(!interSectionIndexes.includes(j))interSectionIndexes.push(j);
-          }
-        }
-      }
-    }
-
-    if (sat.length > 1) {
-      for (let k = 0; k < tue.length; k++) {
+    if (tue.length > 0) {
+      for (let k = 0; k < tue.length-1; k++) {
         for (let b = k+1; b < tue.length; b++) {
-          if (checkInterSection(sat[k], sat[b])) {
-            if(!interSectionIndexes.includes(j))interSectionIndexes.push(j);
+          if(checkInterSection(tue[k],tue[b])){
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
+          }
+          }
+        }
+    }
+    if (sat.length > 0) {
+    for (let k = 0; k < tue.length-1; k++) {
+      for (let b = k+1; b < tue.length; b++) {
+          if(checkInterSection(sat[k],sat[b])){
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
         }
       }
     }
-
+    if(!invalidSchedule)// if schedule is not invalid add it to filteredArray
+      filteredArray.push(list[j])
     
   }
- 
-  //intersectionindexed
-var counter=0;
-console.log("before delete",list.length)
-
-for(let j=0;j<lengthArray;j++){
-if(interSectionIndexes.includes(j)){
-list.splice(j-counter,1)
-counter++;
-}
-}
-console.log("after delete",list.length)
-
-  return list;
+  console.log(interSectionIndexes,list.length)
+  console.log(list)
+  return filteredArray;
 }
 
-function checkInterSection(sec1, sec2) {
- if(sec1.start==sec2.start){
-   return true;
- }
- else if(sec1.start>sec2.start){
-  if(sec2.end>sec1.start)return true;
-  else return false;
- }
- else if (sec1.start<sec2.start){
-   if(sec1.end>sec2.start)return true;
-   else return false;
- }
+function checkInterSection(sec1,sec2){
+  if(sec1.start==sec2.start){
+return true;
+  }
+  if(sec1.start<sec2.start){
+    if(sec1.end>sec2.start)return true;
+    else if(sec1.end==sec2.start)return false;
+  }
+  else if(sec1.start>sec2.start){
+    if(sec2.end>sec1.start)return true;
+    else if(sec2.end==sec1.start)return false;  
+  }
+  
 }
 
 export default {

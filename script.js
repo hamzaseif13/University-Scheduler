@@ -430,7 +430,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         return;
       table.tableObj.reset();
       for (const sec of schedules[scheduleIndex]) {
-        table.tableObj.addSection(sec);
+        table.tableObj.addSection(Array.isArray(sec)?sec:[sec]);
       }
     }
 
