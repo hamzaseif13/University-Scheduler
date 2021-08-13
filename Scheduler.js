@@ -11,7 +11,7 @@ function courseIndex(courseNum) {
   });
 }
 function _searchFunction(val, searchBy) {
-  const result = advancedSearch("",false,["second","semester"],[val,searchBy,"and"]);
+  const result = advancedSearch("",false,["comp","faculty"],[val,searchBy,"and"]);
   return result;
 }
 function _addCourseFunction(courseNum) {
@@ -33,7 +33,7 @@ function _generateScheduleFunction() {
     tempArray.push(myCourses[j].sections);
   }
 
-  let generatedArray = cartesianProduct(...tempArray); //this array includes 15560 combinations
+  let generatedArray = generateSchedules(...tempArray); //this array includes 15560 combinations
   generatedArray = filterSchedule(generatedArray);
   return generatedArray;
 }
@@ -130,10 +130,14 @@ function filterSchedule(list) {
     "Thu",
     "Sat Thu",
   ];
+  let filteredArray = [];// this must be outside the for loop to access it (return filteredArray;) (read about let/const and closures in ES6)
   let interSectionIndexes = [];
   console.log("the total is " + list.length);
   for (let j = 0; j <lengthArray; j++) {
-    let shedule = list[j];
+    let shedule = list[j].map((val)=>{
+      return val[0];
+    }); // to change array of sections to a section
+    let invalidSchedule = false;
     let sun = [],sat=[],
       mon = [],
       tue = [],
@@ -161,81 +165,73 @@ function filterSchedule(list) {
     }
 
     if (sun.length > 0) {
-      for (let k = 0; k < sun.length; k++) {
-        for (let b = k; b < sun.length; b++) {
+      for (let k = 0; k < sun.length-1; k++) {
+        for (let b = k+1; b < sun.length; b++) {//b = k+1 => do not check the section with itself
           if(checkInterSection(sun[k],sun[b])){
-            interSectionIndexes.push(j);
-            
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
 
         }
       }
     }
-
     if (mon.length > 0) {
-      for (let k = 0; k < mon.length; k++) {
-        for (let b = k; b < mon.length; b++) {
+      for (let k = 0; k < mon.length-1; k++) {
+        for (let b = k+1; b < mon.length; b++) {
           if(checkInterSection(mon[k],mon[b])){
-            interSectionIndexes.push(j);
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
         }
       }
     }
     if (wed.length > 0) {
-      for (let k = 0; k < wed.length; k++) {
-        for (let b = k; b < wed.length; b++) {
+      for (let k = 0; k < wed.length-1; k++) {
+        for (let b = k+1; b < wed.length; b++) {
           if(checkInterSection(wed[k],wed[b])){
-            interSectionIndexes.push(j);
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
         }
       }
     }
     if (thu.length > 0) {
-      for (let k = 0; k < thu.length; k++) {
-        for (let b = k; b < thu.length; b++) {
+      for (let k = 0; k < thu.length-1; k++) {
+        for (let b = k+1; b < thu.length; b++) {
           if(checkInterSection(thu[k],thu[b])){
-            interSectionIndexes.push(j);
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
         }
       }
     }
-
     if (tue.length > 0) {
-      for (let k = 0; k < tue.length; k++) {
-        for (let b = k; b < tue.leingth; b++) {
+      for (let k = 0; k < tue.length-1; k++) {
+        for (let b = k+1; b < tue.length; b++) {
           if(checkInterSection(tue[k],tue[b])){
-            interSectionIndexes.push(j);
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
           }
         }
-      }
-    
-  
-  if (sat.length > 0) {
-    for (let k = 0; k < tue.length; k++) {
-      for (let b = k; b < tue.length; b++) {
+    }
+    if (sat.length > 0) {
+    for (let k = 0; k < tue.length-1; k++) {
+      for (let b = k+1; b < tue.length; b++) {
           if(checkInterSection(sat[k],sat[b])){
-            interSectionIndexes.push(j);
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
           }
         }
       }
     }
-  
-
-  
-
-let filteredArray = [];
-  for (let v = 0; v < lengthArray; v++) {
-    if (!interSectionIndexes.includes(v)) {
-      filteredArray.push(list[v]);
-    }
-  } 
-  
-  
-}
-console.log(interSectionIndexes,list.length)
-console.log(list)
-return filteredArray;
+    if(!invalidSchedule)// if schedule is not invalid add it to filteredArray
+      filteredArray.push(list[j])
+    
+  }
+  console.log(interSectionIndexes,list.length)
+  console.log(list)
+  return filteredArray;
 }
 
 function checkInterSection(sec1,sec2){
