@@ -11,7 +11,7 @@ function courseIndex(courseNum) {
   });
 }
 function _searchFunction(val, searchBy) {
-  const result = advancedSearch("",false,["comp","faculty"],[val,searchBy,"and"]);
+  const result = advancedSearch("",false,["","faculty"],[val,searchBy,"and"]);
   return result;
 }
 function _addCourseFunction(courseNum) {
@@ -34,7 +34,7 @@ function _generateScheduleFunction() {
   }
 
   let generatedArray = generateSchedules(...tempArray); //this array includes 15560 combinations
-  generatedArray = filterSchedule(generatedArray);
+  //generatedArray = filterSchedule(generatedArray);
   return generatedArray;
 }
 
@@ -101,6 +101,7 @@ function generateSchedules(...sets) {
   let result = [];
   for (const set of copy) {
     result = addSet(result, reduceSet(set));
+    result = filterSchedule(result);
     l *= set.length;
   }
   console.log(
@@ -134,7 +135,7 @@ function filterSchedule(list) {
   let interSectionIndexes = [];
   console.log("the total is " + list.length);
   for (let j = 0; j <lengthArray; j++) {
-    let shedule = list[j].map((val)=>{
+    let schedule = list[j].map((val)=>{
       return val[0];
     }); // to change array of sections to a section
     let invalidSchedule = false;
@@ -143,24 +144,24 @@ function filterSchedule(list) {
       tue = [],
       wed = [],
       thu = [];
-    for (let k = 0; k < shedule.length; k++) {
-      if (shedule[k].days.includes("Sun")) {
-        sun.push({ start: shedule[k].startTime, end: shedule[k].endTime });
+    for (let k = 0; k < schedule.length; k++) {
+      if (schedule[k].days.includes("Sun")) {
+        sun.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
-      if (shedule[k].days.includes("Mon")) {
-        mon.push({ start: shedule[k].startTime, end: shedule[k].endTime });
+      if (schedule[k].days.includes("Mon")) {
+        mon.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
-      if (shedule[k].days.includes("Tue")) {
-        tue.push({ start: shedule[k].startTime, end: shedule[k].endTime });
+      if (schedule[k].days.includes("Tue")) {
+        tue.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
-      if (shedule[k].days.includes("Wed")) {
-        wed.push({ start: shedule[k].startTime, end: shedule[k].endTime });
+      if (schedule[k].days.includes("Wed")) {
+        wed.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
-      if (shedule[k].days.includes("Thu")) {
-        thu.push({ start: shedule[k].startTime, end: shedule[k].endTime });
+      if (schedule[k].days.includes("Thu")) {
+        thu.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
-      if (shedule[k].days.includes("Sat")) {
-        sat.push({ start: shedule[k].startTime, end: shedule[k].endTime });
+      if (schedule[k].days.includes("Sat")) {
+        sat.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
     }
 
@@ -229,8 +230,8 @@ function filterSchedule(list) {
       filteredArray.push(list[j])
     
   }
-  console.log(interSectionIndexes,list.length)
-  console.log(list)
+  // console.log(interSectionIndexes,list.length)
+  // console.log(list)
   return filteredArray;
 }
 
@@ -240,11 +241,11 @@ return true;
   }
   if(sec1.start<sec2.start){
     if(sec1.end>sec2.start)return true;
-    else if(sec1.end==sec2.start)return false;
+    else if(sec1.end<=sec2.start)return false;
   }
   else if(sec1.start>sec2.start){
     if(sec2.end>sec1.start)return true;
-    else if(sec2.end==sec1.start)return false;  
+    else if(sec2.end<=sec1.start)return false;  
   }
   
 }

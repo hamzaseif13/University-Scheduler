@@ -212,32 +212,36 @@ function advancedSearch(arr,strict,...conditions){
 } 
 
 function filterHTML(html){
-  if(html.search(/semester/igm) < 20)//check if input is filtered
+  if(html.search(/semester/igm) < 20){//check if input is filtered
+      html = html.replace(/\n/gm, ""); //remove spaces
       return html;
+    }
   const arabicLetter =
     "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF]";
   let tmp, arr, semester, facultyName, departmentName;
-      tmp = html.replace(
-        new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`, "gm"),
-        "@@"
-      ); //mark spaces between words
-      tmp = tmp.replace(/\s+/gm, ""); //remove extra spaces
-      tmp = tmp.replace(/@@/g, " "); //return spaces between words
-      tmp = tmp.replace(/selected="selected"/gim, ">@@@<"); //mark selected semester,faculty,department,view
-      tmp = tmp.replace(/<.*?>/gm, "."); //replace all html tags with dots
-      tmp = tmp.replace(/[.]+/gm, "|"); //replace multi (.) with |
-      tmp = tmp.replace(/:/gm, "").replace(/&amp;/g, " & "); //remove [:] and add [&]
+    tmp = html.replace(
+      new RegExp(`(?<=\\w|${arabicLetter}) (?=\\w|${arabicLetter})`, "gm"),
+      "@@"
+    ); //mark spaces between words
+  tmp = tmp.replace(/\s+/gm, ""); //remove extra spaces
+  tmp = tmp.replace(/@@/g, " "); //return spaces between words
+  tmp = tmp.replace(/selected="selected"/gim, ">@@@<"); //mark selected semester,faculty,department,view
+  tmp = tmp.replace(/<br.?>/gm, "@");//mark breaks inside table
+  tmp = tmp.replace(/<.*?>/gm, "~"); //replace all html tags with [~]
+  tmp = tmp.replace(/[~]+/gm, "|"); //replace multi [~] with |
+  tmp = tmp.replace(/:/gm, "").replace(/&amp;/g, " & "); //remove [:] and add [&]
+    
+  arr = [...tmp.matchAll(/(?<=@@@[|]).*?(?=[|])/gm)];
+  semester = arr[0][0];
+  facultyName = arr[1][0];
+  departmentName = arr[2][0];
 
-      arr = [...tmp.matchAll(/(?<=@@@[|]).*?(?=[|])/gm)];
-      semester = arr[0][0];
-      facultyName = arr[1][0];
-      departmentName = arr[2][0];
+  tmp = tmp.replace(/@[|]|[|]@/gm,"|");//remove unwanted [@] in the start and end of the data item
+  tmp = tmp.replace(/.*?line number/i, "Line Number"); //remove everything before the first course(Line number)
 
-      tmp = tmp.replace(/.*?line number/i, "Line Number"); //remove everything before the first course(Line number)
+  tmp = semester+"|"+facultyName+"|"+departmentName+"|"+tmp;
 
-      tmp = semester+"|"+facultyName+"|"+departmentName+"|"+tmp;
-
-      return tmp;
+  return tmp;
 }
 
 (function dataExtractor() {
@@ -271,7 +275,14 @@ function filterHTML(html){
           const sectionData = [],
             s = new Section();
           for (let i = 0; i < 10; i++) {
-            sectionData.push(course.shift());
+            let data = course.shift();
+            if(data.includes("@")){
+              let arr = data.split("@");
+              data = arr.shift();
+              // if(arr[0]!="منصة الكترونية")
+              //   console.log(departmentName)
+            }
+            sectionData.push(data);
           }
           s.set(...sectionData);
           c.addSection(s);
@@ -281,7 +292,9 @@ function filterHTML(html){
     }
 })();
 
-// console.table(advancedSearch("",false,[/second/i,"semester"],[/cs/i,"symbol","or"]));
+console.table(advancedSearch("",true,[undefined,"sectionNumber"]).length/*.map((val)=>{
+  return val.course;
+})*/);
 
 export default search;
 export {advancedSearch, filterHTML};
