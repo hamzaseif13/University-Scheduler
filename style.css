@@ -76,6 +76,43 @@ body{
 {
     grid-column: 1 / span 2;
 }
+.doubleRange{
+    position: relative;
+    display: block;
+
+    height: 50px;
+}
+.doubleRange .bar{
+    position: absolute;
+    height: 6px;
+    width: 100%;
+    top: 5px;
+    left: 0;
+    right: 0;
+
+    border: 1px solid #8f8f8f;
+    border-radius: 3px;
+}
+.doubleRange .rangeSlider{
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    top: 0px;
+
+    z-index: 100;
+    background-color: #3c3cff;
+    border-radius: 45%;
+    cursor: pointer;
+}
+.doubleRange .rangeSlider:hover{
+    box-shadow: 0 0 2px 2px #8989ff;
+}
+.doubleRange .rangeSlider#min{
+    left: calc(0% - 8px);
+}
+.doubleRange .rangeSlider#max{
+    left: calc(100% - 8px);
+}
 #table{
     overflow: hidden;
     display: grid;

@@ -42,6 +42,30 @@
             <div class="option" title="generateSchedule">
                 <button type="button" class="submit btn-sm btn-primary" >Generate</button>
             </div>
+            <div class="option" title="days">
+                <h5 class="text-center ">Days:</h5>
+                <div class="btn-group">
+                    <input type="checkbox" class="btn-check" id="Sun" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Sun">Sun</label>
+                    <input type="checkbox" class="btn-check" id="Mon" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Mon">Mon</label>
+                    <input type="checkbox" class="btn-check" id="Tue" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Tue">Tue</label>
+                    <input type="checkbox" class="btn-check" id="Wed" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Wed">Wed</label>
+                    <input type="checkbox" class="btn-check" id="Thu" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Thu">Thu</label>
+                </div>
+            </div>
+            <div class="option">
+                <div class="px-2">
+                    <span class="doubleRange">
+                        <span class="bar"></span>
+                        <span class="rangeSlider" id="min"></span>
+                        <span class="rangeSlider" id="max"></span>
+                    </span>
+                </div>
+            </div>
         </div>
         <div id="table" tabindex="-1">
             <div class="content overflow-auto">

@@ -1,5 +1,19 @@
 import app from "./Scheduler.js";
 
+const colors = {
+  array: [],
+  cg:0,
+  set colorGroup(cg){
+    cg%=3;
+    this.cg = cg;
+  },
+  get colorGroup(){
+    for(let i=0;i<20;i++){
+      colors.array[i]=(`hsl(${(( 0+ 120*this.cg)/6+i)*6%360},90%, 60%)`);
+    }
+    return this.cg;}
+};
+
 class TimeTable {
   #sectionGroups;
   #columns;
@@ -148,10 +162,16 @@ class TimeTable {
         (((sections[0].timeObj.start.h - 8 + 12) % 12) + sections[0].timeObj.start.m / 60) +
       "px";
 
-    card.style.backgroundColor = `rgb(${random(100, 230)},${random(
-      100,
-      230
-    )},${random(100, 230)})`;
+    let colIndex = 0;
+    let str = sections[0].course.name;
+    str += sections[0].course.lineNumber
+    str += sections[0].course.symbol;
+    for (let i = 0;i<str.length;i++){
+      let a = parseInt(str[i].charCodeAt());
+      if(isNaN(a))a=i;
+      colIndex += 2*a;
+    }
+    card.style.backgroundColor = colors.array[colIndex%colors.array.length];
     card.style.cursor = "pointer";
     card.title = "Show Details";
 
@@ -426,17 +446,19 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     const displaySchedule = function(){
       table.indexInput.value = (scheduleIndex + 1) ;
       table.numOfTables.innerHTML = " / " + Math.max(1,schedules.length);
-      if(schedules.length == 0)
+      if(schedules.length == 0){
+        table.tableObj.reset();
         return;
+      }
       table.tableObj.reset();
       for (const sec of schedules[scheduleIndex]) {
         table.tableObj.addSection(Array.isArray(sec)?sec:[sec]);
       }
     }
-
     options["generateschedule"].submit.addEventListener("click",()=>{
       schedules = [...app._generateScheduleFunction()];
       scheduleIndex = 0;
+      colors.colorGroup +=1;
       displaySchedule();
     });
 
@@ -485,6 +507,33 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
 })();
 
+(function doubleRange(){
+  const elem = document.getElementsByClassName("doubleRange")[0];
+
+  const sliders = elem.querySelectorAll(".rangeSlider");
+  const bar = elem.querySelector(".bar");
+  const offsetX = bar.offsetLeft;
+  const barWidth = bar.clientWidth;
+  
+  for(let i = 0;i<2;i++){
+    let dragFlag = false;
+    sliders[i].addEventListener("mousedown", function(event){
+      dragFlag = true;
+    });
+    window.addEventListener("mouseup", function(event){
+      dragFlag = false;
+    });
+    window.addEventListener("mousemove", function(event){
+      if(dragFlag){
+        let pos = event.x - offsetX - 16 - 8;
+        if(-8 < pos && pos < barWidth + offsetX - 8)
+          sliders[i].style.left = pos  + "px";
+      }
+    });
+  }
+  
+  
+})();
 
 
 function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
