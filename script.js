@@ -278,12 +278,15 @@ class DoubleRange{
               self.#values[i]=oldVal;
                 return;
             }
-            self.#sliders[i].style.left ="calc("+ ((self.#values[i] - self.min)  /(self.max - self.min)) * 100 + "% - 8px)";
+            self.#updateSliderPos(i);
             self.onchange();
           }
         }
       });
     }
+  }
+  #updateSliderPos(i){
+    this.#sliders[i].style.left ="calc("+ ((this.#values[i] - this.min)  /(this.max - this.min)) * 100 + "% - 8px)";
   }
   onchange(){
     for(let i=0;i<2;i++)
@@ -294,6 +297,18 @@ class DoubleRange{
   }
   get maxValue(){
     return this.#values[1];
+  }
+  set minValue(val){
+    if(val > this.min && val < this.maxValue){
+      this.#values[0] = val;
+      this.#updateSliderPos(0);
+    }
+  }
+  set maxValue(val){
+    if(val < this.max && val > this.minValue){
+      this.#values[1] = val;
+      this.#updateSliderPos(1);
+    }
   }
 }
 
@@ -437,7 +452,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         options[opName]["submit"] = btn;
     }
     const tRange = document.getElementsByClassName("doubleRange")[0]
-    options.timeRange = new DoubleRange(tRange,8.5,18.5,0.5);
+    options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
 
     const t = document.getElementById("table");
     table.numOfTables = t.querySelectorAll(".input-group span")[1];
@@ -465,24 +480,24 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 (function addEvents() {
 
   { //options events
-    const option = options["search"];
+    let opPointer = options["search"];
     const submitSearch = function() {
       //function to call when searching (by varius methods like mouse, keyboard)
-      if (option.searchval.value.search(/\w.*\w/) == -1) {
+      if (opPointer.searchval.value.search(/\w.*\w/) == -1) {
         //val has at least 2s alpha-numeric chars
         updateModal([], "Found", "Add Courses"); //to reset modal
         return;
       }
       matchedCourses = app["_searchFunction"](
-        option.searchval.value,
-        option.searchby.value
+        opPointer.searchval.value,
+        opPointer.searchby.value
       );
       updateModal(
         matchedCourses,
         "Found",
         "Add Courses",
-        option.searchval.value,
-        option.searchby.value
+        opPointer.searchval.value,
+        opPointer.searchby.value
       );
       cousresModal.submitFunction = function () {
         for (const lineNum of cousresModal.selected) {
@@ -490,8 +505,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         }
       };
     };
-    option.submit.addEventListener("click", submitSearch);
-    option.searchval.addEventListener("keydown", function (event) {
+    opPointer.submit.addEventListener("click", submitSearch);
+    opPointer.searchval.addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         submitSearch();
         cousresModal.bootstrapModal.show();
@@ -506,9 +521,17 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       };
     });
 
-    options["timeRange"].onchange = function(){
-      console.log(this.minValue , this.maxValue)
-    }
+    opPointer = options["time"]
+    opPointer.range.onchange = function(){
+      opPointer.min.value = hoursToStr(this.minValue);
+      opPointer.max.value = hoursToStr(this.maxValue)
+    };
+    opPointer.min.addEventListener("change", function(){
+      opPointer.range.minValue = strToHours(this.value);
+    });
+    opPointer.max.addEventListener("change", function(){
+      opPointer.range.maxValue = strToHours(this.value);
+    });
   }
 
   { //table events
@@ -589,4 +612,18 @@ function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
 }
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
+}
+function hoursToStr(h){
+  let m = h - Math.floor(h);
+  h -= m;
+  m *= 60;
+  if(m==0)m="00";
+  return h + ":" + m;
+}
+function strToHours(str){
+  const t = str.split(":");
+  let h = parseInt(t[0]);
+  let m = parseInt(t[1]);
+  h += m/60;
+  return h;
 }
