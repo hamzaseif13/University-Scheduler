@@ -42,6 +42,37 @@
             <div class="option" title="generateSchedule">
                 <button type="button" class="submit btn-sm btn-primary" >Generate</button>
             </div>
+            <div class="option" title="days">
+                <h5 class="text-center ">Days:</h5>
+                <div class="btn-group">
+                    <input name="sun" type="checkbox" class="btn-check" id="Sun" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Sun">Sun</label>
+                    <input name="mon" type="checkbox" class="btn-check" id="Mon" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Mon">Mon</label>
+                    <input name="tue" type="checkbox" class="btn-check" id="Tue" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Tue">Tue</label>
+                    <input name="wed" type="checkbox" class="btn-check" id="Wed" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Wed">Wed</label>
+                    <input name="thu" type="checkbox" class="btn-check" id="Thu" autocomplete="off" checked>
+                    <label class="btn btn-outline-info" for="Thu">Thu</label>
+                </div>
+            </div>
+            <div class="option" title="time">
+                <h5 class="text-center ">Hours:</h5>
+                <div class="input-group">
+                    <span class="input-group-text">From</span>
+                    <input name="min" type="text" class="form-control" value="8:30">
+                    <span class="input-group-text">To</span>
+                    <input name="max" type="text" class="form-control" value="18:30">
+                </div>
+                <span class="doubleRange">
+                    <span class="bar">
+                        <span class="rangeSlider" id="minSlider"></span>
+                        <span class="rangeSlider" id="maxSlider"></span>
+                    </span>
+                    
+                </span>
+            </div>
         </div>
         <div id="table" tabindex="-1">
             <div class="content overflow-auto">

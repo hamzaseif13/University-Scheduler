@@ -1,5 +1,19 @@
 import app from "./Scheduler.js";
 
+const colors = {
+  array: [],
+  cg:0,
+  set colorGroup(cg){
+    cg%=3;
+    this.cg = cg;
+  },
+  get colorGroup(){
+    for(let i=0;i<20;i++){
+      colors.array[i]=(`hsl(${(( 0+ 120*this.cg)/6+i)*6%360},90%, 60%)`);
+    }
+    return this.cg;}
+};
+
 class TimeTable {
   #sectionGroups;
   #columns;
@@ -148,10 +162,16 @@ class TimeTable {
         (((sections[0].timeObj.start.h - 8 + 12) % 12) + sections[0].timeObj.start.m / 60) +
       "px";
 
-    card.style.backgroundColor = `rgb(${random(100, 230)},${random(
-      100,
-      230
-    )},${random(100, 230)})`;
+    let colIndex = 0;
+    let str = sections[0].course.name;
+    str += sections[0].course.lineNumber
+    str += sections[0].course.symbol;
+    for (let i = 0;i<str.length;i++){
+      let a = parseInt(str[i].charCodeAt());
+      if(isNaN(a))a=i;
+      colIndex += 2*a;
+    }
+    card.style.backgroundColor = colors.array[colIndex%colors.array.length];
     card.style.cursor = "pointer";
     card.title = "Show Details";
 
@@ -214,6 +234,81 @@ class TimeTable {
   }
   get activeGroup(){
     return {...this.#sectionGroups[this.#activeGroupIndex]};
+  }
+}
+
+class DoubleRange{
+  #sliders;
+  #values;
+  #offsetX;
+  #barWidth;
+  constructor(elem , min = 0, max = 100,step = 1){
+    this.#sliders = elem.querySelectorAll(".rangeSlider");
+
+    this.min = min;
+    this.max = max;
+    this.step = step;
+
+    this.#values = [min , max];
+
+    const bar = elem.querySelector(".bar");
+    this.#offsetX = bar.offsetLeft;
+    this.#barWidth = bar.clientWidth;
+
+    this.#addEvents();
+  }
+  #addEvents(){
+    const self = this;
+    for(let i = 0;i<2;i++){
+      let dragFlag = false;
+      self.#sliders[i].addEventListener("mousedown", function(event){
+        event.preventDefault();
+        dragFlag = true;
+      });
+      window.addEventListener("mouseup", function(event){
+        dragFlag = false;
+      });
+      document.body.addEventListener("mousemove", function(event){
+        if(dragFlag){
+          let pos = event.x - self.#offsetX - 8;
+          if(0 < pos && pos < self.#barWidth){
+            let oldVal = self.#values[i];
+            self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
+            if(self.#values[0] >= self.#values[1]){
+              self.#values[i]=oldVal;
+                return;
+            }
+            self.#updateSliderPos(i);
+            self.onchange();
+          }
+        }
+      });
+    }
+  }
+  #updateSliderPos(i){
+    this.#sliders[i].style.left ="calc("+ ((this.#values[i] - this.min)  /(this.max - this.min)) * 100 + "% - 8px)";
+  }
+  onchange(){
+    for(let i=0;i<2;i++)
+      this.#sliders[i].title = this.#values[i];
+  }
+  get minValue(){
+    return this.#values[0];
+  }
+  get maxValue(){
+    return this.#values[1];
+  }
+  set minValue(val){
+    if(val > this.min && val < this.maxValue){
+      this.#values[0] = val;
+      this.#updateSliderPos(0);
+    }
+  }
+  set maxValue(val){
+    if(val < this.max && val > this.minValue){
+      this.#values[1] = val;
+      this.#updateSliderPos(1);
+    }
   }
 }
 
@@ -347,11 +442,17 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       let inputFields = option.querySelectorAll("input , select");
       for (const input of inputFields) {
         let inputName = input.name;
+        if(inputName === "")
+          continue;
         inputName = inputName.toLowerCase();
         options[opName][inputName] = input;
       }
-      options[opName]["submit"] = option.querySelector(".submit");
+      const btn = option.querySelector(".submit")
+      if(btn != null)
+        options[opName]["submit"] = btn;
     }
+    const tRange = document.getElementsByClassName("doubleRange")[0]
+    options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
 
     const t = document.getElementById("table");
     table.numOfTables = t.querySelectorAll(".input-group span")[1];
@@ -379,24 +480,24 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 (function addEvents() {
 
   { //options events
-    const option = options["search"];
+    let opPointer = options["search"];
     const submitSearch = function() {
       //function to call when searching (by varius methods like mouse, keyboard)
-      if (option.searchval.value.search(/\w.*\w/) == -1) {
+      if (opPointer.searchval.value.search(/\w.*\w/) == -1) {
         //val has at least 2s alpha-numeric chars
         updateModal([], "Found", "Add Courses"); //to reset modal
         return;
       }
       matchedCourses = app["_searchFunction"](
-        option.searchval.value,
-        option.searchby.value
+        opPointer.searchval.value,
+        opPointer.searchby.value
       );
       updateModal(
         matchedCourses,
         "Found",
         "Add Courses",
-        option.searchval.value,
-        option.searchby.value
+        opPointer.searchval.value,
+        opPointer.searchby.value
       );
       cousresModal.submitFunction = function () {
         for (const lineNum of cousresModal.selected) {
@@ -404,8 +505,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         }
       };
     };
-    option.submit.addEventListener("click", submitSearch);
-    option.searchval.addEventListener("keydown", function (event) {
+    opPointer.submit.addEventListener("click", submitSearch);
+    opPointer.searchval.addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         submitSearch();
         cousresModal.bootstrapModal.show();
@@ -419,6 +520,17 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         }
       };
     });
+
+    options["time"].range.onchange = function(){
+      options["time"].min.value = hoursToStr(this.minValue);
+      options["time"].max.value = hoursToStr(this.maxValue)
+    };
+    options["time"].min.addEventListener("change", function(){
+      options["time"].range.minValue = strToHours(this.value);
+    });
+    options["time"].max.addEventListener("change", function(){
+      options["time"].range.maxValue = strToHours(this.value);
+    });
   }
 
   { //table events
@@ -426,17 +538,19 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     const displaySchedule = function(){
       table.indexInput.value = (scheduleIndex + 1) ;
       table.numOfTables.innerHTML = " / " + Math.max(1,schedules.length);
-      if(schedules.length == 0)
+      if(schedules.length == 0){
+        table.tableObj.reset();
         return;
+      }
       table.tableObj.reset();
       for (const sec of schedules[scheduleIndex]) {
         table.tableObj.addSection(Array.isArray(sec)?sec:[sec]);
       }
     }
-
     options["generateschedule"].submit.addEventListener("click",()=>{
       schedules = [...app._generateScheduleFunction()];
       scheduleIndex = 0;
+      colors.colorGroup +=1;
       displaySchedule();
     });
 
@@ -486,7 +600,6 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 })();
 
 
-
 function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
   let t = document.createElement(tag);
   if (parent != "") parent.appendChild(t);
@@ -498,4 +611,18 @@ function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
 }
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
+}
+function hoursToStr(h){
+  let m = h - Math.floor(h);
+  h -= m;
+  m *= 60;
+  if(m==0)m="00";
+  return h + ":" + m;
+}
+function strToHours(str){
+  const t = str.split(":");
+  let h = parseInt(t[0]);
+  let m = parseInt(t[1]);
+  h += m/60;
+  return h;
 }
