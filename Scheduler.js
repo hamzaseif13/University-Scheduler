@@ -1,5 +1,5 @@
 import searchDatabase from "./Database.js";
-import {advancedSearch}  from "./Database.js";
+import { advancedSearch } from "./Database.js";
 
 const myCourses = [],
   schedule = [];
@@ -11,7 +11,12 @@ function courseIndex(courseNum) {
   });
 }
 function _searchFunction(val, searchBy) {
-  const result = advancedSearch("",false,["","faculty"],[val,searchBy,"and"]);
+  const result = advancedSearch(
+    "",
+    false,
+    ["", "faculty"],
+    [val, searchBy, "and"]
+  );
   return result;
 }
 function _addCourseFunction(courseNum) {
@@ -87,8 +92,11 @@ function generateSchedules(...sets) {
       let item = copy[i];
       const arr = [];
 
-      while(i<copy.length && item.endTime === copy[i].endTime && item.days === copy[i].days){
-
+      while (
+        i < copy.length &&
+        item.endTime === copy[i].endTime &&
+        item.days === copy[i].days
+      ) {
         arr.push(copy[i]);
         i++;
       }
@@ -117,29 +125,21 @@ function generateSchedules(...sets) {
   return result;
 }
 
-function filterSchedule(list) {
+function filterSchedule(list,days="mon-wed",dayStart=830,dayEnd=1830) {
+  //the days var can be array of days ex. ["sun","tue","thu"] or a string ex. monwed , suntuethu
   const lengthArray = list.length;
   //days can be [sun ,mon ,tue ,wed ,thu],[sun,tue],[mon,wed],[sun mon tue wed]
-  let days = [
-    "Sun Mon Tue Wed Thu",
-    "Sun Tue",
-    "Mon Wed",
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Sat Thu",
-  ];
-  let filteredArray = [];// this must be outside the for loop to access it (return filteredArray;) (read about let/const and closures in ES6)
+  let filteredArray = []; // this must be outside the for loop to access it (return filteredArray;) (read about let/const and closures in ES6)
   let interSectionIndexes = [];
   console.log("the total is " + list.length);
-  for (let j = 0; j <lengthArray; j++) {
-    let schedule = list[j].map((val)=>{
+  for (let j = 0; j < lengthArray; j++) {
+    let schedule = list[j].map((val) => {
       return val[0];
     }); // to change array of sections to a section
     let invalidSchedule = false;
-    let sun = [],sat=[],
+    let invalidTime=true;
+    let sun = [],
+      sat = [],
       mon = [],
       tue = [],
       wed = [],
@@ -163,23 +163,27 @@ function filterSchedule(list) {
       if (schedule[k].days.includes("Sat")) {
         sat.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
+      if(schedule[k].startTime>=dayStart&&schedule[k].endTime<=dayEnd){//to check if the sections are in the time range 
+        invalidTime=false;
+      }
+      else invalidTime=true;
     }
 
     if (sun.length > 0) {
-      for (let k = 0; k < sun.length-1; k++) {
-        for (let b = k+1; b < sun.length; b++) {//b = k+1 => do not check the section with itself
-          if(checkInterSection(sun[k],sun[b])){
+      for (let k = 0; k < sun.length - 1; k++) {
+        for (let b = k + 1; b < sun.length; b++) {
+          //b = k+1 => do not check the section with itself
+          if (checkInterSection(sun[k], sun[b])) {
             // interSectionIndexes.push(j);
             invalidSchedule = true;
           }
-
         }
       }
     }
     if (mon.length > 0) {
-      for (let k = 0; k < mon.length-1; k++) {
-        for (let b = k+1; b < mon.length; b++) {
-          if(checkInterSection(mon[k],mon[b])){
+      for (let k = 0; k < mon.length - 1; k++) {
+        for (let b = k + 1; b < mon.length; b++) {
+          if (checkInterSection(mon[k], mon[b])) {
             // interSectionIndexes.push(j);
             invalidSchedule = true;
           }
@@ -187,9 +191,9 @@ function filterSchedule(list) {
       }
     }
     if (wed.length > 0) {
-      for (let k = 0; k < wed.length-1; k++) {
-        for (let b = k+1; b < wed.length; b++) {
-          if(checkInterSection(wed[k],wed[b])){
+      for (let k = 0; k < wed.length - 1; k++) {
+        for (let b = k + 1; b < wed.length; b++) {
+          if (checkInterSection(wed[k], wed[b])) {
             // interSectionIndexes.push(j);
             invalidSchedule = true;
           }
@@ -197,9 +201,9 @@ function filterSchedule(list) {
       }
     }
     if (thu.length > 0) {
-      for (let k = 0; k < thu.length-1; k++) {
-        for (let b = k+1; b < thu.length; b++) {
-          if(checkInterSection(thu[k],thu[b])){
+      for (let k = 0; k < thu.length - 1; k++) {
+        for (let b = k + 1; b < thu.length; b++) {
+          if (checkInterSection(thu[k], thu[b])) {
             // interSectionIndexes.push(j);
             invalidSchedule = true;
           }
@@ -207,47 +211,62 @@ function filterSchedule(list) {
       }
     }
     if (tue.length > 0) {
-      for (let k = 0; k < tue.length-1; k++) {
-        for (let b = k+1; b < tue.length; b++) {
-          if(checkInterSection(tue[k],tue[b])){
-            // interSectionIndexes.push(j);
-            invalidSchedule = true;
-          }
-          }
-        }
-    }
-    if (sat.length > 0) {
-    for (let k = 0; k < tue.length-1; k++) {
-      for (let b = k+1; b < tue.length; b++) {
-          if(checkInterSection(sat[k],sat[b])){
+      for (let k = 0; k < tue.length - 1; k++) {
+        for (let b = k + 1; b < tue.length; b++) {
+          if (checkInterSection(tue[k], tue[b])) {
             // interSectionIndexes.push(j);
             invalidSchedule = true;
           }
         }
       }
     }
-    if(!invalidSchedule)// if schedule is not invalid add it to filteredArray
-      filteredArray.push(list[j])
+    if (sat.length > 0) {
+      for (let k = 0; k < tue.length - 1; k++) {
+        for (let b = k + 1; b < tue.length; b++) {
+          if (checkInterSection(sat[k], sat[b])) {
+            // interSectionIndexes.push(j);
+            invalidSchedule = true;
+          }
+        }
+      }
+    }
+  
+    if (!invalidSchedule&&!invalidTime)
+    {
+    if(days=="all"){
+        filteredArray.push(list[j]);
+    }
+    else if(days.includes("sun")&&days.includes("tue")&&days.includes("thu")&&sun.length>0&&tue.length>0&&thu.length>0&&wed.length==0&&mon.length==0&&sat.length==0){
+      filteredArray.push(list[j]);//to check if a schedule is sun tue thu supposing that sections are sun tue thu (old before covid )
+    }
+    else if(days.includes("mon")&&days.includes("wed")&&sun.length==0&&tue.length==0&&thu.length==0&&wed.length>0&&mon.length>0&&sat.length==0){
+      filteredArray.push(list[j]);//to check if a schedule is mon wed 
+    }
     
+
+  }
+      // if schedule is not invalid add it to filteredArray
   }
   // console.log(interSectionIndexes,list.length)
   // console.log(list)
+  if(filteredArray.length==0){
+    console.log("there is no schedule with the options selected")
+    return [];
+  }
   return filteredArray;
 }
 
-function checkInterSection(sec1,sec2){
-  if(sec1.start==sec2.start){
-return true;
+function checkInterSection(sec1, sec2) {
+  if (sec1.start == sec2.start) {
+    return true;
   }
-  if(sec1.start<sec2.start){
-    if(sec1.end>sec2.start)return true;
-    else if(sec1.end<=sec2.start)return false;
+  if (sec1.start < sec2.start) {
+    if (sec1.end > sec2.start) return true;
+    else if (sec1.end <= sec2.start) return false;
+  } else if (sec1.start > sec2.start) {
+    if (sec2.end > sec1.start) return true;
+    else if (sec2.end <= sec1.start) return false;
   }
-  else if(sec1.start>sec2.start){
-    if(sec2.end>sec1.start)return true;
-    else if(sec2.end<=sec1.start)return false;  
-  }
-  
 }
 
 export default {
@@ -257,4 +276,3 @@ export default {
   _searchFunction,
   _generateScheduleFunction,
 };
-
