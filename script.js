@@ -521,16 +521,15 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       };
     });
 
-    opPointer = options["time"]
-    opPointer.range.onchange = function(){
-      opPointer.min.value = hoursToStr(this.minValue);
-      opPointer.max.value = hoursToStr(this.maxValue)
+    options["time"].range.onchange = function(){
+      options["time"].min.value = hoursToStr(this.minValue);
+      options["time"].max.value = hoursToStr(this.maxValue)
     };
-    opPointer.min.addEventListener("change", function(){
-      opPointer.range.minValue = strToHours(this.value);
+    options["time"].min.addEventListener("change", function(){
+      options["time"].range.minValue = strToHours(this.value);
     });
-    opPointer.max.addEventListener("change", function(){
-      opPointer.range.maxValue = strToHours(this.value);
+    options["time"].max.addEventListener("change", function(){
+      options["time"].range.maxValue = strToHours(this.value);
     });
   }
 
