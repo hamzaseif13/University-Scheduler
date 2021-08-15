@@ -237,6 +237,66 @@ class TimeTable {
   }
 }
 
+class DoubleRange{
+  #sliders;
+  #values;
+  #offsetX;
+  #barWidth;
+  constructor(elem , min = 0, max = 100,step = 1){
+    this.#sliders = elem.querySelectorAll(".rangeSlider");
+
+    this.min = min;
+    this.max = max;
+    this.step = step;
+
+    this.#values = [min , max];
+
+    const bar = elem.querySelector(".bar");
+    this.#offsetX = bar.offsetLeft;
+    this.#barWidth = bar.clientWidth;
+
+    this.#addEvents();
+  }
+  #addEvents(){
+    const self = this;
+    for(let i = 0;i<2;i++){
+      let dragFlag = false;
+      self.#sliders[i].addEventListener("mousedown", function(event){
+        event.preventDefault();
+        dragFlag = true;
+      });
+      window.addEventListener("mouseup", function(event){
+        dragFlag = false;
+      });
+      document.body.addEventListener("mousemove", function(event){
+        if(dragFlag){
+          let pos = event.x - self.#offsetX - 8;
+          if(0 < pos && pos < self.#barWidth){
+            let oldVal = self.#values[i];
+            self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
+            if(self.#values[0] >= self.#values[1]){
+              self.#values[i]=oldVal;
+                return;
+            }
+            self.#sliders[i].style.left ="calc("+ ((self.#values[i] - self.min)  /(self.max - self.min)) * 100 + "% - 8px)";
+            self.onchange();
+          }
+        }
+      });
+    }
+  }
+  onchange(){
+    for(let i=0;i<2;i++)
+      this.#sliders[i].title = this.#values[i];
+  }
+  get minValue(){
+    return this.#values[0];
+  }
+  get maxValue(){
+    return this.#values[1];
+  }
+}
+
 const options = {},
   cousresModal = {
     bootstrapModal: undefined,
@@ -367,11 +427,17 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       let inputFields = option.querySelectorAll("input , select");
       for (const input of inputFields) {
         let inputName = input.name;
+        if(inputName === "")
+          continue;
         inputName = inputName.toLowerCase();
         options[opName][inputName] = input;
       }
-      options[opName]["submit"] = option.querySelector(".submit");
+      const btn = option.querySelector(".submit")
+      if(btn != null)
+        options[opName]["submit"] = btn;
     }
+    const tRange = document.getElementsByClassName("doubleRange")[0]
+    options.timeRange = new DoubleRange(tRange,8.5,18.5,0.5);
 
     const t = document.getElementById("table");
     table.numOfTables = t.querySelectorAll(".input-group span")[1];
@@ -439,6 +505,10 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         }
       };
     });
+
+    options["timeRange"].onchange = function(){
+      console.log(this.minValue , this.maxValue)
+    }
   }
 
   { //table events
@@ -505,34 +575,6 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     cousresModal.selected = [];
   });
 
-})();
-
-(function doubleRange(){
-  const elem = document.getElementsByClassName("doubleRange")[0];
-
-  const sliders = elem.querySelectorAll(".rangeSlider");
-  const bar = elem.querySelector(".bar");
-  const offsetX = bar.offsetLeft;
-  const barWidth = bar.clientWidth;
-  
-  for(let i = 0;i<2;i++){
-    let dragFlag = false;
-    sliders[i].addEventListener("mousedown", function(event){
-      dragFlag = true;
-    });
-    window.addEventListener("mouseup", function(event){
-      dragFlag = false;
-    });
-    window.addEventListener("mousemove", function(event){
-      if(dragFlag){
-        let pos = event.x - offsetX - 16 - 8;
-        if(-8 < pos && pos < barWidth + offsetX - 8)
-          sliders[i].style.left = pos  + "px";
-      }
-    });
-  }
-  
-  
 })();
 
 
