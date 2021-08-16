@@ -357,7 +357,8 @@ const options = {},
     body: undefined,
     next: undefined,
     prev: undefined
-  };
+  },
+  covers = {};
 let matchedCourses = [];
 
 
@@ -383,12 +384,17 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
   const copy = { ...course };
 
-  if (highlight != "")
+  if (highlight != ""){
+    highlight = highlight.split(",");
     if (typeof copy[prop] === "string")
-      copy[prop] = copy[prop].replace(
-        new RegExp(highlight.trim(), "i"),
-        '<span class="bg-warning">' + highlight + "</span>"
-      );
+      for (const text of highlight) {
+        copy[prop] = copy[prop].replace(
+          new RegExp(text.trim(), "i"),
+          '<span class="bg-warning">' + text + "</span>"
+        );
+      }
+      
+  }
   const col = htmlCreator("div", "", "", "col");
 
   let card = htmlCreator("div", col, "", "card shadow");
@@ -478,6 +484,13 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     const tRange = document.getElementsByClassName("doubleRange")[0]
     options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
 
+    let cov = document.querySelectorAll(".cover");
+    for (const cover of cov) {
+      let opName = cover.title;
+      opName = opName.toLowerCase();
+      covers[opName] = cover;
+    }
+
     const t = document.getElementById("table");
     table.numOfTables = t.querySelectorAll(".input-group span")[1];
     table.indexInput = t.querySelector(".input-group input")
@@ -499,9 +512,30 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     cousresModal.cancel = cModal.querySelector(".btn-secondary");
 
     cousresModal.bootstrapModal = new bootstrap.Modal(cModal, {keyboard: false});
-
 })();
 (function addEvents() {
+  let schedules = [], scheduleIndex = 0;
+  const displaySchedule = function(){
+    table.indexInput.value = (scheduleIndex + 1) ;
+    table.numOfTables.innerHTML = " / " + Math.max(1,schedules.length);
+    if(schedules.length == 0){
+      table.tableObj.reset();
+      return;
+    }
+    table.tableObj.reset();
+    for (const sec of schedules[scheduleIndex]) {
+      table.tableObj.addSection(Array.isArray(sec)?sec:[sec]);
+    }
+  }
+  function generate(){
+    covers.table.className = covers.table.className.replace("hidden",""); //display loading
+    setTimeout(()=>{//to make the browser render the change first then execute _generateScheduleFunction
+      schedules = app._generateScheduleFunction();
+      covers.table.className += "hidden";
+      scheduleIndex = 0;
+      displaySchedule();
+    }, 0)
+  }
 
   { //options events
     const submitSearch = function() {
@@ -544,7 +578,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       };
     });
     
-    let daysString = "sunmontuewedthusat";
+    let daysString = "allsunmontuewedthusat";
     let dayStart = 830;
     let dayEnd = 1830;
     for(const day in options["days"]){
@@ -558,47 +592,37 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       });
     }
 
+    let timeoutID;
     options["time"].range.onchange = function(){
+      clearTimeout(timeoutID);
       options["time"].min.value = hoursToStr(this.minValue);
       options["time"].max.value = hoursToStr(this.maxValue);
 
       dayStart = strToIntTime(hoursToStr(this.minValue));
       dayEnd = strToIntTime(hoursToStr(this.maxValue));
       app.setOptions(daysString,dayStart,dayEnd);
+      timeoutID = setTimeout(generate,100);//wait to stop changing for 100ms 
     };
     options["time"].min.addEventListener("change", function(){
       options["time"].range.minValue = strToHours(this.value);
 
       dayStart = strToIntTime(this.value);
       app.setOptions(daysString,dayStart,dayEnd);
+      generate();
     });
     options["time"].max.addEventListener("change", function(){
       options["time"].range.maxValue = strToHours(this.value);
 
       dayEnd = strToIntTime(this.value);
       app.setOptions(daysString,dayStart,dayEnd);
+      generate();
     });
   }
 
   { //table events
-    let schedules = [], scheduleIndex = 0;
-    const displaySchedule = function(){
-      table.indexInput.value = (scheduleIndex + 1) ;
-      table.numOfTables.innerHTML = " / " + Math.max(1,schedules.length);
-      if(schedules.length == 0){
-        table.tableObj.reset();
-        return;
-      }
-      table.tableObj.reset();
-      for (const sec of schedules[scheduleIndex]) {
-        table.tableObj.addSection(Array.isArray(sec)?sec:[sec]);
-      }
-    }
     options["generateschedule"].submit.addEventListener("click",()=>{
-      schedules = [...app._generateScheduleFunction()];
-      scheduleIndex = 0;
       colors.colorGroup +=1;
-      displaySchedule();
+      generate();
     });
 
     table.indexInput.addEventListener("change", function(){

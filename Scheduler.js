@@ -3,7 +3,7 @@ import { advancedSearch } from "./Database.js";
 
 const myCourses = [],
   schedule = [],
-  options = ["sun mon tue wed thu",830,1830];
+  options = ["all sun mon tue wed thu",830,1830];
 
 function courseIndex(courseNum) {
   //function to search the index of a course inside #myCourses
@@ -12,11 +12,14 @@ function courseIndex(courseNum) {
   });
 }
 function _searchFunction(val, searchBy) {
+  let arr = val.split(",");
+  arr = arr.map((v)=>{
+    return [v,searchBy,"or"];
+  })
   const result = advancedSearch(
     "",
     false,
-    ["", "faculty"],
-    [val, searchBy, "and"]
+    ...arr
   );
   return result;
 }
@@ -234,7 +237,7 @@ function filterSchedule(list,days="mon-wed",dayStart=830,dayEnd=1830) {
   
     if (!invalidSchedule&&!invalidTime)
     {
-    if(days=="all"){
+    if(days.includes("all")){
         filteredArray.push(list[j]);
     }
     else if(days.includes("sun")&&days.includes("tue")&&days.includes("thu")&&sun.length>0&&tue.length>0&&thu.length>0&&wed.length==0&&mon.length==0&&sat.length==0){
