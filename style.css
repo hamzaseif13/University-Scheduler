@@ -91,8 +91,16 @@ body{
     left: 4%;
     right: 5%;
 
-    border: 1px solid #8f8f8f;
+    border: 1px solid #e2e2e2;
     border-radius: 3px;
+    background-color: #e2e2e2;
+}
+.doubleRange .bar .colored{
+    position: absolute;
+    height: 6px;
+    width: 100%;
+    top: -2px;
+    background-color: #0d6efd;
 }
 .doubleRange .rangeSlider{
     position: absolute;
@@ -101,12 +109,12 @@ body{
     top: -7px;
 
     z-index: 100;
-    background-color: #3c3cff;
-    border-radius: 45%;
+    background-color: #0d6efd;
+    border-radius: 50%;
     cursor: pointer;
 }
 .doubleRange .rangeSlider:hover{
-    box-shadow: 0 0 2px 2px #8989ff;
+    box-shadow: 0 0 1.5px 1.5px #0d6efd;
 }
 .doubleRange .rangeSlider#minSlider{
     left: calc(0% - 8px);

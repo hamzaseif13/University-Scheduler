@@ -153,11 +153,13 @@ function advancedSearch(arr,strict,...conditions){
   //in strict = false => val(string/RegExp) if val(string) => case-insensetive , spaces are trimmed from the start and end
   if(!Array.isArray(arr))
     arr = courses;
+  if(arr.length == 0)
+    return [];
   let dataArr = arr;
   let sectionFlag = false;
   for(let i=0,l=conditions.length;i<l;i++){
     if(Array.isArray(conditions[i])){//if condition items are arrays change them to objects
-      conditions[i] = {val:conditions[i][0],searchBy:conditions[i][1],op:conditions[i][2]};
+      conditions[i] = {val:conditions[i][0],searchBy:conditions[i][1],op:conditions[i][2],not:conditions[i][3]};
     }
     if (!new Course().hasOwnProperty(conditions[i].searchBy)) {//check if cond.searchBy is a property of Course / Section classes
       if (!new Section().hasOwnProperty(conditions[i].searchBy)){
@@ -165,6 +167,8 @@ function advancedSearch(arr,strict,...conditions){
         return [];
       }
       sectionFlag = true;
+      if(!Array.isArray(arr[0].sections))//check if array contains courses or sections
+        continue;
       dataArr = [];
       for(const item of arr){// if searchBy is a property of Section class change search dataArr from array of Courses to array of Sections
         dataArr.push(...item.sections);
@@ -196,12 +200,16 @@ function advancedSearch(arr,strict,...conditions){
       if(sectionFlag && (new Course().hasOwnProperty(cond.searchBy)))
         item = item.course;
       
-      if(cond.op === "and")
-        res = res && compare(cond, item);
+      let comp = compare(cond, item);
+      if(cond.not)
+        comp = !comp;
+      
+      if(i === 0)
+        res = comp;
+      else if(cond.op === "and")
+        res = res && comp;
       else if(cond.op === "or")
-        res = res || compare(cond, item);
-      else if(i === 0)
-        res = compare(cond, item);
+        res = res || comp;
     }
     return res;
   }).map((item) => {
@@ -291,10 +299,10 @@ function filterHTML(html){
       }
     }
 })();
-
-console.table(advancedSearch("",true,[undefined,"sectionNumber"]).length/*.map((val)=>{
-  return val.course;
-})*/);
+// let arr = advancedSearch("",false,[/thu/i,"days","and",true]);
+// console.table(arr.length);
+// arr = advancedSearch(arr,false,[/thu/i,"days"])
+// console.table(arr.length);
 
 export default search;
 export {advancedSearch, filterHTML};
