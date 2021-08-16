@@ -240,6 +240,7 @@ class TimeTable {
 class DoubleRange{
   #sliders;
   #values;
+  #bar;
   #offsetX;
   #barWidth;
   #colored;
@@ -252,10 +253,10 @@ class DoubleRange{
 
     this.#values = [min , max];
 
-    const bar = elem.querySelector(".bar");
-    this.#offsetX = bar.offsetLeft;
-    this.#barWidth = bar.clientWidth;
-    this.#colored = bar.querySelector(".colored");
+    this.#bar = elem.querySelector(".bar");
+    this.#offsetX = this.#bar.offsetLeft;
+    this.#barWidth = this.#bar.clientWidth;
+    this.#colored = this.#bar.querySelector(".colored");
 
     this.#addEvents();
   }
@@ -276,13 +277,18 @@ class DoubleRange{
           if(0 < pos && pos < self.#barWidth){
             let oldVal = self.#values[i];
             self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
+
+            if(self.#values[i] == oldVal)
+              return;
+
             if(self.#values[0] >= self.#values[1]){
               // self.#values[i]=oldVal;
               //   return;
+              let delta = self.#values[i] - oldVal;
               if(i)
-                self.minValue -= self.step;
+                self.minValue += delta;
               else
-                self.maxValue += self.step;
+                self.maxValue += delta;
 
               if(self.maxValue === self.minValue){
                 self.#values[i] = oldVal;
@@ -293,6 +299,10 @@ class DoubleRange{
             self.onchange();
           }
         }
+      });
+      window.addEventListener("resize",()=>{
+        this.#offsetX = this.#bar.offsetLeft;
+        this.#barWidth = this.#bar.clientWidth;
       });
     }
   }
@@ -494,24 +504,23 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 (function addEvents() {
 
   { //options events
-    let opPointer = options["search"];
     const submitSearch = function() {
       //function to call when searching (by varius methods like mouse, keyboard)
-      if (opPointer.searchval.value.search(/\w.*\w/) == -1) {
+      if (options["search"].searchval.value.search(/\w.*\w/) == -1) {
         //val has at least 2s alpha-numeric chars
         updateModal([], "Found", "Add Courses"); //to reset modal
         return;
       }
       matchedCourses = app["_searchFunction"](
-        opPointer.searchval.value,
-        opPointer.searchby.value
+        options["search"].searchval.value,
+        options["search"].searchby.value
       );
       updateModal(
         matchedCourses,
         "Found",
         "Add Courses",
-        opPointer.searchval.value,
-        opPointer.searchby.value
+        options["search"].searchval.value,
+        options["search"].searchby.value
       );
       cousresModal.submitFunction = function () {
         for (const lineNum of cousresModal.selected) {
@@ -519,8 +528,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         }
       };
     };
-    opPointer.submit.addEventListener("click", submitSearch);
-    opPointer.searchval.addEventListener("keydown", function (event) {
+    options["search"].submit.addEventListener("click", submitSearch);
+    options["search"].searchval.addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         submitSearch();
         cousresModal.bootstrapModal.show();
@@ -534,16 +543,40 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         }
       };
     });
+    
+    let daysString = "sunmontuewedthusat";
+    let dayStart = 830;
+    let dayEnd = 1830;
+    for(const day in options["days"]){
+      options.days[day].addEventListener("change", function(){
+        if(this.checked)
+          daysString += day;
+        else
+          daysString = daysString.replace(day,"");
+        
+        app.setOptions(daysString,dayStart,dayEnd);
+      });
+    }
 
     options["time"].range.onchange = function(){
       options["time"].min.value = hoursToStr(this.minValue);
-      options["time"].max.value = hoursToStr(this.maxValue)
+      options["time"].max.value = hoursToStr(this.maxValue);
+
+      dayStart = strToIntTime(hoursToStr(this.minValue));
+      dayEnd = strToIntTime(hoursToStr(this.maxValue));
+      app.setOptions(daysString,dayStart,dayEnd);
     };
     options["time"].min.addEventListener("change", function(){
       options["time"].range.minValue = strToHours(this.value);
+
+      dayStart = strToIntTime(this.value);
+      app.setOptions(daysString,dayStart,dayEnd);
     });
     options["time"].max.addEventListener("change", function(){
       options["time"].range.maxValue = strToHours(this.value);
+
+      dayEnd = strToIntTime(this.value);
+      app.setOptions(daysString,dayStart,dayEnd);
     });
   }
 
@@ -639,4 +672,7 @@ function strToHours(str){
   let m = parseInt(t[1]);
   h += m/60;
   return h;
+}
+function strToIntTime(str){
+  return parseInt(str.replace(":",""));
 }

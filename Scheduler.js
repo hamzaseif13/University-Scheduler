@@ -2,7 +2,8 @@ import searchDatabase from "./Database.js";
 import { advancedSearch } from "./Database.js";
 
 const myCourses = [],
-  schedule = [];
+  schedule = [],
+  options = ["sun mon tue wed thu",830,1830];
 
 function courseIndex(courseNum) {
   //function to search the index of a course inside #myCourses
@@ -109,7 +110,7 @@ function generateSchedules(...sets) {
   let result = [];
   for (const set of copy) {
     result = addSet(result, reduceSet(set));
-    result = filterSchedule(result);
+    result = filterSchedule(result,...options);
     l *= set.length;
   }
   console.log(
@@ -269,10 +270,17 @@ function checkInterSection(sec1, sec2) {
   }
 }
 
+function setOptions(days,dayStart,dayEnd){
+  options[0] = days;
+  options[1] = dayStart;
+  options[2] = dayEnd;
+}
+
 export default {
   courses: myCourses,
   _addCourseFunction,
   _removeCourseFunction,
   _searchFunction,
   _generateScheduleFunction,
+  setOptions,
 };
