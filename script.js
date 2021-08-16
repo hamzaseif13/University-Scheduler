@@ -242,6 +242,7 @@ class DoubleRange{
   #values;
   #offsetX;
   #barWidth;
+  #colored;
   constructor(elem , min = 0, max = 100,step = 1){
     this.#sliders = elem.querySelectorAll(".rangeSlider");
 
@@ -254,6 +255,7 @@ class DoubleRange{
     const bar = elem.querySelector(".bar");
     this.#offsetX = bar.offsetLeft;
     this.#barWidth = bar.clientWidth;
+    this.#colored = bar.querySelector(".colored");
 
     this.#addEvents();
   }
@@ -275,8 +277,17 @@ class DoubleRange{
             let oldVal = self.#values[i];
             self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
             if(self.#values[0] >= self.#values[1]){
-              self.#values[i]=oldVal;
+              // self.#values[i]=oldVal;
+              //   return;
+              if(i)
+                self.minValue -= self.step;
+              else
+                self.maxValue += self.step;
+
+              if(self.maxValue === self.minValue){
+                self.#values[i] = oldVal;
                 return;
+              }
             }
             self.#updateSliderPos(i);
             self.onchange();
@@ -287,6 +298,9 @@ class DoubleRange{
   }
   #updateSliderPos(i){
     this.#sliders[i].style.left ="calc("+ ((this.#values[i] - this.min)  /(this.max - this.min)) * 100 + "% - 8px)";
+    this.#colored.style.left =  (this.#values[0] - this.min) / (this.max - this.min) * 100 + "%";
+    this.#colored.style.width = (this.#values[1] - this.min) / (this.max - this.min) * 100 - 
+                                (this.#values[0] - this.min) / (this.max - this.min) * 100 + "%";
   }
   onchange(){
     for(let i=0;i<2;i++)
@@ -299,13 +313,13 @@ class DoubleRange{
     return this.#values[1];
   }
   set minValue(val){
-    if(val > this.min && val < this.maxValue){
+    if(val >= this.min && val < this.maxValue){
       this.#values[0] = val;
       this.#updateSliderPos(0);
     }
   }
   set maxValue(val){
-    if(val < this.max && val > this.minValue){
+    if(val <= this.max && val > this.minValue){
       this.#values[1] = val;
       this.#updateSliderPos(1);
     }
