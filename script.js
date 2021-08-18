@@ -278,6 +278,9 @@ class TimeTable {
       "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
     }
   }
+  _printFunction(){
+    
+  }
   get activeGroup(){
     return {...this.#sectionGroups[this.#activeGroupIndex]};
   }
@@ -624,44 +627,50 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       };
     });
     
-    let daysString = "allsunmontuewedthusat";
+    let daysString = "all";
     let dayStart = 830;
     let dayEnd = 1830;
     for(const day in options["days"]){
       options.days[day].addEventListener("change", function(){
-        if(this.checked)
-          daysString += day;
+        daysString = daysString.replace("all","");
+
+        if(this.checked){
+          if(!daysString.includes(day))
+            daysString += day;
+        }
         else
           daysString = daysString.replace(day,"");
         
+        if(daysString.length === 0)
+          daysString = "all";
         app.setOptions(daysString,dayStart,dayEnd);
       });
     }
 
-    let timeoutID;
+    // let timeoutID;
     options["time"].range.onchange = function(){
-      clearTimeout(timeoutID);
+      // clearTimeout(timeoutID);
       options["time"].min.value = hoursToStr(this.minValue);
       options["time"].max.value = hoursToStr(this.maxValue);
 
       dayStart = strToIntTime(hoursToStr(this.minValue));
       dayEnd = strToIntTime(hoursToStr(this.maxValue));
       app.setOptions(daysString,dayStart,dayEnd);
-      timeoutID = setTimeout(generate,100);//wait to stop changing for 100ms 
+      // timeoutID = setTimeout(generate,100);//wait to stop changing for 100ms 
     };
     options["time"].min.addEventListener("change", function(){
       options["time"].range.minValue = strToHours(this.value);
 
       dayStart = strToIntTime(this.value);
       app.setOptions(daysString,dayStart,dayEnd);
-      generate();
+      // generate();
     });
     options["time"].max.addEventListener("change", function(){
       options["time"].range.maxValue = strToHours(this.value);
 
       dayEnd = strToIntTime(this.value);
       app.setOptions(daysString,dayStart,dayEnd);
-      generate();
+      // generate();
     });
   }
 

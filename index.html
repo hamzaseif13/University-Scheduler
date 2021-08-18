@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Scheduler</title>
- 
+    <script src="https://kit.fontawesome.com/d595c149d4.js" crossorigin="anonymous"></script>
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -44,18 +45,13 @@
             </div>
             <div class="option" title="days">
                 <h5 class="text-center ">Days:</h5>
-                <div class="btn-group">
-                    <input name="sun" type="checkbox" class="btn-check" id="Sun" autocomplete="off" checked>
-                    <label class="btn btn-outline-info" for="Sun">Sun</label>
-                    <input name="mon" type="checkbox" class="btn-check" id="Mon" autocomplete="off" checked>
-                    <label class="btn btn-outline-info" for="Mon">Mon</label>
-                    <input name="tue" type="checkbox" class="btn-check" id="Tue" autocomplete="off" checked>
-                    <label class="btn btn-outline-info" for="Tue">Tue</label>
-                    <input name="wed" type="checkbox" class="btn-check" id="Wed" autocomplete="off" checked>
-                    <label class="btn btn-outline-info" for="Wed">Wed</label>
-                    <input name="thu" type="checkbox" class="btn-check" id="Thu" autocomplete="off" checked>
-                    <label class="btn btn-outline-info" for="Thu">Thu</label>
-                </div>
+                <ul class="ks-cboxtags">
+                    <li><input type="checkbox" id="sun" name="sun"><label for="sun">Sun</label></li>
+                    <li><input type="checkbox" id="mon" name="mon"><label for="mon">Mon</label></li>
+                    <li><input type="checkbox" id="tue" name="tue"><label for="tue">Tue</label></li>
+                    <li><input type="checkbox" id="wed" name="wed"><label for="wed">Wen</label></li>
+                    <li><input type="checkbox" id="thu" name="thu"><label for="thu">Thu</label></li>
+                </ul>
             </div>
             <div class="option" title="time">
                 <h5 class="text-center ">Hours:</h5>
