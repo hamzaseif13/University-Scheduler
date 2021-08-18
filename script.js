@@ -20,9 +20,17 @@ class TimeTable {
   #table;
   #modal;
   #activeGroupIndex;
+  #menuButtons;
+  #menu;
   constructor(table ,modal) {
     this.#sectionGroups = [];
     this.#columns = [];
+    this.#menuButtons = {
+      print:undefined,
+      pin:undefined,
+      delete:undefined,
+      removeCourse:undefined
+    };
     this.#modal = {
       body: modal.querySelector(".modal-body .col-10"),
       title: modal.querySelector(".modal-title"),
@@ -35,6 +43,7 @@ class TimeTable {
     this.#columns = table.querySelectorAll(".tableCol");
     this.#updateCellHeight();
     this.#resizeEvents();
+    this.#rightClick();
   }
   addSection(secGroup) {
     const secCard = this.#generateHTMLSectionCard(secGroup);
@@ -211,6 +220,43 @@ class TimeTable {
           (parseFloat(card.style.top) / oldHeight) * this.cellHeight + "px";
       }
     });
+  }
+  #rightClick(){
+    const self = this;
+    this.#menu = htmlCreator("ul",this.#table,"","dropdown-menu");
+    for (const btn in this.#menuButtons) {
+      this.#menuButtons[btn] = htmlCreator("button","","","dropdown-item",btn);
+      this.#menuButtons[btn].addEventListener("click", ()=>{
+        // this["_"+btn+"Function"]();
+      });
+    }
+    this.#table.addEventListener("contextmenu",(event)=>{
+      event.preventDefault();
+      const buttons = ["print","delete"]
+      this.#contextMenu(event.x,event.y,[]);
+    });
+    window.addEventListener("click",()=>{
+      this.#menu.style.display = "none";
+    })
+  }
+  #contextMenu(x,y,buttonNames){
+    const offsetX = this.#table.getBoundingClientRect().left;
+    const offsetY = this.#table.getBoundingClientRect().top;
+    const tableWidth = this.#table.offsetWidth;
+    const tableHeight = this.#table.offsetHeight;
+
+    this.#menu.innerHTML = "";
+    for (const btn of buttonNames) {
+      const li = htmlCreator("li",this.#menu);
+      li.appendChild(this.#menuButtons[btn]);
+    }
+    this.#menu.style.display = "block";
+    
+    x = Math.min(x - offsetX, tableWidth - this.#menu.offsetWidth - 3);
+    y = Math.min(y - offsetY, tableHeight - this.#menu.offsetHeight - 3);
+    
+    this.#menu.style.left = x + "px";
+    this.#menu.style.top = y + "px";
   }
   reset(){
     for (const col of this.#columns) {
