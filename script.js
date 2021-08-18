@@ -583,7 +583,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       covers.table.className += "hidden";
       scheduleIndex = 0;
       displaySchedule();
-    }, 0)
+    }, 5)
   }
 
   { //options events
@@ -722,7 +722,12 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     cousresModal.bootstrapModal.hide();
     cousresModal.selected = [];
   });
-
+  document.body.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      cousresModal.bootstrapModal.hide();
+    }
+  });
+  
 })();
 
 
