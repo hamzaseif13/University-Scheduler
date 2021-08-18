@@ -127,7 +127,7 @@ body{
     position: relative;
 
     display: grid;
-    grid-template: 90% 10%/ 1fr;
+    grid-template: 5% 85% 10%/ 1fr;
     
     /* min-height: 80%; */
 }
@@ -202,31 +202,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-/* form{
-    display:inline  !important;
-}
-#lineNumber{
-    text-align: center;
-} */
 
-/* .cardHover:hover{
-    transform: scale(1.1,1.7);
-    z-index: 1000;
-}
-.cardHover:hover *{
-    font-size: 80%;
-    transform: scale(1,0.8);
-}
-.cardHover:hover .cardHidden{
-    display: block;
-} */
-.cardHover .cardHidden{
-    display: none;
-}
-.cardHover:hover ::before ::before{
-    transform: scale(1.5);
-    z-index: 1001;
-}
 .cover{
     position: absolute;
     top: 0;
@@ -259,8 +235,8 @@ ul.ks-cboxtags li{
 }
 ul.ks-cboxtags li label{
     display: inline-block;
-    background-color: rgba(255, 255, 255, .9);
-    border: 2px solid hsla(0, 0%, 0%, 0.5);
+    background-color: #ffffffe6;
+    border: 2px solid #00000080;
     color: #616161;
     border-radius: 25px;
     white-space: nowrap;
@@ -300,8 +276,8 @@ ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
 }
 
 ul.ks-cboxtags li input[type="checkbox"]:checked + label {
-    border: 2px solid #1bdbf8;
-    background-color: #12bbd4;
+    border: 2px solid #2f81fc;
+    background-color: #0d6efd;
     color: #fff;
     transition: all .2s;
 }
@@ -314,5 +290,5 @@ ul.ks-cboxtags li input[type="checkbox"] {
   opacity: 0;
 }
 ul.ks-cboxtags li input[type="checkbox"]:focus + label {
-  border: 2px solid #e9a1ff;
+  border: 2px solid #0d9dfd;
 }
