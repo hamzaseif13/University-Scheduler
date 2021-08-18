@@ -114,6 +114,8 @@ function generateSchedules(...sets) {
   for (const set of copy) {
     result = addSet(result, reduceSet(set));
     result = filterSchedule(result,...options);
+    if(result.length === 0)//bug fix
+      return [];
     l *= set.length;
   }
   console.log(
