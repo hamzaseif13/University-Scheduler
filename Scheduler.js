@@ -129,7 +129,8 @@ function generateSchedules(...sets) {
   return result;
 }
 
-function filterSchedule(list,days="mon-wed",dayStart=830,dayEnd=1830) {
+function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
+  console.log(daysString)
   //the days var can be array of days ex. ["sun","tue","thu"] or a string ex. monwed , suntuethu
   const lengthArray = list.length;
   //days can be [sun ,mon ,tue ,wed ,thu],[sun,tue],[mon,wed],[sun mon tue wed]
@@ -142,6 +143,7 @@ function filterSchedule(list,days="mon-wed",dayStart=830,dayEnd=1830) {
     }); // to change array of sections to a section
     let invalidSchedule = false;
     let invalidTime=true;
+    let invalidDay=true;
     let sun = [],
       sat = [],
       mon = [],
@@ -234,27 +236,27 @@ function filterSchedule(list,days="mon-wed",dayStart=830,dayEnd=1830) {
         }
       }
     }
-  
-    if (!invalidSchedule&&!invalidTime)
-    {
-    if(days.includes("all")){
-        filteredArray.push(list[j]);
-    }
-    else if(days.includes("sun")&&days.includes("tue")&&days.includes("thu")&&sun.length>0&&tue.length>0&&thu.length>0&&wed.length==0&&mon.length==0&&sat.length==0){
-      filteredArray.push(list[j]);//to check if a schedule is sun tue thu supposing that sections are sun tue thu (old before covid )
-    }
-    else if(days.includes("mon")&&days.includes("wed")&&sun.length==0&&tue.length==0&&thu.length==0&&wed.length>0&&mon.length>0&&sat.length==0){
-      filteredArray.push(list[j]);//to check if a schedule is mon wed 
-    }
-    
 
-  }
+    for(let n=0;n<schedule.length;n++){
+        if (schedule[n].days.length==3){
+          if(daysString.includes(schedule[n].days.toLowerCase()))invalidDay=false;
+          else invalidDay=true;
+        }
+        if (schedule[n].days.length==7){
+          if(daysString.includes(schedule[n].days.slice(0,3).toLowerCase())&&daysString.includes(schedule[n].days.slice(4,8).toLowerCase()))invalidDay=false;
+          else invalidDay=true;
+        }
+    }
+    if (!invalidSchedule&&!invalidTime&&!invalidDay)
+    {
+    filteredArray.push(list[j])
+    }
       // if schedule is not invalid add it to filteredArray
   }
   // console.log(interSectionIndexes,list.length)
   // console.log(list)
   if(filteredArray.length==0){
-    console.log("there is no schedule with the options selected")
+    alert("there is no schedule with the options selected")
     return [];
   }
   return filteredArray;
