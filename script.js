@@ -185,7 +185,7 @@ class TimeTable {
     card.title = "Show Details";
 
     let cardBody = htmlCreator("div", card, "", "m-auto cardBody");
-    cardBody.style.fontSize = "x-small";
+    // cardBody.style.fontSize = "x-small";
     htmlCreator("div", cardBody, "", "", sections[0].course.symbol);
     htmlCreator("div", cardBody, "", "", "Sec: " + sections[0].sectionNumber);
     htmlCreator("div", cardBody, "", "", sections[0].timeObj.string());
@@ -225,15 +225,21 @@ class TimeTable {
     const self = this;
     this.#menu = htmlCreator("ul",this.#table,"","dropdown-menu");
     for (const btn in this.#menuButtons) {
-      this.#menuButtons[btn] = htmlCreator("button","","","dropdown-item",btn);
+      let name = btn.split(/(?=[A-Z])/);
+      name = name.map((val)=>{
+        return val[0].toUpperCase() + val.slice(1);
+      });
+      this.#menuButtons[btn] = htmlCreator("button","","","dropdown-item",name.join(" "));
       this.#menuButtons[btn].addEventListener("click", ()=>{
         // this["_"+btn+"Function"]();
       });
     }
     this.#table.addEventListener("contextmenu",(event)=>{
       event.preventDefault();
-      const buttons = ["print","delete"]
-      this.#contextMenu(event.x,event.y,[]);
+      const buttons = ["print","pin","delete"]
+      if(event.target.className.includes("card") || event.target.parentElement.className.includes("card"))
+        buttons.push("removeCourse");
+      this.#contextMenu(event.x,event.y,buttons);
     });
     window.addEventListener("click",()=>{
       this.#menu.style.display = "none";
@@ -279,6 +285,12 @@ class TimeTable {
     }
   }
   _printFunction(){
+    
+  }
+  _deleteFunction(){
+    
+  }
+  _pinFunction(){
     
   }
   get activeGroup(){
@@ -564,7 +576,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 })();
 (function addEvents() {
   let schedules = [], scheduleIndex = 0;
-  const displaySchedule = function(){
+  function displaySchedule(){
     table.indexInput.value = (scheduleIndex + 1) ;
     table.numOfTables.innerHTML = " / " + Math.max(1,schedules.length);
     if(schedules.length == 0){
