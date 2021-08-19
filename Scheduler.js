@@ -117,6 +117,8 @@ function generateSchedules(...sets) {
     //result=filterSet(result)
     result = addSet(result,preSet);
     result = filterSchedule(result,...options);
+    if(result.length === 0)//bug fix
+      return [];
     l *= set.length;
   }
   console.log(
