@@ -259,8 +259,13 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     const t = document.getElementById("table");
     table.numOfTables = t.querySelectorAll(".input-group span")[1];
     table.indexInput = t.querySelector(".input-group input")
-    table.next = t.querySelector(".next");
-    table.prev = t.querySelector(".prev");
+    
+    let tableBtns = t.querySelectorAll(".btn");
+    for (const btn of tableBtns) {
+      let opName = btn.innerText.trim();
+      opName = opName.toLowerCase();
+      table[opName+"Btn"] = btn;
+    }
 
     const secModal = document.getElementById("sectionModal");
     sectionModal.body = secModal.querySelector(".modal-body .col-10");
@@ -374,20 +379,16 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     });
 
     table.indexInput.addEventListener("change", function(){
-      let val = parseInt(this.value);
-      
-      this.value = schedules.changeActiveSchedule(val);
-
-      schedules.displaySchedule();
+      schedules.changeActiveSchedule(parseInt(this.value));
     });
-    table.next.addEventListener("click", function(){
-      schedules.next();
-      schedules.displaySchedule();
-    });
-    table.prev.addEventListener("click", function(){
-      schedules.prev();
-      schedules.displaySchedule();
-    });
+    for (const key in table) {
+      if (key.includes("Btn")) {
+        table[key].addEventListener("click", function(){
+          const func = key.replace("Btn","") + "Schedule";
+          schedules[func]();
+        });
+      }
+    }
   }
 
   sectionModal.next.addEventListener("click", function(){

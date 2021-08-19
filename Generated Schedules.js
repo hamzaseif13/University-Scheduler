@@ -232,7 +232,7 @@ class TimeTable {
       });
       this.#menuButtons[btn] = htmlCreator("button","","","dropdown-item",name.join(" "));
       this.#menuButtons[btn].addEventListener("click", ()=>{
-        // this["_"+btn+"Function"]();
+        this[btn+"Function"]();
       });
     }
     this.#table.addEventListener("contextmenu",(event)=>{
@@ -285,14 +285,14 @@ class TimeTable {
       "%3E%3Crect fill='%23e9e9e9' x='-60' y='-60' width='240' height='60'/%3E%3C/g%3E%3C/svg%3E\")";
     }
   }
-  _printFunction(){
-    
+  printFunction(){
+    printSchedule();
   }
-  _deleteFunction(){
-    
+  deleteFunction(){
+    deleteSchedule();
   }
-  _pinFunction(){
-    
+  pinFunction(){
+    pinSchedule();
   }
   get activeGroup(){
     return {...this.#sectionGroups[this.#activeGroupIndex]};
@@ -300,6 +300,7 @@ class TimeTable {
 }
 
 let schedules = [], scheduleIndex = 0;
+const pinned = [];
 function displaySchedule(){
   table.indexInput.value = (scheduleIndex + 1) ;
   table.numOfTables.innerHTML = " / " + Math.max(1,schedules.length);
@@ -308,7 +309,7 @@ function displaySchedule(){
     return;
   }
   table.tableObj.reset();
-  for (const sec of schedules[scheduleIndex]) {
+  for (const sec of schedules[scheduleIndex].sections) {
     table.tableObj.addSection(Array.isArray(sec)?sec:[sec]);
   }
 }
@@ -319,35 +320,70 @@ function generate(changeColor){
   tableCover.className = tableCover.className.replace("hidden",""); //display loading
   setTimeout(()=>{//to make the browser render the change first then execute _generateScheduleFunction
     schedules = app._generateScheduleFunction();
+    calcScore();
     tableCover.className += "hidden";
     scheduleIndex = 0;
     displaySchedule();
   }, 5)
 }
+function calcScore(){
+  let i = 0;
+  for (const s of schedules) {
+    const obj = {};
+    obj.id = i;
+    obj.sections = s;
+
+    obj.score = i;
+
+    schedules[i++] = obj;
+  }
+}
+
 function changeActiveSchedule(val){
   if(val > schedules.length ||val < 1){
     if(val == schedules.length+1 || val == 0)
       val = (val + schedules.length - 1)%schedules.length+1;
     else{
+      displaySchedule();
       return val;
     }
   }
 
   scheduleIndex = val - 1;
+  displaySchedule();
   return val;
 }
-function next(){
-  changeActiveSchedule(scheduleIndex++)
+function nextSchedule(){
+  changeActiveSchedule(scheduleIndex + 1 + 1);
 }
-function prev(){
-  changeActiveSchedule(scheduleIndex--)
+function prevSchedule(){
+  changeActiveSchedule(scheduleIndex - 1 + 1);
 }
+function deleteSchedule(){
+  schedules.splice(scheduleIndex,1);
+  if(scheduleIndex == schedules.length)
+    scheduleIndex--;
+  
+    displaySchedule();
+}
+function pinSchedule(){
+  if(pinned.find((val)=>{return val.id === schedules[scheduleIndex].id}) === undefined)
+    pinned.unshift(schedules[scheduleIndex]);
+  
+    displaySchedule();
+}
+function printSchedule(){
+  console.log(schedules[scheduleIndex]);
+}
+
 
 export default{
   generate, 
-  displaySchedule,
   changeActiveSchedule,
-  next,
-  prev
+  nextSchedule,
+  prevSchedule,
+  deleteSchedule,
+  pinSchedule,
+  printSchedule
 };
 export {TimeTable};
