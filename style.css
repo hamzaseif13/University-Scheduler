@@ -131,6 +131,10 @@ body{
     
     /* min-height: 80%; */
 }
+#table .input-group input{
+    width: 3em;
+    font-size: x-large;
+}
 .timeTable{
     /* font-size: 1.5vw; */
     height: 100%;
@@ -168,10 +172,8 @@ body{
     position: relative;
     background-color: #ffffff;
     border-right: 1px solid black;
-}
-#table .input-group input{
-    width: 3em;
-    font-size: x-large;
+    font-size: calc(5px + 9 * ((100vh - 320px) / 680));
+    font-weight: bolder;
 }
 #sectionModal .modal-body .col-1 span{
     position: absolute;
