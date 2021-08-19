@@ -280,6 +280,8 @@ class TimeTable {
   }
   _printFunction(){
     
+				// Choose the element and save the PDF for our user.
+				html2pdf().from(this.#table).save();
   }
   get activeGroup(){
     return {...this.#sectionGroups[this.#activeGroupIndex]};
@@ -704,6 +706,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       scheduleIndex = scheduleIndex < 0? schedules.length - 1: scheduleIndex;
       displaySchedule();
     });
+
   }
 
   sectionModal.next.addEventListener("click", function(){
