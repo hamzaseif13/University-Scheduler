@@ -112,7 +112,10 @@ function generateSchedules(...sets) {
   let l = 1;
   let result = [];
   for (const set of copy) {
-    result = addSet(result, reduceSet(set));
+    
+    let preSet=filterSet(reduceSet(set))
+    //result=filterSet(result)
+    result = addSet(result,preSet);
     result = filterSchedule(result,...options);
     if(result.length === 0)//bug fix
       return [];
@@ -132,7 +135,6 @@ function generateSchedules(...sets) {
 }
 
 function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
-  console.log(daysString)
   //the days var can be array of days ex. ["sun","tue","thu"] or a string ex. monwed , suntuethu
   const lengthArray = list.length;
   //days can be [sun ,mon ,tue ,wed ,thu],[sun,tue],[mon,wed],[sun mon tue wed]
@@ -144,8 +146,7 @@ function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
       return val[0];
     }); // to change array of sections to a section
     let invalidSchedule = false;
-    let invalidTime=true;
-    let invalidDay=true;
+  
     let sun = [],
       sat = [],
       mon = [],
@@ -171,10 +172,7 @@ function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
       if (schedule[k].days.includes("Sat")) {
         sat.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
-      if(schedule[k].startTime>=dayStart&&schedule[k].endTime<=dayEnd){//to check if the sections are in the time range 
-        invalidTime=false;
-      }
-      else invalidTime=true;
+      
     }
 
     if (sun.length > 0) {
@@ -239,17 +237,8 @@ function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
       }
     }
 
-    for(let n=0;n<schedule.length;n++){
-        if (schedule[n].days.length==3){
-          if(daysString.includes(schedule[n].days.toLowerCase()))invalidDay=false;
-          else invalidDay=true;
-        }
-        if (schedule[n].days.length==7){
-          if(daysString.includes(schedule[n].days.slice(0,3).toLowerCase())&&daysString.includes(schedule[n].days.slice(4,8).toLowerCase()))invalidDay=false;
-          else invalidDay=true;
-        }
-    }
-    if (!invalidSchedule&&!invalidTime&&!invalidDay)
+    
+    if (!invalidSchedule)
     {
     filteredArray.push(list[j])
     }
@@ -291,3 +280,32 @@ export default {
   _generateScheduleFunction,
   setOptions,
 };
+function filterSet(set){
+
+  let filteredArray=[]
+  let daysString=options[0],dayStart=options[1],dayEnd=options[2];
+  for (let j = 0; j < set.length; j++) {
+    let invalidTime=true;
+    let invalidDay=true;
+   
+    for(let n=0;n<set.length;n++){
+      if (set[n][0].days.length==3){
+        if(daysString.includes(set[n][0].days.toLowerCase()))invalidDay=false;
+        else invalidDay=true;
+      }
+      if (set[n][0].days.length==7){
+        if(daysString.includes(set[n][0].days.slice(0,3).toLowerCase())&&daysString.includes(set[n][0].days.slice(4,8).toLowerCase()))invalidDay=false;
+        else invalidDay=true;
+      }
+      if(set[n][0].startTime>=dayStart&&set[n][0].endTime<=dayEnd){//to check if the sections are in the time range 
+        invalidTime=false;
+      }
+      else invalidTime=true;
+  }
+    if (!invalidTime&&!invalidDay)
+    {
+    filteredArray.push(set[j])
+    }
+}
+return filteredArray;
+}
