@@ -76,42 +76,83 @@
                     <span class="visually-hidden">Loading...</span>
                   </div>
             </div>
-            <div class="btn-toolbar justify-content-between">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="btn nav-link active py-0 h-100" data-bs-toggle="tab" data-bs-target="#all" type="button">All</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="btn nav-link py-0 h-100" data-bs-toggle="tab" data-bs-target="#pinned" type="button">Pinned</button>
+                </li>
+            </ul>
+            <div class="btn-toolbar justify-content-end">
                 <div class="btn-group">
                     <div class="btn btn-sm btn-success"><i class="fas fa-print"></i> Print</div>
                     <div class="btn btn-sm btn-success"><i class="fas fa-thumbtack"></i> Pin</div>
                 </div>
                 <div class="btn-group">
+                    <div class="btn btn-sm btn-danger"><i class="fas fa-thumbtack"></i> Unpin</div>
                     <div class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</div>
                 </div>
             </div>
             <div class="content overflow-auto">
-                <div class="timeTable row row-cols-6 g-0">
-                    <div class="tableHead">#</div>
-                    <div class="tableHead">Sun</div>
-                    <div class="tableHead">Mon</div>
-                    <div class="tableHead">Tue</div>
-                    <div class="tableHead">Wed</div>
-                    <div class="tableHead">Thu</div>
-                    <div class="tableKeys">
-                        <div class="hours"><span>8:30 AM</span></div>
-                        <div class="hours"><span>9:30 AM</span></div>
-                        <div class="hours"><span>10:30 AM</span></div>
-                        <div class="hours"><span>11:30 AM</span></div>
-                        <div class="hours"><span>12:30 PM</span></div>
-                        <div class="hours"><span>1:30 PM</span></div>
-                        <div class="hours"><span>2:30 PM</span></div>
-                        <div class="hours"><span>3:30 PM</span></div>
-                        <div class="hours"><span>4:30 PM</span></div>
-                        <div class="hours"><span>5:30 PM</span></div>
-                        <div class="hours"><span>6:30 PM</span></div>
+                  <div class="h-100 tab-content" id="myTabContent">
+                    <div class="tab-pane fade h-100 show active" id="all">
+                        <div class="timeTable row row-cols-6 g-0">
+                            <div class="tableHead">#</div>
+                            <div class="tableHead">Sun</div>
+                            <div class="tableHead">Mon</div>
+                            <div class="tableHead">Tue</div>
+                            <div class="tableHead">Wed</div>
+                            <div class="tableHead">Thu</div>
+                            <div class="tableKeys">
+                                <div class="hours"><span>8:30 AM</span></div>
+                                <div class="hours"><span>9:30 AM</span></div>
+                                <div class="hours"><span>10:30 AM</span></div>
+                                <div class="hours"><span>11:30 AM</span></div>
+                                <div class="hours"><span>12:30 PM</span></div>
+                                <div class="hours"><span>1:30 PM</span></div>
+                                <div class="hours"><span>2:30 PM</span></div>
+                                <div class="hours"><span>3:30 PM</span></div>
+                                <div class="hours"><span>4:30 PM</span></div>
+                                <div class="hours"><span>5:30 PM</span></div>
+                                <div class="hours"><span>6:30 PM</span></div>
+                            </div>
+                            <div class="tableCol" ></div>
+                            <div class="tableCol" ></div>
+                            <div class="tableCol" ></div>
+                            <div class="tableCol" ></div>
+                            <div class="tableCol" ></div>
+                        </div>
                     </div>
-                    <div class="tableCol" ></div>
-                    <div class="tableCol" ></div>
-                    <div class="tableCol" ></div>
-                    <div class="tableCol" ></div>
-                    <div class="tableCol" ></div>
-                </div>
+                    <div class="tab-pane fade h-100 " id="pinned">
+                        <div class="timeTable row row-cols-6 g-0">
+                            <div class="tableHead">#</div>
+                            <div class="tableHead">Sun</div>
+                            <div class="tableHead">Mon</div>
+                            <div class="tableHead">Tue</div>
+                            <div class="tableHead">Wed</div>
+                            <div class="tableHead">Thu</div>
+                            <div class="tableKeys">
+                                <div class="hours"><span>8:30 AM</span></div>
+                                <div class="hours"><span>9:30 AM</span></div>
+                                <div class="hours"><span>10:30 AM</span></div>
+                                <div class="hours"><span>11:30 AM</span></div>
+                                <div class="hours"><span>12:30 PM</span></div>
+                                <div class="hours"><span>1:30 PM</span></div>
+                                <div class="hours"><span>2:30 PM</span></div>
+                                <div class="hours"><span>3:30 PM</span></div>
+                                <div class="hours"><span>4:30 PM</span></div>
+                                <div class="hours"><span>5:30 PM</span></div>
+                                <div class="hours"><span>6:30 PM</span></div>
+                            </div>
+                            <div class="tableCol" ></div>
+                            <div class="tableCol" ></div>
+                            <div class="tableCol" ></div>
+                            <div class="tableCol" ></div>
+                            <div class="tableCol" ></div>
+                        </div>
+                    </div>
+                  </div>
             </div>
             <div class="input-group btn-group flex-nowrap h-100 w-100 justify-content-center">
                 <div class="prev btn btn-lg btn-secondary"> Prev</div>

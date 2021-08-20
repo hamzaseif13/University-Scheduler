@@ -1,6 +1,6 @@
 import app from "./Scheduler.js";
 import schedules from "./Generated Schedules.js";
-import  {TimeTable} from "./Generated Schedules.js";
+import  {ScheduleGroup} from "./Generated Schedules.js";
 
 class DoubleRange{
   #sliders;
@@ -116,7 +116,7 @@ const options = {},
     indexInput: undefined,
     next: undefined,
     prev: undefined,
-    tableObj: undefined
+    allTable: undefined
   },
   sectionModal = {
     body: undefined,
@@ -258,7 +258,9 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
     const t = document.getElementById("table");
     table.numOfTables = t.querySelectorAll(".input-group span")[1];
-    table.indexInput = t.querySelector(".input-group input")
+    table.indexInput = t.querySelector(".input-group input");
+    table.allBody = t.querySelector("#all .timeTable");
+    table.pinnedBody = t.querySelector("#pinned .timeTable");
     
     let tableBtns = t.querySelectorAll(".btn");
     for (const btn of tableBtns) {
@@ -266,13 +268,15 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       opName = opName.toLowerCase();
       table[opName+"Btn"] = btn;
     }
+    table.unpinBtn.style.display = "none";
 
     const secModal = document.getElementById("sectionModal");
     sectionModal.body = secModal.querySelector(".modal-body .col-10");
     sectionModal.next = secModal.querySelector(".modal-body .next");
     sectionModal.prev = secModal.querySelector(".modal-body .prev");
 
-    table.tableObj = new TimeTable(t.querySelector(".timeTable"),secModal);
+    table.allTable = new ScheduleGroup(table.allBody,secModal);
+    table.pinnedTable = new ScheduleGroup(table.pinnedBody,secModal);
 
     
     const cModal = document.getElementById("coursesModal");
@@ -392,12 +396,12 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   }
 
   sectionModal.next.addEventListener("click", function(){
-    const t = table.tableObj;
+    const t = table.allTable;
     t.changeActiveSec("",t.activeGroup.activeSecIndex + 1);
     t.displaySectionDetails();
   });
   sectionModal.prev.addEventListener("click", function(){
-    const t = table.tableObj;
+    const t = table.allTable;
     t.changeActiveSec("",t.activeGroup.activeSecIndex - 1);
     t.displaySectionDetails();
   });
