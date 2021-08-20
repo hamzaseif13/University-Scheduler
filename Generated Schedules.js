@@ -42,7 +42,7 @@ class TimeTable {
 
     this.#table = table;
     this.#columns = table.querySelectorAll(".tableCol");
-    this.#updateCellHeight();
+    this.updateCellHeight();
     this.#resizeEvents();
     this.#rightClick();
   }
@@ -211,7 +211,7 @@ class TimeTable {
   #resizeEvents() {
     window.addEventListener("resize", () => {
       const oldHeight = this.cellHeight;
-      this.#updateCellHeight();
+      this.updateCellHeight();
       
       const cards = this.#table.querySelectorAll(".card");
       for (const card of cards) {
@@ -269,9 +269,9 @@ class TimeTable {
     for (const col of this.#columns) {
       col.innerHTML = "";
     }
-    this.#updateCellHeight();
+    this.updateCellHeight();
   }
-  #updateCellHeight(){
+  updateCellHeight(){
     this.cellHeight = this.#table.querySelector(".hours").offsetHeight;
 
     for (const col of this.#columns) {
@@ -299,18 +299,117 @@ class TimeTable {
   }
 }
 
-let schedules = [], scheduleIndex = 0;
-const pinned = [];
-function displaySchedule(){
-  table.indexInput.value = (scheduleIndex + 1) ;
-  table.numOfTables.innerHTML = " / " + Math.max(1,schedules.length);
-  if(schedules.length == 0){
-    table.tableObj.reset();
-    return;
+class ScheduleGroup{
+  #schedules;
+  #activeIndex
+  #tableObj;
+  constructor(table , modal){
+    this.#schedules = [];
+    this.#tableObj = new TimeTable(table , modal);
+    this.#activeIndex = 0;
   }
-  table.tableObj.reset();
-  for (const sec of schedules[scheduleIndex].sections) {
-    table.tableObj.addSection(Array.isArray(sec)?sec:[sec]);
+  display(){
+    this.#tableObj.reset();
+    if(this.#schedules.length == 0)
+      return;
+
+    for (const sec of this.activeSchedule.sections) {
+      this.#tableObj.addSection(Array.isArray(sec)?sec:[sec]);
+    }
+  }
+  get activeSchedule(){
+    if(this.numOfSchedules == 0)
+      return {};
+    return this.#schedules[this.#activeIndex];
+  }
+  get activeIndex(){
+    return this.#activeIndex;
+  }
+  get numOfSchedules(){
+    return this.#schedules.length;
+  }
+  addSchedule(s){
+    if(s.id === undefined || s.id < 0){
+      console.error("schedule id must be a number > 0");
+      return;
+    }
+    if(s.score === undefined)
+      this.#calcScore(s);
+    this.#schedules.push(s);
+  }
+  changeActiveIndex(val){
+    if(val >= this.#schedules.length ||val < 0){
+      if(val == this.#schedules.length || val == -1)
+        val = (val + this.#schedules.length)%this.#schedules.length;
+      else{
+        return val;
+      }
+    }
+  
+    this.#activeIndex = val;
+    return val;
+  }
+  nextSchedule(){
+    this.changeActiveIndex(this.#activeIndex + 1);
+  }
+  prevSchedule(){
+    this.changeActiveIndex(this.#activeIndex - 1);
+  }
+  deleteSchedule(id){
+    if(this.numOfSchedules == 0)
+      return;
+
+    let index;
+    if(id != undefined)
+      index = this.searchScheduleIndex(id);
+    else
+      index = this.#activeIndex;
+    this.#schedules.splice(index,1);
+
+    if(this.#activeIndex != 0 && this.#activeIndex == this.numOfSchedules)
+      this.#activeIndex--;
+  }
+  searchScheduleIndex(id){
+    return this.#schedules.findIndex((val)=>{
+      return val.id === id;
+    })
+  }
+  #calcScore(schedule){
+    schedule.score = schedule.id;
+  }
+  refreshTable(){
+    this.#tableObj.updateCellHeight();
+  }
+  reset(){
+    this.#tableObj.reset();
+    this.#schedules = [];
+    this.#activeIndex = 0;
+  }
+}
+
+
+let activeTable;
+let activeTab = "all";
+
+setTimeout(() => {
+  activeTable = table.allTable;
+}, 0);
+
+function displaySchedule(){
+  table.indexInput.value = (activeTable.activeIndex + 1) ;
+  table.numOfTables.innerHTML = " / " + Math.max(1,activeTable.numOfSchedules);
+  
+  activeTable.display();
+
+  if(activeTab != "pinned"){
+    if(table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1){
+      table.pinBtn.style.display = "none";
+      table.unpinBtn.style.display = "block";
+    }
+    else{
+      table.pinBtn.style.display = "block";
+      table.unpinBtn.style.display = "none";
+    }
   }
 }
 function generate(changeColor){
@@ -319,71 +418,84 @@ function generate(changeColor){
 
   tableCover.className = tableCover.className.replace("hidden",""); //display loading
   setTimeout(()=>{//to make the browser render the change first then execute _generateScheduleFunction
-    schedules = app._generateScheduleFunction();
-    calcScore();
+    const arr = app._generateScheduleFunction();
+    table.allTable.reset();
+    for (let i=0,l=arr.length;i<l;i++) {
+      table.allTable.addSchedule({sections:arr[i] , id:i})
+    }
     tableCover.className += "hidden";
-    scheduleIndex = 0;
+    table.allTable.changeActiveIndex(0);
     displaySchedule();
   }, 5)
 }
-function calcScore(){
-  let i = 0;
-  for (const s of schedules) {
-    const obj = {};
-    obj.id = i;
-    obj.sections = s;
-
-    obj.score = i;
-
-    schedules[i++] = obj;
-  }
-}
 
 function changeActiveSchedule(val){
-  if(val > schedules.length ||val < 1){
-    if(val == schedules.length+1 || val == 0)
-      val = (val + schedules.length - 1)%schedules.length+1;
-    else{
-      displaySchedule();
-      return val;
-    }
-  }
-
-  scheduleIndex = val - 1;
+  let res = activeTable.changeActiveIndex(val-1)
   displaySchedule();
-  return val;
+  return res;
 }
 function nextSchedule(){
-  changeActiveSchedule(scheduleIndex + 1 + 1);
+  activeTable.nextSchedule();
+  displaySchedule();
 }
 function prevSchedule(){
-  changeActiveSchedule(scheduleIndex - 1 + 1);
+  activeTable.prevSchedule();
+  displaySchedule();
 }
 function deleteSchedule(){
-  schedules.splice(scheduleIndex,1);
-  if(scheduleIndex == schedules.length)
-    scheduleIndex--;
+  const id = activeTable.activeSchedule.id;
+
+  table.allTable.deleteSchedule(id);
+  table.pinnedTable.deleteSchedule(id);
   
-    displaySchedule();
+  displaySchedule();
 }
 function pinSchedule(){
-  if(pinned.find((val)=>{return val.id === schedules[scheduleIndex].id}) === undefined)
-    pinned.unshift(schedules[scheduleIndex]);
-  
+  if(table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) === -1){
+    table.pinnedTable.addSchedule(activeTable.activeSchedule);
     displaySchedule();
+    return false;
+  }
+  return true;
+}
+function unpinSchedule(){
+  if(table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1)
+    table.pinnedTable.deleteSchedule(activeTable.activeSchedule.id);
+
+  displaySchedule();
 }
 function printSchedule(){
-  console.log(schedules[scheduleIndex]);
+  console.log(activeTable.activeSchedule);
 }
-
-
+function pinnedSchedule(){
+  activeTable = table.pinnedTable;
+  activeTab = "pinned";
+  setTimeout(()=>{
+    table.pinnedTable.refreshTable();
+    table.pinBtn.style.display = "none";
+    table.unpinBtn.style.display = "block";
+    displaySchedule();
+  },200);
+}
+function allSchedule(){
+  activeTable = table.allTable;
+  activeTab = "all";
+  setTimeout(()=>{
+    table.pinBtn.style.display = "block";
+    table.unpinBtn.style.display = "none";
+    displaySchedule();
+  },200);
+}
 export default{
-  generate, 
+  generate,
   changeActiveSchedule,
   nextSchedule,
   prevSchedule,
   deleteSchedule,
   pinSchedule,
-  printSchedule
+  unpinSchedule,
+  printSchedule,
+  pinnedSchedule,
+  allSchedule,
 };
-export {TimeTable};
+export {ScheduleGroup};
