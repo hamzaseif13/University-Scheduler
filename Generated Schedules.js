@@ -1,5 +1,6 @@
 import app from "./Scheduler.js";
 import {table,htmlCreator,tableCover} from "./script.js"
+import calcScore from "./Calculate Score.js";
 
 const colors = {
   array: [],
@@ -335,7 +336,13 @@ class ScheduleGroup{
     }
     if(s.score === undefined)
       this.#calcScore(s);
-    this.#schedules.push(s);
+
+    let index = this.#schedules.findIndex((val)=>{
+      return val.score > s.score;
+    });
+    index = index == -1? this.numOfSchedules : index;
+    this.#schedules.splice(index,0,s);
+    // console.log(this.#schedules);
   }
   changeActiveIndex(val){
     if(val >= this.#schedules.length ||val < 0){
@@ -374,8 +381,8 @@ class ScheduleGroup{
       return val.id === id;
     })
   }
-  #calcScore(schedule){
-    schedule.score = schedule.id;
+  #calcScore(s){
+    s.score = calcScore(s.sections);
   }
   refreshTable(){
     this.#tableObj.updateCellHeight();
@@ -390,6 +397,7 @@ class ScheduleGroup{
 
 let activeTable;
 let activeTab = "all";
+let idCounter = 0;
 
 setTimeout(() => {
   activeTable = table.allTable;
@@ -420,8 +428,8 @@ function generate(changeColor){
   setTimeout(()=>{//to make the browser render the change first then execute _generateScheduleFunction
     const arr = app._generateScheduleFunction();
     table.allTable.reset();
-    for (let i=0,l=arr.length;i<l;i++) {
-      table.allTable.addSchedule({sections:arr[i] , id:i})
+    for (const s of arr) {
+      table.allTable.addSchedule({sections:s , id:idCounter++})
     }
     tableCover.className += "hidden";
     table.allTable.changeActiveIndex(0);
