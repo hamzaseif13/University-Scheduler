@@ -19,7 +19,7 @@ class DoubleRange{
     this.#values = [min , max];
 
     this.#bar = elem.querySelector(".bar");
-    this.#offsetX = this.#bar.offsetLeft;
+    this.#offsetX = this.#bar.getBoundingClientRect().left;
     this.#barWidth = this.#bar.clientWidth;
     this.#colored = this.#bar.querySelector(".colored");
 
@@ -29,44 +29,53 @@ class DoubleRange{
     const self = this;
     for(let i = 0;i<2;i++){
       let dragFlag = false;
-      self.#sliders[i].addEventListener("mousedown", function(event){
-        event.preventDefault();
-        dragFlag = true;
-      });
-      window.addEventListener("mouseup", function(event){
-        dragFlag = false;
-      });
-      document.body.addEventListener("mousemove", function(event){
-        if(dragFlag){
-          let pos = event.x - self.#offsetX - 8;
-          if(0 < pos && pos < self.#barWidth){
-            let oldVal = self.#values[i];
-            self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
+      function start(event){
+          event.preventDefault();
+          dragFlag = true;
+      }
+      function end(){
+          dragFlag = false;
+      }
+      function move(event){
+          if(dragFlag){
+            let pos = event.clientX - self.#offsetX;
+            if(0 < pos && pos < self.#barWidth){
+              let oldVal = self.#values[i];
+              self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
 
-            if(self.#values[i] == oldVal)
-              return;
-
-            if(self.#values[0] >= self.#values[1]){
-              // self.#values[i]=oldVal;
-              //   return;
-              let delta = self.#values[i] - oldVal;
-              if(i)
-                self.minValue += delta;
-              else
-                self.maxValue += delta;
-
-              if(self.maxValue === self.minValue){
-                self.#values[i] = oldVal;
+              if(self.#values[i] == oldVal)
                 return;
+
+              if(self.#values[0] >= self.#values[1]){
+                // self.#values[i]=oldVal;
+                //   return;
+                let delta = self.#values[i] - oldVal;
+                if(i)
+                  self.minValue += delta;
+                else
+                  self.maxValue += delta;
+
+                if(self.maxValue === self.minValue){
+                  self.#values[i] = oldVal;
+                  return;
+                }
               }
+              self.#updateSliderPos(i);
+              self.onchange();
             }
-            self.#updateSliderPos(i);
-            self.onchange();
           }
-        }
-      });
+      }
+      self.#sliders[i].addEventListener("mousedown", start);
+      window.addEventListener("mouseup", end);
+      document.body.addEventListener("mousemove", move);
+      
+      self.#sliders[i].addEventListener("touchstart", start);
+      window.addEventListener("touchend", end);
+      document.body.addEventListener("touchmove", (e)=>{move(e.touches[0]);});
+
+
       window.addEventListener("resize",()=>{
-        this.#offsetX = this.#bar.offsetLeft;
+        this.#offsetX = this.#bar.getBoundingClientRect().left;
         this.#barWidth = this.#bar.clientWidth;
       });
     }
@@ -116,7 +125,9 @@ const options = {},
     indexInput: undefined,
     next: undefined,
     prev: undefined,
-    allTable: undefined
+    allTable: undefined,
+    allBody:undefined,
+    pinnedBody:undefined
   },
   sectionModal = {
     body: undefined,
@@ -378,6 +389,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   }
 
   { //table events
+    let touchX=-1;
+    let touchY = 0;
     options["generateschedule"].submit.addEventListener("click",()=>{
       schedules.generate(true);
     });
@@ -393,6 +406,41 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         });
       }
     }
+
+    table.allBody.addEventListener("touchstart",function(event){
+      if(touchX === -1){
+        event.preventDefault();
+        touchX = event.touches[0].clientX;
+      }
+      touchY = event.touches[0].clientY;
+    });
+    table.pinnedBody.addEventListener("touchstart",function(event){
+      if(touchX === -1){
+        event.preventDefault();
+        touchX = event.touches[0].clientX;
+      }
+      touchY = event.touches[0].clientY;
+    });
+    document.body.addEventListener("touchmove", function(event){
+      if(touchX != -1){
+        const deltaX = event.touches[0].clientX - touchX;
+        const deltaY = event.touches[0].clientY - touchY;
+
+        if(Math.abs(deltaY) > 50){
+          window.scrollBy(0,-deltaY);
+          return;
+        }
+
+        if(deltaX > 50){
+          schedules.prevSchedule();
+          touchX = -1;
+        }
+        else if(deltaX < -50){
+          schedules.nextSchedule();
+          touchX = -1;
+        }
+      }
+    });
   }
 
   sectionModal.next.addEventListener("click", function(){
@@ -414,6 +462,12 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   document.body.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
       cousresModal.bootstrapModal.hide();
+    }
+    else if(event.key === "ArrowRight"){
+      schedules.nextSchedule();
+    }
+    else if(event.key === "ArrowLeft"){
+      schedules.prevSchedule();
     }
   });
   
