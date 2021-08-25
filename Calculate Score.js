@@ -1,42 +1,62 @@
 
 
 function calcScore(schedule){
-    const days = ["sun", "mon", "tue", "wed", "thu", "sat"];
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Sat"];
     const daysArr = {
-        sun:[],
-        mon:[],
-        tue:[],
-        wed:[],
-        thu:[],
-        sat:[]
+        Sun:[],
+        Mon:[],
+        Tue:[],
+        Wed:[],
+        Thu:[],
+        Sat:[]
     };  
 
     for(const day of days){
         for(let sec of schedule){
             sec = sec[0];
-            if(sec.days.toLowerCase().includes(day))
+            if(sec.days.includes(day))
                 daysArr[day].push(sec);
         }
     }
     let score = 0;
+    let sumUniT = 0;
+    let sumDays = 0
+    let arr = []
     for (const day in daysArr) {
-        score += dayScore(daysArr[day]);
+        if(daysArr[day].length > 0){
+            daysArr[day] = dayStats(daysArr[day]);
+            score -= daysArr[day].studyPer*10;
+            sumUniT += daysArr[day].uniT;
+            sumDays++;
+            arr.push(daysArr[day].uniT);
+        }
+        else
+            score -= 10000;
     }
 
-    // console.log(score,daysArr);
-    return score;
+    let avg = sumUniT/sumDays;
+    score += Math.sqrt(arr.reduce((sum,val)=>{
+        return sum + (val - avg)**2
+    },0)/sumDays);
+    // console.log(score);
+    return ~~score;
 }
-function dayScore(dayArr){
-    if(dayArr.length < 2)
-        return 0;
+function dayStats(dayArr){
+    // if(dayArr.length == 0)
+    //     return 200;
     dayArr.sort((a,b)=>{
         return a.endTime - b.endTime;
     });
-    let score = 0;
-    for (let i = 1; i < dayArr.length; i++) {
-        score += dayArr[i].startTime - dayArr[i-1].endTime;
+
+    const uniT = dayArr[dayArr.length - 1].endTime - dayArr[0].startTime;
+    
+    let studyT = 0;
+    for (const sec of dayArr) {
+        studyT += sec.endTime - sec.startTime;;
     }
-    return score;
+    let obj = {uniT: uniT , studyPer: studyT/uniT * 100};
+    // console.log(obj);
+    return obj;
 }
 
 export default calcScore;

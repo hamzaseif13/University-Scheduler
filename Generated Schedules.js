@@ -1,6 +1,7 @@
 import app from "./Scheduler.js";
 import {table,htmlCreator,tableCover} from "./script.js"
 import calcScore from "./Calculate Score.js";
+import { advancedSearch } from "./Database.js";
 
 const colors = {
   array: [],
@@ -304,12 +305,15 @@ class ScheduleGroup{
   #schedules;
   #activeIndex
   #tableObj;
+  #sorted;
   constructor(table , modal){
     this.#schedules = [];
     this.#tableObj = new TimeTable(table , modal);
     this.#activeIndex = 0;
+    this.#sorted = false;
   }
   display(){
+    this.sort();
     this.#tableObj.reset();
     if(this.#schedules.length == 0)
       return;
@@ -337,12 +341,8 @@ class ScheduleGroup{
     if(s.score === undefined)
       this.#calcScore(s);
 
-    let index = this.#schedules.findIndex((val)=>{
-      return val.score > s.score;
-    });
-    index = index == -1? this.numOfSchedules : index;
-    this.#schedules.splice(index,0,s);
-    // console.log(this.#schedules);
+    this.#schedules.push(s);
+    this.#sorted = false;
   }
   changeActiveIndex(val){
     if(val >= this.#schedules.length ||val < 0){
@@ -384,6 +384,11 @@ class ScheduleGroup{
   #calcScore(s){
     s.score = calcScore(s.sections);
   }
+  sort(){
+    if(!this.#sorted)
+      this.#schedules.sort((a,b)=>a.score - b.score);
+    this.#sorted = true;
+  }
   refreshTable(){
     this.#tableObj.updateCellHeight();
   }
@@ -391,6 +396,29 @@ class ScheduleGroup{
     this.#tableObj.reset();
     this.#schedules = [];
     this.#activeIndex = 0;
+  }
+  stats(){
+    const weekDays = ["sun", "mon", "tue", "wed", "thu", "sat"];
+    const obj = {
+      daysNum:[0,0,0,0,0,0]
+    };
+    for (const schedule of this.#schedules) {
+      const sections = schedule.sections.map((val)=>val[0]);
+      let daysNum=0;
+      for (const day of weekDays) {
+        if(advancedSearch(sections, false, [day,"days"]).length >= 1)
+          daysNum++;
+      }
+      {//num of days
+        obj.daysNum[daysNum]++;
+      }
+      {//avg on campus hours per school day
+        
+      }
+    }
+
+    console.log(obj);
+    return obj;
   }
 }
 
@@ -425,7 +453,7 @@ function generate(changeColor){
     colors.colorGroup +=1;
 
   tableCover.className = tableCover.className.replace("hidden",""); //display loading
-  setTimeout(()=>{//to make the browser render the change first then execute _generateScheduleFunction
+  const subGenerate = ()=>{//to make the browser render the change first then execute _generateScheduleFunction
     const arr = app._generateScheduleFunction();
     table.allTable.reset();
     for (const s of arr) {
@@ -434,7 +462,9 @@ function generate(changeColor){
     tableCover.className += "hidden";
     table.allTable.changeActiveIndex(0);
     displaySchedule();
-  }, 5)
+    // table.allTable.stats();
+  }
+  setTimeout(subGenerate, 5)
 }
 
 function changeActiveSchedule(val){
