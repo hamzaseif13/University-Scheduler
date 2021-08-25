@@ -1,6 +1,6 @@
-import app from "./Scheduler.js";
-import schedules from "./Generated Schedules.js";
-import  {ScheduleGroup} from "./Generated Schedules.js";
+import app from "./scripts/Scheduler.js";
+import schedules from "./scripts/Generated Schedules.js";
+import  {ScheduleGroup} from "./scripts/Generated Schedules.js";
 
 class DoubleRange{
   #sliders;
