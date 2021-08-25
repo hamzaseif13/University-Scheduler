@@ -148,7 +148,7 @@ function search(val, searchBy = "lineNumber") {
 }
 
 function advancedSearch(arr,strict,...conditions){
-  // strict:(true/false) ,condition => {val:"val" , searchBy: "searchBy" , op:(and/or)} /OR/ ["val","searchBy","and/or"]
+  // strict:(true/false) ,condition => {val:"val" , searchBy: "searchBy" , op:("and"/"or"),not:(true/false)} /OR/ ["val","searchBy","and/or",not(true/false)]
   // in strict = true => (cond.val === course[prop])
   //in strict = false => val(string/RegExp) if val(string) => case-insensetive , spaces are trimmed from the start and end
   if(!Array.isArray(arr))
