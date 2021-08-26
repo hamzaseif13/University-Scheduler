@@ -72,13 +72,13 @@ class DoubleRange{
       self.#sliders[i].addEventListener("touchstart", start);
       window.addEventListener("touchend", end);
       document.body.addEventListener("touchmove", (e)=>{move(e.touches[0]);});
-
-
-      window.addEventListener("resize",()=>{
-        this.#offsetX = this.#bar.getBoundingClientRect().left;
-        this.#barWidth = this.#bar.clientWidth;
-      });
     }
+    
+
+    window.addEventListener("resize",()=>{
+      this.#offsetX = this.#bar.getBoundingClientRect().left;
+      this.#barWidth = this.#bar.clientWidth;
+    });
   }
   #updateSliderPos(i){
     this.#sliders[i].style.left ="calc("+ ((this.#values[i] - this.min)  /(this.max - this.min)) * 100 + "% - 8px)";
@@ -221,14 +221,14 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     checked = !checked;
     if (checked) {
       cousresModal.selected.push(course.lineNumber);
-      card.className += " border-success";
+      card.className += " border-2 border-success shadow-lg";
     } else {
       let index = cousresModal.selected.findIndex((courseNum) => {
         return courseNum === course.lineNumber;
       });
       if (index != -1) {
         cousresModal.selected.splice(index, 1);
-        card.className = card.className.replace(" border-success", "");
+        card.className = card.className.replace(" border-2 border-success shadow-lg", "");
       }
     }
   });

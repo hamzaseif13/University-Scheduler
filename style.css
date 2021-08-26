@@ -1,14 +1,16 @@
 body{
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 #container{
     width: 100vw;
-    min-height: 100vh;
+    height: 100vh;
     margin: 0;
     border: 0;
-    overflow: auto;
     align-items: center;
+    overflow-x: hidden;
+    
 
     /* display: flex;
     flex-direction: column; */
@@ -54,11 +56,10 @@ body{
     aspect-ratio: 1/1;
     margin: auto;
 } */
-#options{
-    /* display: flex;
-    flex-direction: row; */
-    /* height: fit-content; */
-    max-height: 100vh;
+@media only screen and (min-width: 768px) {
+    #options{
+        max-height: 100vh;
+    }
 }
 #options .option{
     /* border: 1px solid black;
@@ -125,22 +126,9 @@ body{
     left: calc(100% - 8px);
 }
 #table{
-    overflow: hidden;
     position: relative;
-    /* width: 100%; */
-    aspect-ratio: 1/1.1;
-    /* max-width: 1000px; */
-
-    display: grid;
-    grid-template: 1.3fr 1fr 90% / 1fr 1fr;
-    
-    /* min-height: 500px; */
-}
-#table .input-group{
-    grid-column: 1/3;
 }
 #table .input-group input{
-    width: 3em;
     font-size: x-large;
 }
 #table .content{
@@ -148,7 +136,8 @@ body{
 }
 .timeTable{
     /* font-size: 1.5vw; */
-    height: 100%;
+    width: 100%;
+    aspect-ratio: 1/1;
     border: 1px solid black;
     position: relative;
 }
