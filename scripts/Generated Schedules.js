@@ -312,6 +312,8 @@ class ScheduleGroup{
     this.#tableObj = new TimeTable(table , modal);
     this.#activeIndex = 0;
     this.#sorted = false;
+
+    this.days = app.getDays();
   }
   display(){
     this.sort();
@@ -347,7 +349,9 @@ class ScheduleGroup{
   }
   changeActiveIndex(val){
     if(val >= this.#schedules.length ||val < 0){
-      if(val == this.#schedules.length || val == -1)
+      if(this.#schedules.length === 0)
+        val = 0;
+      else if(val == this.#schedules.length || val == -1)
         val = (val + this.#schedules.length)%this.#schedules.length;
       else{
         return val;
@@ -383,7 +387,7 @@ class ScheduleGroup{
     })
   }
   #calcScore(s){
-    s.score = calcScore(s.sections);
+    s.score = calcScore(s.sections, app.getDays());
   }
   sort(){
     if(!this.#sorted)

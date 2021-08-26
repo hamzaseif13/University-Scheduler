@@ -271,7 +271,9 @@ function setOptions(days,dayStart,dayEnd){
   options[1] = dayStart;
   options[2] = dayEnd;
 }
-
+function getDays(){
+  return options[0];
+}
 export default {
   courses: myCourses,
   _addCourseFunction,
@@ -279,6 +281,7 @@ export default {
   _searchFunction,
   _generateScheduleFunction,
   setOptions,
+  getDays,
 };
 function filterSet(set){
 
