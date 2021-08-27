@@ -3,7 +3,7 @@ import { advancedSearch } from "./Database.js";
 
 const myCourses = [],
   schedule = [],
-  options = ["all sun mon tue wed thu",830,1830];
+  options = ["all sun mon tue wed thu",8.5,18.5];
 
 function courseIndex(courseNum) {
   //function to search the index of a course inside #myCourses

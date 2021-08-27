@@ -168,10 +168,10 @@ class TimeTable {
       "dropend card text-center w-100 overflow-visible fw-bold"
     );
     card.style.position = "absolute";
-    card.style.height = this.cellHeight * sections[0].timeObj.deltaT() + "px";
+    card.style.height = this.cellHeight * sections[0].timeObj.delta().totalHours + "px";
     card.style.top =
       this.cellHeight *
-        (((sections[0].timeObj.start.h - 8 + 12) % 12) + sections[0].timeObj.start.m / 60) +
+        (sections[0].timeObj.start.totalHours - 8) +
       "px";
 
     let colIndex = 0;

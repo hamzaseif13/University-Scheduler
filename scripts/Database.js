@@ -1,5 +1,171 @@
 import HTMLData from "./data.js";
 
+class Time{
+  #totalMinutes;
+  constructor(min = 0){
+    this.#totalMinutes = min;
+  }
+  setTime(t){
+    if(typeof t === "number"){
+      t = toString(t);
+    }
+    if(typeof t === "string"){
+      let PMFlag = false;
+      t = t.toLowerCase();
+      let m , h;
+      
+      if(t.includes("am")){
+        t = t.replace("am" ,"");
+      }
+      else if(t.includes("pm")){
+        PMFlag = true;
+        t = t.replace("pm" ,"");
+      }
+
+      if(t.includes(":")){
+        t = t.split(":");
+        h = t[0];
+        m = t[1];
+      }
+      else{
+        if(t.length == 4 || t.length == 3){
+          h = t.slice(0 , -2)
+          m = t.slice(-2);
+        }
+        else{
+          h = t;
+          m = 0;
+        }
+        
+      }
+      h = parseInt(h);
+      m = parseInt(m);
+      if(PMFlag && h != 12) h+=12;
+
+      this.#totalMinutes = h * 60 + m;
+    }
+    else{
+      console.error("invalid time format");
+      return false;
+    }
+    if(this.isOutOfBound()){
+      console.warn("Time Out of Bound. time must be less than 24 hours and more than 0");
+      // return false;
+    }
+    return true;
+  }
+  set totalMinutes(m){
+    if(typeof m === "number")
+      this.#totalMinutes = m;
+  }
+  set totalHours(h){
+    this.#totalMinutes = h * 60;
+  }
+
+  get totalMinutes(){
+    return this.#totalMinutes;
+  }
+  get totalHours(){
+    return this.#totalMinutes / 60;
+  }
+  get string24(){
+    if(this.isOutOfBound()) return "Time Out of Bound";
+
+    let h = Math.floor(this.totalHours);
+    let m = Math.round((this.totalHours - h) * 60);
+    
+    if(m < 10) m = "0" + m;
+    
+    return h + ":" + m;
+  }
+  get string12(){
+    if(this.isOutOfBound()) return "Time Out of Bound";
+    
+    let am_pm = "AM";
+
+    let h = Math.floor(this.totalHours);
+    let m = Math.round((this.totalHours - h) * 60);
+
+    if(h >= 12){
+      if(h != 24) am_pm = "PM"; //24 => 12am (midnight)
+      if(h != 12) h -= 12; //12pm (midday)
+    }
+    if(m < 10) m = "0" + m;
+
+    return h + ":" + m + am_pm;
+  }
+  isOutOfBound(startHour = 0, endHour = 24){
+    return (this.#totalMinutes > endHour*60 || this.#totalMinutes < startHour*60);
+  }
+  isValid(){
+    return typeof this.#totalMinutes === "number" && !isNaN(this.#totalMinutes);
+  }
+
+  increaseBy(t){
+    if(!(tObj instanceof Time)){
+      const val = tObj;
+      tObj = new Time();
+      tObj.setTime(val);
+    }
+
+    this.#totalMinutes += t.totalMinutes;
+  }
+  decreaseBy(t){
+    if(!(tObj instanceof Time)){
+      const val = tObj;
+      tObj = new Time();
+      tObj.setTime(val);
+    }
+
+    this.#totalMinutes -= t.totalMinutes;
+  }
+
+  static isValid(value){
+    if(!(value instanceof Time)){
+      const val = value;
+      value = new Time();
+      value.setTime(val);
+    }
+    return value.isValid();
+  }
+  static isOutOfBound(value, startHour = 0, endHour = 24){
+    if(!(value instanceof Time)){
+      const val = value;
+      value = new Time();
+      value.setTime(val);
+    }
+    return value.isOutOfBound(startHour, endHour);
+  }
+  static add(...tArr){
+    let sum = 0;
+
+    for (let tObj of tArr) {
+      if(!(tObj instanceof Time)){
+        const val = tObj;
+        tObj = new Time();
+        tObj.setTime(val);
+      }
+      sum += t.totalMinutes;
+    }
+    return new Time(sum);
+  }
+  static subtract(t1, t2){
+    if(!(t1 instanceof Time)){
+      const val = tObj;
+      t1 = new Time();
+      t1.setTime(val);
+    }
+    
+    if(!(t2 instanceof Time)){
+      const val = tObj;
+      t2 = new Time();
+      t2.setTime(val);
+    }
+
+    return new Time(t1.totalMinutes - t2.totalMinutes);
+  }
+}
+
 class Course {
     constructor() {
       this.semester = "";
@@ -48,32 +214,14 @@ class Section {
       this.startTime = undefined;
       this.endTime = undefined;
       this.timeObj = {
-        start: {
-          h: 0,
-          m: 0,
-        },
-        end: {
-          h: 0,
-          m: 0,
-        },
-        deltaH: function () {
-          return (this.end.h - this.start.h + 12) % 12;
-        }, //if less than 0 add 12
-        deltaM: function () {
-          return this.end.m - this.start.m;
-        },
-        deltaT: function () {
-          return this.deltaH() + this.deltaM() / 60;
-        },
+        start: new Time(),
+        end: new Time(),
+        delta(){return Time.subtract(this.end , this.start);},
         string: function () {
           return (
-            this.start.h +
-            ":" +
-            this.start.m +
+            this.start.string12 +
             " - " +
-            this.end.h +
-            ":" +
-            this.end.m
+            this.end.string12
           );
         },
       };
@@ -104,31 +252,18 @@ class Section {
       this.teachingType = teachingType;
     }
     set time(val) {
+      if(val == "حسب القسم")
+        return;
+
       let arr = val.split("**");
-      arr = arr.map((val) => {
-        val = parseInt(val, 10);
-        if (val < 800)
-          //if time < 8:00 then it is PM so add 12 hours to convert to 24 Hours
-          val += 1200;
-  
-        return val;
-      }); //.sort((a, b)=> a - b);
-      this.startTime = arr[0];
-      this.endTime = arr[1];
-  
-      let tsH = Math.floor(this.startTime / 100);
-      tsH = tsH > 12 ? tsH - 12 : tsH;
-      let tsM = this.startTime % 100 == 0 ? "00" : this.startTime % 100;
-  
-      this.timeObj.start.h = tsH;
-      this.timeObj.start.m = tsM;
-  
-      let teH = Math.floor(this.endTime / 100);
-      teH = teH > 12 ? teH - 12 : teH;
-      let teM = this.endTime % 100 == 0 ? "00" : this.endTime % 100;
-  
-      this.timeObj.end.h = teH;
-      this.timeObj.end.m = teM;
+      if(parseInt(arr[0]) < 700) arr[0] += "pm";
+      if(parseInt(arr[1]) < 700) arr[1] += "pm";
+
+      this.timeObj.start.setTime(arr[0]);
+      this.timeObj.end.setTime(arr[1]);
+
+      this.startTime = this.timeObj.start.totalHours;
+      this.endTime = this.timeObj.end.totalHours;
     }
 }
 
@@ -305,4 +440,4 @@ function filterHTML(html){
 // console.table(arr.length);
 
 export default search;
-export {advancedSearch, filterHTML};
+export {advancedSearch, filterHTML, Time};
