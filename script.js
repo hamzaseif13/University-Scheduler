@@ -1,6 +1,7 @@
 import app from "./scripts/Scheduler.js";
 import schedules from "./scripts/Generated Schedules.js";
 import  {ScheduleGroup} from "./scripts/Generated Schedules.js";
+import {Time} from "./scripts/Database.js";
 
 class DoubleRange{
   #sliders;
@@ -342,8 +343,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     });
     
     let daysString = "all";
-    let dayStart = 830;
-    let dayEnd = 1830;
+    let dayStart = new Time(8.5 * 60);
+    let dayEnd = new Time(18.5);
     for(const day in options["days"]){
       options.days[day].addEventListener("change", function(){
         daysString = daysString.replace("all","");
@@ -364,27 +365,51 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     // let timeoutID;
     options["time"].range.onchange = function(){
       // clearTimeout(timeoutID);
-      options["time"].min.value = hoursToStr(this.minValue);
-      options["time"].max.value = hoursToStr(this.maxValue);
+      dayStart.totalHours = this.minValue;
+      dayEnd.totalHours = this.maxValue;
 
-      dayStart = strToIntTime(hoursToStr(this.minValue));
-      dayEnd = strToIntTime(hoursToStr(this.maxValue));
-      app.setOptions(daysString,dayStart,dayEnd);
+      options["time"].min.value = dayStart.string24
+      options["time"].max.value = dayEnd.string24;
+
+      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
       // timeoutID = setTimeout(generate,100);//wait to stop changing for 100ms 
     };
     options["time"].min.addEventListener("change", function(){
-      options["time"].range.minValue = strToHours(this.value);
+      if(!Time.isValid(this.value)) {
+        this.value = dayStart.string24;
+        console.error("invalid time format");
+        return;
+      }
+      if(Time.isOutOfBound(this.value, 8.5, 18.5)){
+        this.value = dayStart.string24;
+        console.error("invalid time. Please choose time between 8:30 and 18:30");
+        return;
+      }
+      dayStart.setTime(this.value);
+      this.value = dayStart.string24;
+      
+      options["time"].range.minValue = dayStart.totalHours;
 
-      dayStart = strToIntTime(this.value);
-      app.setOptions(daysString,dayStart,dayEnd);
-      // generate();
+      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
     });
     options["time"].max.addEventListener("change", function(){
-      options["time"].range.maxValue = strToHours(this.value);
+      if(!Time.isValid(this.value)) {
+        this.value = dayEnd.string24;
+        console.error("invalid time format");
+        return;
+      }
+      if(Time.isOutOfBound(this.value, 8.5, 18.5)){
+        this.value = dayEnd.string24;
+        console.error("invalid time. Please choose time between 8:30 and 18:30");
+        return;
+      }
+      
+      dayEnd.setTime(this.value);
+      this.value = dayEnd.string24;
+      
+      options["time"].range.maxValue = dayEnd.totalHours;
 
-      dayEnd = strToIntTime(this.value);
-      app.setOptions(daysString,dayStart,dayEnd);
-      // generate();
+      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
     });
   }
 
@@ -426,7 +451,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         const deltaX = event.touches[0].clientX - touchX;
         const deltaY = event.touches[0].clientY - touchY;
 
-        if(Math.abs(deltaY) > 50){
+        if(Math.abs(deltaY) > Math.abs(deltaX)){
           window.scrollBy(0,-deltaY);
           return;
         }
@@ -485,23 +510,6 @@ function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
 }
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
-}
-function hoursToStr(h){
-  let m = h - Math.floor(h);
-  h -= m;
-  m *= 60;
-  if(m==0)m="00";
-  return h + ":" + m;
-}
-function strToHours(str){
-  const t = str.split(":");
-  let h = parseInt(t[0]);
-  let m = parseInt(t[1]);
-  h += m/60;
-  return h;
-}
-function strToIntTime(str){
-  return parseInt(str.replace(":",""));
 }
 
 const ct = covers.table;

@@ -2,6 +2,7 @@ import app from "./Scheduler.js";
 import {table,htmlCreator,tableCover} from "../script.js"
 import calcScore from "./Calculate Score.js";
 import { advancedSearch } from "./Database.js";
+const html2pdf = window.html2pdf;
 
 const colors = {
   array: [],
@@ -168,10 +169,10 @@ class TimeTable {
       "dropend card text-center w-100 overflow-visible fw-bold"
     );
     card.style.position = "absolute";
-    card.style.height = this.cellHeight * sections[0].timeObj.deltaT() + "px";
+    card.style.height = this.cellHeight * sections[0].timeObj.delta().totalHours + "px";
     card.style.top =
       this.cellHeight *
-        (((sections[0].timeObj.start.h - 8 + 12) % 12) + sections[0].timeObj.start.m / 60) +
+        (sections[0].timeObj.start.totalHours - 8) +
       "px";
 
     let colIndex = 0;
@@ -508,7 +509,20 @@ function unpinSchedule(){
   displaySchedule();
 }
 function printSchedule(){
+  const element = htmlCreator("div","");
+  (function addLayout(){
+    htmlCreator("h5", element,"","text-center","Weekly Schedule");
+    element.appendChild(table[activeTab + "Body"].cloneNode(true))
+  })();
+  let opt = {
+    margin:       1,
+    filename:     'mySchedule.pdf',
+    image:        { type: 'jpeg', quality: 1 },
+    html2canvas:  { scale: 8 },//, windowWidth: 500, windowHeight: 1000},
+    jsPDF:        { unit: 'cm', format: 'a5', orientation: 'p' }
+  };
   console.log(activeTable.activeSchedule);
+  html2pdf(element, opt);
 }
 function pinnedSchedule(){
   activeTable = table.pinnedTable;
