@@ -283,32 +283,62 @@ export default {
   setOptions,
   getDays,
 };
-function filterSet(set){
+// function filterSet(set){
 
-  let filteredArray=[]
-  let daysString=options[0],dayStart=options[1],dayEnd=options[2];
-  for (let j = 0; j < set.length; j++) {
-    let invalidTime=true;
-    let invalidDay=true;
+//   let filteredArray=[]
+//   let daysString=options[0],dayStart=options[1],dayEnd=options[2];
+//   for (let j = 0; j < set.length; j++) {
+//     let invalidTime=true;
+//     let invalidDay=true;
    
-    for(let n=0;n<set.length;n++){
-      if (set[n][0].days.length==3){
-        if(daysString.includes(set[n][0].days.toLowerCase()))invalidDay=false;
-        else invalidDay=true;
+//     for(let n=0;n<set.length;n++){
+//       if (set[n][0].days.length==3){
+//         if(daysString.includes(set[n][0].days.toLowerCase()))invalidDay=false;
+//         else invalidDay=true;
+//       }
+//       if (set[n][0].days.length==7){
+//         if(daysString.includes(set[n][0].days.slice(0,3).toLowerCase())&&daysString.includes(set[n][0].days.slice(4,8).toLowerCase()))invalidDay=false;
+//         else invalidDay=true;
+//       }
+//       if(set[n][0].startTime>=dayStart&&set[n][0].endTime<=dayEnd){//to check if the sections are in the time range 
+//         invalidTime=false;
+//       }
+//       else invalidTime=true;
+//   }
+//     if (!invalidTime&&!invalidDay)
+//     {
+//     filteredArray.push(set[j])
+//     }
+// }
+// return filteredArray;
+// }
+function filterSet(set){
+  const filteredArray = [];
+  
+  let daysString=options[0],dayStart=options[1],dayEnd=options[2];
+
+  daysString = daysString.toLowerCase();
+
+  for(let i=0,l=set.length ; i < l ;i++){
+    const sec = set[i][0];
+    let invalid = false;
+
+    if(!daysString.includes("all")){
+      const days = sec.days.toLowerCase().split(" ");
+      for (const day of days) {
+        if(!daysString.includes(day)){
+          invalid = true;
+          break;
+        }
       }
-      if (set[n][0].days.length==7){
-        if(daysString.includes(set[n][0].days.slice(0,3).toLowerCase())&&daysString.includes(set[n][0].days.slice(4,8).toLowerCase()))invalidDay=false;
-        else invalidDay=true;
-      }
-      if(set[n][0].startTime>=dayStart&&set[n][0].endTime<=dayEnd){//to check if the sections are in the time range 
-        invalidTime=false;
-      }
-      else invalidTime=true;
-  }
-    if (!invalidTime&&!invalidDay)
-    {
-    filteredArray.push(set[j])
     }
-}
-return filteredArray;
+    if(sec.startTime < dayStart || sec.endTime > dayEnd){
+      invalid = true;
+      continue;
+    }
+
+    if(!invalid)
+      filteredArray.push(set[i]);
+  }
+  return filteredArray;
 }
