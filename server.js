@@ -1,7 +1,7 @@
 const express = require("express");
 
 const app = express();
-
+const database= req
 const PORT = 3000;
 
 var handlebars = require("express3-handlebars").create({
@@ -27,7 +27,10 @@ app.get("/signup", (req, res) => {
     res.render("signup");
 });
 
-
+app.post('/process',(req, res)=>{
+   console.log( req.body.subjects);
+   res.redirect("/tables")
+})
 
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);
