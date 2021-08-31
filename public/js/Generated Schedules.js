@@ -1,5 +1,5 @@
 import app from "./Scheduler.js";
-import {table,htmlCreator,tableCover} from "../script.js"
+import {table,htmlCreator,tableCover} from "./script.js"
 import calcScore from "./Calculate Score.js";
 import { advancedSearch } from "./Database.js";
 const html2pdf = window.html2pdf;
