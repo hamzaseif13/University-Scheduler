@@ -192,7 +192,7 @@ class Course {
       //   throw new Error("incorrect var type");
       // else
       this.sections.push(sec);
-      sec.course = this; //a pointer to the course of the section
+      
     }
     getSection(val, searchBy = "sectionNumber") {
       return this.sections.find((sec) => {
@@ -225,7 +225,7 @@ class Section {
           );
         },
       };
-      this.course = {}; //a pointer to the course of the section
+     
     }
     set(
       sectionNumber,
@@ -439,5 +439,6 @@ function filterHTML(html){
 // arr = advancedSearch(arr,false,[/thu/i,"days"])
 // console.table(arr.length);
 
+//   let search=await Course.find({symbol:{$regex:new RegExp(`^`+payload+".*","i")}}).exec();
 
 module.exports ={search,advancedSearch, filterHTML, Time};
