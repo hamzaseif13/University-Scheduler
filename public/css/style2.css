@@ -1,0 +1,296 @@
+body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+#container{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    border: 0;
+    align-items: center;
+    overflow-x: hidden;
+    
+
+    /* display: flex;
+    flex-direction: column; */
+}
+#header{
+    grid-column: 1 / span 2;
+    
+    text-align: center;
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-weight: bold;
+    font-size: large;
+
+    height: fit-content;
+}
+/* #stats{
+    grid-column: 1 / span 2;
+    background-color: #025dac;
+    height: 15vh;
+
+    color: white;
+
+    display: flex;
+    flex-direction: row;
+}
+#stats .display{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+#stats .display .value{
+    height: 80%;
+    aspect-ratio: 1/1;
+    text-align: center;
+    font-size: 3em;
+
+    margin: auto;
+
+    border: 5px solid #ffffff;
+    border-radius: 50%;
+}
+#stats .display .value div{
+    height: 60%;
+    aspect-ratio: 1/1;
+    margin: auto;
+} */
+@media only screen and (min-width: 768px) {
+    #options{
+        max-height: 100vh;
+    }
+}
+#options .option{
+    /* border: 1px solid black;
+    margin: 2px; */
+    /* max-height: 160px; */
+    display: grid;
+
+}
+#options .option > *{
+    margin: 1px;
+}
+#options .big.option{
+    grid-template: 0fr/*???*// 1fr 2fr;
+}
+#options .big.option button, 
+#options .big.option input
+{
+    grid-column: 1 / span 2;
+}
+.doubleRange{
+    position: relative;
+    display: block;
+
+    height: 22px;
+    width: 100%;
+}
+.doubleRange .bar{
+    position: absolute;
+    height: 6px;
+    width: 90%;
+    top: 7px;
+    left: 4%;
+    right: 5%;
+
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+    background-color: #e2e2e2;
+}
+.doubleRange .bar .colored{
+    position: absolute;
+    height: 6px;
+    width: 100%;
+    top: -2px;
+    background-color: #0d6efd;
+}
+.doubleRange .rangeSlider{
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    top: -7px;
+
+    z-index: 100;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.doubleRange .rangeSlider:hover{
+    box-shadow: 0 0 1.5px 1.5px #0d6efd;
+}
+.doubleRange .rangeSlider#minSlider{
+    left: calc(0% - 8px);
+}
+.doubleRange .rangeSlider#maxSlider{
+    left: calc(100% - 8px);
+}
+#table{
+    position: relative;
+}
+#table .input-group input{
+    font-size: x-large;
+}
+#table .content{
+    grid-column: 1/3;
+}
+.timeTable{
+    /* font-size: 1.5vw; */
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1px solid black;
+    position: relative;
+}
+.timeTable .tableHead{
+    height: 10%;
+    line-height: 200%;
+    font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+    font-weight: bold;
+    text-align: center;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.timeTable .tableHead span{
+    vertical-align: middle;
+}
+.timeTable .tableKeys{
+    height: 90%;
+}
+.timeTable .tableKeys .hours{
+    width: 100%;
+    height: 9%;
+    font-size: calc(10px + 6 * ((100vw - 320px) / 680));
+    position: relative;
+}
+.timeTable .tableKeys .hours span{
+    position: absolute;
+    top: calc(50% - (10px + 6 * ((100vw - 320px) / 680))* 3/4);
+    right: 10px;
+}
+.timeTable .tableCol{
+    height: 90%;
+    position: relative;
+    background-color: #ffffff;
+    border-right: 1px solid black;
+    font-size: calc(5px + 9 * ((100vh - 320px) / 680));
+    font-weight: bolder;
+}
+#sectionModal .modal-body .col-1 span{
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 0;
+    right: 0;
+
+    font-size: 30px;
+}
+/* #sectionModal .modal-body .col-1 span .next{
+    right: 0;
+}
+#sectionModal .modal-body .col-1 span .next{
+    left: 0;
+} */
+/* #container > div{
+    margin: 2px;
+    border: 1px solid black;
+} */
+/* remove arrows from number input */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.cover{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1000;
+    background-color: #00000038;
+    /* opacity: 0.7; */
+
+    display: flex;
+}
+.cover.hidden{
+    display: none;
+}
+
+ul.ks-cboxtags {
+    list-style: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    padding: 0;
+    text-align: center;
+}
+ul.ks-cboxtags li{
+  display: inline;
+}
+ul.ks-cboxtags li label{
+    display: inline-block;
+    background-color: #ffffffe6;
+    border: 2px solid #00000080;
+    color: #616161;
+    border-radius: 25px;
+    white-space: nowrap;
+    margin: 3px 0px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
+
+ul.ks-cboxtags li label {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+ul.ks-cboxtags li label::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 6px 2px 2px;
+    content: "\f067";
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+    content: "\f00c";
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+    border: 2px solid #2f81fc;
+    background-color: #0d6efd;
+    color: #fff;
+    transition: all .2s;
+}
+
+ul.ks-cboxtags li input[type="checkbox"] {
+  display: absolute;
+}
+ul.ks-cboxtags li input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+ul.ks-cboxtags li input[type="checkbox"]:focus + label {
+  border: 2px solid #0d9dfd;
+}
