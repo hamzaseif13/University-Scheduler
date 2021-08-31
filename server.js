@@ -1,15 +1,15 @@
 const express = require("express");
 const app = express();
 const mongoose = require('mongoose')
-const {search}=require("./db/Database");
+const {search, advancedSearch}=require("./db/Database");
 const PORT = 3000;
-//const User=require("./models/user");
+const Course=require("./models/course");
 var handlebars = require("express3-handlebars").create({
     defaultLayout: "main",
 });
 //database connection
 const dbUrl="mongodb+srv://hamzaseif:125369325147@unischedulercluster.fhjnr.mongodb.net/uniSchedulerDb?retryWrites=true&w=majority"
-mongoose.connect(dbUrl)
+mongoose.connect(dbUrl, {autoIndex: false})
     .then(()=>console.log("db connected"))
     .catch((err)=>console.log(err))
 
@@ -17,18 +17,26 @@ mongoose.connect(dbUrl)
 app.set("view engine", "handlebars");
 app.engine("handlebars", handlebars.engine);
 app.use(express.static(__dirname + "/public"));
-console.log(search("cs101","symbol"))
-
+app.use(express.urlencoded({extended:true}))
+app.use(express.json());
 //routes 
+
 app.get("/", (req, res) => {
-    res.render("landing",{time:"`11-12`",name:`"intro to programming"`});
+    
+    res.render("landing");
 });
 
 app.get("/generator", (req, res) => {
-    res.render("generator",{names:["hamza","mohammad"]});
+    res.render("seatchautofill",{cs101:search("cs101","symbol")});
     
 });
+app.post("/getCourse",async(req, res)=>{
+    let payload=req.body.courseName.trim();
+   let search=await Course.find({"department":{$regex:new RegExp(`^`+payload+".*","i")}}).exec();
+search=search.slice(0,10);
+res.send({payload:search})
 
+})
 app.get("/login", (req, res) => {
     res.render("login");
 });
@@ -38,7 +46,7 @@ app.get("/signup", (req, res) => {
 });
 
 app.post('/process',(req, res)=>{
-   console.log( req.body.subjects);
+   
    res.redirect("/tables")
 })
 
