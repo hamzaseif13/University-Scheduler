@@ -27,20 +27,22 @@ app.get("/", (req, res) => {
 });
 
 app.get("/generator", (req, res) => {
-    res.render("seatchautofill",{cs101:search("cs101","symbol")});
+    res.render("generator",{cs101:search("cs101","symbol")});
     
 });
-app.post("/getCourse",async(req, res)=>{
+app.post("/getCourse/",async(req, res)=>{
     let payload=req.body.courseName.trim();
-   let search=await Course.find({"department":{$regex:new RegExp(`^`+payload+".*","i")}}).exec();
-search=search.slice(0,10);
-res.send({payload:search})
+    let search=await Course.find({"name":{$regex:new RegExp(`^`+payload+".*","i")}}).exec();
+    search=search.slice(0,10);
+    res.send({payload:search})
 
 })
 app.get("/login", (req, res) => {
     res.render("login");
 });
-
+app.get("/searchautofill",(req,res)=>{
+    res.render("searchautofill")
+})
 app.get("/signup", (req, res) => {
     res.render("signup");
 });
