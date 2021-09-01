@@ -13,12 +13,17 @@
                         <option value="symbol">Symbol</option>
                         <option value="name">Name</option>
                     </select>
-
-                    <input type="text" name="searchval"id="search-box" class="dropdown-toggle" data-bs-toggle="dropdown" oninput="sendData(this)">
-                    <ul id="searchResults" class="dropdown-menu"></ul>
+                    
+                    <input type="text" name="searchval"id="search-box" class="" >
+                    <div class="position-relative">
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">Nothing Found</li>
+                        </ul>
+                    </div>
+                    
                     
                     <button type="button" class="submit btn-sm btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#coursesModal">Search</button>`
+                        data-bs-target="#coursesModal">Search</button>
 
                 </div>
                 <div class="option border-bottom border-dark col-12 col-sm-2 col-md-12" title="courses">
@@ -195,49 +200,6 @@
         </div>
     </div>
 </div>
-<script>
-    function sendData(e) {
-        const searchResults = document.getElementById("searchResults");
-        searchResults.style.display = "block";  
-        let match = e.value.match(/^[a-zA-Z]*/)
-        let match2 = e.value.match(/\s*/)
-        if (match2[0] === e.value) {
-            searchResults.innerHTML = "";
-            return;
-        }
-        if (match[0] === e.value) {
-            fetch("getCourse", {
-                method: "post",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ courseName: e.value })
-            }).then(res => res.json()).then(data => {
-                let payload = data.payload;
-                searchResults.innerHTML = ""
-                if (payload.length < 1) {
-                    searchResults.innerHTML = `<li class="dropdown-item">nothing found<li>`;
-                    return;
-                }
-                payload.forEach((item, index) => {
-                    
-                   var li= document.createElement("li")
-                   li.className="hamza dropdown-item"
-                   li.innerHTML=`${item.name} ${item.symbol}`
-                   searchResults.appendChild(li)
-                   li.addEventListener("click",()=>{
-                        console.log(item)
-                        searchResults.innerHTML=""
-                        searchResults.style.display = "none";
-                   })
-                })
-            })
-            return;
-        }
-        searchResults.innerHTML="";
-        searchResults.style.display = "none";
-        alert("1");
-        debugger
-    }
-</script>
 <!-- <script src="dom-to-image.js"></script> -->
 <script type="module" src="./js/script.js"></script>
 <script src="./js/html2pdf.bundle.min.js"></script>

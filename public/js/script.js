@@ -135,6 +135,19 @@ const options = {},
     next: undefined,
     prev: undefined
   },
+  coursesDropmenu = {
+    body:undefined,
+    hide(){
+      if(this.body === undefined) return;
+      this.body.style.display = "none";
+      this.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
+    },
+    show(){
+      if(this.body === undefined) return;
+      this.body.innerHTML = "";
+      this.body.style.display = "block";
+    }
+  },
   covers = {};
 let matchedCourses = [];
 
@@ -258,7 +271,10 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       if(btn != null)
         options[opName]["submit"] = btn;
     }
-    const tRange = document.getElementsByClassName("doubleRange")[0]
+
+    coursesDropmenu.body = document.querySelector("#options .option[title=search] .dropdown-menu");
+
+    const tRange = document.querySelector("#options .option[title=time] .doubleRange");
     options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
 
     let cov = document.querySelectorAll(".cover");
@@ -304,35 +320,46 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   { //options events
     const submitSearch = function() {
       //function to call when searching (by varius methods like mouse, keyboard)
-      if (options["search"].searchval.value.search(/\w.*\w/) == -1) {
-        //val has at least 2s alpha-numeric chars
-        updateModal([], "Found", "Add Courses"); //to reset modal
+      if (options["search"].searchval.value.search(/\w.*/) == -1) {
+        //val has at least 1s alpha-numeric chars
+        coursesDropmenu.hide();
         return;
       }
-      matchedCourses = app["_searchFunction"](
-        options["search"].searchval.value,
-        options["search"].searchby.value
-      );
-      updateModal(
-        matchedCourses,
-        "Found",
-        "Add Courses",
-        options["search"].searchval.value,
-        options["search"].searchby.value
-      );
-      cousresModal.submitFunction = function () {
-        for (const lineNum of cousresModal.selected) {
-          app._addCourseFunction(lineNum);
+      
+      coursesDropmenu.show();
+
+      fetch("getCourse", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ courseName: options["search"].searchval.value })
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        const courses = data.payload;
+
+        if (courses.length < 1) {
+            coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
+            return;
         }
-      };
+
+        for (const item of courses) {
+          const course = htmlCreator(
+            "li", 
+            coursesDropmenu.body, "", 
+            "dropdown-item", 
+            `${item.name} ${item.symbol}`
+            );
+          
+          course.addEventListener("click", ()=>{
+                coursesDropmenu.hide();
+                app._addCourseFunction(item.lineNumber)
+          });
+        }
+      });
     };
-    options["search"].submit.addEventListener("click", submitSearch);
-    options["search"].searchval.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        submitSearch();
-        cousresModal.bootstrapModal.show();
-      }
-    });
+    options["search"].searchval.addEventListener("input", submitSearch);
+    options["search"].searchval.addEventListener("click", submitSearch);
+
     options["courses"].submit.addEventListener("click", function () {
       updateModal(app.courses, "My Courses: ", "Remove Courses");
       cousresModal.submitFunction = function () {
@@ -487,6 +514,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   document.body.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
       cousresModal.bootstrapModal.hide();
+      coursesDropmenu.hide();
     }
     else if(event.key === "ArrowRight"){
       schedules.nextSchedule();
@@ -494,6 +522,10 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     else if(event.key === "ArrowLeft"){
       schedules.prevSchedule();
     }
+  });
+  window.addEventListener("click", (event)=>{
+    if(!coursesDropmenu.body.contains(event.target) && !options.search.searchval.contains(event.target))
+      coursesDropmenu.hide();
   });
   
 })();
