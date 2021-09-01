@@ -14,8 +14,8 @@
                         <option value="name">Name</option>
                     </select>
 
-                    <input type="text" name="searchval"id="search-box" onkeyup="sendData(this)">
-                    <ul id="searchResults"></ul>
+                    <input type="text" name="searchval"id="search-box" class="dropdown-toggle" data-bs-toggle="dropdown" oninput="sendData(this)">
+                    <ul id="searchResults" class="dropdown-menu"></ul>
                     
                     <button type="button" class="submit btn-sm btn-primary" data-bs-toggle="modal"
                         data-bs-target="#coursesModal">Search</button>`
@@ -198,6 +198,7 @@
 <script>
     function sendData(e) {
         const searchResults = document.getElementById("searchResults");
+        searchResults.style.display = "block";  
         let match = e.value.match(/^[a-zA-Z]*/)
         let match2 = e.value.match(/\s*/)
         if (match2[0] === e.value) {
@@ -213,24 +214,28 @@
                 let payload = data.payload;
                 searchResults.innerHTML = ""
                 if (payload.length < 1) {
-                    searchResults.innerHTML = "<li>nothing found<li>"
+                    searchResults.innerHTML = `<li class="dropdown-item">nothing found<li>`;
                     return;
                 }
                 payload.forEach((item, index) => {
                     
                    var li= document.createElement("li")
-                   li.className="hamza"
+                   li.className="hamza dropdown-item"
                    li.innerHTML=`${item.name} ${item.symbol}`
                    searchResults.appendChild(li)
                    li.addEventListener("click",()=>{
-                       console.log(item)
-                       searchResults.innerHTML=""
+                        console.log(item)
+                        searchResults.innerHTML=""
+                        searchResults.style.display = "none";
                    })
                 })
             })
             return;
         }
         searchResults.innerHTML="";
+        searchResults.style.display = "none";
+        alert("1");
+        debugger
     }
 </script>
 <!-- <script src="dom-to-image.js"></script> -->
