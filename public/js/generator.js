@@ -54,6 +54,7 @@ function _removeCourseFunction(courseNum) {
   if (index != -1) myCourses.splice(index, 1);
 }
 function _generateScheduleFunction() {
+  console.log("getter:",getMyCourses(), "original:", myCourses);
   if (myCourses.length == 0) return [];
   let tempArray = [];
   for (let j = 0; j < myCourses.length; j++) {
@@ -305,6 +306,20 @@ function searchDatabase(val, searchBy){
   .then(((data) => data.payload));
 }
 
+function getMyCourses(){
+  let arr = myCourses.map((course)=>{
+    let newCourse = {...course};
+    newCourse.sections = newCourse.sections.map((sec)=>{
+      let newSec = {...sec};
+      newSec.timeObj = undefined;
+      newSec.course = undefined;
+      return newSec;
+    });
+
+    return newCourse;
+  });
+  return arr;
+}
 export default {
   courses: myCourses,
   _addCourseFunction,
