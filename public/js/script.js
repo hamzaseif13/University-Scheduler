@@ -318,8 +318,11 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 (function addEvents() {
   
   { //options events
+    let responseFlag = true;
     const submitSearch = function() {
       //function to call when searching (by varius methods like mouse, keyboard)
+      if(!responseFlag) return;
+
       if (options["search"].searchval.value.search(/\w.*/) == -1) {
         //val has at least 1s alpha-numeric chars
         coursesDropmenu.hide();
@@ -328,37 +331,50 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       
       coursesDropmenu.show();
 
-      fetch("getCourse", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ courseName: options["search"].searchval.value })
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        const courses = data.payload;
-
+      responseFlag = false;
+      console.log("send request: ",options["search"].searchval.value)
+      app._searchFunction(options["search"].searchval.value, "courseName")
+      .then((courses) => {
+        responseFlag = true;
+        console.log("recieve request")
         if (courses.length < 1) {
             coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
             return;
         }
 
-        for (const item of courses) {
-          const course = htmlCreator(
+        for (const course of courses) {
+          const courseCard = htmlCreator(
             "li", 
             coursesDropmenu.body, "", 
             "dropdown-item", 
-            `${item.name} ${item.symbol}`
-            );
+            `${course.name} ${course.symbol}`
+          );
           
-          course.addEventListener("click", ()=>{
+          courseCard.addEventListener("click", ()=>{
                 coursesDropmenu.hide();
-                app._addCourseFunction(item.lineNumber)
+                app._addCourseFunction(course)
           });
         }
+        
+        console.table(courses);
+      })
+      .catch((err)=>{
+        console.error(err);
       });
     };
-    options["search"].searchval.addEventListener("input", submitSearch);
+    let inputTimerID = null;
+    options["search"].searchval.addEventListener("input", ()=>{
+      if(inputTimerID != null){
+        clearTimeout(inputTimerID);
+        inputTimerID = null;
+      }
+      inputTimerID = setTimeout(submitSearch , 500);
+    });
     options["search"].searchval.addEventListener("click", submitSearch);
+    options["search"].searchval.addEventListener("keydown", (event)=>{
+      if(event.key === "Enter")
+        submitSearch();
+    });
 
     options["courses"].submit.addEventListener("click", function () {
       updateModal(app.courses, "My Courses: ", "Remove Courses");

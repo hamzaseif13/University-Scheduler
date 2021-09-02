@@ -11,20 +11,18 @@
                         <option value="faculty">Faculty</option>
                         <option value="department">Department</option>
                         <option value="symbol">Symbol</option>
-                        <option value="name">Name</option>
+                        <option value="courseName">Name</option>
                     </select>
                     
                     <input type="text" name="searchval"id="search-box" class="" >
-                    <div class="position-relative">
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item">Nothing Found</li>
+                    <div class="position-relative w-100">
+                        <ul class="dropdown-menu overflow-auto">
+                            <li class="dropdown-item w-100">Nothing Found</li>
                         </ul>
                     </div>
                     
-                    
-                    <button type="button" class="submit btn-sm btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#coursesModal">Search</button>
-
+                    {{!-- <button type="button" class="submit btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#coursesModal">Search</button> --}}
                 </div>
                 <div class="option border-bottom border-dark col-12 col-sm-2 col-md-12" title="courses">
                     <button type="button" class="submit btn-sm btn-primary" data-bs-toggle="modal"
@@ -188,13 +186,13 @@
             </div>
             <div class="modal-body" tabindex="-1">
                 <div class="row g-0">
-                    <div title="Previous Section" class="prev col-1 btn btn-light position-relative p-0"><span
-                            class="position-absolute">
-                            << /span>
+                    <div title="Previous Section" class="prev col-1 btn btn-light position-relative p-0">
+                        <span class="position-absolute"><</span>
                     </div>
                     <div class="col-10"></div>
-                    <div title="Next Section" class="next col-1 btn btn-light position-relative p-0"><span
-                            class="position-absolute">></span></div>
+                    <div title="Next Section" class="next col-1 btn btn-light position-relative p-0">
+                        <span class="position-absolute">></span>
+                    </div>
                 </div>
             </div>
         </div>

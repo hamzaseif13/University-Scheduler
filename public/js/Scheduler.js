@@ -1,4 +1,4 @@
-import searchDatabase from "./Database.js";
+import {Time} from "./Database.js";
 import { advancedSearch } from "./Database.js";
 
 const myCourses = [],
@@ -12,23 +12,41 @@ function courseIndex(courseNum) {
   });
 }
 function _searchFunction(val, searchBy) {
-  let arr = val.split(",");
-  arr = arr.map((v)=>{
-    return [v,searchBy,"or"];
-  })
-  const result = advancedSearch(
-    "",
-    false,
-    ...arr
-  );
-  return result;
+  return searchDatabase(val, searchBy);
+  
+  // let arr = val.split(",");
+  // arr = arr.map((v)=>{
+  //   return [v,searchBy,"or"];
+  // })
+  // const result = advancedSearch(
+  //   "",
+  //   false,
+  //   ...arr
+  // );
+  // return result;
 }
-function _addCourseFunction(courseNum) {
+function _addCourseFunction(course) {
   //check if the course already exist
-  if (courseIndex(courseNum) != -1) return;
+  if (courseIndex(course.lineNumber) != -1) return;
 
-  const course = searchDatabase(courseNum);
-  myCourses.push(...course);
+  //add necessery props for sections
+  course.sections = course.sections.map((val)=>{
+    val.timeObj = {
+      start: new Time(val.startTime * 60),
+      end: new Time(val.endTime * 60),
+      delta(){return Time.subtract(this.end , this.start);},
+      string: function () {
+        return (
+          this.start.string12 +
+          " - " +
+          this.end.string12
+        );
+      },
+    };
+    val.course = course;
+    return val;
+  });
+  myCourses.push(course);
 }
 function _removeCourseFunction(courseNum) {
   let index = courseIndex(courseNum);
@@ -274,6 +292,19 @@ function setOptions(days,dayStart,dayEnd){
 function getDays(){
   return options[0];
 }
+
+function searchDatabase(val, searchBy){
+  const searchObj = {};
+  searchObj[searchBy] = val;
+  return fetch("getCourse", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(searchObj)
+  })
+  .then((res) => res.json())
+  .then(((data) => data.payload));
+}
+
 export default {
   courses: myCourses,
   _addCourseFunction,
