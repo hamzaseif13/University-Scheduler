@@ -1,4 +1,4 @@
-import app from "./Scheduler.js";
+import app from "./generator.js";
 import {table,htmlCreator,tableCover} from "./script.js"
 import calcScore from "./Calculate Score.js";
 import { advancedSearch } from "./Database.js";

@@ -1,4 +1,4 @@
-import app from "./Scheduler.js";
+import app from "./generator.js";
 import schedules from "./Generated Schedules.js";
 import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
