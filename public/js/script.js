@@ -2,6 +2,7 @@ import app from "./generator.js";
 import schedules from "./Generated Schedules.js";
 import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
+
 var fetchArr=[]
 class DoubleRange{
   #sliders;
@@ -352,8 +353,9 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           
           courseCard.addEventListener("click", ()=>{
                 coursesDropmenu.hide();
-                fetchArr.push(course);
-                app._addCourseFunction(course)
+                const deepCopy = JSON.parse(JSON.stringify(course));
+                fetchArr.push(deepCopy);
+                app._addCourseFunction(course);
                 //change this if u want , it clears the search box after you add a course 
                 document.getElementById("search-box").value="";
           });
