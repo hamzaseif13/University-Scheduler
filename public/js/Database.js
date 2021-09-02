@@ -225,7 +225,6 @@ class Section {
           );
         },
       };
-      this.course = {}; //a pointer to the course of the section
     }
     set(
       sectionNumber,

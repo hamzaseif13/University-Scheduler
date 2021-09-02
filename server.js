@@ -46,7 +46,10 @@ app.get("/searchautofill",(req,res)=>{
 app.get("/signup", (req, res) => {
     res.render("signup");
 });
-
+app.post("/gen",(req,res)=>{
+let hamza = req.body.hamza;
+console.log(hamza)
+})
 app.post('/process',(req, res)=>{
    
    res.redirect("/tables")
