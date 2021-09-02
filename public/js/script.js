@@ -320,6 +320,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   
   { //options events
     let responseFlag = true;
+    let abortReqController = new AbortController();
+    let abortReqSignal = abortReqController.signal;
     const submitSearch = function() {
       //function to call when searching (by varius methods like mouse, keyboard)
       if(!responseFlag) return;
@@ -334,7 +336,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
       responseFlag = false;
       console.log("send request: ",options["search"].searchval.value)
-      app._searchFunction(options["search"].searchval.value, options["search"].searchby.value)
+      app._searchFunction(options["search"].searchval.value, options["search"].searchby.value, abortReqSignal)
       .then((res) => {
         responseFlag = true;
         console.log("recieve request")
@@ -381,16 +383,24 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         console.table(res.courses);
       })
       .catch((err)=>{
-        console.error(err);
+        if(err.message != "The user aborted a request.")
+          console.error(err);
       });
     };
-    let inputTimerID = null;
+    // let inputTimerID = null;
     options["search"].searchval.addEventListener("input", ()=>{
-      if(inputTimerID != null){
-        clearTimeout(inputTimerID);
-        inputTimerID = null;
+      if(!responseFlag){
+        abortReqController.abort();
+        responseFlag = true;
+        abortReqController = new AbortController();
+        abortReqSignal = abortReqController.signal;
       }
-      inputTimerID = setTimeout(submitSearch , 500);
+      submitSearch();
+      // if(inputTimerID != null){
+      //   clearTimeout(inputTimerID);
+      //   inputTimerID = null;
+      // }
+      // inputTimerID = setTimeout(submitSearch , 0);
     });
     options["search"].searchval.addEventListener("click", submitSearch);
     options["search"].searchval.addEventListener("keydown", (event)=>{

@@ -11,8 +11,8 @@ function courseIndex(courseNum) {
     return item.lineNumber === courseNum;
   });
 }
-function _searchFunction(val, searchBy) {
-  return searchDatabase(val, searchBy);
+function _searchFunction(val, searchBy, abortSignal) {
+  return searchDatabase(val, searchBy, abortSignal);
   
   // let arr = val.split(",");
   // arr = arr.map((v)=>{
@@ -294,14 +294,15 @@ function getDays(){
   return options[0];
 }
 
-function searchDatabase(val, searchBy){
+function searchDatabase(val, searchBy ,abortSignal = null){
   const searchObj = {};
   searchObj.value = val;
   searchObj.searchBy = searchBy;
   return fetch("getCourse", {
     method: "post",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(searchObj)
+    body: JSON.stringify(searchObj),
+    signal: abortSignal
   })
   .then((res) => res.json());
 }
