@@ -31,11 +31,13 @@ app.get("/generator", (req, res) => {
     
 });
 app.post("/getCourse/",async(req, res)=>{
-    let payload=req.body.courseName.trim();
-    let search=await Course.find({"name":{$regex:new RegExp(`^`+payload+".*","i")}}).exec();
-    search=search.slice(0,10);
-    res.send({payload:search})
-
+    const searchObj = {};
+    searchObj[req.body.searchBy] = {$regex:new RegExp(`^${req.body.value.trim()}.*`,"i")}
+    let search = await Course.find(searchObj).exec();
+    res.send({
+        courses: search,//.slice(0,10), 
+        num: search.length
+    });
 })
 app.get("/login", (req, res) => {
     res.render("login");

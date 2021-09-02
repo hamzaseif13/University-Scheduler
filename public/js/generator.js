@@ -296,14 +296,14 @@ function getDays(){
 
 function searchDatabase(val, searchBy){
   const searchObj = {};
-  searchObj[searchBy] = val;
+  searchObj.value = val;
+  searchObj.searchBy = searchBy;
   return fetch("getCourse", {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(searchObj)
   })
-  .then((res) => res.json())
-  .then(((data) => data.payload));
+  .then((res) => res.json());
 }
 
 function getMyCourses(){

@@ -324,7 +324,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       //function to call when searching (by varius methods like mouse, keyboard)
       if(!responseFlag) return;
 
-      if (options["search"].searchval.value.search(/\w.*/) == -1) {
+      if (options["search"].searchval.value.search(/\w.*\w/) == -1) {
         //val has at least 1s alpha-numeric chars
         coursesDropmenu.hide();
         return;
@@ -334,20 +334,21 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
       responseFlag = false;
       console.log("send request: ",options["search"].searchval.value)
-      app._searchFunction(options["search"].searchval.value, "courseName")
-      .then((courses) => {
+      app._searchFunction(options["search"].searchval.value, options["search"].searchby.value)
+      .then((res) => {
         responseFlag = true;
         console.log("recieve request")
-        if (courses.length < 1) {
+        if (res.courses.length < 1) {
             coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
             return;
         }
 
-        for (const course of courses) {
+        const arr = res.courses.slice(0,10);
+        for (const course of arr) {
           const courseCard = htmlCreator(
             "li", 
             coursesDropmenu.body, "", 
-            "dropdown-item", 
+            "dropdown-item btn", 
             `${course.name} ${course.symbol}`
           );
           
@@ -356,12 +357,28 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
                 const deepCopy = JSON.parse(JSON.stringify(course));
                 fetchArr.push(deepCopy);
                 app._addCourseFunction(course);
-                //change this if u want , it clears the search box after you add a course 
-                document.getElementById("search-box").value="";
+                courseCard.value = "";
           });
         }
+        const more = htmlCreator(
+          "li", 
+          coursesDropmenu.body, "", 
+          "dropdown-item btn text-primary", 
+          `View all results (${res.num} results found)`
+        );
+        more.title = "View all results";
+        more.addEventListener("click", ()=>{
+          updateModal(
+            res.courses,
+            "Found",
+            "Add Courses",
+            options["search"].searchval.value,
+            options["search"].searchby.value
+          );
+          cousresModal.bootstrapModal.show();
+        });
         
-        console.table(courses);
+        console.table(res.courses);
       })
       .catch((err)=>{
         console.error(err);
