@@ -235,7 +235,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     //event to add course to coursesModal.selected if card is clicked
     checked = !checked;
     if (checked) {
-      cousresModal.selected.push(course.lineNumber);
+      cousresModal.selected.push(course);
       card.className += " border-2 border-success shadow-lg";
     } else {
       let index = cousresModal.selected.findIndex((courseNum) => {
@@ -335,11 +335,11 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       coursesDropmenu.show();
 
       responseFlag = false;
-      console.log("send request: ",options["search"].searchval.value)
+      console.log("send: ",options["search"].searchval.value)
       app._searchFunction(options["search"].searchval.value, options["search"].searchby.value, abortReqSignal)
       .then((res) => {
         responseFlag = true;
-        console.log("recieve request")
+        console.log("recieve")
         if (res.courses.length < 1) {
             coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
             return;
@@ -351,7 +351,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             "li", 
             coursesDropmenu.body, "", 
             "dropdown-item btn", 
-            `${course.name} ${course.symbol}`
+            `${course.name} | ${course.symbol}`
           );
           
           courseCard.addEventListener("click", ()=>{
@@ -359,7 +359,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
                 const deepCopy = JSON.parse(JSON.stringify(course));
                 
                 app._addCourseFunction(course);
-                courseCard.value = "";
+                options["search"].searchval.value = "";
           });
         }
         const more = htmlCreator(
@@ -377,10 +377,15 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             options["search"].searchval.value,
             options["search"].searchby.value
           );
+          cousresModal.submitFunction = function () {
+            for (const course of cousresModal.selected) {
+              app._addCourseFunction(course);
+            }
+          };
           cousresModal.bootstrapModal.show();
         });
         
-        console.table(res.courses);
+        console.log("num of results:",res.courses.length);
       })
       .catch((err)=>{
         if(err.message != "The user aborted a request.")
@@ -391,6 +396,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     options["search"].searchval.addEventListener("input", ()=>{
       if(!responseFlag){
         abortReqController.abort();
+        console.log("abort");
         responseFlag = true;
         abortReqController = new AbortController();
         abortReqSignal = abortReqController.signal;
@@ -411,8 +417,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     options["courses"].submit.addEventListener("click", function () {
       updateModal(app.courses, "My Courses: ", "Remove Courses");
       cousresModal.submitFunction = function () {
-        for (const lineNum of cousresModal.selected) {
-          app._removeCourseFunction(lineNum);
+        for (const course of cousresModal.selected) {
+          app._removeCourseFunction(course.lineNumber);
         }
       };
     });
