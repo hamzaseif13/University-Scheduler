@@ -54,6 +54,13 @@ function _removeCourseFunction(courseNum) {
   if (index != -1) myCourses.splice(index, 1);
 }
 function _generateScheduleFunction() {
+  fetch("gen",{
+    method:"POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({arr:getMyCourses()})
+  }).then((res) => res.json()).then((data)=>{
+    console.log(data.rec)
+  })
   console.log("getter:",getMyCourses(), "original:", myCourses);
   if (myCourses.length == 0) return [];
   let tempArray = [];

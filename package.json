@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "university scheduler with node ",
   "main": "server.js",
+  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+    ,"serve": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,9 +21,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "express3-handlebars": "^0.5.2",
-    "mongoose": "^6.0.3"
-  },
-  "devDependencies": {
+    "mongoose": "^6.0.3",
     "nodemon": "^2.0.12"
-  }
+  },
+  "devDependencies": {}
 }

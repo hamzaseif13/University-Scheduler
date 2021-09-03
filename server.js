@@ -49,8 +49,9 @@ app.get("/signup", (req, res) => {
     res.render("signup");
 });
 app.post("/gen",(req,res)=>{
-let hamza = req.body.hamza;
-console.log(hamza)
+let hamza = req.body.arr;
+console.log(req.body.arr)
+res.send({rec:"gtfo"})
 })
 app.post('/process',(req, res)=>{
    

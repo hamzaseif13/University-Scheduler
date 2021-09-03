@@ -3,7 +3,7 @@ import schedules from "./Generated Schedules.js";
 import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
 
-var fetchArr=[]
+
 class DoubleRange{
   #sliders;
   #values;
@@ -357,7 +357,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           courseCard.addEventListener("click", ()=>{
                 coursesDropmenu.hide();
                 const deepCopy = JSON.parse(JSON.stringify(course));
-                fetchArr.push(deepCopy);
+                
                 app._addCourseFunction(course);
                 courseCard.value = "";
           });
@@ -597,13 +597,5 @@ function random(min, max) {
 const ct = covers.table;
 
 export {table,htmlCreator, ct as tableCover};
-const genBtn=document.getElementById("genBtn")
-genBtn.addEventListener("click",()=>{
-  console.log(fetchArr)
-  console.log("btn working")
-  fetch("gen",{
-    method:"POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({arr:fetchArr})
-  })
-})
+
+
