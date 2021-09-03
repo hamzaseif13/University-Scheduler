@@ -454,20 +454,20 @@ function displaySchedule(){
     }
   }
 }
-function generate(changeColor){
+ function generate(changeColor){
   if(changeColor)
     colors.colorGroup +=1;
 
   tableCover.className = tableCover.className.replace("hidden",""); //display loading
   const subGenerate = ()=>{//to make the browser render the change first then execute _generateScheduleFunction
-    const arr = app._generateScheduleFunction();
+    const arr =  app._generateScheduleFunction();
     table.allTable.reset();
     for (const s of arr) {
-      table.allTable.addSchedule({sections:s , id:idCounter++})
+       table.allTable.addSchedule({sections:s , id:idCounter++})
     }
     tableCover.className += "hidden";
     table.allTable.changeActiveIndex(0);
-    displaySchedule();
+     displaySchedule();
     // table.allTable.stats();
   }
   setTimeout(subGenerate, 5)

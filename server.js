@@ -1,12 +1,20 @@
 const express = require("express");
+
 const app = express();
+
 const mongoose = require('mongoose')
+
+const generator=require("./logic/generator");
+
 const {search, advancedSearch}=require("./db/Database");
 const PORT = 3000;
+
 const Course=require("./models/course");
 var handlebars = require("express3-handlebars").create({
     defaultLayout: "main",
 });
+
+
 //database connection
 const dbUrl="mongodb+srv://hamzaseif:125369325147@unischedulercluster.fhjnr.mongodb.net/uniSchedulerDb?retryWrites=true&w=majority"
 mongoose.connect(dbUrl, {autoIndex: false})
@@ -49,9 +57,8 @@ app.get("/signup", (req, res) => {
     res.render("signup");
 });
 app.post("/gen",(req,res)=>{
-let hamza = req.body.arr;
-console.log(req.body.arr)
-res.send({rec:"gtfo"})
+    let generated=generator(req.body.arr,req.body.options)
+    res.send({rec:generated});
 })
 app.post('/process',(req, res)=>{
    

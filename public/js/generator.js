@@ -54,21 +54,23 @@ function _removeCourseFunction(courseNum) {
   if (index != -1) myCourses.splice(index, 1);
 }
 function _generateScheduleFunction() {
-  fetch("gen",{
-    method:"POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({arr:getMyCourses()})
-  }).then((res) => res.json()).then((data)=>{
-    console.log(data.rec)
-  })
+  let serverGenerated=[]
   console.log("getter:",getMyCourses(), "original:", myCourses);
   if (myCourses.length == 0) return [];
   let tempArray = [];
   for (let j = 0; j < myCourses.length; j++) {
     tempArray.push(myCourses[j].sections);
   }
-
-  let generatedArray = generateSchedules(...tempArray); //this array includes 15560 combinations
+  fetch("gen",{
+    method:"POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({arr:getMyCourses(),options:options})
+  }).then((res) => res.json()).then((data)=>{
+    serverGenerated=data.rec
+    console.log(data.rec)
+    
+  })
+  let generatedArray = serverGenerated; //this array includes 15560 combinations
   //generatedArray = filterSchedule(generatedArray);
   return generatedArray;
 }
