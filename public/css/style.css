@@ -1,0 +1,151 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0px;
+    font-family: 'segoe ui';
+  } 
+
+   body > .nav {
+    height: 50px;
+    width: 100%;
+    background-color: #4d4d4d;
+    position: relative;
+  } 
+
+   body > .nav > .nav-header {
+    display: inline;
+  } 
+
+   body > .nav > .nav-header > .nav-title {
+    display: inline-block;
+    font-size: 22px;
+    color: #fff;
+    padding: 10px 10px 10px 10px;
+  } 
+
+   body > .nav > .nav-btn {
+    display: none;
+  } 
+
+   body > .nav > .nav-links {
+    display: inline;
+    float: right;
+    font-size: 18px;
+    z-index: 1000;
+  } 
+
+   body > .nav > .nav-links > a {
+    display: inline-block;
+    padding: 13px 10px 13px 10px;
+    text-decoration: none;
+    color: #efefef;
+  } 
+
+   body > .nav > .nav-links > a:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  } 
+
+   body > .nav > #nav-check {
+    display: none;
+  }
+  
+  @media (max-width:600px) { 
+
+   body > .nav > .nav-btn {
+      display: inline-block;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    } 
+
+   body > .nav > .nav-btn > label {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      padding: 13px;
+    } 
+
+   body > .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+      background-color: rgba(0, 0, 0, 0.3);
+    } 
+
+   body > .nav > .nav-btn > label > span {
+      display: block;
+      width: 25px;
+      height: 10px;
+      border-top: 2px solid #eee;
+    } 
+
+   body > .nav > .nav-links {
+      position: absolute;
+      display: block;
+      width: 100%;
+      background-color: #333;
+      height: 0px;
+      transition: all 0.3s ease-in;
+      overflow-y: hidden;
+      top: 50px;
+      left: 0px;
+    } 
+
+   body > .nav > .nav-links > a {
+      display: block;
+      width: 100%;
+    } 
+
+   body > .nav > #nav-check:not(:checked) ~ .nav-links {
+      height: 0px;
+    } 
+
+   body > .nav > #nav-check:checked ~ .nav-links {
+      height: calc(100vh - 50px);
+      overflow-y: auto;
+    }
+  }
+
+  .title{
+      text-align: center;
+      margin-top:40px;
+  }
+  .mid,.con{
+      margin-left:500px;
+  }
+  a:link {
+    text-decoration: none;
+  }
+  
+  a:visited {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  a:active {
+    text-decoration: underline;
+  }
+  /* a{
+      color:white;
+  } */
+  .login {
+    min-height: 100vh;
+  }
+  
+  .bg-image {
+    background-image: url('https://source.unsplash.com/WEQbe2jBg40/600x1200');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login-heading {
+    font-weight: 300;
+  }
+  
+  .btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+  }
