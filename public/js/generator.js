@@ -399,4 +399,6 @@ function filterSet(set){
       filteredArray.push(set[i]);
   }
   return filteredArray;
+
 }
+

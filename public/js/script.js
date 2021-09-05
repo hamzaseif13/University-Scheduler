@@ -1,7 +1,8 @@
-import app from "./scripts/Scheduler.js";
-import schedules from "./scripts/Generated Schedules.js";
-import  {ScheduleGroup} from "./scripts/Generated Schedules.js";
-import {Time} from "./scripts/Database.js";
+import app from "./generator.js";
+import schedules from "./Generated Schedules.js";
+import  {ScheduleGroup} from "./Generated Schedules.js";
+import {Time} from "./Database.js";
+
 
 class DoubleRange{
   #sliders;
@@ -170,19 +171,29 @@ function updateModal(
   }
 }
 function generateHTMLCourseCard(course, highlight = "", prop = "") {
+  const validProps = ["semester", "faculty", "department", "lineNumber", "symbol", "name"];
   let checked = false;
 
   const copy = { ...course };
 
   if (highlight != ""){
-    highlight = highlight.split(",");
-    if (typeof copy[prop] === "string")
-      for (const text of highlight) {
+    //highlight = highlight.split(",");
+    if (validProps.includes(prop)){
+      //for (const text of highlight) {
         copy[prop] = copy[prop].replace(
-          new RegExp(text.trim(), "i"),
-          '<span class="bg-warning">' + text + "</span>"
+          new RegExp(highlight.trim(), "i"),
+          '<span class="bg-warning">' + highlight.trim() + "</span>"
+        );
+      //}
+    }
+    else if(prop === "all"){
+      for (const p of validProps) {
+        copy[p] = copy[p].replace(
+          new RegExp(highlight.trim(), "i"),
+          '<span class="bg-warning">' + highlight.trim() + "</span>"
         );
       }
+    }
       
   }
   const col = htmlCreator("div", "", "", "col");
@@ -321,7 +332,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     let responseFlag = true;
     let abortReqController = new AbortController();
     let abortReqSignal = abortReqController.signal;
-    const submitSearch = function() {
+    const submitSearch = function(displayMode = "dropdown") {
       //function to call when searching (by varius methods like mouse, keyboard)
       if(!responseFlag) return;
 
@@ -344,6 +355,22 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             return;
         }
 
+      if(displayMode === "modal"){
+        updateModal(
+            res.courses,
+            "Found",
+            "Add Courses",
+            options["search"].searchval.value,
+            options["search"].searchby.value
+        );
+        cousresModal.submitFunction = function () {
+          for (const course of cousresModal.selected) {
+            app._addCourseFunction(course);
+          }
+        };
+        cousresModal.bootstrapModal.show();
+      }
+      else {
         const arr = res.courses.slice(0,10);
         for (const course of arr) {
           const courseCard = htmlCreator(
@@ -383,6 +410,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           };
           cousresModal.bootstrapModal.show();
         });
+      }
         
         console.log("num of results:",res.courses.length);
       })
@@ -410,7 +438,14 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     options["search"].searchval.addEventListener("click", submitSearch);
     options["search"].searchval.addEventListener("keydown", (event)=>{
       if(event.key === "Enter")
-        submitSearch();
+        if(!responseFlag){
+          abortReqController.abort();
+          console.log("abort");
+          responseFlag = true;
+          abortReqController = new AbortController();
+          abortReqSignal = abortReqController.signal;
+        }
+        submitSearch("modal");
     });
 
     options["courses"].submit.addEventListener("click", function () {
