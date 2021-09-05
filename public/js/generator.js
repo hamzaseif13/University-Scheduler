@@ -54,6 +54,7 @@ function _removeCourseFunction(courseNum) {
   if (index != -1) myCourses.splice(index, 1);
 }
 function _generateScheduleFunction() {
+  console.log("generate funcition start ")
   let serverGenerated=[]
   console.log("getter:",getMyCourses(), "original:", myCourses);
   if (myCourses.length == 0) return [];
@@ -72,6 +73,7 @@ function _generateScheduleFunction() {
   })
   let generatedArray = serverGenerated; //this array includes 15560 combinations
   //generatedArray = filterSchedule(generatedArray);
+  console.log("generate funcition end ")
   return generatedArray;
 }
 
