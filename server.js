@@ -1,14 +1,9 @@
 const express = require("express");
-
 const app = express();
-
 const mongoose = require('mongoose')
-
 const generator=require("./logic/generator");
-
 const {search, advancedSearch}=require("./db/Database");
 const PORT = 3000;
-
 const Course=require("./models/course");
 var handlebars = require("express3-handlebars").create({
     defaultLayout: "main",
