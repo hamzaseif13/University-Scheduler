@@ -339,7 +339,7 @@ export default {
   _searchFunction,
   _generateScheduleFunction,
   setOptions,
-  getDays,
+  getDays,options,
 };
 // function filterSet(set){
 
