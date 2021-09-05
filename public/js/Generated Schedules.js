@@ -454,23 +454,26 @@ function displaySchedule(){
     }
   }
 }
- function generate(changeColor){
+  async function generate(changeColor){
+   console.log("generate sch funcition start ")
   if(changeColor)
     colors.colorGroup +=1;
 
   tableCover.className = tableCover.className.replace("hidden",""); //display loading
-  const subGenerate = ()=>{//to make the browser render the change first then execute _generateScheduleFunction
-    const arr =  app._generateScheduleFunction();
+  //to make the browser render the change first then execute _generateScheduleFunction
+    const arr =   app._generateScheduleFunction();
     table.allTable.reset();
     for (const s of arr) {
        table.allTable.addSchedule({sections:s , id:idCounter++})
     }
     tableCover.className += "hidden";
     table.allTable.changeActiveIndex(0);
-     displaySchedule();
+    await  displaySchedule();
     // table.allTable.stats();
-  }
-  setTimeout(subGenerate, 5)
+  
+  
+  console.log("generate sch funcition end ")
+
 }
 
 function changeActiveSchedule(val){
