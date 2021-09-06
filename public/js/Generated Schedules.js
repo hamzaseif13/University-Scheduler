@@ -1,7 +1,7 @@
 import app from "./generator.js";
 import { table, htmlCreator, tableCover } from "./script.js";
 import calcScore from "./Calculate Score.js";
-import { advancedSearch } from "./Database.js";
+import { advancedSearch, Time } from "./Database.js";
 const html2pdf = window.html2pdf;
 
 const colors = {
@@ -481,19 +481,37 @@ async function generate(changeColor) {
   const res = await fetch("gen", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ arr: getMyCourses(), options: app.options }),
+    body: JSON.stringify({ arr: app.courses, options: app.options }),
   });
   // data is the response object coming from server 
   const data = await res.json();
-console.log(data.rec)
+  console.log(data.rec)
+
   if (changeColor) colors.colorGroup += 1;
 
   tableCover.className = tableCover.className.replace("hidden", ""); //display loading
   //to make the browser render the change first then execute _generateScheduleFunction
   const arr = data.rec;
   table.allTable.reset();
-  for (const s of arr) {
-    table.allTable.addSchedule({ sections: s, id: idCounter++ });
+  for (const schedule of arr) {
+    for(const sections of schedule){
+      for (const sec of sections) {
+        sec.timeObj = {
+          start: new Time(sec.startTime * 60),
+          end: new Time(sec.endTime * 60),
+          delta(){return Time.subtract(this.end , this.start);},
+          string: function () {
+            return (
+              this.start.string12 +
+              " - " +
+              this.end.string12
+            );
+          },
+        };
+      }
+    }
+    table.allTable.addSchedule({ sections: schedule, id: idCounter++ });
+
   }
   tableCover.className += "hidden";
   table.allTable.changeActiveIndex(0);
@@ -574,20 +592,6 @@ function allSchedule() {
     table.unpinBtn.style.display = "none";
     displaySchedule();
   }, 200);
-}
-function getMyCourses() {
-  let arr = app.courses.map((course) => {
-    let newCourse = { ...course };
-    newCourse.sections = newCourse.sections.map((sec) => {
-      let newSec = { ...sec };
-      newSec.timeObj = undefined;
-      newSec.course = undefined;
-      return newSec;
-    });
-
-    return newCourse;
-  });
-  return arr;
 }
 export default {
   generate,

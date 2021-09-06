@@ -332,7 +332,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     let responseFlag = true;
     let abortReqController = new AbortController();
     let abortReqSignal = abortReqController.signal;
-    const submitSearch = function(displayMode = "dropdown") {
+    const submitSearch = async function(displayMode = "dropdown") {
       //function to call when searching (by varius methods like mouse, keyboard)
       if(!responseFlag) return;
 
@@ -345,9 +345,15 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       coursesDropmenu.show();
 
       responseFlag = false;
-      console.log("send: ",options["search"].searchval.value)
-      app._searchFunction(options["search"].searchval.value, options["search"].searchby.value, abortReqSignal)
-      .then((res) => {
+      console.log("send: ",options["search"].searchval.value);
+      
+      try{
+        var res = await app._searchFunction(options["search"].searchval.value, options["search"].searchby.value, abortReqSignal)
+      }catch(err){
+        if(err.message != "The user aborted a request.")
+          console.error(err);
+      }
+      if(res){ //if no error
         responseFlag = true;
         console.log("recieve")
         if (res.courses.length < 1) {
@@ -355,53 +361,13 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             return;
         }
 
-      if(displayMode === "modal"){
-        updateModal(
-            res.courses,
-            "Found",
-            "Add Courses",
-            options["search"].searchval.value,
-            options["search"].searchby.value
-        );
-        cousresModal.submitFunction = function () {
-          for (const course of cousresModal.selected) {
-            app._addCourseFunction(course);
-          }
-        };
-        cousresModal.bootstrapModal.show();
-      }
-      else {
-        const arr = res.courses.slice(0,10);
-        for (const course of arr) {
-          const courseCard = htmlCreator(
-            "li", 
-            coursesDropmenu.body, "", 
-            "dropdown-item btn", 
-            `${course.name} | ${course.symbol}`
-          );
-          
-          courseCard.addEventListener("click", ()=>{
-                coursesDropmenu.hide();
-                const deepCopy = JSON.parse(JSON.stringify(course));
-                
-                app._addCourseFunction(course);
-                options["search"].searchval.value = "";
-          });
-        }
-        const more = htmlCreator(
-          "li", 
-          coursesDropmenu.body, "", 
-          "dropdown-item btn text-primary", 
-          `View all results (${res.num} results found)`
-        );
-        more.title = "View all results";
-        more.addEventListener("click", ()=>{
+        if(displayMode === "modal"){
           updateModal(
-            res.courses,
-            "Found",
-            "Add Courses",
-            options["search"].searchval.value,
-            options["search"].searchby.value
+              res.courses,
+              "Found",
+              "Add Courses",
+              options["search"].searchval.value,
+              options["search"].searchby.value
           );
           cousresModal.submitFunction = function () {
             for (const course of cousresModal.selected) {
@@ -409,15 +375,51 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             }
           };
           cousresModal.bootstrapModal.show();
-        });
-      }
-        
+        }
+        else {
+          const arr = res.courses.slice(0,10);
+          for (const course of arr) {
+            const courseCard = htmlCreator(
+              "li", 
+              coursesDropmenu.body, "", 
+              "dropdown-item btn", 
+              `${course.name} | ${course.symbol}`
+            );
+            
+            courseCard.addEventListener("click", ()=>{
+                  coursesDropmenu.hide();
+                  const deepCopy = JSON.parse(JSON.stringify(course));
+                  
+                  app._addCourseFunction(course);
+                  options["search"].searchval.value = "";
+            });
+          }
+          const more = htmlCreator(
+            "li", 
+            coursesDropmenu.body, "", 
+            "dropdown-item btn text-primary", 
+            `View all results (${res.num} results found)`
+          );
+          more.title = "View all results";
+          more.addEventListener("click", ()=>{
+            updateModal(
+              res.courses,
+              "Found",
+              "Add Courses",
+              options["search"].searchval.value,
+              options["search"].searchby.value
+            );
+            cousresModal.submitFunction = function () {
+              for (const course of cousresModal.selected) {
+                app._addCourseFunction(course);
+              }
+            };
+            cousresModal.bootstrapModal.show();
+          });
+        }
+          
         console.log("num of results:",res.courses.length);
-      })
-      .catch((err)=>{
-        if(err.message != "The user aborted a request.")
-          console.error(err);
-      });
+      }
     };
     // let inputTimerID = null;
     options["search"].searchval.addEventListener("input", ()=>{
