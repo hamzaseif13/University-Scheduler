@@ -1,4 +1,3 @@
-import {Time} from "./Database.js";
 import { advancedSearch } from "./Database.js";
 
 const myCourses = [],
@@ -11,8 +10,8 @@ function courseIndex(courseNum) {
     return item.lineNumber === courseNum;
   });
 }
-function _searchFunction(val, searchBy, abortSignal) {
-  return searchDatabase(val, searchBy, abortSignal);
+async function _searchFunction(val, searchBy, abortSignal) {
+  return await searchDatabase(val, searchBy, abortSignal);
   
   // let arr = val.split(",");
   // arr = arr.map((v)=>{
@@ -31,19 +30,9 @@ function _addCourseFunction(course) {
 
   //add necessery props for sections
   course.sections = course.sections.map((val)=>{
-    val.timeObj = {
-      start: new Time(val.startTime * 60),
-      end: new Time(val.endTime * 60),
-      delta(){return Time.subtract(this.end , this.start);},
-      string: function () {
-        return (
-          this.start.string12 +
-          " - " +
-          this.end.string12
-        );
-      },
-    };
-    val.course = course;
+    const copy  = {...course};
+    copy.sections = undefined;
+    val.course = copy;
     return val;
   });
   myCourses.push(course);
@@ -64,7 +53,7 @@ function _generateScheduleFunction() {
   fetch("gen",{
     method:"POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({arr:getMyCourses(),options:options})
+    body: JSON.stringify({arr:myCourses,options:options})
   }).then((res) => res.json()).then((data)=>{
     serverGenerated=data.rec
     console.log(data.rec)
@@ -303,32 +292,17 @@ function getDays(){
   return options[0];
 }
 
-function searchDatabase(val, searchBy ,abortSignal = null){
+async function searchDatabase(val, searchBy ,abortSignal = null){
   const searchObj = {};
   searchObj.value = val;
   searchObj.searchBy = searchBy;
-  return fetch("getCourse", {
+  const res = await fetch("getCourse", {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(searchObj),
     signal: abortSignal
   })
-  .then((res) => res.json());
-}
-
-function getMyCourses(){
-  let arr = myCourses.map((course)=>{
-    let newCourse = {...course};
-    newCourse.sections = newCourse.sections.map((sec)=>{
-      let newSec = {...sec};
-      newSec.timeObj = undefined;
-      newSec.course = undefined;
-      return newSec;
-    });
-
-    return newCourse;
-  });
-  return arr;
+  return await res.json();
 }
 export default {
   courses: myCourses,
@@ -337,37 +311,9 @@ export default {
   _searchFunction,
   _generateScheduleFunction,
   setOptions,
+  options,
   getDays,
 };
-// function filterSet(set){
-
-//   let filteredArray=[]
-//   let daysString=options[0],dayStart=options[1],dayEnd=options[2];
-//   for (let j = 0; j < set.length; j++) {
-//     let invalidTime=true;
-//     let invalidDay=true;
-   
-//     for(let n=0;n<set.length;n++){
-//       if (set[n][0].days.length==3){
-//         if(daysString.includes(set[n][0].days.toLowerCase()))invalidDay=false;
-//         else invalidDay=true;
-//       }
-//       if (set[n][0].days.length==7){
-//         if(daysString.includes(set[n][0].days.slice(0,3).toLowerCase())&&daysString.includes(set[n][0].days.slice(4,8).toLowerCase()))invalidDay=false;
-//         else invalidDay=true;
-//       }
-//       if(set[n][0].startTime>=dayStart&&set[n][0].endTime<=dayEnd){//to check if the sections are in the time range 
-//         invalidTime=false;
-//       }
-//       else invalidTime=true;
-//   }
-//     if (!invalidTime&&!invalidDay)
-//     {
-//     filteredArray.push(set[j])
-//     }
-// }
-// return filteredArray;
-// }
 function filterSet(set){
   const filteredArray = [];
   

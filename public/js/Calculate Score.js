@@ -1,6 +1,6 @@
 
 
-function calcScore(schedule, schoolDays){
+function calcScore(schedule){
     const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Sat"];
     const daysArr = {
         Sun:[],
