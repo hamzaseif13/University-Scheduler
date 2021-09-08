@@ -1,6 +1,7 @@
-var options;
+let options;
 function generate(courses,opt) {
-    options=opt;
+  options=opt;
+  
   if (courses.length == 0) return [];
   let tempArray = [];
   for (let j = 0; j < courses.length; j++) {
@@ -8,11 +9,9 @@ function generate(courses,opt) {
   }
 
   let generatedArray = generateSchedules(...tempArray); //this array includes 15560 combinations
-  //generatedArray = filterSchedule(generatedArray);
   return generatedArray;
 }
 function generateSchedules(...sets) {
-  //with loops instead of recursion
   const copy = [...sets];
   function addSet(mainSet, set) {
     const arr = [];
@@ -29,7 +28,14 @@ function generateSchedules(...sets) {
     const copy = [...set];
     const result = [];
     copy.sort((a, b) => {
-      return a.endTime - b.endTime;
+      let result = a.endTime - b.endTime;
+      if(result)
+        return result;
+      
+      if(a.days === b.days)
+        return a.sectionNumber - b.sectionNumber;
+      
+      return (a.days[0] > b.days[0])? 1 : -1;
     });
     for (let i = 0; i < copy.length; ) {
       let item = copy[i];
@@ -45,45 +51,32 @@ function generateSchedules(...sets) {
       }
       result.push(arr);
     }
-
     return result;
   }
-  let l = 1;
+  // let l = 1;
   let result = [];
-  for (const set of copy) {
-    let preSet = filterSet(reduceSet(set));
-    //result=filterSet(result)
-    result = addSet(result, preSet);
+  for (let set of copy) {
+    // l *= set.length;
+    set = filterSet(reduceSet(set));
+    result = addSet(result, set);
     result = filterSchedule(result, ...options);
     if (result.length === 0)
-      //bug fix
       return [];
-    l *= set.length;
   }
-  console.log(
-    "Courses: ",
-    sets.length,
-    "\nnot reduced: ",
-    l,
-    "\nreduced: ",
-    result.length
-  );
+  // console.log(
+  //   "Courses: ",
+  //   sets.length,
+  //   "\nnot reduced: ",
+  //   l,
+  //   "\nreduced: ",
+  //   result.length
+  // );
 
-  //result=filterSchedule(result);
   return result;
 }
-function filterSchedule(
-  list,
-  daysString = "mon-wed",
-  dayStart = 830,
-  dayEnd = 1830
-) {
-  //the days var can be array of days ex. ["sun","tue","thu"] or a string ex. monwed , suntuethu
+function filterSchedule(list) {
   const lengthArray = list.length;
-  //days can be [sun ,mon ,tue ,wed ,thu],[sun,tue],[mon,wed],[sun mon tue wed]
-  let filteredArray = []; // this must be outside the for loop to access it (return filteredArray;) (read about let/const and closures in ES6)
-  let interSectionIndexes = [];
-  console.log("the total is " + list.length);
+  let filteredArray = [];
   for (let j = 0; j < lengthArray; j++) {
     let schedule = list[j].map((val) => {
       return val[0];
@@ -184,8 +177,6 @@ function filterSchedule(
     }
     // if schedule is not invalid add it to filteredArray
   }
-  // console.log(interSectionIndexes,list.length)
-  // console.log(list)
   if (filteredArray.length == 0) {
     alert("there is no schedule with the options selected");
     return [];
