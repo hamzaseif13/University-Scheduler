@@ -294,3 +294,6 @@ ul.ks-cboxtags li input[type="checkbox"] {
 ul.ks-cboxtags li input[type="checkbox"]:focus + label {
   border: 2px solid #0d9dfd;
 }
+.error{
+    color:red
+}
