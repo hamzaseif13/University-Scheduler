@@ -7,31 +7,27 @@ const {search, advancedSearch}=require("./db/Database");
 const PORT = 3000;
 const Course=require("./models/course");
 const cookieParser = require("cookie-parser")
-var handlebars = require("express3-handlebars").create({
-    defaultLayout: "main",
-});
+const {requireAuth,checkUser}=require("./middlewares/authMiddleware")
+
 //database connection
 const dbUrl="mongodb+srv://hamzaseif:125369325147@unischedulercluster.fhjnr.mongodb.net/uniSchedulerDb?retryWrites=true&w=majority"
 mongoose.connect(dbUrl,  { useNewUrlParser: true, useUnifiedTopology: true})
     .then(()=>console.log("db connected"))
     .catch((err)=>console.log(err))
-
+app.set('view engine', 'ejs');
 //middlewares and static files 
-app.set("view engine", "handlebars");
-app.engine("handlebars", handlebars.engine);
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended:true}))
 app.use(express.json());
-app.use(authRoutes)
 
+app.use(cookieParser());
 //routes 
-
+app.get('*',checkUser);
 app.get("/", (req, res) => {
-  
     res.render("landing");
 });
 
-app.get("/generator", (req, res) => {
+app.get("/generator", requireAuth,(req, res) => {
     res.render("generator",{cs101:search("cs101","symbol")});
     
 });
@@ -77,3 +73,4 @@ app.post('/process',(req, res)=>{
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);
 });
+app.use(authRoutes)
