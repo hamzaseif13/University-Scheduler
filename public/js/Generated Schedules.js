@@ -476,22 +476,12 @@ function displaySchedule() {
   }
 }
 async function generate(changeColor) {
+  tableCover.className = tableCover.className.replace("hidden", ""); //display loading
   console.log("this is my courses", app.courses);
   //moved the fetch here instead of generator file 
-  const res = await fetch("gen", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ arr: app.courses, options: app.options }),
-  });
-  // data is the response object coming from server 
-  const data = await res.json();
-  console.log(data.rec)
-
   if (changeColor) colors.colorGroup += 1;
 
-  tableCover.className = tableCover.className.replace("hidden", ""); //display loading
-  //to make the browser render the change first then execute _generateScheduleFunction
-  const arr = data.rec;
+  const arr = await app._generateScheduleFunction();
   table.allTable.reset();
   for (const schedule of arr) {
     for(const sections of schedule){

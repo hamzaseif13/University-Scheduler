@@ -180,17 +180,23 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     //highlight = highlight.split(",");
     if (validProps.includes(prop)){
       //for (const text of highlight) {
-        copy[prop] = copy[prop].replace(
-          new RegExp(highlight.trim(), "i"),
-          '<span class="bg-warning">' + highlight.trim() + "</span>"
+        copy[p] = copy[p].replace(
+          new RegExp(`(?=${highlight.trim()})`, "i"),
+          '<span class="bg-warning">'
+        ).replace(
+          new RegExp(`(?<=${highlight.trim()})`, "i"),
+          "</span>"
         );
       //}
     }
     else if(prop === "all"){
       for (const p of validProps) {
         copy[p] = copy[p].replace(
-          new RegExp(highlight.trim(), "i"),
-          '<span class="bg-warning">' + highlight.trim() + "</span>"
+          new RegExp(`(?=${highlight.trim()})`, "i"),
+          '<span class="bg-warning">'
+        ).replace(
+          new RegExp(`(?<=${highlight.trim()})`, "i"),
+          "</span>"
         );
       }
     }
@@ -534,8 +540,6 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     let touchX=-1;
     let touchY = 0;
     options["generateschedule"].submit.addEventListener("click",()=>{
-      
-      
       schedules.generate(true);
     });
 

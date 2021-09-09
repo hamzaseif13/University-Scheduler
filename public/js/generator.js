@@ -1,4 +1,3 @@
-import { advancedSearch } from "./Database.js";
 
 const myCourses = [],
   schedule = [],
@@ -42,57 +41,29 @@ function _removeCourseFunction(courseNum) {
 
   if (index != -1) myCourses.splice(index, 1);
 }
-function _generateScheduleFunction() {
-  console.log("generate funcition start ")
-  let serverGenerated=[]
-  console.log("getter:",getMyCourses(), "original:", myCourses);
+async function _generateScheduleFunction() {
   if (myCourses.length == 0) return [];
   let tempArray = [];
   for (let j = 0; j < myCourses.length; j++) {
     tempArray.push(myCourses[j].sections);
   }
-  fetch("gen",{
-    method:"POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({arr:myCourses,options:options})
-  }).then((res) => res.json()).then((data)=>{
-    serverGenerated=data.rec
-    console.log(data.rec)
-    
-  })
-  let generatedArray = serverGenerated; //this array includes 15560 combinations
-  //generatedArray = filterSchedule(generatedArray);
-  console.log("generate funcition end ")
+  
+  const generatedArray = await generateSchedules(tempArray); 
   return generatedArray;
 }
-
-function cartesianProduct(...paramArray) {
-  //(...) => rest parameter (put all args in an array [paramArray])
-  function addTo(curr, args) {
-    let i, //always use let/const because they have better scoping (block scoping)
-      copy,
-      rest = args.slice(1),
-      last = !rest.length,
-      result = [];
-
-    for (i = 0; i < args[0].length; i++) {
-      copy = curr.slice();
-      copy.push(args[0][i]);
-
-      if (last) {
-        result.push(copy);
-      } else {
-        result = result.concat(addTo(copy, rest));
-      }
-    }
-
-    return result;
-  }
-
-  return addTo([], paramArray);
+async function generateSchedules_Server(arr){
+  console.log("Generate on Server");
+  const res = await fetch("gen", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ arr, options }),
+  });
+  // data is the response object coming from server 
+  const data = await res.json();
+  return data.rec;
 }
-function generateSchedules(...sets) {
-  //with loops instead of recursion
+function generateSchedules(sets) {
+  console.log("Generate on Client");
   const copy = [...sets];
   function addSet(mainSet, set) {
     const arr = [];
@@ -109,7 +80,14 @@ function generateSchedules(...sets) {
     const copy = [...set];
     const result = [];
     copy.sort((a, b) => {
-      return a.endTime - b.endTime;
+      let result = a.endTime - b.endTime;
+      if(result)
+        return result;
+      
+      if(a.days === b.days)
+        return a.sectionNumber - b.sectionNumber;
+      
+      return (a.days[0] > b.days[0])? 1 : -1;
     });
     for (let i = 0; i < copy.length; ) {
       let item = copy[i];
@@ -125,31 +103,27 @@ function generateSchedules(...sets) {
       }
       result.push(arr);
     }
-
     return result;
   }
-  let l = 1;
+  // let l = 1;
   let result = [];
-  for (const set of copy) {
-    
-    let preSet=filterSet(reduceSet(set))
-    //result=filterSet(result)
-    result = addSet(result,preSet);
-    result = filterSchedule(result,...options);
-    if(result.length === 0)//bug fix
+  for (let set of copy) {
+    // l *= set.length;
+    set = filterSet(reduceSet(set));
+    result = addSet(result, set);
+    result = filterSchedule(result, ...options);
+    if (result.length === 0)
       return [];
-    l *= set.length;
   }
-  console.log(
-    "Courses: ",
-    sets.length,
-    "\nnot reduced: ",
-    l,
-    "\nreduced: ",
-    result.length
-  );
+  // console.log(
+  //   "Courses: ",
+  //   sets.length,
+  //   "\nnot reduced: ",
+  //   l,
+  //   "\nreduced: ",
+  //   result.length
+  // );
 
-  //result=filterSchedule(result);
   return result;
 }
 

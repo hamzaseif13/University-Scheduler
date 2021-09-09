@@ -192,7 +192,9 @@ class Course {
       //   throw new Error("incorrect var type");
       // else
       this.sections.push(sec);
-      
+      const copy = {...this};
+      copy.sections = undefined;
+      sec.course = copy; //a pointer to the course of the section
     }
     getSection(val, searchBy = "sectionNumber") {
       return this.sections.find((sec) => {
@@ -225,7 +227,6 @@ class Section {
           );
         },
       };
-     
     }
     set(
       sectionNumber,

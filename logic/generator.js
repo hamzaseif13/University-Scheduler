@@ -1,17 +1,12 @@
 let options;
-function generate(courses,opt) {
+function generate(sections,opt) {
   options=opt;
   
-  if (courses.length == 0) return [];
-  let tempArray = [];
-  for (let j = 0; j < courses.length; j++) {
-    tempArray.push(courses[j].sections);
-  }
-
-  let generatedArray = generateSchedules(...tempArray); //this array includes 15560 combinations
-  return generatedArray;
+  if (sections.length == 0) return [];
+  
+  return generateSchedules(sections);
 }
-function generateSchedules(...sets) {
+function generateSchedules(sets) {
   const copy = [...sets];
   function addSet(mainSet, set) {
     const arr = [];
