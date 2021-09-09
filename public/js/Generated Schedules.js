@@ -1,7 +1,7 @@
-import app from "./generator.js";
-import { table, htmlCreator, tableCover } from "./script.js";
+// import app from "./generator.js";
+import { table, htmlCreator } from "./script.js";
 import calcScore from "./Calculate Score.js";
-import { advancedSearch, Time } from "./Database.js";
+// import { advancedSearch } from "./Database.js";
 const html2pdf = window.html2pdf;
 
 const colors = {
@@ -342,7 +342,7 @@ class ScheduleGroup {
     this.#activeIndex = 0;
     this.#sorted = false;
 
-    this.days = app.getDays();
+    // this.days = app.getDays();
   }
   display() {
     this.sort();
@@ -409,7 +409,7 @@ class ScheduleGroup {
     });
   }
   #calcScore(s) {
-    s.score = calcScore(s.sections, app.getDays());
+    s.score = calcScore(s.sections);
   }
   sort() {
     if (!this.#sorted) this.#schedules.sort((a, b) => a.score - b.score);
@@ -432,8 +432,8 @@ class ScheduleGroup {
       const sections = schedule.sections.map((val) => val[0]);
       let daysNum = 0;
       for (const day of weekDays) {
-        if (advancedSearch(sections, false, [day, "days"]).length >= 1)
-          daysNum++;
+        // if (advancedSearch(sections, false, [day, "days"]).length >= 1)
+        //   daysNum++;
       }
       {
         //num of days
@@ -475,40 +475,20 @@ function displaySchedule() {
     }
   }
 }
-async function generate(changeColor) {
-  tableCover.className = tableCover.className.replace("hidden", ""); //display loading
-  console.log("this is my courses", app.courses);
-  //moved the fetch here instead of generator file 
+
+//feature functions to control displayed schedule (invoked with user events)
+function updateSchedule(arr,changeColor) {//called when generating schedules
   if (changeColor) colors.colorGroup += 1;
 
-  const arr = await app._generateScheduleFunction();
   table.allTable.reset();
   for (const schedule of arr) {
-    for(const sections of schedule){
-      for (const sec of sections) {
-        sec.timeObj = {
-          start: new Time(sec.startTime * 60),
-          end: new Time(sec.endTime * 60),
-          delta(){return Time.subtract(this.end , this.start);},
-          string: function () {
-            return (
-              this.start.string12 +
-              " - " +
-              this.end.string12
-            );
-          },
-        };
-      }
-    }
     table.allTable.addSchedule({ sections: schedule, id: idCounter++ });
-
   }
-  tableCover.className += "hidden";
+
   table.allTable.changeActiveIndex(0);
   displaySchedule();
   // table.allTable.stats();
 }
-
 function changeActiveSchedule(val) {
   let res = activeTable.changeActiveIndex(val - 1);
   displaySchedule();
@@ -584,7 +564,7 @@ function allSchedule() {
   }, 200);
 }
 export default {
-  generate,
+  updateSchedule,
   changeActiveSchedule,
   nextSchedule,
   prevSchedule,

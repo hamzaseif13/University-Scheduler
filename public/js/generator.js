@@ -1,7 +1,6 @@
 
 const myCourses = [],
-  schedule = [],
-  options = ["all sun mon tue wed thu",8.5,18.5];
+  options = ["all",8.5,18.5];
 
 function courseIndex(courseNum) {
   //function to search the index of a course inside #myCourses
@@ -9,20 +8,7 @@ function courseIndex(courseNum) {
     return item.lineNumber === courseNum;
   });
 }
-async function _searchFunction(val, searchBy, abortSignal) {
-  return await searchDatabase(val, searchBy, abortSignal);
-  
-  // let arr = val.split(",");
-  // arr = arr.map((v)=>{
-  //   return [v,searchBy,"or"];
-  // })
-  // const result = advancedSearch(
-  //   "",
-  //   false,
-  //   ...arr
-  // );
-  // return result;
-}
+//feature functions (invoked with user events)
 function _addCourseFunction(course) {
   //check if the course already exist
   if (courseIndex(course.lineNumber) != -1) return;
@@ -41,6 +27,21 @@ function _removeCourseFunction(courseNum) {
 
   if (index != -1) myCourses.splice(index, 1);
 }
+
+async function _searchFunction(val, searchBy, abortSignal) {
+  return await searchDatabase(val, searchBy, abortSignal);
+  
+  // let arr = val.split(",");
+  // arr = arr.map((v)=>{
+  //   return [v,searchBy,"or"];
+  // })
+  // const result = advancedSearch(
+  //   "",
+  //   false,
+  //   ...arr
+  // );
+  // return result;
+}
 async function _generateScheduleFunction() {
   if (myCourses.length == 0) return [];
   let tempArray = [];
@@ -48,8 +49,22 @@ async function _generateScheduleFunction() {
     tempArray.push(myCourses[j].sections);
   }
   
-  const generatedArray = await generateSchedules(tempArray); 
+  const generatedArray = await generateSchedules_Server(tempArray); //switch between server/client processing
   return generatedArray;
+}
+
+//utility functions (for dev use)
+async function searchDatabase(val, searchBy ,abortSignal = null){
+  const searchObj = {};
+  searchObj.value = val;
+  searchObj.searchBy = searchBy;
+  const res = await fetch("getCourse", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(searchObj),
+    signal: abortSignal
+  })
+  return await res.json();
 }
 async function generateSchedules_Server(arr){
   console.log("Generate on Server");
@@ -62,7 +77,7 @@ async function generateSchedules_Server(arr){
   const data = await res.json();
   return data.rec;
 }
-function generateSchedules(sets) {
+function generateSchedules_Client(sets) {
   console.log("Generate on Client");
   const copy = [...sets];
   function addSet(mainSet, set) {
@@ -126,20 +141,16 @@ function generateSchedules(sets) {
 
   return result;
 }
-
-function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
-  //the days var can be array of days ex. ["sun","tue","thu"] or a string ex. monwed , suntuethu
+//sub-functions for generateSchedules_Client
+function filterSchedule(list) {
   const lengthArray = list.length;
-  //days can be [sun ,mon ,tue ,wed ,thu],[sun,tue],[mon,wed],[sun mon tue wed]
-  let filteredArray = []; // this must be outside the for loop to access it (return filteredArray;) (read about let/const and closures in ES6)
-  let interSectionIndexes = [];
-  console.log("the total is " + list.length);
+  let filteredArray = [];
   for (let j = 0; j < lengthArray; j++) {
     let schedule = list[j].map((val) => {
       return val[0];
     }); // to change array of sections to a section
     let invalidSchedule = false;
-  
+
     let sun = [],
       sat = [],
       mon = [],
@@ -165,7 +176,6 @@ function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
       if (schedule[k].days.includes("Sat")) {
         sat.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
-      
     }
 
     if (sun.length > 0) {
@@ -230,22 +240,17 @@ function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
       }
     }
 
-    
-    if (!invalidSchedule)
-    {
-    filteredArray.push(list[j])
+    if (!invalidSchedule) {
+      filteredArray.push(list[j]);
     }
-      // if schedule is not invalid add it to filteredArray
+    // if schedule is not invalid add it to filteredArray
   }
-  // console.log(interSectionIndexes,list.length)
-  // console.log(list)
-  if(filteredArray.length==0){
-    alert("there is no schedule with the options selected")
+  if (filteredArray.length == 0) {
+    alert("there is no schedule with the options selected");
     return [];
   }
   return filteredArray;
 }
-
 function checkInterSection(sec1, sec2) {
   if (sec1.start == sec2.start) {
     return true;
@@ -258,7 +263,37 @@ function checkInterSection(sec1, sec2) {
     else if (sec2.end <= sec1.start) return false;
   }
 }
-
+function filterSet(set){
+    const filteredArray = [];
+    
+    let daysString=options[0],dayStart=options[1],dayEnd=options[2];
+  
+    daysString = daysString.toLowerCase();
+  
+    for(let i=0,l=set.length ; i < l ;i++){
+      const sec = set[i][0];
+      let invalid = false;
+  
+      if(!daysString.includes("all")){
+        const days = sec.days.toLowerCase().split(" ");
+        for (const day of days) {
+          if(!daysString.includes(day)){
+            invalid = true;
+            break;
+          }
+        }
+      }
+      if(sec.startTime < dayStart || sec.endTime > dayEnd){
+        invalid = true;
+        continue;
+      }
+  
+      if(!invalid)
+        filteredArray.push(set[i]);
+    }
+    return filteredArray;
+}
+//functions to access options from outside module
 function setOptions(days,dayStart,dayEnd){
   options[0] = days;
   options[1] = dayStart;
@@ -268,18 +303,6 @@ function getDays(){
   return options[0];
 }
 
-async function searchDatabase(val, searchBy ,abortSignal = null){
-  const searchObj = {};
-  searchObj.value = val;
-  searchObj.searchBy = searchBy;
-  const res = await fetch("getCourse", {
-    method: "post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(searchObj),
-    signal: abortSignal
-  })
-  return await res.json();
-}
 export default {
   courses: myCourses,
   _addCourseFunction,
@@ -290,35 +313,5 @@ export default {
   options,
   getDays,
 };
-function filterSet(set){
-  const filteredArray = [];
-  
-  let daysString=options[0],dayStart=options[1],dayEnd=options[2];
 
-  daysString = daysString.toLowerCase();
-
-  for(let i=0,l=set.length ; i < l ;i++){
-    const sec = set[i][0];
-    let invalid = false;
-
-    if(!daysString.includes("all")){
-      const days = sec.days.toLowerCase().split(" ");
-      for (const day of days) {
-        if(!daysString.includes(day)){
-          invalid = true;
-          break;
-        }
-      }
-    }
-    if(sec.startTime < dayStart || sec.endTime > dayEnd){
-      invalid = true;
-      continue;
-    }
-
-    if(!invalid)
-      filteredArray.push(set[i]);
-  }
-  return filteredArray;
-
-}
 
