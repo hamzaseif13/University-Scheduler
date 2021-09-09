@@ -1,8 +1,6 @@
-import { advancedSearch } from "./Database.js";
 
 const myCourses = [],
-  schedule = [],
-  options = ["all sun mon tue wed thu",8.5,18.5];
+  options = ["all",8.5,18.5];
 
 function courseIndex(courseNum) {
   //function to search the index of a course inside #myCourses
@@ -10,20 +8,7 @@ function courseIndex(courseNum) {
     return item.lineNumber === courseNum;
   });
 }
-async function _searchFunction(val, searchBy, abortSignal) {
-  return await searchDatabase(val, searchBy, abortSignal);
-  
-  // let arr = val.split(",");
-  // arr = arr.map((v)=>{
-  //   return [v,searchBy,"or"];
-  // })
-  // const result = advancedSearch(
-  //   "",
-  //   false,
-  //   ...arr
-  // );
-  // return result;
-}
+//feature functions (invoked with user events)
 function _addCourseFunction(course) {
   //check if the course already exist
   if (courseIndex(course.lineNumber) != -1) return;
@@ -42,57 +27,58 @@ function _removeCourseFunction(courseNum) {
 
   if (index != -1) myCourses.splice(index, 1);
 }
-function _generateScheduleFunction() {
-  console.log("generate funcition start ")
-  let serverGenerated=[]
-  console.log("getter:",getMyCourses(), "original:", myCourses);
+
+async function _searchFunction(val, searchBy, abortSignal) {
+  return await searchDatabase(val, searchBy, abortSignal);
+  
+  // let arr = val.split(",");
+  // arr = arr.map((v)=>{
+  //   return [v,searchBy,"or"];
+  // })
+  // const result = advancedSearch(
+  //   "",
+  //   false,
+  //   ...arr
+  // );
+  // return result;
+}
+async function _generateScheduleFunction() {
   if (myCourses.length == 0) return [];
   let tempArray = [];
   for (let j = 0; j < myCourses.length; j++) {
     tempArray.push(myCourses[j].sections);
   }
-  fetch("gen",{
-    method:"POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({arr:myCourses,options:options})
-  }).then((res) => res.json()).then((data)=>{
-    serverGenerated=data.rec
-    console.log(data.rec)
-    
-  })
-  let generatedArray = serverGenerated; //this array includes 15560 combinations
-  //generatedArray = filterSchedule(generatedArray);
-  console.log("generate funcition end ")
+  
+  const generatedArray = await generateSchedules_Server(tempArray); //switch between server/client processing
   return generatedArray;
 }
 
-function cartesianProduct(...paramArray) {
-  //(...) => rest parameter (put all args in an array [paramArray])
-  function addTo(curr, args) {
-    let i, //always use let/const because they have better scoping (block scoping)
-      copy,
-      rest = args.slice(1),
-      last = !rest.length,
-      result = [];
-
-    for (i = 0; i < args[0].length; i++) {
-      copy = curr.slice();
-      copy.push(args[0][i]);
-
-      if (last) {
-        result.push(copy);
-      } else {
-        result = result.concat(addTo(copy, rest));
-      }
-    }
-
-    return result;
-  }
-
-  return addTo([], paramArray);
+//utility functions (for dev use)
+async function searchDatabase(val, searchBy ,abortSignal = null){
+  const searchObj = {};
+  searchObj.value = val;
+  searchObj.searchBy = searchBy;
+  const res = await fetch("getCourse", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(searchObj),
+    signal: abortSignal
+  })
+  return await res.json();
 }
-function generateSchedules(...sets) {
-  //with loops instead of recursion
+async function generateSchedules_Server(arr){
+  console.log("Generate on Server");
+  const res = await fetch("gen", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ arr, options }),
+  });
+  // data is the response object coming from server 
+  const data = await res.json();
+  return data.rec;
+}
+function generateSchedules_Client(sets) {
+  console.log("Generate on Client");
   const copy = [...sets];
   function addSet(mainSet, set) {
     const arr = [];
@@ -109,7 +95,14 @@ function generateSchedules(...sets) {
     const copy = [...set];
     const result = [];
     copy.sort((a, b) => {
-      return a.endTime - b.endTime;
+      let result = a.endTime - b.endTime;
+      if(result)
+        return result;
+      
+      if(a.days === b.days)
+        return a.sectionNumber - b.sectionNumber;
+      
+      return (a.days[0] > b.days[0])? 1 : -1;
     });
     for (let i = 0; i < copy.length; ) {
       let item = copy[i];
@@ -125,47 +118,39 @@ function generateSchedules(...sets) {
       }
       result.push(arr);
     }
-
     return result;
   }
-  let l = 1;
+  // let l = 1;
   let result = [];
-  for (const set of copy) {
-    
-    let preSet=filterSet(reduceSet(set))
-    //result=filterSet(result)
-    result = addSet(result,preSet);
-    result = filterSchedule(result,...options);
-    if(result.length === 0)//bug fix
+  for (let set of copy) {
+    // l *= set.length;
+    set = filterSet(reduceSet(set));
+    result = addSet(result, set);
+    result = filterSchedule(result, ...options);
+    if (result.length === 0)
       return [];
-    l *= set.length;
   }
-  console.log(
-    "Courses: ",
-    sets.length,
-    "\nnot reduced: ",
-    l,
-    "\nreduced: ",
-    result.length
-  );
+  // console.log(
+  //   "Courses: ",
+  //   sets.length,
+  //   "\nnot reduced: ",
+  //   l,
+  //   "\nreduced: ",
+  //   result.length
+  // );
 
-  //result=filterSchedule(result);
   return result;
 }
-
-function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
-  //the days var can be array of days ex. ["sun","tue","thu"] or a string ex. monwed , suntuethu
+//sub-functions for generateSchedules_Client
+function filterSchedule(list) {
   const lengthArray = list.length;
-  //days can be [sun ,mon ,tue ,wed ,thu],[sun,tue],[mon,wed],[sun mon tue wed]
-  let filteredArray = []; // this must be outside the for loop to access it (return filteredArray;) (read about let/const and closures in ES6)
-  let interSectionIndexes = [];
-  console.log("the total is " + list.length);
+  let filteredArray = [];
   for (let j = 0; j < lengthArray; j++) {
     let schedule = list[j].map((val) => {
       return val[0];
     }); // to change array of sections to a section
     let invalidSchedule = false;
-  
+
     let sun = [],
       sat = [],
       mon = [],
@@ -191,7 +176,6 @@ function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
       if (schedule[k].days.includes("Sat")) {
         sat.push({ start: schedule[k].startTime, end: schedule[k].endTime });
       }
-      
     }
 
     if (sun.length > 0) {
@@ -256,22 +240,17 @@ function filterSchedule(list,daysString="mon-wed",dayStart=830,dayEnd=1830) {
       }
     }
 
-    
-    if (!invalidSchedule)
-    {
-    filteredArray.push(list[j])
+    if (!invalidSchedule) {
+      filteredArray.push(list[j]);
     }
-      // if schedule is not invalid add it to filteredArray
+    // if schedule is not invalid add it to filteredArray
   }
-  // console.log(interSectionIndexes,list.length)
-  // console.log(list)
-  if(filteredArray.length==0){
-    alert("there is no schedule with the options selected")
+  if (filteredArray.length == 0) {
+    alert("there is no schedule with the options selected");
     return [];
   }
   return filteredArray;
 }
-
 function checkInterSection(sec1, sec2) {
   if (sec1.start == sec2.start) {
     return true;
@@ -284,7 +263,37 @@ function checkInterSection(sec1, sec2) {
     else if (sec2.end <= sec1.start) return false;
   }
 }
-
+function filterSet(set){
+    const filteredArray = [];
+    
+    let daysString=options[0],dayStart=options[1],dayEnd=options[2];
+  
+    daysString = daysString.toLowerCase();
+  
+    for(let i=0,l=set.length ; i < l ;i++){
+      const sec = set[i][0];
+      let invalid = false;
+  
+      if(!daysString.includes("all")){
+        const days = sec.days.toLowerCase().split(" ");
+        for (const day of days) {
+          if(!daysString.includes(day)){
+            invalid = true;
+            break;
+          }
+        }
+      }
+      if(sec.startTime < dayStart || sec.endTime > dayEnd){
+        invalid = true;
+        continue;
+      }
+  
+      if(!invalid)
+        filteredArray.push(set[i]);
+    }
+    return filteredArray;
+}
+//functions to access options from outside module
 function setOptions(days,dayStart,dayEnd){
   options[0] = days;
   options[1] = dayStart;
@@ -294,18 +303,6 @@ function getDays(){
   return options[0];
 }
 
-async function searchDatabase(val, searchBy ,abortSignal = null){
-  const searchObj = {};
-  searchObj.value = val;
-  searchObj.searchBy = searchBy;
-  const res = await fetch("getCourse", {
-    method: "post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(searchObj),
-    signal: abortSignal
-  })
-  return await res.json();
-}
 export default {
   courses: myCourses,
   _addCourseFunction,
@@ -316,35 +313,5 @@ export default {
   options,
   getDays,
 };
-function filterSet(set){
-  const filteredArray = [];
-  
-  let daysString=options[0],dayStart=options[1],dayEnd=options[2];
 
-  daysString = daysString.toLowerCase();
-
-  for(let i=0,l=set.length ; i < l ;i++){
-    const sec = set[i][0];
-    let invalid = false;
-
-    if(!daysString.includes("all")){
-      const days = sec.days.toLowerCase().split(" ");
-      for (const day of days) {
-        if(!daysString.includes(day)){
-          invalid = true;
-          break;
-        }
-      }
-    }
-    if(sec.startTime < dayStart || sec.endTime > dayEnd){
-      invalid = true;
-      continue;
-    }
-
-    if(!invalid)
-      filteredArray.push(set[i]);
-  }
-  return filteredArray;
-
-}
 

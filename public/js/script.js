@@ -1,5 +1,5 @@
 import app from "./generator.js";
-import schedules from "./Generated Schedules.js";
+import schedulesControls from "./Generated Schedules.js";
 import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
 
@@ -150,8 +150,6 @@ const options = {},
     }
   },
   covers = {};
-let matchedCourses = [];
-
 
 
 function updateModal(
@@ -180,17 +178,23 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     //highlight = highlight.split(",");
     if (validProps.includes(prop)){
       //for (const text of highlight) {
-        copy[prop] = copy[prop].replace(
-          new RegExp(highlight.trim(), "i"),
-          '<span class="bg-warning">' + highlight.trim() + "</span>"
+        copy[p] = copy[p].replace(
+          new RegExp(`(?=${highlight.trim()})`, "i"),
+          '<span class="bg-warning">'
+        ).replace(
+          new RegExp(`(?<=${highlight.trim()})`, "i"),
+          "</span>"
         );
       //}
     }
     else if(prop === "all"){
       for (const p of validProps) {
         copy[p] = copy[p].replace(
-          new RegExp(highlight.trim(), "i"),
-          '<span class="bg-warning">' + highlight.trim() + "</span>"
+          new RegExp(`(?=${highlight.trim()})`, "i"),
+          '<span class="bg-warning">'
+        ).replace(
+          new RegExp(`(?<=${highlight.trim()})`, "i"),
+          "</span>"
         );
       }
     }
@@ -533,20 +537,42 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   { //table events
     let touchX=-1;
     let touchY = 0;
-    options["generateschedule"].submit.addEventListener("click",()=>{
+    options["generateschedule"].submit.addEventListener("click",async()=>{
+      covers.table.className = covers.table.className.replace("hidden", ""); //display loading
       
+      const arr = await app._generateScheduleFunction();
+      for (const schedule of arr) {
+        for(const sections of schedule){
+          for (const sec of sections) {
+            sec.timeObj = {
+              start: new Time(sec.startTime * 60),
+              end: new Time(sec.endTime * 60),
+              delta(){return Time.subtract(this.end , this.start);},
+              string: function () {
+                return (
+                  this.start.string12 +
+                  " - " +
+                  this.end.string12
+                );
+              },
+            };
+          }
+        }
+    
+      }
       
-      schedules.generate(true);
+      covers.table.className += "hidden";
+      schedulesControls.updateSchedule(arr, true);
     });
 
     table.indexInput.addEventListener("change", function(){
-      schedules.changeActiveSchedule(parseInt(this.value));
+      schedulesControls.changeActiveSchedule(parseInt(this.value));
     });
     for (const key in table) {
       if (key.includes("Btn")) {
         table[key].addEventListener("click", function(){
           const func = key.replace("Btn","") + "Schedule";
-          schedules[func]();
+          schedulesControls[func]();
         });
       }
     }
@@ -576,11 +602,11 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         }
 
         if(deltaX > 50){
-          schedules.prevSchedule();
+          schedulesControls.prevSchedule();
           touchX = -1;
         }
         else if(deltaX < -50){
-          schedules.nextSchedule();
+          schedulesControls.nextSchedule();
           touchX = -1;
         }
       }
@@ -609,10 +635,10 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       coursesDropmenu.hide();
     }
     else if(event.key === "ArrowRight"){
-      schedules.nextSchedule();
+      schedulesControls.nextSchedule();
     }
     else if(event.key === "ArrowLeft"){
-      schedules.prevSchedule();
+      schedulesControls.prevSchedule();
     }
   });
   window.addEventListener("click", (event)=>{
@@ -636,8 +662,4 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-const ct = covers.table;
-
-export {table,htmlCreator, ct as tableCover};
-
-
+export {table, htmlCreator, random};
