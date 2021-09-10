@@ -17,7 +17,31 @@
 </head>
 
 <body>
-    <div class="nav">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">JusTutor</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Log in</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign up</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/generator">Generator</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <!-- <div class="nav">
         <input type="checkbox" id="nav-check" />
         <div class="nav-header">
             <div class="nav-title">
@@ -32,13 +56,13 @@
             </label>
         </div>
 
-        <div class="nav-links">
+        <div class="nav-links row-cols-3">
             <% if (user) { %>
-                <h1>Welcome, <%= user.email %><h1>
+                <h4>Welcome, <%= user.email %></h4>
                 <a href="/logout">Log out</a>
               <% } else { %>
                 <a href="/login">Log in</a>
                 <a href="/signup" class="btn">Sign up</a>
               <% } %>
         </div>
-    </div>
+    </div> -->
