@@ -34,7 +34,7 @@
 
         <div class="nav-links">
             <% if (user) { %>
-                <h1>Welcome, <%= user.email %><h1>
+                <h5>Welcome, <%= user.name %><h5>
                 <a href="/logout">Log out</a>
               <% } else { %>
                 <a href="/login">Log in</a>
