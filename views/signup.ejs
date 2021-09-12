@@ -12,9 +12,10 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="text" disabled id="form3Example1c" class="form-control" />
-                      <label class="form-label" for="form3Example1c">Your Name</label>
+                      <input type="text"  name="name" id="form3Example1c" class="form-control" />
+                      <label class="form-label"for="form3Example1c">Your Name</label>
                     </div>
+                    <div class="name error"></div>
                   </div>
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -27,7 +28,7 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" name="password" required id="password" class="form-control" />
+                      <input type="password" name="password"  id="password" class="form-control" />
                       <label class="form-label" for="password">Password</label>
                     </div>
                   </div>
@@ -35,7 +36,7 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" disabled id="form3Example4cd" class="form-control" />
+                      <input type="password" name="secPassword" id="form3Example4cd" class="form-control" />
                       <label class="form-label" for="form3Example4cd">Repeat
                         your password</label>
                     </div>
@@ -63,6 +64,7 @@
   const form = document.querySelector('form');
   const emailError = document.querySelector('.email.error');
   const passwordError = document.querySelector('.password.error');
+  const nameError = document.querySelector('.name.error');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     // reset errors
@@ -71,10 +73,13 @@
     // get values
     const email = form.email.value;
     const password = form.password.value;
+    const secPassword = form.secPassword.value;
+    const name = form.name.value;
+    if(password==secPassword){
     try {
       const res = await fetch('/signup', { 
         method: 'POST', 
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password,name }),
         headers: {'Content-Type': 'application/json'}
       });
       const data = await res.json();
@@ -82,6 +87,7 @@
       if (data.errors) {
         emailError.textContent = data.errors.email;
         passwordError.textContent = data.errors.password;
+        nameError.textContent = data.errors.name;
       }
       if (data.user) {
         location.assign('/');
@@ -89,6 +95,8 @@
     }
     catch (err) {
       console.log(err);
+    }}else{
+      passwordError.textContent ="passwords doesnt match"
     }
   });
 </script>

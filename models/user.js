@@ -13,8 +13,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter a password'],
     minlength: [8, 'Minimum password length is 8 characters'],
-  }
-
+  },
+  name:{
+    type:String,required:[true, 'Please enter a name'],maxlength:[12,"Maximum length is 12 charchatres"]
+  },
+  university:{
+    type:String,required:false,maxlength:12
+  },
+  feild:{
+    type:String,required:false,maxlength:12
+  },
 });
 userSchema.post("save",function(doc,next){
     console.log("new user was created & saved",doc)
