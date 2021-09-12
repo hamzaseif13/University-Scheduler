@@ -23,9 +23,12 @@ const userSchema = new mongoose.Schema({
   feild:{
     type:String,required:false,maxlength:12
   },
+  pinnedSchedule:[]
+
+  
 });
 userSchema.post("save",function(doc,next){
-    console.log("new user was created & saved",doc)
+  // console.log("new user was created & saved",doc)
     next();
 })
 userSchema.pre("save",async function(next){

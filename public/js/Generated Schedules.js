@@ -13,9 +13,8 @@ const colors = {
   },
   get colorGroup() {
     for (let i = 0; i < 20; i++) {
-      colors.array[i] = `hsl(${
-        (((0 + 120 * this.cg) / 6 + i) * 6) % 360
-      },90%, 60%)`;
+      colors.array[i] = `hsl(${(((0 + 120 * this.cg) / 6 + i) * 6) % 360
+        },90%, 60%)`;
     }
     return this.cg;
   },
@@ -162,9 +161,8 @@ class TimeTable {
       "list-group-item",
       '<span class="h6">Credit Hours:</span> ' + sec.course.creditHours
     );
-    this.#modal.title.innerHTML = `Section ${
-      this.activeGroup.activeSecIndex + 1
-    } of ${this.activeGroup.arr.length}`;
+    this.#modal.title.innerHTML = `Section ${this.activeGroup.activeSecIndex + 1
+      } of ${this.activeGroup.arr.length}`;
     this.#modal.body.innerHTML = "";
     this.#modal.body.appendChild(col);
     this.#modal.bootstrapModal.show();
@@ -478,7 +476,7 @@ function displaySchedule() {
 }
 
 //feature functions to control displayed schedule (invoked with user events)
-function updateSchedule(arr,changeColor) {//called when generating schedules
+function updateSchedule(arr, changeColor) {//called when generating schedules
   if (changeColor) colors.colorGroup += 1;
 
   table.allTable.reset();
@@ -511,20 +509,25 @@ function deleteSchedule() {
 
   displaySchedule();
 }
-function pinSchedule() {
-  if (
-    table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) === -1
-  ) {
+async function pinSchedule() {
+  console.log("pin clicked")
+  if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) === -1) {
+    const pinnedSchedule = activeTable.activeSchedule;
     table.pinnedTable.addSchedule(activeTable.activeSchedule);
     displaySchedule();
+    console.log(pinnedSchedule.sections, pinnedSchedule)
+    await fetch("/pin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sections: pinnedSchedule.sections })
+    })
     return false;
   }
   return true;
 }
 function unpinSchedule() {
-  if (
-    table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1
-  )
+  console.log("unpiined pressed")
+  if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1)
     table.pinnedTable.deleteSchedule(activeTable.activeSchedule.id);
 
   displaySchedule();

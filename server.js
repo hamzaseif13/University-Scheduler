@@ -8,7 +8,8 @@ const PORT = process.env.PORT||3000;
 const Course=require("./models/course");
 const cookieParser = require("cookie-parser")
 const {requireAuth,checkUser}=require("./middlewares/authMiddleware")
-
+const User=require("./models/user")
+const Schedule=require("./models/scheduleModel")
 //database connection
 const dbUrl="mongodb+srv://hamzaseif:125369325147@unischedulercluster.fhjnr.mongodb.net/uniSchedulerDb?retryWrites=true&w=majority"
 mongoose.connect(dbUrl,  { useNewUrlParser: true, useUnifiedTopology: true})
@@ -69,7 +70,17 @@ app.post('/process',(req, res)=>{
    
    res.redirect("/tables")
 })
+app.post("/pin",checkUser,async(req,res)=>{
+    
+    const user =await User.findById(res.locals.user._id)
+    
 
+    
+   
+})
+app.get("/pinned",(req,res)=>{
+    res.render("pinned")
+})
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);
 });
