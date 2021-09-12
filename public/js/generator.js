@@ -75,6 +75,7 @@ async function generateSchedules_Server(arr){
   });
   // data is the response object coming from server 
   const data = await res.json();
+  console.log(data.rec[0])
   return data.rec;
 }
 function generateSchedules_Client(sets) {
