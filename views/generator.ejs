@@ -1,6 +1,4 @@
-<%- include("partials/header")%>
-<div id="container" class="row g-0 justify-content-center" tabindex="-1">
-        <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3">
+    <%- include("partials/header")%>
             <div id="options" class="border-start border-dark col-12 col-md-4 row g-0 justify-content-center">
                 <div class="big option border-bottom border-dark col-12 col-sm-8 col-md-12" title="search">
 
@@ -96,7 +94,7 @@
                         <div class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</div>
                     </div>
                 </div>
-                <div class="content col-12 order-last">
+                <div class="content col-12 order-last" style="height: fit-content;">
                     <div class="h-100 tab-content" id="myTabContent">
                         <div class="tab-pane fade h-100 show active" id="all">
                             <div class="timeTable row row-cols-6 g-0">
@@ -157,50 +155,48 @@
                     </div>
                 </div>
             </div>
-        </div>
-</div>
-<!-- this is a modal (like a popup window) to display courses (made using bootstrap) (courses are added using JS)-->
-<div class="modal fade" tabindex="-1" id="coursesModal">
-    <div class="modal-dialog modal-xl modal-fullscreen-xl-down modal-dialog-scrollable modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Courses</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" tabindex="-1">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+    <!-- this is a modal (like a popup window) to display courses (made using bootstrap) (courses are added using JS)-->
+    <div class="modal fade" tabindex="-1" id="coursesModal">
+        <div class="modal-dialog modal-xl modal-fullscreen-xl-down modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Courses</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" tabindex="-1">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
 
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" tabindex="-1" id="sectionModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Sections: </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" tabindex="-1">
-                <div class="row g-0">
-                    <div title="Previous Section" class="prev col-1 btn btn-light position-relative p-0">
-                        <span class="position-absolute"><</span>
-                    </div>
-                    <div class="col-10"></div>
-                    <div title="Next Section" class="next col-1 btn btn-light position-relative p-0">
-                        <span class="position-absolute">></span>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- <script src="dom-to-image.js"></script> -->
-<script type="module" src="./js/script.js"></script>
-<script src="./js/html2pdf.bundle.min.js"></script>
+    <div class="modal fade" tabindex="-1" id="sectionModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sections: </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" tabindex="-1">
+                    <div class="row g-0">
+                        <div title="Previous Section" class="prev col-1 btn btn-light position-relative p-0">
+                            <span class="position-absolute"><</span>
+                        </div>
+                        <div class="col-10"></div>
+                        <div title="Next Section" class="next col-1 btn btn-light position-relative p-0">
+                            <span class="position-absolute">></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script src="dom-to-image.js"></script> -->
+    <script type="module" src="./js/script.js"></script>
+    <script src="./js/html2pdf.bundle.min.js"></script>
 <%- include("partials/footer")%>
