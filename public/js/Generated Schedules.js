@@ -324,6 +324,7 @@ class TimeTable {
     deleteSchedule();
   }
   pinFunction() {
+    console.log("pinnied")
     pinSchedule();
   }
   get activeGroup() {

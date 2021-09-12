@@ -1,9 +1,9 @@
-const User = require("../models/User");
+const User = require("../models/user");
 const jwt =require("jsonwebtoken")
 // handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
-  let errors = { email: '', password: '' };
+  let errors = { email: '', password: '' ,name:""};
   if (err.message==="incorrect email"){
     errors.email="Please enter a valid email"
   }
@@ -25,7 +25,7 @@ const handleErrors = (err) => {
       errors[properties.path] = properties.message;
     });
   }
-
+  
   return errors;
 }
 //expiry time 3 days (seconds )
@@ -43,10 +43,10 @@ module.exports.login_get = (req, res) => {
 }
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password ,name} = req.body;
 
   try {
-    const user = await User.create({ email, password });
+    const user = await User.create({ email, password ,name});
     const token=createToken(user._id);
     res.cookie("jwt",token,{httponly:true,maxAge:maxAge*1000})
     res.status(201).json({user:user._id});

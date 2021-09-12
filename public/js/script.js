@@ -585,6 +585,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       touchY = event.touches[0].clientY;
     });
     table.pinnedBody.addEventListener("touchstart",function(event){
+      console.log("this is script js")
       if(touchX === -1){
         event.preventDefault();
         touchX = event.touches[0].clientX;
