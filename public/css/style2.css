@@ -5,11 +5,14 @@ body{
 }
 #container{
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 56px);
     margin: 0;
     border: 0;
     align-items: center;
     overflow-x: hidden;
+
+    position: absolute;
+    top: 56px;
     
 
     /* display: flex;
