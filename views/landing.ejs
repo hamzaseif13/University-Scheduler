@@ -1,6 +1,23 @@
 <%- include("partials/header")%>
-    <H1 class="title">Hi! this is your University Schedule generator</H1>
-    <div class="containter">
+    <div class="col-12 row g-0 my-5">
+        <h1 class="col-12 text-center mb-3 px-3">Hi! This is Your University Schedule Generator</h1>
+        <div class="col-12 d-flex flex-column align-items-center">
+            <%if (user){%>
+                <h4 class="text-center">
+                    Welcome, <%= user.email.replace(/@.*/,"") %>
+                </h4>
+                <a href="/generator" class="btn btn-success">Start Generating</a>
+            <%}else{ %>
+                <a class="btn btn-primary w-25 my-1" href="/login">Log in</a>
+                <a class="btn btn-secondary w-25" href="/signup">Sign up</a>
+                <a class="" href="/generator">Continue As Guest</a>
+            <%}%>
+        </div>
+    </div>
+    
+    
+    
+    <!-- <div class="col-12 text-center">
         <%if (user){%>
             <a href="/generator" class="con">Welcome your logged in ,press here to go to generator </a>
         <%}else{ %>    
@@ -12,10 +29,6 @@
             </div>
             <a href="/generator" class="con">continue without logging in </a>
         <%}%>
-    </div>
-    <script>
-
-
-    </script>
-    <script src="js/test.js"></script>
+    </div> -->
+    <!-- <script src="js/test.js"></script> -->
     <%- include("partials/footer")%>
