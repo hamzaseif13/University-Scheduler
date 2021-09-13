@@ -349,7 +349,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       coursesDropmenu.show();
 
       responseFlag = false;
-      console.log("send: ",options["search"].searchval.value);
+     
       
       try{
         var res = await app._searchFunction(options["search"].searchval.value, options["search"].searchby.value, abortReqSignal)
@@ -359,7 +359,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       }
       if(res){ //if no error
         responseFlag = true;
-        console.log("recieve")
+        
         if (res.courses.length < 1) {
             coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
             return;
@@ -422,14 +422,14 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           });
         }
           
-        console.log("num of results:",res.courses.length);
+        
       }
     };
     // let inputTimerID = null;
     options["search"].searchval.addEventListener("input", ()=>{
       if(!responseFlag){
         abortReqController.abort();
-        console.log("abort");
+        
         responseFlag = true;
         abortReqController = new AbortController();
         abortReqSignal = abortReqController.signal;

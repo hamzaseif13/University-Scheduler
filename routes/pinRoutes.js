@@ -5,4 +5,5 @@ const {requireAuth,checkUser}=require("../middlewares/authMiddleware")
 const router=Router();
 
 router.post("/pin",checkUser,pinController.pin_post)
+router.delete("/unpin",checkUser,pinController.unpin_delete)
 module.exports=router;

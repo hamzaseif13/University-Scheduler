@@ -1,16 +1,16 @@
 const express = require("express");
 const authRoutes=require("./routes/authRoutes");
 const pinRoutes=require("./routes/pinRoutes");
-const app = express();
 const mongoose = require('mongoose')
 const generator=require("./logic/generator");
 const {search, advancedSearch}=require("./db/Database");
-const PORT = process.env.PORT||3000;
+const genRoutes=require("./routes/genRoutes")
 const Course=require("./models/course");
 const cookieParser = require("cookie-parser")
 const {requireAuth,checkUser}=require("./middlewares/authMiddleware")
-const User=require("./models/user")
-const Schedule=require("./models/scheduleModel")
+
+const app = express();
+const PORT = process.env.PORT||3000;
 //database connection
 const dbUrl="mongodb+srv://hamzaseif:125369325147@unischedulercluster.fhjnr.mongodb.net/uniSchedulerDb?retryWrites=true&w=majority"
 mongoose.connect(dbUrl,  { useNewUrlParser: true, useUnifiedTopology: true})
@@ -21,8 +21,8 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended:true}))
 app.use(express.json());
-
 app.use(cookieParser());
+
 //routes 
 app.get('*',checkUser);
 app.get("/", (req, res) => {
@@ -31,7 +31,6 @@ app.get("/", (req, res) => {
 
 app.get("/generator"  ,(req, res) => {
     res.render("generator",{cs101:search("cs101","symbol")});
-    
 });
 app.post("/getCourse/",async(req, res)=>{
     const validProps = ["semester", "faculty", "department", "lineNumber", "symbol", "name"];
@@ -62,15 +61,13 @@ app.post("/getCourse/",async(req, res)=>{
         num: searchResult.length
     });
 })
-
 app.post("/gen",(req,res)=>{
     let generated=generator(req.body.arr,req.body.options)
     res.send({rec:generated});
 })
-
-
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);
 });
 app.use(authRoutes)
+
 app.use(pinRoutes)
