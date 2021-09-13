@@ -510,26 +510,46 @@ function deleteSchedule() {
   displaySchedule();
 }
 async function pinSchedule() {
-  console.log("pin clicked")
+  let sentArr=[]
   if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) === -1) {
     const pinnedSchedule = activeTable.activeSchedule;
+    for(let j=0;j<pinnedSchedule.sections.length;j++){
+      sentArr.push(pinnedSchedule.sections[j][0].course.symbol+"-"+pinnedSchedule.sections[j][0].sectionNumber)
+    }
+    sentArr.sort()
     table.pinnedTable.addSchedule(activeTable.activeSchedule);
     displaySchedule();
-    console.log(pinnedSchedule.sections, pinnedSchedule)
-    await fetch("/pin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sections: pinnedSchedule.sections })
-    })
+    try{
+      await fetch("/pin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({sentArr})
+      })
+    }
+    catch(err){console.log(err)}
     return false;
   }
   return true;
 }
-function unpinSchedule() {
-  console.log("unpiined pressed")
-  if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1)
-    table.pinnedTable.deleteSchedule(activeTable.activeSchedule.id);
+async function unpinSchedule() {
+  let del=[]
+  if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1){
+    const pinnedSchedule = activeTable.activeSchedule;
+    for(let j=0;j<pinnedSchedule.sections.length;j++){
+      del.push(pinnedSchedule.sections[j][0].course.symbol+"-"+pinnedSchedule.sections[j][0].sectionNumber)
+    }
+    del.sort()
+    try{
+      await fetch("/unpin",{
+        method:"DELETE",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({del})
+      })
+    }catch(err){console.log(err)}
 
+    table.pinnedTable.deleteSchedule(activeTable.activeSchedule.id);
+  }
+    
   displaySchedule();
 }
 function printSchedule() {
