@@ -510,16 +510,21 @@ function deleteSchedule() {
   displaySchedule();
 }
 async function pinSchedule() {
+  let sentArr=[]
   console.log("pin clicked")
   if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) === -1) {
     const pinnedSchedule = activeTable.activeSchedule;
+    console.log(pinnedSchedule.sections)
+    for(let j=0;j<pinnedSchedule.sections.length;j++){
+      sentArr.push(pinnedSchedule.sections[j][0].course.symbol+"-"+pinnedSchedule.sections[j][0].sectionNumber)
+    }
+    sentArr.sort()
     table.pinnedTable.addSchedule(activeTable.activeSchedule);
     displaySchedule();
-    console.log(pinnedSchedule.sections, pinnedSchedule)
     await fetch("/pin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sections: pinnedSchedule.sections })
+      body: JSON.stringify({sentArr})
     })
     return false;
   }
@@ -529,7 +534,6 @@ function unpinSchedule() {
   console.log("unpiined pressed")
   if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1)
     table.pinnedTable.deleteSchedule(activeTable.activeSchedule.id);
-
   displaySchedule();
 }
 function printSchedule() {

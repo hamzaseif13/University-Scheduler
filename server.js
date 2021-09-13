@@ -1,5 +1,6 @@
 const express = require("express");
 const authRoutes=require("./routes/authRoutes");
+const pinRoutes=require("./routes/pinRoutes");
 const app = express();
 const mongoose = require('mongoose')
 const generator=require("./logic/generator");
@@ -28,7 +29,7 @@ app.get("/", (req, res) => {
     res.render("landing");
 });
 
-app.get("/generator", requireAuth,(req, res) => {
+app.get("/generator"  ,(req, res) => {
     res.render("generator",{cs101:search("cs101","symbol")});
     
 });
@@ -66,22 +67,10 @@ app.post("/gen",(req,res)=>{
     let generated=generator(req.body.arr,req.body.options)
     res.send({rec:generated});
 })
-app.post('/process',(req, res)=>{
-   
-   res.redirect("/tables")
-})
-app.post("/pin",checkUser,async(req,res)=>{
-    
-    const user =await User.findById(res.locals.user._id)
-    
 
-    
-   
-})
-app.get("/pinned",(req,res)=>{
-    res.render("pinned")
-})
+
 app.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);
 });
 app.use(authRoutes)
+app.use(pinRoutes)
