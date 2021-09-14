@@ -24,7 +24,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-md-between " id="navbarSupportedContent">
-                <ul class="navbar-nav text-center">
+                <ul class="navbar-nav border-bottom border-light">
                     <li class="nav-item">
                         <a class="nav-link" href="/">Home</a>
                     </li>
@@ -32,7 +32,7 @@
                         <a class="nav-link" href="/generator">Generator</a>
                     </li>
                 </ul>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex mt-2 mt-md-0">
                 <% if (user) { %>
                     <span class="navbar-text fw-bold me-2">
                         <%= user.email.replace(/@.*/,"") %>
