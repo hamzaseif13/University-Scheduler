@@ -35,16 +35,21 @@ const createToken=(id)=>{
 }
 // controller actions
 module.exports.signup_get = (req, res) => {
+  if(res.locals.user)res.redirect("/")
+  else{
   res.render('signup');
-}
+}}
 
 module.exports.login_get = (req, res) => {
+  if(res.locals.user)res.redirect("/")
+  else
   res.render('login');
 }
 
 module.exports.signup_post = async (req, res) => {
+  
   const { email, password ,name} = req.body;
-
+  console.log(password)
   try {
     const user = await User.create({ email, password ,name});
     const token=createToken(user._id);
@@ -55,11 +60,10 @@ module.exports.signup_post = async (req, res) => {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
- 
-}
-
+ }
 module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
+  
   try{
     const user=await User.login(email,password);
     const token=createToken(user._id);

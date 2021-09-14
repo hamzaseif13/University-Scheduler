@@ -1,6 +1,6 @@
 const Course=require('../models/course');
-
-
+const generator = require("../logic/generator");
+const {search, advancedSearch}=require("../db/Database");
 module.exports.generator=(req,res)=>{
     res.render("generator")
 }
