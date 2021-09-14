@@ -5,4 +5,6 @@ const router=Router();
 
 router.get("/generator",genController.generator)
 router.post("/gen",genController.gen)
-router.post("/getPosts",genController.getCourse)
+router.post("/getCourse",genController.getCourse)
+
+module.exports=router
