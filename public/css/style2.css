@@ -1,3 +1,36 @@
+:root{
+    --dynamic-fs-xxs: calc(10px * 0.5 + 10 * 0.5 * ((100vw - 320px) / (1440 - 320)));
+    --dynamic-fs-xs: calc(10px * 0.75 + 10 * 0.75 * ((100vw - 320px) / (1440 - 320)));
+    --dynamic-fs-s: calc(10px * 0.9 + 10 * 0.9 * ((100vw - 320px) / (1440 - 320)));
+    --dynamic-fs: calc(10px + 10 * ((100vw - 320px) / (1440 - 320)));
+    --dynamic-fs-l: calc(10px * 1.25 + 10 * 1.25 * ((100vw - 320px) / (1440 - 320)));
+    --dynamic-fs-xl: calc(10px * 1.5 + 10 * 1.5 * ((100vw - 320px) / (1440 - 320)));
+    --dynamic-fs-xxl: calc(10px * 2 + 10 * 2 * ((100vw - 320px) / (1440 - 320)));
+}
+/* utility classes */
+.dynamic-fs-xxs{
+    font-size: var(--dynamic-fs-xxs) !important;
+}
+.dynamic-fs-xs{
+    font-size: var(--dynamic-fs-xs) !important;
+}
+.dynamic-fs-s{
+    font-size: var(--dynamic-fs-s) !important;
+}
+.dynamic-fs{
+    font-size: var(--dynamic-fs) !important;
+}
+.dynamic-fs-l{
+    font-size: var(--dynamic-fs-l) !important;
+}
+.dynamic-fs-xl{
+    font-size: var(--dynamic-fs-xl) !important;
+}
+.dynamic-fs-xxl{
+    font-size: var(--dynamic-fs-xxl) !important;
+}
+
+
 body{
     margin: 0;
     padding: 0;
@@ -131,6 +164,10 @@ body{
 #table{
     position: relative;
 }
+#table .input-group{
+    position: sticky;
+    bottom: 0px;
+}
 #table .input-group input{
     font-size: x-large;
 }
@@ -140,43 +177,68 @@ body{
 .timeTable{
     /* font-size: 1.5vw; */
     width: 100%;
+    padding-top: 10px;
     aspect-ratio: 1/1;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     position: relative;
 }
 .timeTable .tableHead{
-    height: 10%;
-    line-height: 200%;
-    font-size: calc(16px + 6 * ((100vw - 320px) / 680));
-    font-weight: bold;
+    height: 5%;
+    /* line-height: 180%; */
+    font-size: var(--dynamic-fs);
+    /* font-weight: bold; */
     text-align: center;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    /* vertical-align: ; */
+    /* border-right: 1px solid black; */
+    /* border-bottom: 1px solid black; */
+}
+.timeTable .tableHead.col-1 .btn > span{
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 0;
+    right: 0;
+
+    font-size: 30px;
 }
 .timeTable .tableHead span{
     vertical-align: middle;
 }
 .timeTable .tableKeys{
-    height: 90%;
+    height: 95%;
+    /* border-right: 1px solid black ; */
 }
 .timeTable .tableKeys .hours{
     width: 100%;
     height: 9%;
-    font-size: calc(10px + 6 * ((100vw - 320px) / 680));
+    font-size: var(--dynamic-fs-s);
     position: relative;
 }
 .timeTable .tableKeys .hours span{
     position: absolute;
     top: calc(50% - (10px + 6 * ((100vw - 320px) / 680))* 3/4);
-    right: 10px;
+    right: 2px;
+    white-space: nowrap;
 }
 .timeTable .tableCol{
-    height: 90%;
+    height: 95%;
     position: relative;
     background-color: #ffffff;
-    border-right: 1px solid black;
-    font-size: calc(5px + 9 * ((100vh - 320px) / 680));
+    /* border-right: 1px solid black; */
+    font-size: var(--dynamic-fs-l);
     font-weight: bolder;
+}
+.timeTable .tableCol time{
+    font-size: var(--dynamic-fs-xs);
+    color: #2c2c2cb0;
+    white-space: nowrap;
+}
+.timeTable .tableCol p{
+    font-size: var(--dynamic-fs);
+    /* color: #000000b0; */
+}
+.timeTable .tableCol:nth-of-type(1){
+    /* border: 10px solid black; */
+    background-color: blue;
 }
 #sectionModal .modal-body .col-1 span{
     position: absolute;

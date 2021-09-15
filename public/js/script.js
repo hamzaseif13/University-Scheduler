@@ -550,9 +550,9 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
               delta(){return Time.subtract(this.end , this.start);},
               string: function () {
                 return (
-                  this.start.string12 +
+                  this.start.string24 +
                   " - " +
-                  this.end.string12
+                  this.end.string24
                 );
               },
             };
