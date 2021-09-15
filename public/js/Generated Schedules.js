@@ -195,16 +195,17 @@ class TimeTable {
 
     let cardBody = htmlCreator("div", card, "", "m-auto cardBody");
     // cardBody.style.fontSize = "x-small";
+    htmlCreator("time", cardBody, "", "", sections[0].timeObj.string());
     htmlCreator("div", cardBody, "", "", sections[0].course.symbol);
-    htmlCreator("div", cardBody, "", "", "Sec: " + sections[0].sectionNumber);
-    htmlCreator("div", cardBody, "", "", sections[0].timeObj.string());
+    htmlCreator("p", cardBody, "", "m-0 p-0", "Sec: " + sections[0].sectionNumber);
+    // htmlCreator("div", cardBody, "", "", sections[0].timeObj.string());
 
     if (sections.length > 1) {
       let badge = htmlCreator(
         "span",
         card,
         "",
-        "dropdown-toggle btn position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ",
+        "dropdown-toggle btn position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger dynamic-fs-s",
         sections.length
       );
       badge.style.zIndex = 100;
@@ -302,7 +303,7 @@ class TimeTable {
     this.updateCellHeight();
   }
   updateCellHeight() {
-    this.cellHeight = this.#table.querySelector(".hours").offsetHeight;
+    this.cellHeight = this.#table.querySelector(".tableCol").offsetHeight * 9/100;
 
     for (const col of this.#columns) {
       col.style.backgroundImage =
