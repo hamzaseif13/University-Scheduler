@@ -149,3 +149,9 @@
     letter-spacing: 0.05rem;
     padding: 0.75rem 1rem;
   }
+  .setForm{
+    background-color: red;
+   text-align: center;
+  width:fit-content;
+  margin-left:40%;
+  }
