@@ -12,16 +12,18 @@
     <script src="https://kit.fontawesome.com/d595c149d4.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/style2.css" />
     
 </head>
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="z-index: 1000;">
-        <div class="container-fluid">
+        <div class="container-fluid mx-md-4 px-md-4 mx-lg-5 px-lg-5">
             <a class="navbar-brand" href="/">JusTutor</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-md-between " id="navbarSupportedContent">
+                <ul class="navbar-nav border-bottom border-light">
                     <li class="nav-item">
                         <a class="nav-link" href="/">Home</a>
                     </li>
@@ -29,23 +31,20 @@
                         <a class="nav-link" href="/generator">Generator</a>
                     </li>
                 </ul>
-            </div>
-            <div class="row row-cols-auto ms-auto me-2 me-lg-1">
+            <div class="d-flex mt-2 mt-md-0">
                 <% if (user) { %>
-                    <span class="navbar-text fw-bold me-1">
+                    <span class="navbar-text fw-bold me-2">
                         <%= user.email.replace(/@.*/,"") %>
                     </span>
                     <a class="btn btn-outline-light" href="/logout">Log out</a>
+                    <a class="btn btn-outline-light" href="/settings">Settings</a>
                 <% } else { %>
                     <a class="btn btn-outline-light me-1" href="/login">Log in</a>
                     <a class="btn btn-outline-light" href="/signup">Sign up</a>
                 <% } %>
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            </div>
         </div>
     </nav>
 
-    <div id="container" class="row g-0 justify-content-center bg-warning" tabindex="-1">
-        <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3 ">
+   
