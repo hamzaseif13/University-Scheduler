@@ -9,7 +9,7 @@ module.exports.getCourse=async(req, res)=>{
     let searchResult = [];
     const searchBy = req.body.searchBy;
     const value = req.body.value.trim();
-    const searchRegex = {$regex:new RegExp(`^${value}.*`,"i")};
+    const searchRegex = {$regex:new RegExp(`( ${value}|^${value})`,"i")};
 
     if(validProps.includes(searchBy)){
         const searchObj = {};
