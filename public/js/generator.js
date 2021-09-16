@@ -1,4 +1,4 @@
-
+import calcScore from "./Calculate Score.js";
 const myCourses = [],
   options = ["all",8.5,18.5];
 
@@ -120,6 +120,11 @@ function generateSchedules_Client(sets) {
     }
     return result;
   }
+  function sortByScore(arr){
+    arr.sort((a, b)=>{
+      return calcScore(a) - calcScore(b);
+    })
+  }
   // let l = 1;
   let result = [];
   for (let set of copy) {
@@ -127,6 +132,9 @@ function generateSchedules_Client(sets) {
     set = filterSet(reduceSet(set));
     result = addSet(result, set);
     result = filterSchedule(result, ...options);
+    sortByScore(result);
+    if(result.length > 10000)
+      result = result.slice(0,10000);
     if (result.length === 0)
       return [];
   }
@@ -313,5 +321,3 @@ export default {
   options,
   getDays,
 };
-
-

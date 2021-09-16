@@ -193,7 +193,7 @@ class TimeTable {
     card.style.cursor = "pointer";
     card.title = "Show Details";
 
-    let cardBody = htmlCreator("div", card, "", "m-auto cardBody");
+    let cardBody = htmlCreator("div", card, "", "m-auto cardBody overflow-hidden");
     // cardBody.style.fontSize = "x-small";
     htmlCreator("time", cardBody, "", "", sections[0].timeObj.string());
     htmlCreator("div", cardBody, "", "", sections[0].course.symbol);
@@ -335,17 +335,14 @@ class ScheduleGroup {
   #schedules;
   #activeIndex;
   #tableObj;
-  #sorted;
   constructor(table, modal) {
     this.#schedules = [];
     this.#tableObj = new TimeTable(table, modal);
     this.#activeIndex = 0;
-    this.#sorted = false;
 
     // this.days = app.getDays();
   }
   display() {
-    this.sort();
     this.#tableObj.reset();
     if (this.#schedules.length == 0) return;
 
@@ -371,7 +368,6 @@ class ScheduleGroup {
     if (s.score === undefined) this.#calcScore(s);
 
     this.#schedules.push(s);
-    this.#sorted = false;
   }
   changeActiveIndex(val) {
     if (val >= this.#schedules.length || val < 0) {
@@ -410,10 +406,6 @@ class ScheduleGroup {
   }
   #calcScore(s) {
     s.score = calcScore(s.sections);
-  }
-  sort() {
-    if (!this.#sorted) this.#schedules.sort((a, b) => a.score - b.score);
-    this.#sorted = true;
   }
   refreshTable() {
     this.#tableObj.updateCellHeight();
