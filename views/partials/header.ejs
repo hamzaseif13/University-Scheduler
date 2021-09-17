@@ -34,7 +34,7 @@
             <div class="d-flex mt-2 mt-md-0">
                 <% if (user) { %>
                     <span class="navbar-text fw-bold me-2">
-                        <%= user.email.replace(/@.*/,"") %>
+                        <%= user.name %>
                     </span>
                     <a class="btn btn-outline-light" href="/logout">Log out</a>
                     <a class="btn btn-outline-light" href="/settings">Settings</a>
