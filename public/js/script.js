@@ -175,14 +175,14 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   const copy = { ...course };
 
   if (highlight != ""){
-    //highlight = highlight.split(",");
+    highlight = highlight.trim();
     if (validProps.includes(prop)){
       //for (const text of highlight) {
         copy[p] = copy[p].replace(
-          new RegExp(`(?=${highlight.trim()})`, "i"),
+          new RegExp(`(?= ${highlight}|^${highlight})`, "i"),
           '<span class="bg-warning">'
         ).replace(
-          new RegExp(`(?<=${highlight.trim()})`, "i"),
+          new RegExp(`(?<= ${highlight}|^${highlight})`, "i"),
           "</span>"
         );
       //}
