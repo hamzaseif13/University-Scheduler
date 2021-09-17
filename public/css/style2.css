@@ -1,11 +1,11 @@
 :root{
-    --dynamic-fs-xxs: calc(10px * 0.5 + 10 * 0.5 * ((100vw - 320px) / (1440 - 320)));
-    --dynamic-fs-xs: calc(10px * 0.75 + 10 * 0.75 * ((100vw - 320px) / (1440 - 320)));
-    --dynamic-fs-s: calc(10px * 0.9 + 10 * 0.9 * ((100vw - 320px) / (1440 - 320)));
-    --dynamic-fs: calc(10px + 10 * ((100vw - 320px) / (1440 - 320)));
-    --dynamic-fs-l: calc(10px * 1.25 + 10 * 1.25 * ((100vw - 320px) / (1440 - 320)));
-    --dynamic-fs-xl: calc(10px * 1.5 + 10 * 1.5 * ((100vw - 320px) / (1440 - 320)));
-    --dynamic-fs-xxl: calc(10px * 2 + 10 * 2 * ((100vw - 320px) / (1440 - 320)));
+    --dynamic-fs-xxs: calc(10px * 0.5 + 10 * 0.5 * ((100vw - 280px) / (1440 - 280)));
+    --dynamic-fs-xs: calc(10px * 0.75 + 10 * 0.75 * ((100vw - 280px) / (1440 - 280)));
+    --dynamic-fs-s: calc(10px * 0.9 + 10 * 0.9 * ((100vw - 280px) / (1440 - 280)));
+    --dynamic-fs: calc(10px + 10 * ((100vw - 280px) / (1440 - 280)));
+    --dynamic-fs-l: calc(10px * 1.25 + 10 * 1.25 * ((100vw - 280px) / (1440 - 280)));
+    --dynamic-fs-xl: calc(10px * 1.5 + 10 * 1.5 * ((100vw - 280px) / (1440 - 280)));
+    --dynamic-fs-xxl: calc(10px * 2 + 10 * 2 * ((100vw - 280px) / (1440 - 280)));
 }
 /* utility classes */
 .dynamic-fs-xxs{
@@ -103,9 +103,6 @@ body{
     /* max-height: 160px; */
     display: grid;
 
-}
-#options .option > *{
-    margin: 1px;
 }
 #options .big.option{
     grid-template: 0fr/*???*// 1fr 2fr;
@@ -215,7 +212,7 @@ body{
 }
 .timeTable .tableKeys .hours span{
     position: absolute;
-    top: calc(50% - (10px + 6 * ((100vw - 320px) / 680))* 3/4);
+    top: calc(50% - var(--dynamic-fs-s) *3/4 );
     right: 2px;
     white-space: nowrap;
 }

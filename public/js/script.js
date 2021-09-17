@@ -300,14 +300,15 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     }
 
     const t = document.getElementById("table");
-    table.numOfTables = t.querySelectorAll(".input-group span")[1];
-    table.indexInput = t.querySelector(".input-group input");
+    table.numOfTables = t.querySelector("#tableInput span");
+    table.indexInput = t.querySelector("#tableInput input");
     table.allBody = t.querySelector("#all .timeTable");
     table.pinnedBody = t.querySelector("#pinned .timeTable");
     
     let tableBtns = t.querySelectorAll(".btn");
     for (const btn of tableBtns) {
-      let opName = btn.innerText.trim();
+      let opName = btn.name || btn.innerText;
+      opName = opName.trim();
       opName = opName.toLowerCase();
       table[opName+"Btn"] = btn;
     }
@@ -352,7 +353,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
      
       
       try{
-        var res = await app._searchFunction(options["search"].searchval.value, options["search"].searchby.value, abortReqSignal)
+        var res = await app._searchFunction(options["search"].searchval.value, "all", abortReqSignal)
       }catch(err){
         if(err.message != "The user aborted a request.")
           console.error(err);
@@ -371,7 +372,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
               "Found",
               "Add Courses",
               options["search"].searchval.value,
-              options["search"].searchby.value
+              "all"
           );
           cousresModal.submitFunction = function () {
             for (const course of cousresModal.selected) {
@@ -411,7 +412,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
               "Found",
               "Add Courses",
               options["search"].searchval.value,
-              options["search"].searchby.value
+              "all"
             );
             cousresModal.submitFunction = function () {
               for (const course of cousresModal.selected) {
