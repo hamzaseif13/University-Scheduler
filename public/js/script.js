@@ -150,6 +150,7 @@ const options = {},
     }
   },
   covers = {};
+let coursesView;
 
 
 function updateModal(
@@ -268,7 +269,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     //this code gets the inputs of all options and puts them in #options
     //in this order #options = {option1Name:{input1Name, option1Name, ...}}
     //#options.option1Name.option1Name.innerHTML = "dvz"
-    let opt = document.querySelectorAll("#options .option");
+    let opt = document.querySelectorAll(".option");
     for (const option of opt) {
       let opName = option.title;
       opName = opName.toLowerCase();
@@ -287,9 +288,9 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         options[opName]["submit"] = btn;
     }
 
-    coursesDropmenu.body = document.querySelector("#options .option[title=search] .dropdown-menu");
+    coursesDropmenu.body = document.querySelector(".option[title=search] .dropdown-menu");
 
-    const tRange = document.querySelector("#options .option[title=time] .doubleRange");
+    const tRange = document.querySelector(".option[title=time] .doubleRange");
     options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
 
     let cov = document.querySelectorAll(".cover");
@@ -330,6 +331,16 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     cousresModal.cancel = cModal.querySelector(".btn-secondary");
 
     cousresModal.bootstrapModal = new bootstrap.Modal(cModal, {keyboard: false});
+
+    const optionsOffcanvas = document.getElementById('optionsOffcanvas')
+    optionsOffcanvas.addEventListener('show.bs.offcanvas', function () {
+      document.documentElement.style.setProperty("--container-width", "calc(100vw - 250px)")
+    })
+    optionsOffcanvas.addEventListener('hide.bs.offcanvas', function () {
+      document.documentElement.style.setProperty("--container-width", "100vw")
+    })
+
+    coursesView = document.querySelector(".accordion .accordion-body > div.row");
 })();
 (function addEvents() {
   
@@ -377,6 +388,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           cousresModal.submitFunction = function () {
             for (const course of cousresModal.selected) {
               app._addCourseFunction(course);
+              coursesView.appendChild(generateHTMLCourseCard(course));
             }
           };
           cousresModal.bootstrapModal.show();
@@ -393,9 +405,10 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             
             courseCard.addEventListener("click", ()=>{
                   coursesDropmenu.hide();
-                  const deepCopy = JSON.parse(JSON.stringify(course));
+                  // const deepCopy = JSON.parse(JSON.stringify(course));
                   
                   app._addCourseFunction(course);
+                  coursesView.appendChild(generateHTMLCourseCard(course));
                   options["search"].searchval.value = "";
             });
           }
@@ -417,6 +430,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             cousresModal.submitFunction = function () {
               for (const course of cousresModal.selected) {
                 app._addCourseFunction(course);
+                coursesView.appendChild(generateHTMLCourseCard(course));
               }
             };
             cousresModal.bootstrapModal.show();
@@ -455,14 +469,14 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
         submitSearch("modal");
     });
 
-    options["courses"].submit.addEventListener("click", function () {
-      updateModal(app.courses, "My Courses: ", "Remove Courses");
-      cousresModal.submitFunction = function () {
-        for (const course of cousresModal.selected) {
-          app._removeCourseFunction(course.lineNumber);
-        }
-      };
-    });
+    // options["courses"].submit.addEventListener("click", function () {
+    //   updateModal(app.courses, "My Courses: ", "Remove Courses");
+    //   cousresModal.submitFunction = function () {
+    //     for (const course of cousresModal.selected) {
+    //       app._removeCourseFunction(course.lineNumber);
+    //     }
+    //   };
+    // });
     
     let daysString = "all";
     let dayStart = new Time(8.5 * 60);

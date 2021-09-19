@@ -101,7 +101,7 @@ class TimeTable {
       return val.querySelector(".cardBody");
     });
     for (const cardBody of cardsBody) {
-      cardBody.children[1].innerHTML =
+      cardBody.querySelector("p").innerHTML =
         "Sec: " + secGroup.arr[secGroup.activeSecIndex].sectionNumber;
     }
   }

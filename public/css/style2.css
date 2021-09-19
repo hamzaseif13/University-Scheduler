@@ -1,11 +1,13 @@
 :root{
-    --dynamic-fs-xxs: calc(10px * 0.5 + 10 * 0.5 * ((100vw - 280px) / (1440 - 280)));
-    --dynamic-fs-xs: calc(10px * 0.75 + 10 * 0.75 * ((100vw - 280px) / (1440 - 280)));
-    --dynamic-fs-s: calc(10px * 0.9 + 10 * 0.9 * ((100vw - 280px) / (1440 - 280)));
-    --dynamic-fs: calc(10px + 10 * ((100vw - 280px) / (1440 - 280)));
-    --dynamic-fs-l: calc(10px * 1.25 + 10 * 1.25 * ((100vw - 280px) / (1440 - 280)));
-    --dynamic-fs-xl: calc(10px * 1.5 + 10 * 1.5 * ((100vw - 280px) / (1440 - 280)));
-    --dynamic-fs-xxl: calc(10px * 2 + 10 * 2 * ((100vw - 280px) / (1440 - 280)));
+    --container-width: 100vw;
+    
+    --dynamic-fs-xxs: calc(10px * 0.5 + 10 * 0.5 * ((var(--container-width) - 280px) / (1440 - 280)));
+    --dynamic-fs-xs: calc(10px * 0.75 + 10 * 0.75 * ((var(--container-width) - 280px) / (1440 - 280)));
+    --dynamic-fs-s: calc(10px * 0.9 + 10 * 0.9 * ((var(--container-width) - 280px) / (1440 - 280)));
+    --dynamic-fs: calc(10px + 10 * ((var(--container-width) - 280px) / (1440 - 280)));
+    --dynamic-fs-l: calc(10px * 1.25 + 10 * 1.25 * ((var(--container-width) - 280px) / (1440 - 280)));
+    --dynamic-fs-xl: calc(10px * 1.5 + 10 * 1.5 * ((var(--container-width) - 280px) / (1440 - 280)));
+    --dynamic-fs-xxl: calc(10px * 2 + 10 * 2 * ((var(--container-width) - 280px) / (1440 - 280)));
 }
 /* utility classes */
 .dynamic-fs-xxs{
@@ -37,8 +39,11 @@ body{
     overflow: hidden;
 }
 #container{
-    width: 100vw;
+    width: var(--container-width);
     height: calc(100vh - 56px);
+
+    min-width: 100vw;
+    
     margin: 0;
     border: 0;
     align-items: center;
@@ -46,10 +51,19 @@ body{
 
     position: absolute;
     top: 56px;
+    right: 0;
     
+    transition-duration: 0.3s;
+    transition-property: width;
+    transition-timing-function: ease-in-out;
 
     /* display: flex;
     flex-direction: column; */
+}
+@media only screen and (min-width: 800px) {
+    #container{
+        min-width: 0;
+    }
 }
 #header{
     grid-column: 1 / span 2;
@@ -92,23 +106,18 @@ body{
     aspect-ratio: 1/1;
     margin: auto;
 } */
-@media only screen and (min-width: 768px) {
-    #options{
-        max-height: 100vh;
-    }
-}
-#options .option{
+.option{
     /* border: 1px solid black;
     margin: 2px; */
     /* max-height: 160px; */
     display: grid;
 
 }
-#options .big.option{
+.big.option{
     grid-template: 0fr/*???*// 1fr 2fr;
 }
-#options .big.option button, 
-#options .big.option input
+.big.option button, 
+.big.option input
 {
     grid-column: 1 / span 2;
 }
@@ -175,9 +184,14 @@ body{
     /* font-size: 1.5vw; */
     width: 100%;
     padding-top: 10px;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1/1.5;
     /* border: 1px solid black; */
     position: relative;
+}
+@media only screen and (min-width: 576px) {
+    .timeTable{
+        aspect-ratio: 1.5/1;
+    }
 }
 .timeTable .tableHead{
     height: 5%;
