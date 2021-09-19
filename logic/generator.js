@@ -182,7 +182,7 @@ function filterSchedule(list) {
     // if schedule is not invalid add it to filteredArray
   }
   if (filteredArray.length == 0) {
-    alert("there is no schedule with the options selected");
+    console.log("no schedule")
     return [];
   }
   return filteredArray;

@@ -12,7 +12,6 @@
     <script src="https://kit.fontawesome.com/d595c149d4.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/style2.css" />
     
 </head>
 
@@ -35,9 +34,10 @@
             <div class="d-flex mt-2 mt-md-0">
                 <% if (user) { %>
                     <span class="navbar-text fw-bold me-2">
-                        <%= user.email.replace(/@.*/,"") %>
+                        <%= user.name %>
                     </span>
                     <a class="btn btn-outline-light" href="/logout">Log out</a>
+                    <a class="btn btn-outline-light" href="/settings">Settings</a>
                 <% } else { %>
                     <a class="btn btn-outline-light me-1" href="/login">Log in</a>
                     <a class="btn btn-outline-light" href="/signup">Sign up</a>
@@ -47,5 +47,4 @@
         </div>
     </nav>
 
-    <div id="container" class="row g-0 justify-content-center bg-warning" tabindex="-1">
-        <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3 ">
+   

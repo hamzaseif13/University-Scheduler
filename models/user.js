@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     minlength: [8, 'Minimum password length is 8 characters'],
   },
   name:{
-    type:String,required:[true, 'Please enter a name'],maxlength:[12,"Maximum length is 12 charchatres"]
+    type:String,required:[true, 'Please enter a name']
   },
   university:{
     type:String,required:false,maxlength:12
@@ -36,6 +36,7 @@ userSchema.pre("save",async function(next){
     this.password =await bcrypt.hash(this.password,salt)
     next()
 })
+
 userSchema.statics.login=async  function(email,password){
   const user =await this.findOne({email})
   if(user){
