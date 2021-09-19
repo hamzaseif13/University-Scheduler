@@ -12,22 +12,9 @@
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <div id="options" class="border rounded-2 col-12 row g-1 m-0 justify-content-center">
-                                <div class="big option col-12 col-sm-8" title="search">
-                
-                                    <div class="justify-content-center">
-                                        <h5 class="text-center">Search Course By</h5>
-                                    </div>
-                                    <select name="searchBy" class="form-select-sm">
-                                        <option value="all">General Search</option>
-                                        <option value="name">Name</option>
-                                        <option value="lineNumber">Line Number</option>
-                                        <option value="faculty">Faculty</option>
-                                        <option value="department">Department</option>
-                                        <option value="symbol">Symbol</option>
-                                    </select>
-                                    
-                                    <input type="text" name="searchval" class="" >
-                                    <div class="position-relative w-100">
+                                <div class="option col-12 col-sm-8" title="search">
+                                    <input type="text" name="searchval" class="h-100" placeholder="Search for Courses, example: math101, calculus, 901010, ... ">
+                                    <div class="position-relative border-0 m-0 p-0" style="height: 0!important;">
                                         <ul class="dropdown-menu overflow-auto" title = "Add Course">
                                             <li class="dropdown-item w-100">Nothing Found</li>
                                         </ul>
@@ -78,19 +65,27 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                <div class="col-12 row g-0 p-2 justify-content-between border-bottom rounded-2">
-                    <ul class="nav nav-tabs border-bottom rounded-2 col-12 col-sm-auto order-1 order-sm-0 justify-content-center justify-content-sm-start border-0"
+                <div class="col-12 row g-2 g-sm-0 m-0 p-2 justify-content-between border-bottom rounded-2 sticky-top bg-white">
+                    <ul class="nav nav-tabs border-bottom rounded-2 col-12 col-sm-auto order-last order-sm-first justify-content-center justify-content-sm-start border-0"
                     id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="btn nav-link active py-0 h-100" data-bs-toggle="tab" data-bs-target="#all"
-                            type="button">All</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="btn nav-link py-0 h-100" data-bs-toggle="tab" data-bs-target="#pinned"
-                            type="button">Pinned</button>
-                    </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="btn nav-link active py-0 h-100" data-bs-toggle="tab" data-bs-target="#all"
+                                type="button">All</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="btn nav-link py-0 h-100" data-bs-toggle="tab" data-bs-target="#pinned"
+                                type="button">Pinned</button>
+                        </li>
                     </ul>
-                    <div class="btn-toolbar col-12 col-sm-auto justify-content-between justify-content-sm-end">
+                    <div id="tableInput" class="col-12 col-sm-auto d-flex justify-content-between">
+                        <button class="prev btn btn-outline-secondary rounded-3 me-1" name="prev"><i class="fas fa-chevron-left"></i></button>
+                        <div>
+                            <input type="number" class="h-100" style="width: 40px;">
+                            <span class="ps-1">/ 1</span>
+                        </div>
+                        <button class="next btn btn-outline-secondary rounded-3 ms-1" name="next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="btn-toolbar col-12 col-sm-auto order-first order-sm-last justify-content-between justify-content-sm-end">
                         <div class="btn-group">
                             <div id="printBtn" class="btn btn-sm btn-success"><i class="fas fa-print"></i> Print</div>
                             <div class="btn btn-sm btn-success"><i class="fas fa-thumbtack"></i> Pin</div>
@@ -166,7 +161,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="input-group col-12 order-last flex-nowrap justify-content-center">
+                <!-- <div class="input-group col-12 order-last flex-nowrap justify-content-center">
                     <div class="row g-0 w-100">
                         <div class="prev btn btn-lg btn-secondary col-6 col-sm-3 order-5 order-sm-first"> Prev</div>
                         <span class="input-group-text justify-content-center col-5 col-sm-3">Schedule No.</span>
@@ -174,7 +169,7 @@
                         <span class="input-group-text col-2 col-sm-1 justify-content-center">/ 1</span>
                         <div class="next btn btn-lg btn-secondary col-6 col-sm-3 order-last">Next </div>
                     </div>
-                </div>
+                </div> -->
             </div>
     <!-- this is a modal (like a popup window) to display courses (made using bootstrap) (courses are added using JS)-->
     <div class="modal fade" tabindex="-1" id="coursesModal">
