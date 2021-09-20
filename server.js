@@ -25,10 +25,6 @@ app.get('*',checkUser);
 app.get("/", (req, res) => {
     res.render("landing");
 });
-app.get("/settings",(req,res)=>{
-    res.render("settings/settings")
-})
-app.post("/checkSettings",checkUser,)
 app.use(authRoutes)
 app.use(genRoutes)
 app.use(pinRoutes)
