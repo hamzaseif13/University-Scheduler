@@ -38,9 +38,9 @@ class TimeTable {
       removeCourse: undefined,
     };
     this.#modal = {
-      body: modal.querySelector(".modal-body .col-10"),
-      title: modal.querySelector(".modal-title"),
-      bootstrapModal: new bootstrap.Modal(modal),
+      body: modal.body,
+      title: modal.title,
+      bootstrapModal: modal.bootstrapModal,
     };
     this.cellHeight = undefined;
     this.#activeGroupIndex = undefined;
@@ -360,6 +360,9 @@ class ScheduleGroup {
   get numOfSchedules() {
     return this.#schedules.length;
   }
+  get tableObj(){
+    return this.#tableObj;
+  }
   addSchedule(s) {
     if (s.id === undefined || s.id < 0) {
       console.error("schedule id must be a number > 0");
@@ -580,6 +583,10 @@ function allSchedule() {
     displaySchedule();
   }, 200);
 }
+
+function getActiveTable(){
+  return activeTable;
+}
 export default {
   updateSchedule,
   changeActiveSchedule,
@@ -591,5 +598,6 @@ export default {
   printSchedule,
   pinnedSchedule,
   allSchedule,
+  getActiveTable,
 };
 export { ScheduleGroup };

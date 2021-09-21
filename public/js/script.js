@@ -30,46 +30,44 @@ class DoubleRange{
   #addEvents(){
     const self = this;
     for(let i = 0;i<2;i++){
-      let dragFlag = false;
       function start(event){
           event.preventDefault();
-          dragFlag = true;
+          self.#offsetX = self.#bar.getBoundingClientRect().left;
+          document.body.addEventListener("mousemove", move);
+      // self.#barWidth = self.#bar.clientWidth;
       }
       function end(){
-          dragFlag = false;
-      }
+          document.body.removeEventListener("mousemove", move);
+    }
       function move(event){
-          if(dragFlag){
-            let pos = event.clientX - self.#offsetX;
-            if(0 < pos && pos < self.#barWidth){
-              let oldVal = self.#values[i];
-              self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
+          let pos = event.clientX - self.#offsetX;
+          if(0 < pos && pos < self.#barWidth){
+            let oldVal = self.#values[i];
+            self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
 
-              if(self.#values[i] == oldVal)
+            if(self.#values[i] == oldVal)
+              return;
+
+            if(self.#values[0] >= self.#values[1]){
+              // self.#values[i]=oldVal;
+              //   return;
+              let delta = self.#values[i] - oldVal;
+              if(i)
+                self.minValue += delta;
+              else
+                self.maxValue += delta;
+
+              if(self.maxValue === self.minValue){
+                self.#values[i] = oldVal;
                 return;
-
-              if(self.#values[0] >= self.#values[1]){
-                // self.#values[i]=oldVal;
-                //   return;
-                let delta = self.#values[i] - oldVal;
-                if(i)
-                  self.minValue += delta;
-                else
-                  self.maxValue += delta;
-
-                if(self.maxValue === self.minValue){
-                  self.#values[i] = oldVal;
-                  return;
-                }
               }
-              self.#updateSliderPos(i);
-              self.onchange();
             }
+            self.#updateSliderPos(i);
+            self.onchange();
           }
       }
       self.#sliders[i].addEventListener("mousedown", start);
       window.addEventListener("mouseup", end);
-      document.body.addEventListener("mousemove", move);
       
       self.#sliders[i].addEventListener("touchstart", start);
       window.addEventListener("touchend", end);
@@ -132,9 +130,11 @@ const options = {},
     pinnedBody:undefined
   },
   sectionModal = {
+    bootstrapModal:undefined,
     body: undefined,
     next: undefined,
-    prev: undefined
+    prev: undefined,
+    title: undefined
   },
   coursesDropmenu = {
     body:undefined,
@@ -319,9 +319,12 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     sectionModal.body = secModal.querySelector(".modal-body .col-10");
     sectionModal.next = secModal.querySelector(".modal-body .next");
     sectionModal.prev = secModal.querySelector(".modal-body .prev");
+    sectionModal.title = secModal.querySelector(".modal-title");
 
-    table.allTable = new ScheduleGroup(table.allBody,secModal);
-    table.pinnedTable = new ScheduleGroup(table.pinnedBody,secModal);
+    sectionModal.bootstrapModal = new bootstrap.Modal(secModal, {keyboard: false});
+
+    table.allTable = new ScheduleGroup(table.allBody,sectionModal);
+    table.pinnedTable = new ScheduleGroup(table.pinnedBody,sectionModal);
 
     
     const cModal = document.getElementById("coursesModal");
@@ -630,12 +633,12 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   }
 
   sectionModal.next.addEventListener("click", function(){
-    const t = table.allTable;
+    const t = schedulesControls.getActiveTable().tableObj;
     t.changeActiveSec("",t.activeGroup.activeSecIndex + 1);
     t.displaySectionDetails();
   });
   sectionModal.prev.addEventListener("click", function(){
-    const t = table.allTable;
+    const t = schedulesControls.getActiveTable().tableObj;
     t.changeActiveSec("",t.activeGroup.activeSecIndex - 1);
     t.displaySectionDetails();
   });
