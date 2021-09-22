@@ -509,6 +509,7 @@ async function pinSchedule() {
   let sentArr=[]
   if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) === -1) {
     const pinnedSchedule = activeTable.activeSchedule;
+    console.log(pinnedSchedule)
     for(let j=0;j<pinnedSchedule.sections.length;j++){
       sentArr.push(pinnedSchedule.sections[j][0].course.symbol+"-"+pinnedSchedule.sections[j][0].sectionNumber)
     }
@@ -531,6 +532,7 @@ async function unpinSchedule() {
   let del=[]
   if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1){
     const pinnedSchedule = activeTable.activeSchedule;
+    console.log(pinnedSchedule)
     for(let j=0;j<pinnedSchedule.sections.length;j++){
       del.push(pinnedSchedule.sections[j][0].course.symbol+"-"+pinnedSchedule.sections[j][0].sectionNumber)
     }
