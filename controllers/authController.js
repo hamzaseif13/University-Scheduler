@@ -103,9 +103,10 @@ module.exports.settings_post = async (req, res) => {
       throw Error("Enter a name please")
     }
     else {
-      namePassChanges.name=true;
-      user.name=name;
-      
+      if(user.name!=name){
+        namePassChanges.name=true;
+        user.name=name;
+      }
     }
   if(isPass){
     const auth =await  bcrypt.compare(oldPass,user.password)
