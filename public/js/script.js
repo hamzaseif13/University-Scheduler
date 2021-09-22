@@ -121,13 +121,16 @@ const options = {},
     selected: [], //contains the line numbers of the selected courses in the modal
   },
   table = {
+    content: undefined,
     title: undefined,
     indexInput: undefined,
     next: undefined,
     prev: undefined,
     allTable: undefined,
     allBody:undefined,
-    pinnedBody:undefined
+    pinnedBody:undefined,
+    dragLeft: undefined,
+    dragRight: undefined
   },
   sectionModal = {
     bootstrapModal:undefined,
@@ -301,10 +304,12 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     }
 
     const t = document.getElementById("table");
+    table.content = t.querySelector(".content");
     table.numOfTables = t.querySelector("#tableInput span");
     table.indexInput = t.querySelector("#tableInput input");
     table.allBody = t.querySelector("#all .timeTable");
     table.pinnedBody = t.querySelector("#pinned .timeTable");
+    [table.dragLeft , table.dragRight] = t.querySelectorAll(".dragArrow");
     
     let tableBtns = t.querySelectorAll(".btn");
     for (const btn of tableBtns) {
@@ -555,6 +560,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   { //table events
     let touchX=-1;
     let touchY = 0;
+    let status = 0;//0 -> none | 1 -> next | -1 -> prev
     options["generateschedule"].submit.addEventListener("click",async()=>{
       covers.table.className = covers.table.className.replace("hidden", ""); //display loading
       
@@ -595,15 +601,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       }
     }
 
-    table.allBody.addEventListener("touchstart",function(event){
-      if(touchX === -1){
-        event.preventDefault();
-        touchX = event.touches[0].clientX;
-      }
-      touchY = event.touches[0].clientY;
-    });
-    table.pinnedBody.addEventListener("touchstart",function(event){
-      console.log("this is script js")
+    table.content.addEventListener("touchstart",function(event){
       if(touchX === -1){
         event.preventDefault();
         touchX = event.touches[0].clientX;
@@ -620,16 +618,35 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           return;
         }
 
-        if(deltaX > 50){
-          schedulesControls.prevSchedule();
-          touchX = -1;
+        if(deltaX > 0){
+          table.dragLeft.style.left = Math.min(10,-70 + deltaX) + "px";
+          table.dragRight.style.right = "-70px";
         }
-        else if(deltaX < -50){
-          schedulesControls.nextSchedule();
+        else{
+          table.dragRight.style.right = Math.min(10,-70 - deltaX) + "px";
+          table.dragLeft.style.left = "-70px";
+        }
+        if(deltaX > 80){
           touchX = -1;
+          status = -1;
+        }
+        else if(deltaX < -80){
+          touchX = -1;
+          status = 1;
         }
       }
     });
+    document.body.addEventListener("touchend",()=>{
+      table.dragLeft.style.left = "-70px";
+      table.dragRight.style.right = "-70px";
+      
+      if(status === -1)
+        schedulesControls.prevSchedule();
+      else if(status === 1)
+        schedulesControls.nextSchedule();
+
+      status = 0;
+    })
   }
 
   sectionModal.next.addEventListener("click", function(){

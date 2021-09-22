@@ -98,15 +98,26 @@
                 </div>
                 
                 <div class="content col-12 order-5" style="height: fit-content;">
+                    <div class="dragArrow position-fixed bg-dark text-light fs-1 rounded-3 border text-center py-5" style="left: -100px;">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="dragArrow position-fixed bg-dark text-light fs-1 rounded-3 border text-center py-5" style="right: -100px;">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                     <div class="h-100 tab-content" id="myTabContent">
                         <div class="tab-pane fade h-100 show active" id="all">
                             <div class="timeTable row row-cols-6 g-0 py-2 px-3">
                                 <div class="col-1"></div>
-                                <div class="tableHead border-end border-start">Sunday</div>
-                                <div class="tableHead border-end">Monday</div>
-                                <div class="tableHead border-end">Tuesday</div>
-                                <div class="tableHead border-end">Wednesday</div>
-                                <div class="tableHead border-end">Thursday</div>
+                                <div class="tableHead border-end border-start d-none d-sm-block">Sunday</div>
+                                <div class="tableHead border-end border-start dynamic-fs-l d-block d-sm-none">Sun</div>
+                                <div class="tableHead border-end d-none d-sm-block">Monday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Mon</div>
+                                <div class="tableHead border-end d-none d-sm-block">Tuesday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Tue</div>
+                                <div class="tableHead border-end d-none d-sm-block">Wednesday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Wed</div>
+                                <div class="tableHead border-end d-none d-sm-block">Thursday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Thu</div>
                                 <div class="col-1"></div>
                                 <div class="tableKeys col-1">
                                     <div class="hours"><span>8:30 AM</span></div>
@@ -132,11 +143,16 @@
                         <div class="tab-pane fade h-100 " id="pinned">
                             <div class="timeTable row row-cols-6 g-0 py-2 px-3">
                                 <div class="col-1"></div>
-                                <div class="tableHead border-end border-start">Sunday</div>
-                                <div class="tableHead border-end">Monday</div>
-                                <div class="tableHead border-end">Tuesday</div>
-                                <div class="tableHead border-end">Wednesday</div>
-                                <div class="tableHead border-end">Thursday</div>
+                                <div class="tableHead border-end border-start d-none d-sm-block">Sunday</div>
+                                <div class="tableHead border-end border-start d-block d-sm-none">Sun</div>
+                                <div class="tableHead border-end d-none d-sm-block">Monday</div>
+                                <div class="tableHead border-end d-block d-sm-none">Mon</div>
+                                <div class="tableHead border-end d-none d-sm-block">Tuesday</div>
+                                <div class="tableHead border-end d-block d-sm-none">Tue</div>
+                                <div class="tableHead border-end d-none d-sm-block">Wednesday</div>
+                                <div class="tableHead border-end d-block d-sm-none">Wed</div>
+                                <div class="tableHead border-end d-none d-sm-block">Thursday</div>
+                                <div class="tableHead border-end d-block d-sm-none">Thu</div>
                                 <div class="col-1"></div>
                                 <div class="tableKeys col-1">
                                     <div class="hours"><span>8:30 AM</span></div>
@@ -230,7 +246,7 @@
         </div>
     </div>
     <div class="modal fade" tabindex="-1" id="sectionModal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered mh-100">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Sections: </h4>
@@ -239,11 +255,11 @@
                 <div class="modal-body" tabindex="-1">
                     <div class="row g-0">
                         <div title="Previous Section" class="prev col-1 btn btn-light position-relative p-0">
-                            <span class="position-absolute"><</span>
+                            <span class="position-absolute"><i class="fas fa-chevron-left" aria-hidden="true"></i></span>
                         </div>
                         <div class="col-10"></div>
                         <div title="Next Section" class="next col-1 btn btn-light position-relative p-0">
-                            <span class="position-absolute">></span>
+                            <span class="position-absolute"><i class="fas fa-chevron-right" aria-hidden="true"></i></span>
                         </div>
                     </div>
                 </div>
