@@ -404,13 +404,6 @@ async function updateGenerated(){
     table.allTable = new ScheduleGroup(table.allBody,sectionModal);
     table.pinnedTable = new ScheduleGroup(table.pinnedBody,sectionModal);
 
-    const pinnedArr = app.getUserPinned();
-    addTimeObj(pinnedArr);
-    let idCounter = 1000000;
-    for (const schedule of pinnedArr) {
-      table.pinnedTable.addSchedule({ sections: schedule, id: idCounter++ });
-    }
-
     const cModal = document.getElementById("coursesModal");
     cousresModal.body = cModal.querySelector(".modal-body .row");
     cousresModal.title = cModal.querySelector(".modal-title");
@@ -744,10 +737,15 @@ async function updateGenerated(){
   
 })();
 
-// (async()=>{
-//   await getElements();
-//   addEvents();
-// })();
+window.addEventListener("load",async function(){
+  console.log("sfsd")
+  const pinnedArr = await app.getUserPinned();
+    addTimeObj(pinnedArr);
+    let idCounter = 1000000;
+    for (const schedule of pinnedArr) {
+      table.pinnedTable.addSchedule({ sections: schedule, id: idCounter++ });
+    }
+});
 
 function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
   let t = document.createElement(tag);
