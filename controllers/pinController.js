@@ -1,58 +1,83 @@
 const User = require("../models/user");
-const Schedule = require("../models/scheduleModel");
-
+const Course = require("../models/course");
 module.exports.pin_post = async (req, res) => {
   let exist = false,
-    id = "";
-  const user = await User.findById(res.locals.user._id);
-  const sch = await Schedule.find();
-  for (let j = 0; j < sch.length; j++) {
-    if (sch[j].sections.toString() == req.body.sentArr.toString()) {
+  id = ""; 
+  const user=res.locals.user;
+  const sentArr=req.body.sentArr;
+  console.log(sentArr)
+  for (let j = 0; j < user.pinnedSchedule.length; j++) {
+    if (user.pinnedSchedule[j].toString()==sentArr.toString()) {
       exist = true;
-      id = sch[j].id;
     }
-  }
+  }  
+  if(!exist){
+    console.log("it doesnt exist and will be pinned")
+    user.pinnedSchedule.push(sentArr);
+    user.save();
 
-  if (!exist) {
-    try {
-      console.log("it doesnt exist it gonna be saved in db");
-      const nsch = new Schedule({ sections: req.body.sentArr });
-      nsch.save();
-      id = nsch.id;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  const pinnedSch = user.pinnedSchedule;
-  if (pinnedSch.includes(id))
-    console.log("user already has that schdule pinned ");
-  else {
-    try {
-      console.log("user doesnt have that schdeule willbe added ");
-      user.pinnedSchedule.push(id);
-      user.save();
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  } 
+  console.log(user.pinnedSchedule)
 };
 module.exports.unpin_delete = async (req, res) => {
-  const user = await User.findById(res.locals.user._id);
-  let bingo;
-  try {
-    const del = req.body.del;
-    const sc = await Schedule.find({ sections: del });
-    for (let j = 0; j < user.pinnedSchedule.length; j++) {
-        if (user.pinnedSchedule[j] == sc[0].id) {
-            bingo = j;
-            console.log(bingo)
-            break;
-        }
-        }
-    user.pinnedSchedule.splice(bingo, 1);
-    user.save();
-    await sc[0].remove();
-  } catch (err) {
-    console.log(err);
+  const user= res.locals.user;
+  const del= req.body.del;
+  for (let j = 0; j < user.pinnedSchedule.length; j++) {
+    if (user.pinnedSchedule[j].toString()==del.toString()) {
+      user.pinnedSchedule.splice(j,1)
+      user.save()
+      console.log("deleted")
+    }
+  } 
+  console.log(user.pinnedSchedule)
+};
+
+module.exports.getpinned_get=async (req, res) => {
+  const user = res.locals.user;
+  const prePin = user.pinnedSchedule;
+  let finalArr=[];
+  for (let j = 0; j < prePin.length; j++) {
+    let schedule = prePin[j];
+    let tempArr=[];
+    for (let i = 0; i < schedule.length; i++) {
+      let sectionNum= parseInt(schedule[i].replace(/^.*-/, ""));
+      let symbol = schedule[i].match(/[^-]*/)[0];
+      let lcourse = await Course.findOne({ symbol });
+      let section;
+      for(let m=0;m<lcourse.sections.length;m++){
+          if(lcourse.sections[m].sectionNumber==sectionNum){
+              section=lcourse.sections[m]
+          }
+      }
+      
+      let sectObj = {
+        course:{
+            creditHours:lcourse.creditHours,
+            department: lcourse.department,
+            faculty: lcourse.faculty,
+            lineNumber: lcourse.lineNumber,
+            name: lcourse.name,
+            semester: lcourse.semester,
+            symbol: lcourse.symbol,
+            _id: lcourse.id
+        },
+        sectionNumber: section.sectionNumber,
+        days: section.days,
+        hall:section.hall,
+        seatCount: section.seatCount,
+        capacity: section.capacity,
+        registered:section.registered,
+        instructor: section.instructor,
+        status: section.status,
+        teachingType: section.teachingType,
+        startTime: section.startTime,
+        endTime: section.endTime,
+      };
+      tempArr.push(sectObj);
+    }
+   
+    finalArr.push(tempArr)
   }
+  
+  res.json({ recSchedules:finalArr });
 };

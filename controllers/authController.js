@@ -60,12 +60,18 @@ module.exports.login_get = (req, res) => {
 };
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name ,secPassword} = req.body;
   try {
-    const user = await User.create({ email, password, name });
-    const token = createToken(user._id);
-    res.cookie("jwt", token, { httponly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
+    if(password==secPassword){
+      const user = await User.create({ email, password, name });
+      const token = createToken(user._id);
+      res.cookie("jwt", token, { httponly: true, maxAge: maxAge * 1000 });
+      res.status(201).json({ user: user._id });
+    }
+    else{
+      throw Error("passwords dont match")
+    }
+    
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -88,35 +94,50 @@ module.exports.logout_get = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.redirect("/");
 };
-module.exports.settings = async (req, res) => {
+module.exports.settings_post = async (req, res) => {
+  const namePassChanges={name:false,password:false}
   const user = res.locals.user;
-  try {
-    if (!req.body.newPass1 && !req.body.newPass2 && !req.body.oldPass) {
-      if (!req.body.name) throw Error("Enter a name please");
-      else {
-        user.name = req.body.name;
-        user.save();
-        res.json({ pass: "true" });
-      }
-    } else {
-      const auth = await bcrypt.compare(req.body.oldPass, user.password);
-      if (auth) {
-        if (req.body.newPass1 != req.body.newPass2)
-          throw Error("passwords dont match");
-        else if (req.body.newPass1.length < 8 || req.body.newPass2.length < 8)
-          throw Error("Minimum password length is 8 characters");
-        else {
-          user.password = req.body.newPass1;
-          user.save();
-          res.json({ pass: "true" });
-        }
-      } else {
-        throw Error("incorrect password");
+  const {name,oldPass,newPass1,newPass2,isPass}=req.body;
+  try{
+    if(name.length==0){
+      throw Error("Enter a name please")
+    }
+    else {
+      if(user.name!=name){
+        namePassChanges.name=true;
+        user.name=name;
       }
     }
-  } catch (err) {
-    const errors = handleErrors(err);
+  if(isPass){
+    const auth =await  bcrypt.compare(oldPass,user.password)
+    if(auth){
+        if(newPass1.length>=8&&newPass2.length>=8){
+            if(newPass1==newPass2){
+                namePassChanges.password=true;
+                user.password=newPass1;
+            }
+            else{
+              throw Error("passwords dont match")
+            }
+        }
+        else{
+          throw Error("Minimum password length is 8 characters")
+        }
+    }
+    else{
+      throw Error("incorrect password");
+    }
+  }
+    user.save()
+     res.json({namePassChanges})
+  }
+    catch(err){
+    const errors=handleErrors(err)
     res.status(400).json({ errors });
   }
 };
+module.exports.settings_get = async (req, res) => {
+  res.render("settings/settings")
+};
+
 

@@ -6,12 +6,18 @@
                 <form  class="mt-5 border p-4 bg-light shadow" id="setForm">
                     <h2 class="mb-5 text-secondary text-center">Settings</h2>
                     <div class="row">
+                        <h3>email</h3>
+                        <div class="mb-3 col-md-12">
+                            <input type="text"  disabled class="form-control" value="<%=user.email  %> ">
+                        </div>
                         <h3>Change your name</h3>
                         <div class="mb-3 col-md-12">
-                            
                             <input type="text" name="name" class="form-control" value="<%=user.name  %> ">
                         </div>
                         <div id="nameE"></div>
+                        <h3>Saved schedules</h3>
+                        
+                        <h1 class="text-center"><%= user.pinnedSchedule.length %></h1>
                         <h3>Change your password</h3>
                         <div class="mb-3 col-md-12">
                             <label></label>
