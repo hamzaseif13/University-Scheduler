@@ -191,6 +191,7 @@ const options = {},
         }
 
         app._removeCourseFunction(course.lineNumber);
+        updateGenerated();
       });
     }
   },
@@ -310,6 +311,33 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
   return col;
 }
+async function updateGenerated(){
+  covers.table.className = covers.table.className.replace("hidden", ""); //display loading
+  
+  const arr = await app._generateScheduleFunction();
+  for (const schedule of arr) {
+    for(const sections of schedule){
+      for (const sec of sections) {
+        sec.timeObj = {
+          start: new Time(sec.startTime * 60),
+          end: new Time(sec.endTime * 60),
+          delta(){return Time.subtract(this.end , this.start);},
+          string: function () {
+            return (
+              this.start.string24 +
+              " - " +
+              this.end.string24
+            );
+          },
+        };
+      }
+    }
+
+  }
+  
+  covers.table.className += "hidden";
+  schedulesControls.updateSchedule(arr, true);
+}
 (function getElements() {
     //this code gets the inputs of all options and puts them in #options
     //in this order #options = {option1Name:{input1Name, option1Name, ...}}
@@ -397,8 +425,9 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     coursesTable.body = document.querySelector("#coursesTable tbody");
 })();
 (function addEvents() {
-  
   { //options events
+    options["generateschedule"].submit.addEventListener("click",updateGenerated);
+    
     let responseFlag = true;
     let abortReqController = new AbortController();
     let abortReqSignal = abortReqController.signal;
@@ -443,6 +472,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             for (const course of cousresModal.selected) {
               app._addCourseFunction(course);
               coursesTable.addCourseCard(course);
+              updateGenerated();
             }
           };
           cousresModal.bootstrapModal.show();
@@ -463,6 +493,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
                   
                   app._addCourseFunction(course);
                   coursesTable.addCourseCard(course);
+                  updateGenerated();
                   options["search"].searchval.value = "";
             });
           }
@@ -485,6 +516,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
               for (const course of cousresModal.selected) {
                 app._addCourseFunction(course);
                 coursesTable.addCourseCard(course);
+                updateGenerated();
               }
             };
             cousresModal.bootstrapModal.show();
@@ -607,33 +639,6 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     let touchX=-1;
     let touchY = 0;
     let status = 0;//0 -> none | 1 -> next | -1 -> prev
-    options["generateschedule"].submit.addEventListener("click",async()=>{
-      covers.table.className = covers.table.className.replace("hidden", ""); //display loading
-      
-      const arr = await app._generateScheduleFunction();
-      for (const schedule of arr) {
-        for(const sections of schedule){
-          for (const sec of sections) {
-            sec.timeObj = {
-              start: new Time(sec.startTime * 60),
-              end: new Time(sec.endTime * 60),
-              delta(){return Time.subtract(this.end , this.start);},
-              string: function () {
-                return (
-                  this.start.string24 +
-                  " - " +
-                  this.end.string24
-                );
-              },
-            };
-          }
-        }
-    
-      }
-      
-      covers.table.className += "hidden";
-      schedulesControls.updateSchedule(arr, true);
-    });
 
     table.indexInput.addEventListener("change", function(){
       schedulesControls.changeActiveSchedule(parseInt(this.value));
