@@ -152,6 +152,48 @@ const options = {},
       this.body.style.display = "block";
     }
   },
+  coursesTable = {
+    body: undefined,
+    counter: 0,
+    cardsNum: [],
+    addCourseCard(course){
+      const self = this;
+
+      const copy = {};
+      copy.name = course.name
+      copy.symbol = course.symbol
+      copy.creditHours = course.creditHours
+      // copy.faculty = course.faculty
+      // copy.department = course.department
+      // copy.lineNumber = course.lineNumber
+      // copy.sections = course.sections
+
+      const row = htmlCreator("tr", this.body);
+
+      const num = htmlCreator("th", row, "", "", ++this.counter);
+      this.cardsNum.push(num);
+
+      htmlCreator("td", row, "", "", copy.name.toLowerCase());
+      htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
+      htmlCreator("td", row, "", "", copy.creditHours);
+      
+      const deleteBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-outline-danger", `<i class="fas fa-trash-alt"></i>`);
+      // const detailsBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-danger", `<i class="fas fa-info"></i>`);
+      
+
+      deleteBtn.addEventListener("click", function(){
+        self.cardsNum.splice(num.innerText - 1, 1);
+        this.parentNode.parentNode.remove();
+        self.counter--;
+
+        for(let i=0; i<self.counter; i++){
+          self.cardsNum[i].innerHTML = i+1;
+        }
+
+        app._removeCourseFunction(course.lineNumber);
+      });
+    }
+  },
   covers = {};
 let coursesView;
 
@@ -340,15 +382,19 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
     cousresModal.bootstrapModal = new bootstrap.Modal(cModal, {keyboard: false});
 
-    const optionsOffcanvas = document.getElementById('optionsOffcanvas')
+    const optionsOffcanvas = document.getElementById('optionsOffcanvas');
+    //shrink container
     optionsOffcanvas.addEventListener('show.bs.offcanvas', function () {
       document.documentElement.style.setProperty("--container-width", "calc(100vw - 250px)")
-    })
+    });
+    //expand container
     optionsOffcanvas.addEventListener('hide.bs.offcanvas', function () {
       document.documentElement.style.setProperty("--container-width", "100vw")
-    })
+    });
 
     coursesView = document.querySelector(".accordion .accordion-body > div.row");
+
+    coursesTable.body = document.querySelector("#coursesTable tbody");
 })();
 (function addEvents() {
   
@@ -396,7 +442,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           cousresModal.submitFunction = function () {
             for (const course of cousresModal.selected) {
               app._addCourseFunction(course);
-              coursesView.appendChild(generateHTMLCourseCard(course));
+              coursesTable.addCourseCard(course);
             }
           };
           cousresModal.bootstrapModal.show();
@@ -416,7 +462,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
                   // const deepCopy = JSON.parse(JSON.stringify(course));
                   
                   app._addCourseFunction(course);
-                  coursesView.appendChild(generateHTMLCourseCard(course));
+                  coursesTable.addCourseCard(course);
                   options["search"].searchval.value = "";
             });
           }
@@ -438,7 +484,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             cousresModal.submitFunction = function () {
               for (const course of cousresModal.selected) {
                 app._addCourseFunction(course);
-                coursesView.appendChild(generateHTMLCourseCard(course));
+                coursesTable.addCourseCard(course);
               }
             };
             cousresModal.bootstrapModal.show();
