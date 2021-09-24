@@ -73,11 +73,11 @@ module.exports.getpinned_get=async (req, res) => {
         startTime: section.startTime,
         endTime: section.endTime,
       };
-      tempArr.push(sectObj);
+      tempArr.push([sectObj]);
     }
    
     finalArr.push(tempArr)
   }
   
-  res.json({ recSchedules:finalArr });
+  res.json(finalArr);
 };

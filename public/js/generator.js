@@ -77,6 +77,197 @@ async function generateSchedules_Server(arr){
   const data = await res.json();
   return data.rec;
 }
+async function getUserPinned(){
+  const res = await fetch("getpinned", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  });
+  const arr = await res.json();
+  console.log(arr);
+  return arr;
+  // return [
+  //   [
+  //     [
+  //         {
+  //             "sectionNumber": "4",
+  //             "days": "Mon Wed",
+  //             "hall": "منصة الكترونية",
+  //             "seatCount": "500",
+  //             "capacity": "20",
+  //             "registered": "20",
+  //             "instructor": "عمر عبدالكريم مناور الزعبي",
+  //             "status": "Active",
+  //             "teachingType": "by an Electronic Platform",
+  //             "startTime": 10,
+  //             "endTime": 11.5,
+  //             "course": {
+  //                 "_id": "612e6607a85ea169dbdface2",
+  //                 "semester": "Second Semester 2020-2021",
+  //                 "faculty": "Computer & Information Technology",
+  //                 "department": "Computer Science",
+  //                 "lineNumber": "1732112",
+  //                 "symbol": "CS211",
+  //                 "name": "DATA STRUCTURES",
+  //                 "creditHours": "3",
+  //                 "__v": 0
+  //             },
+  //             "timeObj": {
+  //                 "start": {},
+  //                 "end": {}
+  //             }
+  //         },
+  //         {
+  //             "sectionNumber": "8",
+  //             "days": "Mon Wed",
+  //             "hall": "منصة الكترونية",
+  //             "seatCount": "500",
+  //             "capacity": "25",
+  //             "registered": "26",
+  //             "instructor": "سناء خالد محمد بصول",
+  //             "status": "Active",
+  //             "teachingType": "by an Electronic Platform",
+  //             "startTime": 10,
+  //             "endTime": 11.5,
+  //             "course": {
+  //                 "_id": "612e6607a85ea169dbdface2",
+  //                 "semester": "Second Semester 2020-2021",
+  //                 "faculty": "Computer & Information Technology",
+  //                 "department": "Computer Science",
+  //                 "lineNumber": "1732112",
+  //                 "symbol": "CS211",
+  //                 "name": "DATA STRUCTURES",
+  //                 "creditHours": "3",
+  //                 "__v": 0
+  //             },
+  //             "timeObj": {
+  //                 "start": {},
+  //                 "end": {}
+  //             }
+  //         }
+  //     ]
+  //   ],
+  //   [
+  //   [
+  //       {
+  //           "sectionNumber": "1",
+  //           "days": "Sun Tue",
+  //           "hall": "منصة الكترونية",
+  //           "seatCount": "500",
+  //           "capacity": "22",
+  //           "registered": "20",
+  //           "instructor": "رشا محمد محسن عبيدات",
+  //           "status": "Active",
+  //           "teachingType": "by an Electronic Platform",
+  //           "startTime": 10,
+  //           "endTime": 11.5,
+  //           "course": {
+  //               "_id": "612e6607a85ea169dbdface2",
+  //               "semester": "Second Semester 2020-2021",
+  //               "faculty": "Computer & Information Technology",
+  //               "department": "Computer Science",
+  //               "lineNumber": "1732112",
+  //               "symbol": "CS211",
+  //               "name": "DATA STRUCTURES",
+  //               "creditHours": "3",
+  //               "__v": 0
+  //           },
+  //           "timeObj": {
+  //               "start": {},
+  //               "end": {}
+  //           }
+  //       },
+  //       {
+  //           "sectionNumber": "6",
+  //           "days": "Sun Tue",
+  //           "hall": "منصة الكترونية",
+  //           "seatCount": "500",
+  //           "capacity": "25",
+  //           "registered": "22",
+  //           "instructor": "تسنيم عبد الحميد كامل الملاح",
+  //           "status": "Active",
+  //           "teachingType": "by an Electronic Platform",
+  //           "startTime": 10,
+  //           "endTime": 11.5,
+  //           "course": {
+  //               "_id": "612e6607a85ea169dbdface2",
+  //               "semester": "Second Semester 2020-2021",
+  //               "faculty": "Computer & Information Technology",
+  //               "department": "Computer Science",
+  //               "lineNumber": "1732112",
+  //               "symbol": "CS211",
+  //               "name": "DATA STRUCTURES",
+  //               "creditHours": "3",
+  //               "__v": 0
+  //           },
+  //           "timeObj": {
+  //               "start": {},
+  //               "end": {}
+  //           }
+  //       }
+  //   ]
+  //   ],
+  //   [
+  //     [
+  //         {
+  //             "sectionNumber": "2",
+  //             "days": "Sun Tue",
+  //             "hall": "منصة الكترونية",
+  //             "seatCount": "500",
+  //             "capacity": "26",
+  //             "registered": "26",
+  //             "instructor": "رشا محمد محسن عبيدات",
+  //             "status": "Active",
+  //             "teachingType": "by an Electronic Platform",
+  //             "startTime": 11.5,
+  //             "endTime": 13,
+  //             "course": {
+  //                 "_id": "612e6607a85ea169dbdface2",
+  //                 "semester": "Second Semester 2020-2021",
+  //                 "faculty": "Computer & Information Technology",
+  //                 "department": "Computer Science",
+  //                 "lineNumber": "1732112",
+  //                 "symbol": "CS211",
+  //                 "name": "DATA STRUCTURES",
+  //                 "creditHours": "3",
+  //                 "__v": 0
+  //             },
+  //             "timeObj": {
+  //                 "start": {},
+  //                 "end": {}
+  //             }
+  //         },
+  //         {
+  //             "sectionNumber": "7",
+  //             "days": "Sun Tue",
+  //             "hall": "منصة الكترونية",
+  //             "seatCount": "500",
+  //             "capacity": "28",
+  //             "registered": "25",
+  //             "instructor": "تسنيم عبد الحميد كامل الملاح",
+  //             "status": "Active",
+  //             "teachingType": "by an Electronic Platform",
+  //             "startTime": 11.5,
+  //             "endTime": 13,
+  //             "course": {
+  //                 "_id": "612e6607a85ea169dbdface2",
+  //                 "semester": "Second Semester 2020-2021",
+  //                 "faculty": "Computer & Information Technology",
+  //                 "department": "Computer Science",
+  //                 "lineNumber": "1732112",
+  //                 "symbol": "CS211",
+  //                 "name": "DATA STRUCTURES",
+  //                 "creditHours": "3",
+  //                 "__v": 0
+  //             },
+  //             "timeObj": {
+  //                 "start": {},
+  //                 "end": {}
+  //             }
+  //         }
+  //     ]
+  //   ],
+  // ];
+}
 function generateSchedules_Client(sets) {
   console.log("Generate on Client");
   const copy = [...sets];
@@ -320,4 +511,5 @@ export default {
   setOptions,
   options,
   getDays,
+  getUserPinned,
 };
