@@ -311,10 +311,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
   return col;
 }
-async function updateGenerated(){
-  covers.table.className = covers.table.className.replace("hidden", ""); //display loading
-  
-  const arr = await app._generateScheduleFunction();
+function addTimeObj(arr){
   for (const schedule of arr) {
     for(const sections of schedule){
       for (const sec of sections) {
@@ -334,6 +331,12 @@ async function updateGenerated(){
     }
 
   }
+}
+async function updateGenerated(){
+  covers.table.className = covers.table.className.replace("hidden", ""); //display loading
+  
+  const arr = await app._generateScheduleFunction();
+  addTimeObj(arr);
   
   covers.table.className += "hidden";
   schedulesControls.updateSchedule(arr, true);
@@ -401,7 +404,13 @@ async function updateGenerated(){
     table.allTable = new ScheduleGroup(table.allBody,sectionModal);
     table.pinnedTable = new ScheduleGroup(table.pinnedBody,sectionModal);
 
-    
+    const pinnedArr = app.getUserPinned();
+    addTimeObj(pinnedArr);
+    let idCounter = 1000000;
+    for (const schedule of pinnedArr) {
+      table.pinnedTable.addSchedule({ sections: schedule, id: idCounter++ });
+    }
+
     const cModal = document.getElementById("coursesModal");
     cousresModal.body = cModal.querySelector(".modal-body .row");
     cousresModal.title = cModal.querySelector(".modal-title");
@@ -735,6 +744,10 @@ async function updateGenerated(){
   
 })();
 
+// (async()=>{
+//   await getElements();
+//   addEvents();
+// })();
 
 function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
   let t = document.createElement(tag);

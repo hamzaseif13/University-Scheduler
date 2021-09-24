@@ -79,5 +79,5 @@ module.exports.getpinned_get=async (req, res) => {
     finalArr.push(tempArr)
   }
   
-  res.json({ recSchedules:finalArr });
+  res.json(finalArr);
 };
