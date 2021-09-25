@@ -41,7 +41,7 @@ module.exports.getpinned_get=async (req, res) => {
     let tempArr=[];
     for (let i = 0; i < schedule.length; i++) {
       let sectionNum= parseInt(schedule[i].replace(/^.*-/, ""));
-      let symbol = schedule[i].match(/[^-]*/)[0];
+      let symbol = schedule[i].replace(/-.*$/,"");
       let lcourse = await Course.findOne({ symbol });
       let section;
       for(let m=0;m<lcourse.sections.length;m++){
@@ -49,7 +49,6 @@ module.exports.getpinned_get=async (req, res) => {
               section=lcourse.sections[m]
           }
       }
-      
       let sectObj = {
         course:{
             creditHours:lcourse.creditHours,
@@ -75,9 +74,7 @@ module.exports.getpinned_get=async (req, res) => {
       };
       tempArr.push(sectObj);
     }
-   
     finalArr.push(tempArr)
   }
-  
-  res.json({ recSchedules:finalArr });
+  res.json(finalArr);
 };
