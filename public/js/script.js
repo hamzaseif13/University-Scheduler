@@ -121,13 +121,16 @@ const options = {},
     selected: [], //contains the line numbers of the selected courses in the modal
   },
   table = {
+    content: undefined,
     title: undefined,
     indexInput: undefined,
     next: undefined,
     prev: undefined,
     allTable: undefined,
     allBody:undefined,
-    pinnedBody:undefined
+    pinnedBody:undefined,
+    dragLeft: undefined,
+    dragRight: undefined
   },
   sectionModal = {
     bootstrapModal:undefined,
@@ -147,6 +150,49 @@ const options = {},
       if(this.body === undefined) return;
       this.body.innerHTML = "";
       this.body.style.display = "block";
+    }
+  },
+  coursesTable = {
+    body: undefined,
+    counter: 0,
+    cardsNum: [],
+    addCourseCard(course){
+      const self = this;
+
+      const copy = {};
+      copy.name = course.name
+      copy.symbol = course.symbol
+      copy.creditHours = course.creditHours
+      // copy.faculty = course.faculty
+      // copy.department = course.department
+      // copy.lineNumber = course.lineNumber
+      // copy.sections = course.sections
+
+      const row = htmlCreator("tr", this.body);
+
+      const num = htmlCreator("th", row, "", "", ++this.counter);
+      this.cardsNum.push(num);
+
+      htmlCreator("td", row, "", "", copy.name.toLowerCase());
+      htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
+      htmlCreator("td", row, "", "", copy.creditHours);
+      
+      const deleteBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-outline-danger", `<i class="fas fa-trash-alt"></i>`);
+      // const detailsBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-danger", `<i class="fas fa-info"></i>`);
+      
+
+      deleteBtn.addEventListener("click", function(){
+        self.cardsNum.splice(num.innerText - 1, 1);
+        this.parentNode.parentNode.remove();
+        self.counter--;
+
+        for(let i=0; i<self.counter; i++){
+          self.cardsNum[i].innerHTML = i+1;
+        }
+
+        app._removeCourseFunction(course.lineNumber);
+        updateGenerated();
+      });
     }
   },
   covers = {};
@@ -265,6 +311,36 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
   return col;
 }
+function addTimeObj(arr){
+  for (const schedule of arr) {
+    for(const sections of schedule){
+      for (const sec of sections) {
+        sec.timeObj = {
+          start: new Time(sec.startTime * 60),
+          end: new Time(sec.endTime * 60),
+          delta(){return Time.subtract(this.end , this.start);},
+          string: function () {
+            return (
+              this.start.string24 +
+              " - " +
+              this.end.string24
+            );
+          },
+        };
+      }
+    }
+
+  }
+}
+async function updateGenerated(){
+  covers.table.className = covers.table.className.replace("hidden", ""); //display loading
+  
+  const arr = await app._generateScheduleFunction();
+  addTimeObj(arr);
+  
+  covers.table.className += "hidden";
+  schedulesControls.updateSchedule(arr, true);
+}
 (function getElements() {
     //this code gets the inputs of all options and puts them in #options
     //in this order #options = {option1Name:{input1Name, option1Name, ...}}
@@ -301,10 +377,12 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     }
 
     const t = document.getElementById("table");
+    table.content = t.querySelector(".content");
     table.numOfTables = t.querySelector("#tableInput span");
     table.indexInput = t.querySelector("#tableInput input");
     table.allBody = t.querySelector("#all .timeTable");
     table.pinnedBody = t.querySelector("#pinned .timeTable");
+    [table.dragLeft , table.dragRight] = t.querySelectorAll(".dragArrow");
     
     let tableBtns = t.querySelectorAll(".btn");
     for (const btn of tableBtns) {
@@ -326,7 +404,6 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     table.allTable = new ScheduleGroup(table.allBody,sectionModal);
     table.pinnedTable = new ScheduleGroup(table.pinnedBody,sectionModal);
 
-    
     const cModal = document.getElementById("coursesModal");
     cousresModal.body = cModal.querySelector(".modal-body .row");
     cousresModal.title = cModal.querySelector(".modal-title");
@@ -335,19 +412,24 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
     cousresModal.bootstrapModal = new bootstrap.Modal(cModal, {keyboard: false});
 
-    const optionsOffcanvas = document.getElementById('optionsOffcanvas')
+    const optionsOffcanvas = document.getElementById('optionsOffcanvas');
+    //shrink container
     optionsOffcanvas.addEventListener('show.bs.offcanvas', function () {
       document.documentElement.style.setProperty("--container-width", "calc(100vw - 250px)")
-    })
+    });
+    //expand container
     optionsOffcanvas.addEventListener('hide.bs.offcanvas', function () {
       document.documentElement.style.setProperty("--container-width", "100vw")
-    })
+    });
 
     coursesView = document.querySelector(".accordion .accordion-body > div.row");
+
+    coursesTable.body = document.querySelector("#coursesTable tbody");
 })();
 (function addEvents() {
-  
   { //options events
+    options["generateschedule"].submit.addEventListener("click",updateGenerated);
+    
     let responseFlag = true;
     let abortReqController = new AbortController();
     let abortReqSignal = abortReqController.signal;
@@ -391,7 +473,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           cousresModal.submitFunction = function () {
             for (const course of cousresModal.selected) {
               app._addCourseFunction(course);
-              coursesView.appendChild(generateHTMLCourseCard(course));
+              coursesTable.addCourseCard(course);
+              updateGenerated();
             }
           };
           cousresModal.bootstrapModal.show();
@@ -411,7 +494,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
                   // const deepCopy = JSON.parse(JSON.stringify(course));
                   
                   app._addCourseFunction(course);
-                  coursesView.appendChild(generateHTMLCourseCard(course));
+                  coursesTable.addCourseCard(course);
+                  updateGenerated();
                   options["search"].searchval.value = "";
             });
           }
@@ -433,7 +517,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             cousresModal.submitFunction = function () {
               for (const course of cousresModal.selected) {
                 app._addCourseFunction(course);
-                coursesView.appendChild(generateHTMLCourseCard(course));
+                coursesTable.addCourseCard(course);
+                updateGenerated();
               }
             };
             cousresModal.bootstrapModal.show();
@@ -555,33 +640,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   { //table events
     let touchX=-1;
     let touchY = 0;
-    options["generateschedule"].submit.addEventListener("click",async()=>{
-      covers.table.className = covers.table.className.replace("hidden", ""); //display loading
-      
-      const arr = await app._generateScheduleFunction();
-      for (const schedule of arr) {
-        for(const sections of schedule){
-          for (const sec of sections) {
-            sec.timeObj = {
-              start: new Time(sec.startTime * 60),
-              end: new Time(sec.endTime * 60),
-              delta(){return Time.subtract(this.end , this.start);},
-              string: function () {
-                return (
-                  this.start.string24 +
-                  " - " +
-                  this.end.string24
-                );
-              },
-            };
-          }
-        }
-    
-      }
-      
-      covers.table.className += "hidden";
-      schedulesControls.updateSchedule(arr, true);
-    });
+    let status = 0;//0 -> none | 1 -> next | -1 -> prev
 
     table.indexInput.addEventListener("change", function(){
       schedulesControls.changeActiveSchedule(parseInt(this.value));
@@ -595,15 +654,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       }
     }
 
-    table.allBody.addEventListener("touchstart",function(event){
-      if(touchX === -1){
-        event.preventDefault();
-        touchX = event.touches[0].clientX;
-      }
-      touchY = event.touches[0].clientY;
-    });
-    table.pinnedBody.addEventListener("touchstart",function(event){
-      console.log("this is script js")
+    table.content.addEventListener("touchstart",function(event){
       if(touchX === -1){
         event.preventDefault();
         touchX = event.touches[0].clientX;
@@ -620,16 +671,35 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           return;
         }
 
-        if(deltaX > 50){
-          schedulesControls.prevSchedule();
-          touchX = -1;
+        if(deltaX > 0){
+          table.dragLeft.style.left = Math.min(10,-70 + deltaX) + "px";
+          table.dragRight.style.right = "-70px";
         }
-        else if(deltaX < -50){
-          schedulesControls.nextSchedule();
+        else{
+          table.dragRight.style.right = Math.min(10,-70 - deltaX) + "px";
+          table.dragLeft.style.left = "-70px";
+        }
+        if(deltaX > 80){
           touchX = -1;
+          status = -1;
+        }
+        else if(deltaX < -80){
+          touchX = -1;
+          status = 1;
         }
       }
     });
+    document.body.addEventListener("touchend",()=>{
+      table.dragLeft.style.left = "-70px";
+      table.dragRight.style.right = "-70px";
+      
+      if(status === -1)
+        schedulesControls.prevSchedule();
+      else if(status === 1)
+        schedulesControls.nextSchedule();
+
+      status = 0;
+    })
   }
 
   sectionModal.next.addEventListener("click", function(){
@@ -667,6 +737,15 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   
 })();
 
+window.addEventListener("load",async function(){
+  console.log("sfsd")
+  const pinnedArr = await app.getUserPinned();
+    addTimeObj(pinnedArr);
+    let idCounter = 1000000;
+    for (const schedule of pinnedArr) {
+      table.pinnedTable.addSchedule({ sections: schedule, id: idCounter++ });
+    }
+});
 
 function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
   let t = document.createElement(tag);

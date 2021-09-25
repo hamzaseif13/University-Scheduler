@@ -10,15 +10,17 @@ const colors = {
   set colorGroup(cg) {
     cg %= 3;
     this.cg = cg;
-  },
-  get colorGroup() {
+    
     for (let i = 0; i < 20; i++) {
       colors.array[i] = `hsl(${(((0 + 120 * this.cg) / 6 + i) * 6) % 360
         },90%, 60%)`;
     }
+  },
+  get colorGroup() {
     return this.cg;
   },
 };
+colors.colorGroup = 0;
 
 class TimeTable {
   #sectionGroups;
@@ -343,6 +345,7 @@ class ScheduleGroup {
     // this.days = app.getDays();
   }
   display() {
+    // console.log(this.#schedules);
     this.#tableObj.reset();
     if (this.#schedules.length == 0) return;
 
@@ -497,25 +500,27 @@ function prevSchedule() {
   activeTable.prevSchedule();
   displaySchedule();
 }
-function deleteSchedule() {
-  const id = activeTable.activeSchedule.id;
+// function deleteSchedule() {
+//   const id = activeTable.activeSchedule.id;
 
-  table.allTable.deleteSchedule(id);
-  table.pinnedTable.deleteSchedule(id);
+//   table.allTable.deleteSchedule(id);
+//   table.pinnedTable.deleteSchedule(id);
 
-  displaySchedule();
-}
+//   displaySchedule();
+// }
 async function pinSchedule() {
   let sentArr=[]
   if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) === -1) {
+    //client pin
+    table.pinnedTable.addSchedule(activeTable.activeSchedule);
+    displaySchedule();
+    //server pin
     const pinnedSchedule = activeTable.activeSchedule;
     console.log(pinnedSchedule)
     for(let j=0;j<pinnedSchedule.sections.length;j++){
       sentArr.push(pinnedSchedule.sections[j][0].course.symbol+"-"+pinnedSchedule.sections[j][0].sectionNumber)
     }
     sentArr.sort()
-    table.pinnedTable.addSchedule(activeTable.activeSchedule);
-    displaySchedule();
     try{
       await fetch("/pin", {
         method: "POST",
@@ -531,6 +536,10 @@ async function pinSchedule() {
 async function unpinSchedule() {
   let del=[]
   if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1){
+    //client
+    table.pinnedTable.deleteSchedule(activeTable.activeSchedule.id);
+    displaySchedule();
+    //server
     const pinnedSchedule = activeTable.activeSchedule;
     console.log(pinnedSchedule)
     for(let j=0;j<pinnedSchedule.sections.length;j++){
@@ -544,11 +553,7 @@ async function unpinSchedule() {
         body:JSON.stringify({del})
       })
     }catch(err){console.log(err)}
-
-    table.pinnedTable.deleteSchedule(activeTable.activeSchedule.id);
   }
-    
-  displaySchedule();
 }
 function printSchedule() {
   const element = htmlCreator("div", "");
@@ -594,7 +599,7 @@ export default {
   changeActiveSchedule,
   nextSchedule,
   prevSchedule,
-  deleteSchedule,
+  // deleteSchedule,
   pinSchedule,
   unpinSchedule,
   printSchedule,
