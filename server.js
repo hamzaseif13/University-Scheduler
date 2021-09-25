@@ -27,6 +27,9 @@ app.get("*", checkUser);
 app.get("/", (req, res) => {
   res.render("landing");
 });
+app.get("/pinned",(req, res)=>{
+    res.render("pinned")
+})
 app.use(authRoutes);
 app.use(genRoutes);
 app.use(pinRoutes);

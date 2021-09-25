@@ -83,7 +83,7 @@ async function getUserPinned(){
     headers: { "Content-Type": "application/json" }
   });
   const arr = await res.json();
-  console.log(arr);
+  
   return arr;
   // return [
   //   [
