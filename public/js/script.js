@@ -743,7 +743,7 @@ window.addEventListener("load",async function(){
     addTimeObj(pinnedArr);
     let idCounter = 1000000;
     for (const schedule of pinnedArr) {
-      table.pinnedTable.addSchedule({ sections: schedule, id: idCounter++ });
+      table.pinnedTable.addSchedule(schedule);
     }
 });
 
