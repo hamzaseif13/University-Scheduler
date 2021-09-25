@@ -150,19 +150,32 @@ const options = {},
       if(this.body === undefined) return;
       this.body.innerHTML = "";
       this.body.style.display = "block";
+    },
+    set loading(val){
+      if(val){
+        this.body.innerHTML = `<li class="dropdown-item w-100 d-flex align-items-center"><strong>Searching for Course...</strong><div class="spinner-border ms-5" role="status" aria-hidden="true"></div></li>`;
+      }
+      else{
+        this.body.innerHTML = "";
+      }
     }
   },
   coursesTable = {
     body: undefined,
     counter: 0,
     cardsNum: [],
+    coursesNum: [],
     addCourseCard(course){
+      if(this.coursesNum.findIndex((cNum)=>cNum === course.lineNumber) != -1){
+        return;
+      }
       const self = this;
 
+      this.coursesNum.push(course.lineNumber);
       const copy = {};
-      copy.name = course.name
-      copy.symbol = course.symbol
-      copy.creditHours = course.creditHours
+      copy.name = course.name;
+      copy.symbol = course.symbol;
+      copy.creditHours = course.creditHours;
       // copy.faculty = course.faculty
       // copy.department = course.department
       // copy.lineNumber = course.lineNumber
@@ -209,6 +222,7 @@ function updateModal(
   cousresModal.title.innerHTML = title + "  " + arr.length + " items";
   cousresModal.submit.innerHTML = submitBtn;
   cousresModal.body.innerHTML = "";
+  cousresModal.selected = [];
   for (const course of arr) {
     cousresModal.body.appendChild(
       generateHTMLCourseCard(course, highlight, prop)
@@ -299,8 +313,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       cousresModal.selected.push(course);
       card.className += " border-2 border-success shadow-lg";
     } else {
-      let index = cousresModal.selected.findIndex((courseNum) => {
-        return courseNum === course.lineNumber;
+      let index = cousresModal.selected.findIndex((c) => {
+        return c.lineNumber === course.lineNumber;
       });
       if (index != -1) {
         cousresModal.selected.splice(index, 1);
@@ -433,21 +447,28 @@ async function updateGenerated(){
     let responseFlag = true;
     let abortReqController = new AbortController();
     let abortReqSignal = abortReqController.signal;
-    const submitSearch = async function(displayMode = "dropdown") {
+    let lastSearch = "";
+    let lastResult = [];
+    let modalFlag = false;
+
+    const submitSearch = async function() {
+      modalFlag = false;
       //function to call when searching (by varius methods like mouse, keyboard)
       if(!responseFlag) return;
+
+      if(options["search"].searchval.value === lastSearch) return;
+      lastSearch = options["search"].searchval.value;
 
       if (options["search"].searchval.value.search(/\w.*\w/) == -1) {
         //val has at least 1s alpha-numeric chars
         coursesDropmenu.hide();
         return;
       }
-      
       coursesDropmenu.show();
+      coursesDropmenu.loading = true;
 
       responseFlag = false;
      
-      
       try{
         var res = await app._searchFunction(options["search"].searchval.value, "all", abortReqSignal)
       }catch(err){
@@ -455,14 +476,16 @@ async function updateGenerated(){
           console.error(err);
       }
       if(res){ //if no error
+        lastResult = res.courses;
         responseFlag = true;
+        coursesDropmenu.loading = false;
         
         if (res.courses.length < 1) {
             coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
             return;
         }
 
-        if(displayMode === "modal"){
+        if(modalFlag){
           updateModal(
               res.courses,
               "Found",
@@ -529,8 +552,8 @@ async function updateGenerated(){
       }
     };
     // let inputTimerID = null;
-    options["search"].searchval.addEventListener("input", ()=>{
-      if(!responseFlag){
+    options["search"].searchval.addEventListener("input", function(){
+      if(!responseFlag && this.value != lastSearch){
         abortReqController.abort();
         
         responseFlag = true;
@@ -547,14 +570,30 @@ async function updateGenerated(){
     options["search"].searchval.addEventListener("click", submitSearch);
     options["search"].searchval.addEventListener("keydown", (event)=>{
       if(event.key === "Enter")
-        if(!responseFlag){
-          abortReqController.abort();
-          console.log("abort");
-          responseFlag = true;
-          abortReqController = new AbortController();
-          abortReqSignal = abortReqController.signal;
+      if(!responseFlag)
+        modalFlag = true;
+      else{
+        if (lastResult.length < 1) {
+          coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
         }
-        submitSearch("modal");
+        else{
+        updateModal(
+            lastResult,
+            "Found",
+            "Add Courses",
+            options["search"].searchval.value,
+            "all"
+        );
+        cousresModal.submitFunction = function () {
+          for (const course of cousresModal.selected) {
+            app._addCourseFunction(course);
+            coursesTable.addCourseCard(course);
+            updateGenerated();
+          }
+        };
+        cousresModal.bootstrapModal.show();
+        }
+      }
     });
 
     // options["courses"].submit.addEventListener("click", function () {

@@ -366,7 +366,7 @@ class ScheduleGroup {
     return this.#tableObj;
   }
   addSchedule(s) {
-    if(this.searchScheduleIndex(s) === -1){
+    if(this.searchScheduleIndex(s) != -1){
       console.error("Duplicate Schedule");
       return;
     }
