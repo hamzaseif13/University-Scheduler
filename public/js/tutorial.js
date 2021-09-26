@@ -21,7 +21,7 @@ function playTutorial(mainCover){
     mainSections[0],
     {
       title: "Search Bar",
-      text: "You can add courses to your collection by choosing it from the search results"
+      text: "Add courses to your collection by choosing it from the search results"
     },
     ()=>{tips.step--;},
     ()=>{tips.step++;}
@@ -30,7 +30,7 @@ function playTutorial(mainCover){
     mainSections[1],
     {
       title: "Added Courses",
-      text: "You can add courses to your collection by choosing it from the search results"
+      text: "View your courses info and manipulate them"
     },
     ()=>{tips.step--;},
     ()=>{tips.step++;}
@@ -38,8 +38,8 @@ function playTutorial(mainCover){
   const tableTip = addElementTip.bind(null,
     mainSections[2],
     {
-      title: "Schedule",
-      text: "You can add courses to your collection by choosing it from the search results"
+      title: "Schedules",
+      text: "View generated schedules from best to worst"
     },
     ()=>{tips.step--;},
     ()=>{tips.step++;}
@@ -88,13 +88,5 @@ function addElementTip(elem, opt, nextBtnFunction, prevBtnFunction){
     if(prevBtnFunction) prevBtnFunction();
   }
 }
-
-
-var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-  return new bootstrap.Popover(popoverTriggerEl)
-})
-
-console.log("2345678");
 
 export {playTutorial};

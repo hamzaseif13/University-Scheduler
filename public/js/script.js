@@ -355,7 +355,16 @@ async function updateGenerated(){
   schedulesControls.updateSchedule(arr, true);
 }
 (function getElements() {
-    //this code gets the inputs of all options and puts them in #options
+  
+  let cov = document.querySelectorAll(".cover");
+  for (const cover of cov) {
+    let opName = cover.title || cover.ariaLabel;
+    opName = opName.toLowerCase();
+    covers[opName] = cover;
+  }
+  playTutorial(covers["main cover"]);  
+  
+  //this code gets the inputs of all options and puts them in #options
     //in this order #options = {option1Name:{input1Name, option1Name, ...}}
     //#options.option1Name.option1Name.innerHTML = "dvz"
     let opt = document.querySelectorAll(".option");
@@ -381,13 +390,6 @@ async function updateGenerated(){
 
     const tRange = document.querySelector(".option[title=time] .doubleRange");
     options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
-
-    let cov = document.querySelectorAll(".cover");
-    for (const cover of cov) {
-      let opName = cover.title || cover.ariaLabel;
-      opName = opName.toLowerCase();
-      covers[opName] = cover;
-    }
 
     const t = document.getElementById("table");
     table.content = t.querySelector(".content");
@@ -794,14 +796,4 @@ function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-const elems = {
-  options,
-  cousresModal,
-  table,
-  sectionModal,
-  coursesDropmenu,
-  coursesTable,
-  covers,
-}
-playTutorial(covers["main cover"]);
-export {table, htmlCreator, random, elems};
+export {table, htmlCreator, random};
