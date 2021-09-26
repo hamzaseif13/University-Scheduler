@@ -495,7 +495,7 @@ function displaySchedule() {
 
 //feature functions to control displayed schedule (invoked with user events)
 function updateSchedule(arr, changeColor) {//called when generating schedules
-  if (changeColor) colors.colorGroup += 1;
+  // if (changeColor) colors.colorGroup += 1;
 
   table.allTable.reset();
   for (const schedule of arr) {

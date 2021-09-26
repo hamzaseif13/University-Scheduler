@@ -2,7 +2,7 @@ import app from "./generator.js";
 import schedulesControls from "./Generated Schedules.js";
 import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
-
+import {playTutorial} from "./tutorial.js"
 
 class DoubleRange{
   #sliders;
@@ -153,7 +153,7 @@ const options = {},
     },
     set loading(val){
       if(val){
-        this.body.innerHTML = `<li class="dropdown-item w-100 d-flex align-items-center"><strong>Searching for Course...</strong><div class="spinner-border ms-5" role="status" aria-hidden="true"></div></li>`;
+        this.body.innerHTML = `<li class="dropdown-item w-100 d-flex align-items-center"><strong>Searching for Course...</strong><div class="spinner-border ms-5"></div></li>`;
       }
       else{
         this.body.innerHTML = "";
@@ -209,7 +209,6 @@ const options = {},
     }
   },
   covers = {};
-let coursesView;
 
 
 function updateModal(
@@ -385,7 +384,7 @@ async function updateGenerated(){
 
     let cov = document.querySelectorAll(".cover");
     for (const cover of cov) {
-      let opName = cover.title;
+      let opName = cover.title || cover.ariaLabel;
       opName = opName.toLowerCase();
       covers[opName] = cover;
     }
@@ -435,8 +434,6 @@ async function updateGenerated(){
     optionsOffcanvas.addEventListener('hide.bs.offcanvas', function () {
       document.documentElement.style.setProperty("--container-width", "100vw")
     });
-
-    coursesView = document.querySelector(".accordion .accordion-body > div.row");
 
     coursesTable.body = document.querySelector("#coursesTable tbody");
 })();
@@ -777,7 +774,6 @@ async function updateGenerated(){
 })();
 
 window.addEventListener("load",async function(){
-  console.log("sfsd")
   const pinnedArr = await app.getUserPinned();
     addTimeObj(pinnedArr);
     let idCounter = 1000000;
@@ -798,5 +794,14 @@ function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-
-export {table, htmlCreator, random};
+const elems = {
+  options,
+  cousresModal,
+  table,
+  sectionModal,
+  coursesDropmenu,
+  coursesTable,
+  covers,
+}
+playTutorial(covers["main cover"]);
+export {table, htmlCreator, random, elems};
