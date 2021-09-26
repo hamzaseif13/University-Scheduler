@@ -59,10 +59,16 @@ class TimeTable {
     const clones = [];
     const groupIndex = this.#sectionGroups.length;
 
+    this.#columns[0].appendChild(secCard.card);
+    secCard.checkOverflow();
+    secCard.card.remove();
+
     for (let i = 0; i < 5; i++) {
       if (secGroup[0].days.includes(days[i])) {
-        const clone = secCard.cloneNode(true);
+
+        const clone = secCard.card.cloneNode(true);
         this.#columns[i].appendChild(clone);
+        
         clones.push(clone);
       }
     }
@@ -197,9 +203,9 @@ class TimeTable {
 
     let cardBody = htmlCreator("div", card, "", "m-auto cardBody overflow-hidden");
     // cardBody.style.fontSize = "x-small";
-    htmlCreator("time", cardBody, "", "", sections[0].timeObj.string());
-    htmlCreator("div", cardBody, "", "", sections[0].course.symbol);
-    htmlCreator("p", cardBody, "", "m-0 p-0", "Sec: " + sections[0].sectionNumber);
+    const tElem = htmlCreator("time", cardBody, "", "", sections[0].timeObj.string());
+    const dElem = htmlCreator("div", cardBody, "", "", sections[0].course.symbol);
+    const pElem = htmlCreator("p", cardBody, "", "m-0 p-0", "Sec: " + sections[0].sectionNumber);
     // htmlCreator("div", cardBody, "", "", sections[0].timeObj.string());
 
     if (sections.length > 1) {
@@ -230,7 +236,19 @@ class TimeTable {
       }
     }
 
-    return card;
+    return {
+      card,
+      checkOverflow(){
+        if(cardBody.offsetHeight < tElem.offsetHeight + dElem.offsetHeight + pElem.offsetHeight || 
+          card.offsetWidth < cardBody.offsetWidth
+          ){
+          tElem.style.display = "none";
+        }
+        else{
+          tElem.style.display = "block";
+        }
+      }
+    };
   }
   #resizeEvents() {
     window.addEventListener("resize", () => {
@@ -368,6 +386,10 @@ class ScheduleGroup {
   addSchedule(s) {
     if(this.searchScheduleIndex(s) != -1){
       console.error("Duplicate Schedule");
+      return;
+    }
+    if(s.length === 0){
+      console.error("Empty Schedule");
       return;
     }
 
