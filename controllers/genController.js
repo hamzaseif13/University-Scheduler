@@ -8,7 +8,7 @@ module.exports.getCourse_post=async(req, res)=>{
     const validProps = ["semester", "faculty", "department", "lineNumber", "symbol", "name"];
     let searchResult = [];
     const searchBy = req.body.searchBy;
-    const value = req.body.value.trim();
+    const value = req.body.value.trim().replace(/[^.\w &()-]/g,"_").replace(/(?=[().])/g,"\\");
     const searchRegex = {$regex:new RegExp(`( ${value}|^${value})`,"i")};
 
     if(validProps.includes(searchBy)){
