@@ -345,16 +345,15 @@ class ScheduleGroup {
     // this.days = app.getDays();
   }
   display() {
-    // console.log(this.#schedules);
     this.#tableObj.reset();
     if (this.#schedules.length == 0) return;
 
-    for (const sec of this.activeSchedule.sections) {
+    for (const sec of this.activeSchedule) {
       this.#tableObj.addSection(Array.isArray(sec) ? sec : [sec]);
     }
   }
   get activeSchedule() {
-    if (this.numOfSchedules == 0) return {};
+    if (this.numOfSchedules == 0) return [];
     return this.#schedules[this.#activeIndex];
   }
   get activeIndex() {
@@ -367,11 +366,10 @@ class ScheduleGroup {
     return this.#tableObj;
   }
   addSchedule(s) {
-    if (s.id === undefined || s.id < 0) {
-      console.error("schedule id must be a number > 0");
+    if(this.searchScheduleIndex(s) != -1){
+      console.error("Duplicate Schedule");
       return;
     }
-    if (s.score === undefined) this.#calcScore(s);
 
     this.#schedules.push(s);
   }
@@ -394,24 +392,27 @@ class ScheduleGroup {
   prevSchedule() {
     this.changeActiveIndex(this.#activeIndex - 1);
   }
-  deleteSchedule(id) {
+  deleteSchedule(schedule) {
     if (this.numOfSchedules == 0) return;
 
     let index;
-    if (id != undefined) index = this.searchScheduleIndex(id);
+    if (schedule != undefined) index = this.searchScheduleIndex(schedule);
     else index = this.#activeIndex;
     this.#schedules.splice(index, 1);
 
     if (this.#activeIndex != 0 && this.#activeIndex == this.numOfSchedules)
       this.#activeIndex--;
   }
-  searchScheduleIndex(id) {
+  searchScheduleIndex(schedule) {
+    if(!Array.isArray(schedule) || schedule.length === 0){
+      return -1;
+    }
     return this.#schedules.findIndex((val) => {
-      return val.id === id;
+      return this.hashSchedule(val) === this.hashSchedule(schedule);
     });
   }
   #calcScore(s) {
-    s.score = calcScore(s.sections);
+    s.score = calcScore(s);
   }
   refreshTable() {
     this.#tableObj.updateCellHeight();
@@ -421,13 +422,31 @@ class ScheduleGroup {
     this.#schedules = [];
     this.#activeIndex = 0;
   }
+  hashSchedule(s){
+    let hashArr = [];
+    if(!Array.isArray(s)){
+      console.error("Can Not Calculate Hash");
+      return;
+    }
+    if(s.length === 0){
+      console.error("Empty Schedule");
+      return;
+    }
+    for(let sec of s){
+      if(Array.isArray(sec))sec = sec[0];
+      hashArr.push(sec.course.symbol + "-" + sec.sectionNumber);
+    }
+    hashArr.sort();
+    let hash = hashArr.join(",");
+    return hash;
+  }
   stats() {
     const weekDays = ["sun", "mon", "tue", "wed", "thu", "sat"];
     const obj = {
       daysNum: [0, 0, 0, 0, 0, 0],
     };
     for (const schedule of this.#schedules) {
-      const sections = schedule.sections.map((val) => val[0]);
+      const sections = schedule.map((val) => val[0]);
       let daysNum = 0;
       for (const day of weekDays) {
         // if (advancedSearch(sections, false, [day, "days"]).length >= 1)
@@ -463,7 +482,7 @@ function displaySchedule() {
 
   if (activeTab != "pinned") {
     if (
-      table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1
+      table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule) != -1
     ) {
       table.pinBtn.style.display = "none";
       table.unpinBtn.style.display = "block";
@@ -476,11 +495,11 @@ function displaySchedule() {
 
 //feature functions to control displayed schedule (invoked with user events)
 function updateSchedule(arr, changeColor) {//called when generating schedules
-  if (changeColor) colors.colorGroup += 1;
+  // if (changeColor) colors.colorGroup += 1;
 
   table.allTable.reset();
   for (const schedule of arr) {
-    table.allTable.addSchedule({ sections: schedule, id: idCounter++ });
+    table.allTable.addSchedule(schedule);
   }
 
   table.allTable.changeActiveIndex(0);
@@ -510,15 +529,15 @@ function prevSchedule() {
 // }
 async function pinSchedule() {
   let sentArr=[]
-  if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) === -1) {
+  if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule) === -1) {
     //client pin
     table.pinnedTable.addSchedule(activeTable.activeSchedule);
     displaySchedule();
     //server pin
     const pinnedSchedule = activeTable.activeSchedule;
-    console.log(pinnedSchedule)
-    for(let j=0;j<pinnedSchedule.sections.length;j++){
-      sentArr.push(pinnedSchedule.sections[j][0].course.symbol+"-"+pinnedSchedule.sections[j][0].sectionNumber)
+    // console.log(pinnedSchedule)
+    for(let j=0;j<pinnedSchedule.length;j++){
+      sentArr.push(pinnedSchedule[j][0].course.symbol+"-"+pinnedSchedule[j][0].sectionNumber)
     }
     sentArr.sort()
     try{
@@ -528,22 +547,22 @@ async function pinSchedule() {
         body: JSON.stringify({sentArr})
       })
     }
-    catch(err){console.log(err)}
+    catch(err){console.error(err)}
     return false;
   }
   return true;
 }
 async function unpinSchedule() {
   let del=[]
-  if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule.id) != -1){
+  if (table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule) != -1){
     //client
     table.pinnedTable.deleteSchedule(activeTable.activeSchedule.id);
     displaySchedule();
     //server
     const pinnedSchedule = activeTable.activeSchedule;
-    console.log(pinnedSchedule)
-    for(let j=0;j<pinnedSchedule.sections.length;j++){
-      del.push(pinnedSchedule.sections[j][0].course.symbol+"-"+pinnedSchedule.sections[j][0].sectionNumber)
+    // console.log(pinnedSchedule)
+    for(let j=0;j<pinnedSchedule.length;j++){
+      del.push(pinnedSchedule[j][0].course.symbol+"-"+pinnedSchedule[j][0].sectionNumber)
     }
     del.sort()
     try{
@@ -552,7 +571,7 @@ async function unpinSchedule() {
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({del})
       })
-    }catch(err){console.log(err)}
+    }catch(err){console.error(err)}
   }
 }
 function printSchedule() {

@@ -1,14 +1,18 @@
 <%- include("partials/header")%>
 <link rel="stylesheet" href="./css/style2.css" />
+<div class="cover hidden" aria-label="Main Cover"></div>
 
     <div id="container" class="row g-0 justify-content-center bg-warning" tabindex="-1">
-        <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3 ">
+        <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3">
             <div class="col-12 row gx-2 gy-2 gy-md-0 mx-0 mt-3 p-1 border-2 border-bottom rounded-2 sticky-md-top bg-white justify-content-center">
                 <div class="option col-12" title="search">
-                    <input type="text" name="searchval" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
+                    <input type="text" name="searchval" maxlength="50" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
                     <div class="position-relative border-0 m-0 p-0" style="height: 0!important;">
                         <ul class="dropdown-menu overflow-auto" title = "Add Course">
-                            <li class="dropdown-item w-100">Nothing Found</li>
+                            <li class="dropdown-item w-100 d-flex align-items-center">
+                                <strong>Loading...</strong>
+                                <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -19,11 +23,11 @@
                         <button class="btn btn-primary text-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#optionsOffcanvas">
                             Filter  
                         </button>
-                        <button class="accordion-button collapsed py-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                        <button class="accordion-button py-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                             My Courses
                         </button>
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse">
+                    <div id="collapseOne" class="accordion-collapse collapse show">
                         <table id="coursesTable" class="table table-striped text-center text-capitalize">
                             <thead class="">
                                 <tr>
