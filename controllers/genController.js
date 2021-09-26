@@ -1,14 +1,14 @@
 const Course=require('../models/course');
 const generator = require("../logic/generator");
 const {search, advancedSearch}=require("../db/Database");
-module.exports.generator=(req,res)=>{
+module.exports.generator_get=(req,res)=>{
     res.render("generator")
 }
-module.exports.getCourse=async(req, res)=>{
+module.exports.getCourse_post=async(req, res)=>{
     const validProps = ["semester", "faculty", "department", "lineNumber", "symbol", "name"];
     let searchResult = [];
     const searchBy = req.body.searchBy;
-    const value = req.body.value.trim();
+    const value = req.body.value.trim().replace(/[^.\w &()-]/g,"_").replace(/(?=[().])/g,"\\");
     const searchRegex = {$regex:new RegExp(`( ${value}|^${value})`,"i")};
 
     if(validProps.includes(searchBy)){
@@ -33,7 +33,7 @@ module.exports.getCourse=async(req, res)=>{
         num: searchResult.length
     });
 }
-module.exports.gen=(req,res)=>{
+module.exports.generator_post=(req,res)=>{
     let generated=generator(req.body.arr,req.body.options)
     res.send({rec:generated});
 }

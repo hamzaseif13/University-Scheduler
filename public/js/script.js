@@ -2,7 +2,7 @@ import app from "./generator.js";
 import schedulesControls from "./Generated Schedules.js";
 import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
-
+import {playTutorial} from "./tutorial.js"
 
 class DoubleRange{
   #sliders;
@@ -30,46 +30,44 @@ class DoubleRange{
   #addEvents(){
     const self = this;
     for(let i = 0;i<2;i++){
-      let dragFlag = false;
       function start(event){
           event.preventDefault();
-          dragFlag = true;
+          self.#offsetX = self.#bar.getBoundingClientRect().left;
+          document.body.addEventListener("mousemove", move);
+      // self.#barWidth = self.#bar.clientWidth;
       }
       function end(){
-          dragFlag = false;
-      }
+          document.body.removeEventListener("mousemove", move);
+    }
       function move(event){
-          if(dragFlag){
-            let pos = event.clientX - self.#offsetX;
-            if(0 < pos && pos < self.#barWidth){
-              let oldVal = self.#values[i];
-              self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
+          let pos = event.clientX - self.#offsetX;
+          if(0 < pos && pos < self.#barWidth){
+            let oldVal = self.#values[i];
+            self.#values[i] = Math.round((pos) / (self.#barWidth) * (self.max - self.min) /self.step)*self.step + self.min;
 
-              if(self.#values[i] == oldVal)
+            if(self.#values[i] == oldVal)
+              return;
+
+            if(self.#values[0] >= self.#values[1]){
+              // self.#values[i]=oldVal;
+              //   return;
+              let delta = self.#values[i] - oldVal;
+              if(i)
+                self.minValue += delta;
+              else
+                self.maxValue += delta;
+
+              if(self.maxValue === self.minValue){
+                self.#values[i] = oldVal;
                 return;
-
-              if(self.#values[0] >= self.#values[1]){
-                // self.#values[i]=oldVal;
-                //   return;
-                let delta = self.#values[i] - oldVal;
-                if(i)
-                  self.minValue += delta;
-                else
-                  self.maxValue += delta;
-
-                if(self.maxValue === self.minValue){
-                  self.#values[i] = oldVal;
-                  return;
-                }
               }
-              self.#updateSliderPos(i);
-              self.onchange();
             }
+            self.#updateSliderPos(i);
+            self.onchange();
           }
       }
       self.#sliders[i].addEventListener("mousedown", start);
       window.addEventListener("mouseup", end);
-      document.body.addEventListener("mousemove", move);
       
       self.#sliders[i].addEventListener("touchstart", start);
       window.addEventListener("touchend", end);
@@ -123,18 +121,23 @@ const options = {},
     selected: [], //contains the line numbers of the selected courses in the modal
   },
   table = {
+    content: undefined,
     title: undefined,
     indexInput: undefined,
     next: undefined,
     prev: undefined,
     allTable: undefined,
     allBody:undefined,
-    pinnedBody:undefined
+    pinnedBody:undefined,
+    dragLeft: undefined,
+    dragRight: undefined
   },
   sectionModal = {
+    bootstrapModal:undefined,
     body: undefined,
     next: undefined,
-    prev: undefined
+    prev: undefined,
+    title: undefined
   },
   coursesDropmenu = {
     body:undefined,
@@ -147,10 +150,65 @@ const options = {},
       if(this.body === undefined) return;
       this.body.innerHTML = "";
       this.body.style.display = "block";
+    },
+    set loading(val){
+      if(val){
+        this.body.innerHTML = `<li class="dropdown-item w-100 d-flex align-items-center"><strong>Searching for Course...</strong><div class="spinner-border ms-5"></div></li>`;
+      }
+      else{
+        this.body.innerHTML = "";
+      }
+    }
+  },
+  coursesTable = {
+    body: undefined,
+    counter: 0,
+    cardsNum: [],
+    coursesNum: [],
+    addCourseCard(course){
+      if(this.coursesNum.findIndex((cNum)=>cNum === course.lineNumber) != -1){
+        return;
+      }
+      const self = this;
+
+      this.coursesNum.push(course.lineNumber);
+      const copy = {};
+      copy.name = course.name;
+      copy.symbol = course.symbol;
+      copy.creditHours = course.creditHours;
+      // copy.faculty = course.faculty
+      // copy.department = course.department
+      // copy.lineNumber = course.lineNumber
+      // copy.sections = course.sections
+
+      const row = htmlCreator("tr", this.body);
+
+      const num = htmlCreator("th", row, "", "", ++this.counter);
+      this.cardsNum.push(num);
+
+      htmlCreator("td", row, "", "", copy.name.toLowerCase());
+      htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
+      htmlCreator("td", row, "", "", copy.creditHours);
+      
+      const deleteBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-outline-danger", `<i class="fas fa-trash-alt"></i>`);
+      // const detailsBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-danger", `<i class="fas fa-info"></i>`);
+      
+
+      deleteBtn.addEventListener("click", function(){
+        self.cardsNum.splice(num.innerText - 1, 1);
+        this.parentNode.parentNode.remove();
+        self.counter--;
+
+        for(let i=0; i<self.counter; i++){
+          self.cardsNum[i].innerHTML = i+1;
+        }
+
+        app._removeCourseFunction(course.lineNumber);
+        updateGenerated();
+      });
     }
   },
   covers = {};
-let coursesView;
 
 
 function updateModal(
@@ -163,6 +221,7 @@ function updateModal(
   cousresModal.title.innerHTML = title + "  " + arr.length + " items";
   cousresModal.submit.innerHTML = submitBtn;
   cousresModal.body.innerHTML = "";
+  cousresModal.selected = [];
   for (const course of arr) {
     cousresModal.body.appendChild(
       generateHTMLCourseCard(course, highlight, prop)
@@ -253,8 +312,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       cousresModal.selected.push(course);
       card.className += " border-2 border-success shadow-lg";
     } else {
-      let index = cousresModal.selected.findIndex((courseNum) => {
-        return courseNum === course.lineNumber;
+      let index = cousresModal.selected.findIndex((c) => {
+        return c.lineNumber === course.lineNumber;
       });
       if (index != -1) {
         cousresModal.selected.splice(index, 1);
@@ -265,8 +324,47 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
   return col;
 }
+function addTimeObj(arr){
+  for (const schedule of arr) {
+    for(const sections of schedule){
+      for (const sec of sections) {
+        sec.timeObj = {
+          start: new Time(sec.startTime * 60),
+          end: new Time(sec.endTime * 60),
+          delta(){return Time.subtract(this.end , this.start);},
+          string: function () {
+            return (
+              this.start.string24 +
+              " - " +
+              this.end.string24
+            );
+          },
+        };
+      }
+    }
+
+  }
+}
+async function updateGenerated(){
+  covers.table.className = covers.table.className.replace("hidden", ""); //display loading
+  
+  const arr = await app._generateScheduleFunction();
+  addTimeObj(arr);
+  
+  covers.table.className += "hidden";
+  schedulesControls.updateSchedule(arr, true);
+}
 (function getElements() {
-    //this code gets the inputs of all options and puts them in #options
+  
+  let cov = document.querySelectorAll(".cover");
+  for (const cover of cov) {
+    let opName = cover.title || cover.ariaLabel;
+    opName = opName.toLowerCase();
+    covers[opName] = cover;
+  }
+  playTutorial(covers["main cover"]);  
+  
+  //this code gets the inputs of all options and puts them in #options
     //in this order #options = {option1Name:{input1Name, option1Name, ...}}
     //#options.option1Name.option1Name.innerHTML = "dvz"
     let opt = document.querySelectorAll(".option");
@@ -293,18 +391,13 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     const tRange = document.querySelector(".option[title=time] .doubleRange");
     options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
 
-    let cov = document.querySelectorAll(".cover");
-    for (const cover of cov) {
-      let opName = cover.title;
-      opName = opName.toLowerCase();
-      covers[opName] = cover;
-    }
-
     const t = document.getElementById("table");
+    table.content = t.querySelector(".content");
     table.numOfTables = t.querySelector("#tableInput span");
     table.indexInput = t.querySelector("#tableInput input");
     table.allBody = t.querySelector("#all .timeTable");
     table.pinnedBody = t.querySelector("#pinned .timeTable");
+    [table.dragLeft , table.dragRight] = t.querySelectorAll(".dragArrow");
     
     let tableBtns = t.querySelectorAll(".btn");
     for (const btn of tableBtns) {
@@ -319,11 +412,13 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     sectionModal.body = secModal.querySelector(".modal-body .col-10");
     sectionModal.next = secModal.querySelector(".modal-body .next");
     sectionModal.prev = secModal.querySelector(".modal-body .prev");
+    sectionModal.title = secModal.querySelector(".modal-title");
 
-    table.allTable = new ScheduleGroup(table.allBody,secModal);
-    table.pinnedTable = new ScheduleGroup(table.pinnedBody,secModal);
+    sectionModal.bootstrapModal = new bootstrap.Modal(secModal, {keyboard: false});
 
-    
+    table.allTable = new ScheduleGroup(table.allBody,sectionModal);
+    table.pinnedTable = new ScheduleGroup(table.pinnedBody,sectionModal);
+
     const cModal = document.getElementById("coursesModal");
     cousresModal.body = cModal.querySelector(".modal-body .row");
     cousresModal.title = cModal.querySelector(".modal-title");
@@ -332,37 +427,47 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 
     cousresModal.bootstrapModal = new bootstrap.Modal(cModal, {keyboard: false});
 
-    const optionsOffcanvas = document.getElementById('optionsOffcanvas')
+    const optionsOffcanvas = document.getElementById('optionsOffcanvas');
+    //shrink container
     optionsOffcanvas.addEventListener('show.bs.offcanvas', function () {
       document.documentElement.style.setProperty("--container-width", "calc(100vw - 250px)")
-    })
+    });
+    //expand container
     optionsOffcanvas.addEventListener('hide.bs.offcanvas', function () {
       document.documentElement.style.setProperty("--container-width", "100vw")
-    })
+    });
 
-    coursesView = document.querySelector(".accordion .accordion-body > div.row");
+    coursesTable.body = document.querySelector("#coursesTable tbody");
 })();
 (function addEvents() {
-  
   { //options events
+    options["generateschedule"].submit.addEventListener("click",updateGenerated);
+    
     let responseFlag = true;
     let abortReqController = new AbortController();
     let abortReqSignal = abortReqController.signal;
-    const submitSearch = async function(displayMode = "dropdown") {
+    let lastSearch = "";
+    let lastResult = [];
+    let modalFlag = false;
+
+    const submitSearch = async function() {
+      modalFlag = false;
       //function to call when searching (by varius methods like mouse, keyboard)
       if(!responseFlag) return;
+
+      if(options["search"].searchval.value === lastSearch) return;
+      lastSearch = options["search"].searchval.value;
 
       if (options["search"].searchval.value.search(/\w.*\w/) == -1) {
         //val has at least 1s alpha-numeric chars
         coursesDropmenu.hide();
         return;
       }
-      
       coursesDropmenu.show();
+      coursesDropmenu.loading = true;
 
       responseFlag = false;
      
-      
       try{
         var res = await app._searchFunction(options["search"].searchval.value, "all", abortReqSignal)
       }catch(err){
@@ -370,14 +475,16 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           console.error(err);
       }
       if(res){ //if no error
+        lastResult = res.courses;
         responseFlag = true;
+        coursesDropmenu.loading = false;
         
         if (res.courses.length < 1) {
             coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
             return;
         }
 
-        if(displayMode === "modal"){
+        if(modalFlag){
           updateModal(
               res.courses,
               "Found",
@@ -388,7 +495,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           cousresModal.submitFunction = function () {
             for (const course of cousresModal.selected) {
               app._addCourseFunction(course);
-              coursesView.appendChild(generateHTMLCourseCard(course));
+              coursesTable.addCourseCard(course);
+              updateGenerated();
             }
           };
           cousresModal.bootstrapModal.show();
@@ -408,7 +516,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
                   // const deepCopy = JSON.parse(JSON.stringify(course));
                   
                   app._addCourseFunction(course);
-                  coursesView.appendChild(generateHTMLCourseCard(course));
+                  coursesTable.addCourseCard(course);
+                  updateGenerated();
                   options["search"].searchval.value = "";
             });
           }
@@ -430,7 +539,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
             cousresModal.submitFunction = function () {
               for (const course of cousresModal.selected) {
                 app._addCourseFunction(course);
-                coursesView.appendChild(generateHTMLCourseCard(course));
+                coursesTable.addCourseCard(course);
+                updateGenerated();
               }
             };
             cousresModal.bootstrapModal.show();
@@ -441,8 +551,8 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       }
     };
     // let inputTimerID = null;
-    options["search"].searchval.addEventListener("input", ()=>{
-      if(!responseFlag){
+    options["search"].searchval.addEventListener("input", function(){
+      if(!responseFlag && this.value != lastSearch){
         abortReqController.abort();
         
         responseFlag = true;
@@ -459,14 +569,30 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
     options["search"].searchval.addEventListener("click", submitSearch);
     options["search"].searchval.addEventListener("keydown", (event)=>{
       if(event.key === "Enter")
-        if(!responseFlag){
-          abortReqController.abort();
-          console.log("abort");
-          responseFlag = true;
-          abortReqController = new AbortController();
-          abortReqSignal = abortReqController.signal;
+      if(!responseFlag)
+        modalFlag = true;
+      else{
+        if (lastResult.length < 1) {
+          coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
         }
-        submitSearch("modal");
+        else{
+        updateModal(
+            lastResult,
+            "Found",
+            "Add Courses",
+            options["search"].searchval.value,
+            "all"
+        );
+        cousresModal.submitFunction = function () {
+          for (const course of cousresModal.selected) {
+            app._addCourseFunction(course);
+            coursesTable.addCourseCard(course);
+            updateGenerated();
+          }
+        };
+        cousresModal.bootstrapModal.show();
+        }
+      }
     });
 
     // options["courses"].submit.addEventListener("click", function () {
@@ -552,33 +678,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   { //table events
     let touchX=-1;
     let touchY = 0;
-    options["generateschedule"].submit.addEventListener("click",async()=>{
-      covers.table.className = covers.table.className.replace("hidden", ""); //display loading
-      
-      const arr = await app._generateScheduleFunction();
-      for (const schedule of arr) {
-        for(const sections of schedule){
-          for (const sec of sections) {
-            sec.timeObj = {
-              start: new Time(sec.startTime * 60),
-              end: new Time(sec.endTime * 60),
-              delta(){return Time.subtract(this.end , this.start);},
-              string: function () {
-                return (
-                  this.start.string24 +
-                  " - " +
-                  this.end.string24
-                );
-              },
-            };
-          }
-        }
-    
-      }
-      
-      covers.table.className += "hidden";
-      schedulesControls.updateSchedule(arr, true);
-    });
+    let status = 0;//0 -> none | 1 -> next | -1 -> prev
 
     table.indexInput.addEventListener("change", function(){
       schedulesControls.changeActiveSchedule(parseInt(this.value));
@@ -592,15 +692,7 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
       }
     }
 
-    table.allBody.addEventListener("touchstart",function(event){
-      if(touchX === -1){
-        event.preventDefault();
-        touchX = event.touches[0].clientX;
-      }
-      touchY = event.touches[0].clientY;
-    });
-    table.pinnedBody.addEventListener("touchstart",function(event){
-      console.log("this is script js")
+    table.content.addEventListener("touchstart",function(event){
       if(touchX === -1){
         event.preventDefault();
         touchX = event.touches[0].clientX;
@@ -617,25 +709,44 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
           return;
         }
 
-        if(deltaX > 50){
-          schedulesControls.prevSchedule();
-          touchX = -1;
+        if(deltaX > 0){
+          table.dragLeft.style.left = Math.min(10,-70 + deltaX) + "px";
+          table.dragRight.style.right = "-70px";
         }
-        else if(deltaX < -50){
-          schedulesControls.nextSchedule();
+        else{
+          table.dragRight.style.right = Math.min(10,-70 - deltaX) + "px";
+          table.dragLeft.style.left = "-70px";
+        }
+        if(deltaX > 80){
           touchX = -1;
+          status = -1;
+        }
+        else if(deltaX < -80){
+          touchX = -1;
+          status = 1;
         }
       }
     });
+    document.body.addEventListener("touchend",()=>{
+      table.dragLeft.style.left = "-70px";
+      table.dragRight.style.right = "-70px";
+      
+      if(status === -1)
+        schedulesControls.prevSchedule();
+      else if(status === 1)
+        schedulesControls.nextSchedule();
+
+      status = 0;
+    })
   }
 
   sectionModal.next.addEventListener("click", function(){
-    const t = table.allTable;
+    const t = schedulesControls.getActiveTable().tableObj;
     t.changeActiveSec("",t.activeGroup.activeSecIndex + 1);
     t.displaySectionDetails();
   });
   sectionModal.prev.addEventListener("click", function(){
-    const t = table.allTable;
+    const t = schedulesControls.getActiveTable().tableObj;
     t.changeActiveSec("",t.activeGroup.activeSecIndex - 1);
     t.displaySectionDetails();
   });
@@ -664,6 +775,14 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
   
 })();
 
+window.addEventListener("load",async function(){
+  const pinnedArr = await app.getUserPinned();
+    addTimeObj(pinnedArr);
+    let idCounter = 1000000;
+    for (const schedule of pinnedArr) {
+      table.pinnedTable.addSchedule(schedule);
+    }
+});
 
 function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
   let t = document.createElement(tag);
@@ -677,5 +796,4 @@ function htmlCreator(tag, parent, id = "", clss = "", inHTML = "") {
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-
 export {table, htmlCreator, random};

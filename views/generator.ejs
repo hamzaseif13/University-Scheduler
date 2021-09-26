@@ -1,19 +1,20 @@
+<%- include("partials/header")%>
 <link rel="stylesheet" href="./css/style2.css" />
-    <%- include("partials/header")%>
+<div class="cover hidden" aria-label="Main Cover"></div>
+
     <div id="container" class="row g-0 justify-content-center bg-warning" tabindex="-1">
-        <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3 ">
-            
+        <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3">
             <div class="col-12 row gx-2 gy-2 gy-md-0 mx-0 mt-3 p-1 border-2 border-bottom rounded-2 sticky-md-top bg-white justify-content-center">
-                <div class="option col-12 col-sm-10" title="search">
-                    <input type="text" name="searchval" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
+                <div class="option col-12" title="search">
+                    <input type="text" name="searchval" maxlength="50" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
                     <div class="position-relative border-0 m-0 p-0" style="height: 0!important;">
                         <ul class="dropdown-menu overflow-auto" title = "Add Course">
-                            <li class="dropdown-item w-100">Nothing Found</li>
+                            <li class="dropdown-item w-100 d-flex align-items-center">
+                                <strong>Loading...</strong>
+                                <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                            </li>
                         </ul>
                     </div>
-                </div>
-                <div class="option col-12 col-sm-2" title="generateSchedule">
-                    <button type="button"id="genBtn" class="submit btn-sm btn-primary">Generate</button>
                 </div>
             </div>
             <div class="accordion col-12">
@@ -22,40 +23,25 @@
                         <button class="btn btn-primary text-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#optionsOffcanvas">
                             Filter  
                         </button>
-                        <button class="accordion-button collapsed py-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                        <button class="accordion-button py-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                             My Courses
                         </button>
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse">
-                        <div class="accordion-body d-flex flex-column justify-content-center">
-                            <div class="row row-cols-1 row-cols-md-2 row-cols-xxl-6 g-1 m-0 justify-content-center">
-                                <!-- <span class="text-center">No Courses Added Yet.</span> -->
-                                <!-- <div id="" class="col">
-                                    <div id="" class="card shadow" style="cursor: pointer;">
-                                        <div id="" class="card-body">
-                                            <h5 id="" class="card-title">DATA STRUCTURES</h5>
-                                        </div>
-                                        <ol id="" class="list-group list-group-flush">
-                                            <li id="" class="list-group-item">
-                                                <span class="h6">Faculty:</span> Computer &amp; Information Technology
-                                            </li>
-                                            <li id="" class="list-group-item">
-                                                <span class="h6">Department:</span> Computer Science
-                                            </li>
-                                            <li id="" class="list-group-item">
-                                                <span class="h6">Line Number:</span> 1732112
-                                            </li>
-                                            <li id="" class="list-group-item">
-                                                <span class="h6">Symbol:</span> CS211
-                                            </li>
-                                            <li id="" class="list-group-item">
-                                                <span class="h6">Credit Hours:</span> 3
-                                            </li>
-                                        </ol>
-                                    </div>
-                                </div> -->
-                            </div>
-                        </div>
+                    <div id="collapseOne" class="accordion-collapse collapse show">
+                        <table id="coursesTable" class="table table-striped text-center text-capitalize">
+                            <thead class="">
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Symbol</th>
+                                <th scope="col">Credit Hours</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -66,7 +52,7 @@
                     </div>
                 </div>
                 <div class="col-12 row g-2 g-sm-0 m-0 p-2 justify-content-between">
-                    <ul class="nav nav-tabs border-bottom rounded-2 col-12 col-sm-auto order-last order-sm-first justify-content-center justify-content-sm-start border-0"
+                    <ul class="nav nav-tabs border-bottom rounded-2 col-auto order-first justify-content-start border-0"
                     id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="btn nav-link active py-0 h-100" data-bs-toggle="tab" data-bs-target="#all"
@@ -85,28 +71,39 @@
                         </div>
                         <button class="next btn btn-outline-secondary rounded-3 ms-1" name="next"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    <div class="btn-toolbar col-12 col-sm-auto order-first order-sm-last justify-content-between justify-content-sm-end">
+                    <div class="btn-toolbar col-auto order-first order-sm-last justify-content-end">
                         <div class="btn-group">
                             <div id="printBtn" class="btn btn-sm btn-success"><i class="fas fa-print"></i> Print</div>
                             <div class="btn btn-sm btn-success"><i class="fas fa-thumbtack"></i> Pin</div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-sm btn-danger"><i class="fas fa-thumbtack"></i> Unpin</div>
-                            <div class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</div>
+                            <!-- <div class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</div> -->
                         </div>
                     </div>
                 </div>
                 
                 <div class="content col-12 order-5" style="height: fit-content;">
+                    <div class="dragArrow position-fixed bg-dark text-light fs-1 rounded-3 border text-center py-5" style="left: -100px;">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="dragArrow position-fixed bg-dark text-light fs-1 rounded-3 border text-center py-5" style="right: -100px;">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                     <div class="h-100 tab-content" id="myTabContent">
                         <div class="tab-pane fade h-100 show active" id="all">
                             <div class="timeTable row row-cols-6 g-0 py-2 px-3">
                                 <div class="col-1"></div>
-                                <div class="tableHead border-end border-start">Sunday</div>
-                                <div class="tableHead border-end">Monday</div>
-                                <div class="tableHead border-end">Tuesday</div>
-                                <div class="tableHead border-end">Wednesday</div>
-                                <div class="tableHead border-end">Thursday</div>
+                                <div class="tableHead border-end border-start d-none d-sm-block">Sunday</div>
+                                <div class="tableHead border-end border-start dynamic-fs-l d-block d-sm-none">Sun</div>
+                                <div class="tableHead border-end d-none d-sm-block">Monday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Mon</div>
+                                <div class="tableHead border-end d-none d-sm-block">Tuesday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Tue</div>
+                                <div class="tableHead border-end d-none d-sm-block">Wednesday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Wed</div>
+                                <div class="tableHead border-end d-none d-sm-block">Thursday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Thu</div>
                                 <div class="col-1"></div>
                                 <div class="tableKeys col-1">
                                     <div class="hours"><span>8:30 AM</span></div>
@@ -132,11 +129,16 @@
                         <div class="tab-pane fade h-100 " id="pinned">
                             <div class="timeTable row row-cols-6 g-0 py-2 px-3">
                                 <div class="col-1"></div>
-                                <div class="tableHead border-end border-start">Sunday</div>
-                                <div class="tableHead border-end">Monday</div>
-                                <div class="tableHead border-end">Tuesday</div>
-                                <div class="tableHead border-end">Wednesday</div>
-                                <div class="tableHead border-end">Thursday</div>
+                                <div class="tableHead border-end border-start d-none d-sm-block">Sunday</div>
+                                <div class="tableHead border-end border-start d-block d-sm-none">Sun</div>
+                                <div class="tableHead border-end d-none d-sm-block">Monday</div>
+                                <div class="tableHead border-end d-block d-sm-none">Mon</div>
+                                <div class="tableHead border-end d-none d-sm-block">Tuesday</div>
+                                <div class="tableHead border-end d-block d-sm-none">Tue</div>
+                                <div class="tableHead border-end d-none d-sm-block">Wednesday</div>
+                                <div class="tableHead border-end d-block d-sm-none">Wed</div>
+                                <div class="tableHead border-end d-none d-sm-block">Thursday</div>
+                                <div class="tableHead border-end d-block d-sm-none">Thu</div>
                                 <div class="col-1"></div>
                                 <div class="tableKeys col-1">
                                     <div class="hours"><span>8:30 AM</span></div>
@@ -171,46 +173,48 @@
                     </div>
                 </div> -->
             </div>
-            
+        </div>
+    </div>      
               
-              
-              <div class="offcanvas offcanvas-start" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1" id="optionsOffcanvas" style="width: 250px;">
-                <div class="offcanvas-header">
-                  <h5 class="offcanvas-title">Filter</h5>
-                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div class="offcanvas offcanvas-start" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1" id="optionsOffcanvas" style="width: 250px;">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Filter</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="options" class="border rounded-2 col-12 row g-1 m-0 justify-content-center">
+                <div class="option col-12" title="days">
+                    <h5 class="text-center">Days:</h5>
+                    <ul class="ks-cboxtags">
+                        <li><input type="checkbox" id="sun" name="sun"><label for="sun">Sun</label></li>
+                        <li><input type="checkbox" id="mon" name="mon"><label for="mon">Mon</label></li>
+                        <li><input type="checkbox" id="tue" name="tue"><label for="tue">Tue</label></li>
+                        <li><input type="checkbox" id="wed" name="wed"><label for="wed">Wen</label></li>
+                        <li><input type="checkbox" id="thu" name="thu"><label for="thu">Thu</label></li>
+                    </ul>
                 </div>
-                <div class="offcanvas-body">
-                    <div id="options" class="border rounded-2 col-12 row g-1 m-0 justify-content-center">
-                        <div class="option col-12" title="days">
-                            <h5 class="text-center">Days:</h5>
-                            <ul class="ks-cboxtags">
-                                <li><input type="checkbox" id="sun" name="sun"><label for="sun">Sun</label></li>
-                                <li><input type="checkbox" id="mon" name="mon"><label for="mon">Mon</label></li>
-                                <li><input type="checkbox" id="tue" name="tue"><label for="tue">Tue</label></li>
-                                <li><input type="checkbox" id="wed" name="wed"><label for="wed">Wen</label></li>
-                                <li><input type="checkbox" id="thu" name="thu"><label for="thu">Thu</label></li>
-                            </ul>
-                        </div>
-                        <div class="option col-12" title="time">
-                            <h5 class="text-center ">Hours:</h5>
-                            <div class="input-group">
-                                <span class="input-group-text">From</span>
-                                <input name="min" type="text" class="form-control" value="8:30">
-                                <span class="input-group-text">To</span>
-                                <input name="max" type="text" class="form-control" value="18:30">
-                            </div>
-                            <span class="doubleRange">
-                                <span class="bar">
-                                    <span class="colored"></span>
-                                    <span class="rangeSlider" id="minSlider"></span>
-                                    <span class="rangeSlider" id="maxSlider"></span>
-                                </span>
-                            </span>
-                        </div>
+                <div class="option col-12" title="time">
+                    <h5 class="text-center ">Hours:</h5>
+                    <div class="input-group">
+                        <span class="input-group-text">From</span>
+                        <input name="min" type="text" class="form-control" value="8:30">
+                        <span class="input-group-text">To</span>
+                        <input name="max" type="text" class="form-control" value="18:30">
                     </div>
+                    <span class="doubleRange">
+                        <span class="bar">
+                            <span class="colored"></span>
+                            <span class="rangeSlider" id="minSlider"></span>
+                            <span class="rangeSlider" id="maxSlider"></span>
+                        </span>
+                    </span>
                 </div>
-              </div>
-    <!-- this is a modal (like a popup window) to display courses (made using bootstrap) (courses are added using JS)-->
+                <div class="option col-12" title="generateSchedule">
+                    <button type="button"id="genBtn" class="submit btn-sm btn-primary">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" tabindex="-1" id="coursesModal">
         <div class="modal-dialog modal-xl modal-fullscreen-xl-down modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
@@ -231,7 +235,7 @@
         </div>
     </div>
     <div class="modal fade" tabindex="-1" id="sectionModal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered mh-100">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Sections: </h4>
@@ -240,20 +244,18 @@
                 <div class="modal-body" tabindex="-1">
                     <div class="row g-0">
                         <div title="Previous Section" class="prev col-1 btn btn-light position-relative p-0">
-                            <span class="position-absolute"><</span>
+                            <span class="position-absolute"><i class="fas fa-chevron-left" aria-hidden="true"></i></span>
                         </div>
                         <div class="col-10"></div>
                         <div title="Next Section" class="next col-1 btn btn-light position-relative p-0">
-                            <span class="position-absolute">></span>
+                            <span class="position-absolute"><i class="fas fa-chevron-right" aria-hidden="true"></i></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <script src="dom-to-image.js"></script> -->
+
     <script type="module" src="./js/script.js"></script>
     <script src="./js/html2pdf.bundle.min.js"></script>
-    </div>
-</div>
 <%- include("partials/footer")%>
