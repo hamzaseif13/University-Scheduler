@@ -4,6 +4,8 @@ import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
 import {playTutorial} from "./tutorial.js"
 
+export const resizeContainerEvent = new Event("container.resize");
+
 class DoubleRange{
   #sliders;
   #values;
@@ -208,6 +210,11 @@ const options = {},
       });
     }
   },
+  tutorialToast = {
+    elem: undefined,
+    bootstrapToast: undefined,
+    submitBtn: undefined
+  },
   covers = {};
 
 
@@ -356,13 +363,12 @@ async function updateGenerated(){
 }
 (function getElements() {
   
-  let cov = document.querySelectorAll(".cover");
-  for (const cover of cov) {
-    let opName = cover.title || cover.ariaLabel;
-    opName = opName.toLowerCase();
-    covers[opName] = cover;
-  }
-  playTutorial(covers["main cover"]);  
+    let cov = document.querySelectorAll(".cover");
+    for (const cover of cov) {
+      let opName = cover.title || cover.ariaLabel;
+      opName = opName.toLowerCase();
+      covers[opName] = cover;
+    }
   
   //this code gets the inputs of all options and puts them in #options
     //in this order #options = {option1Name:{input1Name, option1Name, ...}}
@@ -430,14 +436,22 @@ async function updateGenerated(){
     const optionsOffcanvas = document.getElementById('optionsOffcanvas');
     //shrink container
     optionsOffcanvas.addEventListener('show.bs.offcanvas', function () {
-      document.documentElement.style.setProperty("--container-width", "calc(100vw - 250px)")
+      document.documentElement.style.setProperty("--container-width", "calc(100vw - 250px)");
+      setTimeout(()=>{window.dispatchEvent(resizeContainerEvent);}, 300)
     });
     //expand container
     optionsOffcanvas.addEventListener('hide.bs.offcanvas', function () {
-      document.documentElement.style.setProperty("--container-width", "100vw")
+      document.documentElement.style.setProperty("--container-width", "100vw");
+      setTimeout(()=>{window.dispatchEvent(resizeContainerEvent);}, 300)
     });
 
     coursesTable.body = document.querySelector("#coursesTable tbody");
+
+    const toast = document.querySelector(".toast");
+    tutorialToast.elem = toast;
+    tutorialToast.submitBtn = toast.querySelector(".btn");
+    tutorialToast.bootstrapToast = new bootstrap.Toast(toast);
+    tutorialToast.bootstrapToast.show();
 })();
 (function addEvents() {
   { //options events
@@ -740,6 +754,8 @@ async function updateGenerated(){
     })
   }
 
+  tutorialToast.submitBtn.addEventListener("click", playTutorial.bind(null,covers["main cover"]));
+
   sectionModal.next.addEventListener("click", function(){
     const t = schedulesControls.getActiveTable().tableObj;
     t.changeActiveSec("",t.activeGroup.activeSecIndex + 1);
@@ -778,7 +794,6 @@ async function updateGenerated(){
 window.addEventListener("load",async function(){
   const pinnedArr = await app.getUserPinned();
     addTimeObj(pinnedArr);
-    let idCounter = 1000000;
     for (const schedule of pinnedArr) {
       table.pinnedTable.addSchedule(schedule);
     }
