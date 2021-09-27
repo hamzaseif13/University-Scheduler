@@ -4,6 +4,8 @@ import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
 import {playTutorial} from "./tutorial.js"
 
+export const resizeContainerEvent = new Event("container.resize");
+
 class DoubleRange{
   #sliders;
   #values;
@@ -430,11 +432,13 @@ async function updateGenerated(){
     const optionsOffcanvas = document.getElementById('optionsOffcanvas');
     //shrink container
     optionsOffcanvas.addEventListener('show.bs.offcanvas', function () {
-      document.documentElement.style.setProperty("--container-width", "calc(100vw - 250px)")
+      document.documentElement.style.setProperty("--container-width", "calc(100vw - 250px)");
+      setTimeout(()=>{window.dispatchEvent(resizeContainerEvent);}, 300)
     });
     //expand container
     optionsOffcanvas.addEventListener('hide.bs.offcanvas', function () {
-      document.documentElement.style.setProperty("--container-width", "100vw")
+      document.documentElement.style.setProperty("--container-width", "100vw");
+      setTimeout(()=>{window.dispatchEvent(resizeContainerEvent);}, 300)
     });
 
     coursesTable.body = document.querySelector("#coursesTable tbody");
@@ -778,7 +782,6 @@ async function updateGenerated(){
 window.addEventListener("load",async function(){
   const pinnedArr = await app.getUserPinned();
     addTimeObj(pinnedArr);
-    let idCounter = 1000000;
     for (const schedule of pinnedArr) {
       table.pinnedTable.addSchedule(schedule);
     }
