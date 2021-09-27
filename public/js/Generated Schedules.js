@@ -5,22 +5,17 @@ import calcScore from "./Calculate Score.js";
 const html2pdf = window.html2pdf;
 
 const colors = {
-  array: [],
-  cg: 0,
-  set colorGroup(cg) {
-    cg %= 3;
-    this.cg = cg;
-    
-    for (let i = 0; i < 20; i++) {
-      colors.array[i] = `hsl(${(((0 + 120 * this.cg) / 6 + i) * 6) % 360
-        },90%, 60%)`;
+  arr: [],
+  get array() {
+    if(this.arr.length < 60){
+      for (let i = 0; i < 60; i++) {
+        this.arr[i] = `hsl(${(i * 6) % 360
+          },90%, 60%)`;
+      }
     }
-  },
-  get colorGroup() {
-    return this.cg;
+    return this.arr;
   },
 };
-colors.colorGroup = 0;
 
 class TimeTable {
   #sectionGroups;
@@ -251,6 +246,18 @@ class TimeTable {
     };
   }
   #resizeEvents() {
+    window.addEventListener("container.resize", () => {
+      const oldHeight = this.cellHeight;
+      this.updateCellHeight();
+
+      const cards = this.#table.querySelectorAll(".card");
+      for (const card of cards) {
+        card.style.height =
+          (parseFloat(card.style.height) / oldHeight) * this.cellHeight + "px";
+        card.style.top =
+          (parseFloat(card.style.top) / oldHeight) * this.cellHeight + "px";
+      }
+    });
     window.addEventListener("resize", () => {
       const oldHeight = this.cellHeight;
       this.updateCellHeight();
