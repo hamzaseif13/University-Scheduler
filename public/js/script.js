@@ -210,6 +210,11 @@ const options = {},
       });
     }
   },
+  tutorialToast = {
+    elem: undefined,
+    bootstrapToast: undefined,
+    submitBtn: undefined
+  },
   covers = {};
 
 
@@ -358,13 +363,12 @@ async function updateGenerated(){
 }
 (function getElements() {
   
-  let cov = document.querySelectorAll(".cover");
-  for (const cover of cov) {
-    let opName = cover.title || cover.ariaLabel;
-    opName = opName.toLowerCase();
-    covers[opName] = cover;
-  }
-  playTutorial(covers["main cover"]);  
+    let cov = document.querySelectorAll(".cover");
+    for (const cover of cov) {
+      let opName = cover.title || cover.ariaLabel;
+      opName = opName.toLowerCase();
+      covers[opName] = cover;
+    }
   
   //this code gets the inputs of all options and puts them in #options
     //in this order #options = {option1Name:{input1Name, option1Name, ...}}
@@ -442,6 +446,12 @@ async function updateGenerated(){
     });
 
     coursesTable.body = document.querySelector("#coursesTable tbody");
+
+    const toast = document.querySelector(".toast");
+    tutorialToast.elem = toast;
+    tutorialToast.submitBtn = toast.querySelector(".btn");
+    tutorialToast.bootstrapToast = new bootstrap.Toast(toast);
+    tutorialToast.bootstrapToast.show();
 })();
 (function addEvents() {
   { //options events
@@ -743,6 +753,8 @@ async function updateGenerated(){
       status = 0;
     })
   }
+
+  tutorialToast.submitBtn.addEventListener("click", playTutorial.bind(null,covers["main cover"]));
 
   sectionModal.next.addEventListener("click", function(){
     const t = schedulesControls.getActiveTable().tableObj;
