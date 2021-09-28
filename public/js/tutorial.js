@@ -13,7 +13,7 @@ function playTutorial(mainCover){
       this.st = s;
       if(typeof this.tipsArr[this.st] === "function")
         if(this.st === this.tipsArr.length - 1){
-          this.tipsArr[this.st]("End");
+          this.tipsArr[this.st]({nextBtnText:"End"});
         }
         else
           this.tipsArr[this.st]();
@@ -43,44 +43,97 @@ function playTutorial(mainCover){
     {
       title: "Schedules",
       text: "View generated schedules from best to worst"
+    },
+    {
+      delay: 300
+    }
+  );
+  const filterTip = addElementTip.bind(null,
+    mainSections[1].querySelector(".btn.btn-primary"),
+    {
+      title: "Schedules Filter",
+      text: "click this Button to open Filter Section"
+    },
+    {
+      requireClick: true
+    }
+  );
+  const optionsTip = addElementTip.bind(null,
+    document.querySelector("#options"),
+    {
+      title: "Filters",
+      text: "Select your prefered school days and hours and see all possible schedules"
+    },
+    {
+      delay: 300
+    }
+  );
+  const closeFilterTip = addElementTip.bind(null,
+    document.querySelector("#optionsOffcanvas .btn-close"),
+    {
+      title: "Close Filter",
+      text: "Exit filter section to return to normal view"
+    },
+    {
+      requireClick: true
     }
   );
 
-  tips.tipsArr.push(addModal,searchTip, coursesTip, tableTip);
   addModal();
+  tips.tipsArr.push(addModal,searchTip,coursesTip,filterTip,optionsTip,closeFilterTip,tableTip);
   
-  function addElementTip(elem, opt, btnText){
-    if(!opt) opt = {};
+  function addElementTip(elem, content = {}, options = {}, ...addOpt){
+    for (const obj of addOpt) {
+      for(const prop in obj){
+        options[prop] = obj[prop];
+      }
+    }
+    
     elem.className += " tutorialFocus";
 
+    if(options.requireClick){
+      elem.addEventListener("click", next, {once : true});
+    }
     let popover = bootstrap.Popover.getInstance(elem);
     if(!popover){
+      let btnsHTML = 
+      `<!--<span class="btn btn-primary col-auto">Back</i></span> -->
+      <span class="btn btn-primary ms-auto col-auto">${options.nextBtnText || "Next"}</i></span>`;
+      if(options.requireClick)btnsHTML = `<span class="ms-auto col-auto fs-6 text-secondary">Click Button to Cont.</span>`;
+
       popover = new bootstrap.Popover(elem, {
           container: 'body',
           trigger: "manual",
           html: true,
-          title: opt.title || "Title",
+          title: content.title || "Title",
           content: 
           `<div class="row g-0 justify-content-between">
-            <p class="col-12">${(opt.text || "Text")}</p> 
-            <!--<span class="btn btn-primary col-auto">Back</i></span> -->
-            <span class="btn btn-primary ms-auto col-auto">${btnText || "Next"}</i></span>
+            <p class="col-12">${(content.text || "Text")}</p>
+            ${btnsHTML}
           </div>`,
       });
       elem.addEventListener('shown.bs.popover', function(){
         const btns = document.querySelectorAll(".popover .btn");
         // btns[0].addEventListener("click", prev);
-        btns[0].addEventListener("click", next);
-      });
+        if(btns[0]) btns[0].addEventListener("click", next);
+      }, {once : true});
     }
-    popover.show();	
+    if(options.delay)
+      setTimeout(popover.show.bind(popover), options.delay);
+    else
+      popover.show();
+
+
+    if(options.apply)options.apply({elem,next,popover});
 
     function next(){
       popover.hide();
       // popover.dispose();
       elem.className = elem.className.replace(" tutorialFocus", "");
       tips.step++;
-    }
+      if(options.next)
+        options.next({elem,next,popover});
+  }
     function prev(){
       popover.hide();
       elem.className = elem.className.replace(" tutorialFocus", "");
