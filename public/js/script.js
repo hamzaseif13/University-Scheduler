@@ -36,11 +36,13 @@ class DoubleRange{
           event.preventDefault();
           self.#offsetX = self.#bar.getBoundingClientRect().left;
           document.body.addEventListener("mousemove", move);
+          document.body.addEventListener("touchmove", touchMove);
       // self.#barWidth = self.#bar.clientWidth;
       }
       function end(){
           document.body.removeEventListener("mousemove", move);
-    }
+          document.body.removeEventListener("touchmove", touchMove);
+      }
       function move(event){
           let pos = event.clientX - self.#offsetX;
           if(0 < pos && pos < self.#barWidth){
@@ -68,12 +70,14 @@ class DoubleRange{
             self.onchange();
           }
       }
+      function touchMove(e){
+        move(e.touches[0]);
+      }
       self.#sliders[i].addEventListener("mousedown", start);
       window.addEventListener("mouseup", end);
       
       self.#sliders[i].addEventListener("touchstart", start);
       window.addEventListener("touchend", end);
-      document.body.addEventListener("touchmove", (e)=>{move(e.touches[0]);});
     }
     
 
@@ -124,10 +128,9 @@ const options = {},
   },
   table = {
     content: undefined,
-    title: undefined,
     indexInput: undefined,
-    next: undefined,
-    prev: undefined,
+    nextBtn: undefined,
+    prevBtn: undefined,
     allTable: undefined,
     allBody:undefined,
     pinnedBody:undefined,
@@ -146,7 +149,7 @@ const options = {},
     hide(){
       if(this.body === undefined) return;
       this.body.style.display = "none";
-      this.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
+      this.body.innerHTML = `<li class="dropdown-item text-wrap">Nothing Found</li>`;
     },
     show(){
       if(this.body === undefined) return;
@@ -465,12 +468,8 @@ async function updateGenerated(){
     let modalFlag = false;
 
     const submitSearch = async function() {
-      modalFlag = false;
       //function to call when searching (by varius methods like mouse, keyboard)
       if(!responseFlag) return;
-
-      if(options["search"].searchval.value === lastSearch) return;
-      lastSearch = options["search"].searchval.value;
 
       if (options["search"].searchval.value.search(/\w.*\w/) == -1) {
         //val has at least 1s alpha-numeric chars
@@ -481,26 +480,35 @@ async function updateGenerated(){
       coursesDropmenu.loading = true;
 
       responseFlag = false;
-     
-      try{
-        var res = await app._searchFunction(options["search"].searchval.value, "all", abortReqSignal)
-      }catch(err){
-        if(err.message != "The user aborted a request.")
-          console.error(err);
+
+      let res;
+      if(options["search"].searchval.value != lastSearch){
+        lastSearch = options["search"].searchval.value;
+        try{
+          res = await app._searchFunction(options["search"].searchval.value, "all", abortReqSignal);
+          res = res.courses;
+        }catch(err){
+          if(err.message != "The user aborted a request.")
+            console.error(err);
+        }
       }
+      else{
+        res = lastResult;
+      }
+      
       if(res){ //if no error
-        lastResult = res.courses;
+        lastResult = res;
         responseFlag = true;
         coursesDropmenu.loading = false;
         
-        if (res.courses.length < 1) {
+        if (res.length < 1) {
             coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
             return;
         }
 
         if(modalFlag){
           updateModal(
-              res.courses,
+              res,
               "Found",
               "Add Courses",
               options["search"].searchval.value,
@@ -516,7 +524,7 @@ async function updateGenerated(){
           cousresModal.bootstrapModal.show();
         }
         else {
-          const arr = res.courses.slice(0,10);
+          const arr = res.slice(0,10);
           for (const course of arr) {
             const courseCard = htmlCreator(
               "li", 
@@ -535,37 +543,40 @@ async function updateGenerated(){
                   options["search"].searchval.value = "";
             });
           }
-          const more = htmlCreator(
-            "li", 
-            coursesDropmenu.body, "", 
-            "dropdown-item btn text-primary", 
-            `View all results (${res.num} results found)`
-          );
-          more.title = "View all results";
-          more.addEventListener("click", ()=>{
-            updateModal(
-              res.courses,
-              "Found",
-              "Add Courses",
-              options["search"].searchval.value,
-              "all"
+          if(res.length > 10){
+            const more = htmlCreator(
+              "li", 
+              coursesDropmenu.body, "", 
+              "dropdown-item btn text-primary", 
+              `View all results (${res.num} results found)`
             );
-            cousresModal.submitFunction = function () {
-              for (const course of cousresModal.selected) {
-                app._addCourseFunction(course);
-                coursesTable.addCourseCard(course);
-                updateGenerated();
-              }
-            };
-            cousresModal.bootstrapModal.show();
-          });
-        }
+            more.title = "View all results";
+            more.addEventListener("click", ()=>{
+              updateModal(
+                res,
+                "Found",
+                "Add Courses",
+                options["search"].searchval.value,
+                "all"
+              );
+              cousresModal.submitFunction = function () {
+                for (const course of cousresModal.selected) {
+                  app._addCourseFunction(course);
+                  coursesTable.addCourseCard(course);
+                  updateGenerated();
+                }
+              };
+              cousresModal.bootstrapModal.show();
+            });
+          }
           
-        
+        }
       }
+      modalFlag = false;
     };
     // let inputTimerID = null;
-    options["search"].searchval.addEventListener("input", function(){
+    // options["search"].searchval.addEventListener("input", );
+    options["search"].searchval.oninput = function(){
       if(!responseFlag && this.value != lastSearch){
         abortReqController.abort();
         
@@ -579,33 +590,13 @@ async function updateGenerated(){
       //   inputTimerID = null;
       // }
       // inputTimerID = setTimeout(submitSearch , 0);
-    });
+    }
     options["search"].searchval.addEventListener("click", submitSearch);
     options["search"].searchval.addEventListener("keydown", (event)=>{
-      if(event.key === "Enter")
-      if(!responseFlag)
-        modalFlag = true;
-      else{
-        if (lastResult.length < 1) {
-          coursesDropmenu.body.innerHTML = `<li class="dropdown-item">Nothing Found</li>`;
-        }
-        else{
-        updateModal(
-            lastResult,
-            "Found",
-            "Add Courses",
-            options["search"].searchval.value,
-            "all"
-        );
-        cousresModal.submitFunction = function () {
-          for (const course of cousresModal.selected) {
-            app._addCourseFunction(course);
-            coursesTable.addCourseCard(course);
-            updateGenerated();
-          }
-        };
-        cousresModal.bootstrapModal.show();
-        }
+      if(event.key === "Enter"){
+      modalFlag = true;
+      if(responseFlag)
+        submitSearch();
       }
     });
 
@@ -706,55 +697,55 @@ async function updateGenerated(){
       }
     }
 
-    table.content.addEventListener("touchstart",function(event){
-      if(touchX === -1){
-        event.preventDefault();
-        touchX = event.touches[0].clientX;
-      }
-      touchY = event.touches[0].clientY;
-    });
-    document.body.addEventListener("touchmove", function(event){
-      if(touchX != -1){
-        const deltaX = event.touches[0].clientX - touchX;
-        const deltaY = event.touches[0].clientY - touchY;
+    // table.content.addEventListener("touchstart",function(event){
+    //   if(touchX === -1){
+    //     event.preventDefault();
+    //     touchX = event.touches[0].clientX;
+    //   }
+    //   touchY = event.touches[0].clientY;
+    // });
+    // document.body.addEventListener("touchmove", function(event){
+    //   if(touchX != -1){
+    //     const deltaX = event.touches[0].clientX - touchX;
+    //     const deltaY = event.touches[0].clientY - touchY;
 
-        if(Math.abs(deltaY) > Math.abs(deltaX)){
-          window.scrollBy(0,-deltaY);
-          return;
-        }
+    //     if(Math.abs(deltaY) > Math.abs(deltaX)){
+    //       window.scrollBy(0,-deltaY);
+    //       return;
+    //     }
 
-        if(deltaX > 0){
-          table.dragLeft.style.left = Math.min(10,-70 + deltaX) + "px";
-          table.dragRight.style.right = "-70px";
-        }
-        else{
-          table.dragRight.style.right = Math.min(10,-70 - deltaX) + "px";
-          table.dragLeft.style.left = "-70px";
-        }
-        if(deltaX > 80){
-          touchX = -1;
-          status = -1;
-        }
-        else if(deltaX < -80){
-          touchX = -1;
-          status = 1;
-        }
-      }
-    });
-    document.body.addEventListener("touchend",()=>{
-      table.dragLeft.style.left = "-70px";
-      table.dragRight.style.right = "-70px";
+    //     if(deltaX > 0){
+    //       table.dragLeft.style.left = Math.min(10,-70 + deltaX) + "px";
+    //       table.dragRight.style.right = "-70px";
+    //     }
+    //     else{
+    //       table.dragRight.style.right = Math.min(10,-70 - deltaX) + "px";
+    //       table.dragLeft.style.left = "-70px";
+    //     }
+    //     if(deltaX > 80){
+    //       touchX = -1;
+    //       status = -1;
+    //     }
+    //     else if(deltaX < -80){
+    //       touchX = -1;
+    //       status = 1;
+    //     }
+    //   }
+    // });
+    // document.body.addEventListener("touchend",()=>{
+    //   table.dragLeft.style.left = "-70px";
+    //   table.dragRight.style.right = "-70px";
       
-      if(status === -1)
-        schedulesControls.prevSchedule();
-      else if(status === 1)
-        schedulesControls.nextSchedule();
+    //   if(status === -1)
+    //     schedulesControls.prevSchedule();
+    //   else if(status === 1)
+    //     schedulesControls.nextSchedule();
 
-      status = 0;
-    })
+    //   status = 0;
+    // })
   }
 
-  tutorialToast.submitBtn.addEventListener("click", playTutorial.bind(null,covers["main cover"]));
+  tutorialToast.submitBtn.addEventListener("click", playTutorial, true);
 
   sectionModal.next.addEventListener("click", function(){
     const t = schedulesControls.getActiveTable().tableObj;
@@ -788,6 +779,8 @@ async function updateGenerated(){
     if(!coursesDropmenu.body.contains(event.target) && !options.search.searchval.contains(event.target))
       coursesDropmenu.hide();
   });
+  
+  covers["main cover"].addEventListener("click", (ev)=>{ev.stopPropagation();})
   
 })();
 

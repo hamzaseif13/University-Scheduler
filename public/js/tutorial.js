@@ -1,10 +1,20 @@
 import { htmlCreator } from "./script.js";
 
-function playTutorial(mainCover){
-  mainCover.className = mainCover.className.replace(/ ?hidden/, "");
+function playTutorial(){
+  const toastCont = htmlCreator("div", document.body, "", "toast-container position-fixed top-0 w-100 mt-5 d-flex justify-content-center");
+  const escapeToastEl = htmlCreator("div",toastCont,"","toast rounded-pill border-1 border-dark text-white",`
+    <div class="toast-body text-center">
+      <h4>Press ESC to exit Tutorial</h4>
+    </div>
+  `)
+  escapeToastEl.style.backgroundColor = "#000000a0";
+  toastCont.style.zIndex = "100000";
+  const escapeToast = new bootstrap.Toast(escapeToastEl);
+  escapeToast.show();
+  escapeToastEl.addEventListener("hidden.bs.toast", ()=>{escapeToast.dispose(); toastCont.remove()}, {once:true});
 
   const tips = {
-    tipsArr: [],//[()=>{console.log("welcome to Tutorial")}],
+    tipsArr: [],
     st: 0,
     get step(){
       return this.st;
@@ -18,69 +28,150 @@ function playTutorial(mainCover){
         else
           this.tipsArr[this.st]();
       else{
-        mainCover.className+=" hidden";
         this.st = 0;
       }
     }
-  }
+  };
+  document.body.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      tips.step = -1;
+    }
+  },
+  {
+    once:true
+  })
   const mainSections = document.querySelectorAll("#container > div > div");
-  const searchTip = addElementTip.bind(null,
-    mainSections[0],
-    {
-      title: "Search Bar",
-      text: "Add courses to your collection by choosing it from the search results"
-    }
-  );
-  const coursesTip = addElementTip.bind(null,
-    mainSections[1],
-    {
-      title: "Added Courses",
-      text: "View your courses info and manipulate them"
-    }
-  );
-  const tableTip = addElementTip.bind(null,
-    mainSections[2],
-    {
-      title: "Schedules",
-      text: "View generated schedules from best to worst"
-    },
-    {
-      delay: 300
-    }
-  );
-  const filterTip = addElementTip.bind(null,
-    mainSections[1].querySelector(".btn.btn-primary"),
-    {
-      title: "Schedules Filter",
-      text: "click this Button to open Filter Section"
-    },
-    {
-      requireClick: true
-    }
-  );
-  const optionsTip = addElementTip.bind(null,
-    document.querySelector("#options"),
-    {
-      title: "Filters",
-      text: "Select your prefered school days and hours and see all possible schedules"
-    },
-    {
-      delay: 300
-    }
-  );
-  const closeFilterTip = addElementTip.bind(null,
-    document.querySelector("#optionsOffcanvas .btn-close"),
-    {
-      title: "Close Filter",
-      text: "Exit filter section to return to normal view"
-    },
-    {
-      requireClick: true
-    }
-  );
+  const searchTip = (opt)=>{
+    addElementTip(
+      mainSections[0].querySelector("input"),
+      {
+        title: "Search Bar",
+        text: "Add courses to your collection by choosing it from the search results"
+      },
+      {
+        input:{
+          value: "arabic",
+          delay: 50,
+          behavior: "smooth"
+        }
+      },
+      opt
+    );
+  }
+  const addCourseTip = (opt)=>{
+    addElementTip(
+      mainSections[0].querySelector(".dropdown-menu"),
+      {
+        title: "Add a Course",
+        text: "Click on the course you want to add it to your collection"
+      },
+      {
+        requireClick: true
+      },
+      opt
+    );
+  }
+  const coursesTip = (opt)=>{
+    addElementTip(
+      mainSections[1],
+      {
+        title: "View Added Courses",
+        text: "View your courses info and manipulate them"
+      },
+      {
+        disableElements: mainSections[1].querySelectorAll(".btn-outline-danger")
+      },
+      opt
+    );
+  }
+  const removeCourseTip = (opt)=>{
+    addElementTip(
+      mainSections[1].querySelector(".btn-outline-danger"),
+      {
+        title: "Remove Course",
+        text: "Click this Button to open Filter Section"
+      },
+      {
+        focusElement: mainSections[1],
+        disableElements: mainSections[1].querySelectorAll(".btn-outline-danger")
+      },
+      opt
+    );
+  }
+  const filterTip = (opt)=>{
+    addElementTip(
+      mainSections[1].querySelector(".btn.btn-primary"),
+      {
+        title: "Schedules Filter",
+        text: "Click this Button to open Filter Section"
+      },
+      {
+        requireClick: true
+      },
+      opt
+    );
+
+  }
+  const optionsTip = (opt)=>{
+    addElementTip(
+      document.querySelector("#options"),
+      {
+        title: "Filters",
+        text: "Select your prefered school days and hours and see all possible schedules"
+      },
+      {
+        delay: 300,
+        focusElement: document.querySelector("#optionsOffcanvas"),
+        disableElements: document.querySelectorAll("#optionsOffcanvas .btn-close")
+      },
+      opt
+    );
+  }
+  const closeFilterTip = (opt)=>{
+    addElementTip(
+      document.querySelector("#optionsOffcanvas .btn-close"),
+      {
+        title: "Close Filter",
+        text: "Exit filter section to return to normal view"
+      },
+      {
+        focusElement: document.querySelector("#optionsOffcanvas"),
+        requireClick: true
+      },
+      opt
+    );
+  }
+  const tableTip = (opt)=>{
+    addElementTip(
+      mainSections[2],
+      {
+        title: "Schedules",
+        text: "View generated schedules from best to worst"
+      },
+      {
+        delay: 300,
+        placment: "top"
+      },
+      opt
+    );
+  }
+
+  const tableControllsTip = (opt)=>{
+    addElementTip(
+      mainSections[2].querySelector("div.col-12"),
+      {
+        title: "Table Controlls",
+        text: "View generated schedules from best to worst"
+      },
+      {
+        background: "white"
+      },
+      opt
+    );
+  }
 
   addModal();
-  tips.tipsArr.push(addModal,searchTip,coursesTip,filterTip,optionsTip,closeFilterTip,tableTip);
+  tips.tipsArr.push(addModal,searchTip,addCourseTip,coursesTip,removeCourseTip,filterTip,optionsTip,closeFilterTip,tableTip,tableControllsTip);
   
   function addElementTip(elem, content = {}, options = {}, ...addOpt){
     for (const obj of addOpt) {
@@ -88,56 +179,108 @@ function playTutorial(mainCover){
         options[prop] = obj[prop];
       }
     }
-    
-    elem.className += " tutorialFocus";
+    if(options.disableElements){
+      const elems = options.disableElements;
+      for (const el of elems) {
+        el.className += " disabled";
+      }
+    }
+    let focusElement = elem;
+    if(options.focusElement){
+      focusElement = options.focusElement;
+    }
+    if(options.background){
+      focusElement.style.backgroundColor = options.background;
+    }
+    const cover = htmlCreator("div", focusElement.parentNode, "", "cover position-fixed vw-100 vh-100");
+    focusElement.className += " tutorialFocus";
 
+    if(options.delay){
+      setTimeout(()=>{elem.scrollIntoView({behavior: "smooth", block: "nearest"});}, options.delay);
+    }else{
+      elem.scrollIntoView({behavior: "smooth", block: "nearest"});
+    }
+    
     if(options.requireClick){
       elem.addEventListener("click", next, {once : true});
     }
-    let popover = bootstrap.Popover.getInstance(elem);
-    if(!popover){
-      let btnsHTML = 
-      `<!--<span class="btn btn-primary col-auto">Back</i></span> -->
-      <span class="btn btn-primary ms-auto col-auto">${options.nextBtnText || "Next"}</i></span>`;
-      if(options.requireClick)btnsHTML = `<span class="ms-auto col-auto fs-6 text-secondary">Click Button to Cont.</span>`;
 
-      popover = new bootstrap.Popover(elem, {
-          container: 'body',
-          trigger: "manual",
-          html: true,
-          title: content.title || "Title",
-          content: 
-          `<div class="row g-0 justify-content-between">
-            <p class="col-12">${(content.text || "Text")}</p>
-            ${btnsHTML}
-          </div>`,
-      });
-      elem.addEventListener('shown.bs.popover', function(){
-        const btns = document.querySelectorAll(".popover .btn");
-        // btns[0].addEventListener("click", prev);
-        if(btns[0]) btns[0].addEventListener("click", next);
-      }, {once : true});
-    }
-    if(options.delay)
+    let btnsHTML = 
+    `<!--<span class="btn btn-primary col-auto">Back</i></span> -->
+    <span class="btn btn-primary ms-auto col-auto">${options.nextBtnText || "Next"}</i></span>`;
+    if(options.requireClick)btnsHTML = `<span class="ms-auto col-auto fs-6 text-secondary">Click Button to Cont.</span>`;
+
+    let popover = new bootstrap.Popover(elem, {
+        container: 'body',
+        trigger: "manual",
+        placment: options.placment || "auto",
+        html: true,
+        title: content.title || "Title",
+        content: 
+        `<div class="row g-0 justify-content-between">
+          <p class="col-12">${(content.text || "Text")}</p>
+          ${btnsHTML}
+        </div>`,
+    });
+    elem.addEventListener('shown.bs.popover', function(){
+      const popoverElem = document.querySelector(".popover");
+      const btns = popoverElem.querySelectorAll(".btn");
+      // btns[0].addEventListener("click", prev);
+      if(btns[0]) btns[0].addEventListener("click", next);
+      popoverElem.addEventListener("click", (ev)=>{ev.stopPropagation();});
+    }, {once : true});
+    elem.addEventListener("click", (ev)=>{ev.stopPropagation();});
+    document.body.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        close();
+      }
+    })
+
+    if(options.delay){
       setTimeout(popover.show.bind(popover), options.delay);
-    else
+    }else{
       popover.show();
+    }
 
+    if(options.input){
+      const inp = options.input;
+      if(!inp.elem)inp.elem = elem.querySelector("input") || elem;
+
+      inp.elem.focus();
+      if(inp.delay){
+        setTimeout(()=>{
+          inp.elem.value = inp.value;
+          inp.elem.oninput();
+        }, inp.delay)
+      }
+      else{
+        inp.elem.value = inp.value;
+        inp.elem.oninput();
+      }
+    }
 
     if(options.apply)options.apply({elem,next,popover});
 
     function next(){
-      popover.hide();
-      // popover.dispose();
-      elem.className = elem.className.replace(" tutorialFocus", "");
+      close();
       tips.step++;
-      if(options.next)
-        options.next({elem,next,popover});
-  }
-    function prev(){
+    }
+
+    function close(){
       popover.hide();
-      elem.className = elem.className.replace(" tutorialFocus", "");
-      tips.step--;
+      elem.addEventListener("hidden.bs.popover", ()=>{popover.dispose();}, {once:true})
+
+      cover.remove();
+      focusElement.className = focusElement.className.replace(" tutorialFocus", "");
+      if(options.background){
+        focusElement.style.backgroundColor = "";
+      }
+      if(options.disableElements){
+        const elems = options.disableElements;
+        for (const el of elems) {
+          el.className = el.className.replace(/ ?disabled/, "");
+        }
+      }
     }
   }
   function addModal(){
@@ -173,6 +316,11 @@ function playTutorial(mainCover){
         btns[0].addEventListener("click", cancel);
         btns[1].addEventListener("click", cancel);
         btns[2].addEventListener("click", start);
+      })
+      document.body.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          modal.hide();
+        }
       })
     }
     else{

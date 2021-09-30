@@ -8,7 +8,7 @@
                 <div class="option col-12" title="search">
                     <input type="text" name="searchval" maxlength="50" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
                     <div class="position-relative border-0 m-0 p-0" style="height: 0!important;">
-                        <ul class="dropdown-menu overflow-auto" title = "Add Course">
+                        <ul class="dropdown-menu overflow-auto w-100" title = "Add Course">
                             <li class="dropdown-item w-100 d-flex align-items-center">
                                 <strong>Loading...</strong>
                                 <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
@@ -59,8 +59,8 @@
                                 type="button">All</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="btn nav-link py-0 h-100" data-bs-toggle="tab" data-bs-target="#pinned"
-                                type="button">Pinned</button>
+                            <button class="btn nav-link py-0 h-100" name="Pinned" data-bs-toggle="tab" data-bs-target="#pinned"
+                                type="button">Favorites</button>
                         </li>
                     </ul>
                     <div id="tableInput" class="col-12 col-sm-auto d-flex justify-content-between">
@@ -72,14 +72,9 @@
                         <button class="next btn btn-outline-secondary rounded-3 ms-1" name="next"><i class="fas fa-chevron-right"></i></button>
                     </div>
                     <div class="btn-toolbar col-auto order-first order-sm-last justify-content-end">
-                        <div class="btn-group">
-                            <div id="printBtn" class="btn btn-sm btn-success"><i class="fas fa-print"></i> Print</div>
-                            <div class="btn btn-sm btn-success"><i class="fas fa-thumbtack"></i> Pin</div>
-                        </div>
-                        <div class="btn-group">
-                            <div class="btn btn-sm btn-danger"><i class="fas fa-thumbtack"></i> Unpin</div>
-                            <!-- <div class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</div> -->
-                        </div>
+                            <button id="printBtn" class="btn btn-sm btn-success me-1" disabled><i class="fas fa-print"></i> Print</button>
+                            <button class="btn btn-sm btn-success" name="Pin"><i class="fas fa-heart"></i> Add to Fav</button>
+                            <button class="btn btn-sm btn-danger" name="Unpin" style="display: none;"><i class="fas fa-heart"></i> Remove from Fav</button>
                     </div>
                 </div>
                 
@@ -255,7 +250,7 @@
             </div>
         </div>
     </div>
-    <div class="position-fixed bottom-0 end-0 p-3 me-1" >
+    <div class="toast-container position-fixed bottom-0 end-0 p-3 me-1" style="z-index: 200;">
         <div class="toast" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
               <strong class="me-auto">Tutorial</strong>
