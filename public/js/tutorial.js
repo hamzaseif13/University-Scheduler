@@ -48,7 +48,7 @@ function playTutorial(){
       mainSections[0].querySelector("input"),
       {
         title: "Search Bar",
-        text: "Add courses to your collection by choosing it from the search results"
+        text: "Search for a course using the<br>Name, Symbol, Line Number or just the Department."
       },
       {
         input:{
@@ -65,7 +65,7 @@ function playTutorial(){
       mainSections[0].querySelector(".dropdown-menu"),
       {
         title: "Add a Course",
-        text: "Click on the course you want to add it to your collection"
+        text: "Click on the course you want to add it to your collection."
       },
       {
         requireClick: true
@@ -78,7 +78,7 @@ function playTutorial(){
       mainSections[1],
       {
         title: "View Added Courses",
-        text: "View your courses info and manipulate them"
+        text: "View your courses info and manipulate them."
       },
       {
         disableElements: mainSections[1].querySelectorAll(".btn-outline-danger")
@@ -91,7 +91,7 @@ function playTutorial(){
       mainSections[1].querySelector(".btn-outline-danger"),
       {
         title: "Remove Course",
-        text: "Click this Button to open Filter Section"
+        text: "Changed your mind? Click on this button to delete unwanted courses."
       },
       {
         focusElement: mainSections[1],
@@ -106,7 +106,7 @@ function playTutorial(){
       mainSections[1].querySelector(".btn.btn-primary"),
       {
         title: "Schedules Filter",
-        text: "Click this Button to open Filter Section"
+        text: "Click this Button to open Filter Section."
       },
       {
         requireClick: true
@@ -120,7 +120,7 @@ function playTutorial(){
       document.querySelector("#options"),
       {
         title: "Filters",
-        text: "Select your prefered school days and hours and see all possible schedules"
+        text: "Select your prefered school days and hours and see all possible ."
       },
       {
         delay: 300,
@@ -135,7 +135,7 @@ function playTutorial(){
       document.querySelector("#optionsOffcanvas .btn-close"),
       {
         title: "Close Filter",
-        text: "Exit filter section to return to normal view"
+        text: "Exit filter section to return to normal view."
       },
       {
         focusElement: document.querySelector("#optionsOffcanvas"),
@@ -149,12 +149,13 @@ function playTutorial(){
     addElementTip(
       mainSections[2],
       {
-        title: "Schedules",
-        text: "View generated schedules from best to worst"
+        title: "Schedules Section",
+        text: "View all possible schedules based on your needs."
       },
       {
         delay: 300,
-        placment: "top"
+        placment: "top",
+        disableElements: mainSections[2].querySelectorAll("div.col-12 .btn, .content .timeTable .card")
       },
       opt
     );
@@ -164,10 +165,11 @@ function playTutorial(){
       mainSections[2].querySelector("div.col-12"),
       {
         title: "Table Controlls",
-        text: "View generated schedules from best to worst"
+        text: "This is the control bar, we will learn the details in the next steps."
       },
       {
-        background: "white"
+        background: "white",
+        disableElements: mainSections[2].querySelectorAll("div.col-12 .btn")
       },
       opt
     );
@@ -177,10 +179,13 @@ function playTutorial(){
       mainSections[2].querySelector("div.col-12 > ul.nav"),
       {
         title: "All / Favorites",
-        text: "View generated schedules from best to worst"
+        text: "The All tab have all the possible schedules."+
+              "<br>The Favorites tab have the schedules you liked"+
+              "<br>if you have an account your Favorite schedules will be saved in the Cloud"
       },
       {
-        background: "white"
+        background: "white",
+        disableElements: mainSections[2].querySelectorAll("div.col-12 > ul.nav .btn:last-of-type")
       },
       opt
     );
@@ -190,7 +195,7 @@ function playTutorial(){
       mainSections[2].querySelector("div.col-12 > #tableInput"),
       {
         title: "Next / Previous",
-        text: "View generated schedules from best to worst"
+        text: "Move between schedules using those buttons."
       },
       {
         background: "white"
@@ -202,8 +207,8 @@ function playTutorial(){
     addElementTip(
       mainSections[2].querySelector("div.col-12 > .btn-toolbar"),
       {
-        title: "Toolbar",
-        text: "View generated schedules from best to worst"
+        title: "Schedule Tools",
+        text: "If you liked a schedule you can add it to Favorites or Print it.<br><small>Print is in development</small>"
       },
       {
         background: "white"
@@ -216,11 +221,12 @@ function playTutorial(){
       mainSections[2].querySelector(".content .timeTable"),
       {
         title: "View Schedule",
-        text: "View generated schedules from best to worst"
+        text: "This is where your Schedule is displayed."
       },
       {
         background: "white",
-        placment: "top"
+        placment: "top",
+        disableElements: mainSections[2].querySelectorAll(".content .timeTable .card")
       },
       opt
     );
@@ -230,9 +236,10 @@ function playTutorial(){
       mainSections[2].querySelector(".content .timeTable .card"),
       {
         title: "Section",
-        text: "View generated schedules from best to worst"
+        text: "This is a Section card, Click it to view the details."
       },
       {
+        disableElements: mainSections[2].querySelectorAll(".content .timeTable .card")
       },
       opt
     );
@@ -242,10 +249,11 @@ function playTutorial(){
       mainSections[2].querySelector(".content .timeTable .card .dropdown-toggle"),
       {
         title: "Similar Sections",
-        text: "View generated schedules from best to worst"
+        text: "Sections with the same time but have different instructors.<br>Click to view possible choices."
       },
       {
-        ignorable: true
+        ignorable: true,
+        disableElements: mainSections[2].querySelectorAll(".content .timeTable .card .dropdown-toggle")
       },
       opt
     );
@@ -403,52 +411,46 @@ function playTutorial(){
   function addModal(){
     let elem = document.querySelector(".modal.tipModal");
     let modal;
-    // if(!elem){
-      elem = htmlCreator("div", document.body, "", "modal tipModal", 
-        `<div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header ">
-              <h5 class="modal-title">Welcome to <strong>Jadwali</strong></h5>
-              <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-              <p>
-                This tutorial will teach you about the main parts of <strong>Jadwali</strong>
-              </p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Skip</button>
-              <button type="button" class="btn btn-primary">Start Tutorial</button>
-            </div>
+    elem = htmlCreator("div", document.body, "", "modal tipModal", 
+      `<div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header ">
+            <h5 class="modal-title">Welcome to <strong>Jadwali</strong></h5>
+            <button type="button" class="close btn btn-close" data-bs-dismiss="modal"></button>
           </div>
-        </div>`
-      );
-      elem.style.zIndex = "100000";
-      modal = new bootstrap.Modal(elem, {
-        keyboard: false,
-        backdrop: "static"
-      });
-      elem.addEventListener("shown.bs.modal", function(){
-        const btns = elem.querySelectorAll(".btn");
-        btns[0].addEventListener("click", cancel);
-        btns[1].addEventListener("click", cancel);
-        btns[2].addEventListener("click", start);
-      })
-      document.body.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
-          modal.hide();
-        }
-      })
-    // }
-    // else{
-    //   modal = bootstrap.Modal.getInstance(elem);
-    //   // if(!modal){
-    //   //   modal = new bootstrap.Modal(elem, {
-    //   //     keyboard: false,
-    //   //     backdrop: "static"
-    //   //   });
-    //   // }
-    // }
+          <div class="modal-body">
+            <p>
+              This tutorial will teach you about the main parts of <strong>Jadwali</strong>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="close btn btn-outline-secondary" data-bs-dismiss="modal">Skip</button>
+            <button type="button" class="submit btn btn-primary">Start Tutorial</button>
+          </div>
+        </div>
+      </div>`
+    );
+    elem.style.zIndex = "100000";
+    modal = new bootstrap.Modal(elem, {
+      keyboard: false,
+      backdrop: "static"
+    });
+    elem.addEventListener("shown.bs.modal", function(){
+      const closeBtns = elem.querySelectorAll(".btn-close, .close");
+      const submitBtns = elem.querySelectorAll(".submit");
+      for (const btn of closeBtns) {
+        btn.addEventListener("click", cancel);
+      }
+      for (const btn of submitBtns) {
+        btn.addEventListener("click", start);
+      }
+    })
+    document.body.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        modal.hide();
+      }
+    })
+    
     modal.show();
 
     function cancel(){
