@@ -221,7 +221,7 @@ const options = {},
   },
   covers = {};
 let oldCoursesLength = 0;
-
+let changeFilter = false;
 
 function updateModal(
   arr,
@@ -358,8 +358,10 @@ function addTimeObj(arr){
   }
 }
 async function updateGenerated(){
-  if(oldCoursesLength === app.courses.length)return;
+  if(oldCoursesLength === app.courses.length && !changeFilter)return;
+  changeFilter = false;
   oldCoursesLength = app.courses.length;
+
   covers.table.className = covers.table.className.replace("hidden", ""); //display loading
   
   const arr = await app._generateScheduleFunction();
@@ -618,6 +620,7 @@ async function updateGenerated(){
     let dayEnd = new Time(18.5);
     for(const day in options["days"]){
       options.days[day].addEventListener("change", function(){
+        changeFilter = true;
         daysString = daysString.replace("all","");
 
         if(this.checked){
@@ -635,12 +638,13 @@ async function updateGenerated(){
 
     // let timeoutID;
     options["time"].range.onchange = function(){
+      changeFilter = true;
       // clearTimeout(timeoutID);
       dayStart.totalHours = this.minValue;
       dayEnd.totalHours = this.maxValue;
 
-      options["time"].min.value = dayStart.string24
-      options["time"].max.value = dayEnd.string24;
+      options["time"].min.value = dayStart.string12;
+      options["time"].max.value = dayEnd.string12;
 
       app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
       // timeoutID = setTimeout(generate,100);//wait to stop changing for 100ms 
@@ -656,8 +660,9 @@ async function updateGenerated(){
         console.error("invalid time. Please choose time between 8:30 and 18:30");
         return;
       }
+      changeFilter = true;
       dayStart.setTime(this.value);
-      this.value = dayStart.string24;
+      this.value = dayStart.string12;
       
       options["time"].range.minValue = dayStart.totalHours;
 
@@ -674,9 +679,9 @@ async function updateGenerated(){
         console.error("invalid time. Please choose time between 8:30 and 18:30");
         return;
       }
-      
+      changeFilter = true;
       dayEnd.setTime(this.value);
-      this.value = dayEnd.string24;
+      this.value = dayEnd.string12;
       
       options["time"].range.maxValue = dayEnd.totalHours;
 
