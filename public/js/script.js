@@ -200,6 +200,7 @@ const options = {},
       
 
       deleteBtn.addEventListener("click", function(){
+        self.coursesNum.splice(num.innerText - 1, 1);
         self.cardsNum.splice(num.innerText - 1, 1);
         this.parentNode.parentNode.remove();
         self.counter--;
@@ -219,6 +220,7 @@ const options = {},
     submitBtn: undefined
   },
   covers = {};
+let oldCoursesLength = 0;
 
 
 function updateModal(
@@ -356,6 +358,8 @@ function addTimeObj(arr){
   }
 }
 async function updateGenerated(){
+  if(oldCoursesLength === app.courses.length)return;
+  oldCoursesLength = app.courses.length;
   covers.table.className = covers.table.className.replace("hidden", ""); //display loading
   
   const arr = await app._generateScheduleFunction();
