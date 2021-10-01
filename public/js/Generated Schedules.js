@@ -213,7 +213,7 @@ class TimeTable {
       );
       badge.style.zIndex = 100;
       badge.setAttribute("data-bs-toggle", "dropdown");
-      badge.title = "More Sections";
+      badge.title = "Similar Sections";
       badge.style.fontSize = "small";
 
       let list = htmlCreator("ul", card, "", "dropdown-menu");
