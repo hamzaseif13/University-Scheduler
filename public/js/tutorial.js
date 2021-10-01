@@ -20,14 +20,15 @@ function playTutorial(){
       return this.st;
     },
     set step(s){
-      this.st = s;
-      if(typeof this.tipsArr[this.st] === "function")
-        if(this.st === this.tipsArr.length - 1){
-          this.tipsArr[this.st]({nextBtnText:"End"});
+      // console.log(this.st,s)
+        if(typeof this.tipsArr[s] === "function"){
+        this.st = s;
+        if(s === this.tipsArr.length - 1){
+          this.tipsArr[s]({nextBtnText:"End"});
+        }else{
+          this.tipsArr[s]();
         }
-        else
-          this.tipsArr[this.st]();
-      else{
+      }else{
         this.st = 0;
       }
     }
@@ -41,6 +42,7 @@ function playTutorial(){
     once:true
   })
   const mainSections = document.querySelectorAll("#container > div > div");
+  
   const searchTip = (opt)=>{
     addElementTip(
       mainSections[0].querySelector("input"),
@@ -98,6 +100,7 @@ function playTutorial(){
       opt
     );
   }
+
   const filterTip = (opt)=>{
     addElementTip(
       mainSections[1].querySelector(".btn.btn-primary"),
@@ -141,6 +144,7 @@ function playTutorial(){
       opt
     );
   }
+
   const tableTip = (opt)=>{
     addElementTip(
       mainSections[2],
@@ -155,7 +159,6 @@ function playTutorial(){
       opt
     );
   }
-
   const tableControllsTip = (opt)=>{
     addElementTip(
       mainSections[2].querySelector("div.col-12"),
@@ -169,11 +172,102 @@ function playTutorial(){
       opt
     );
   }
+  const tableGroupsTip = (opt)=>{
+    addElementTip(
+      mainSections[2].querySelector("div.col-12 > ul.nav"),
+      {
+        title: "All / Favorites",
+        text: "View generated schedules from best to worst"
+      },
+      {
+        background: "white"
+      },
+      opt
+    );
+  }
+  const tableNextPrevTip = (opt)=>{
+    addElementTip(
+      mainSections[2].querySelector("div.col-12 > #tableInput"),
+      {
+        title: "Next / Previous",
+        text: "View generated schedules from best to worst"
+      },
+      {
+        background: "white"
+      },
+      opt
+    );
+  }
+  const tableToolbarTip = (opt)=>{
+    addElementTip(
+      mainSections[2].querySelector("div.col-12 > .btn-toolbar"),
+      {
+        title: "Toolbar",
+        text: "View generated schedules from best to worst"
+      },
+      {
+        background: "white"
+      },
+      opt
+    );
+  }
+  const scheduleTip = (opt)=>{
+    addElementTip(
+      mainSections[2].querySelector(".content .timeTable"),
+      {
+        title: "View Schedule",
+        text: "View generated schedules from best to worst"
+      },
+      {
+        background: "white",
+        placment: "top"
+      },
+      opt
+    );
+  }
+  const sectionCardTip = (opt)=>{
+    addElementTip(
+      mainSections[2].querySelector(".content .timeTable .card"),
+      {
+        title: "Section",
+        text: "View generated schedules from best to worst"
+      },
+      {
+      },
+      opt
+    );
+  }
+  const sectionNumTip = (opt)=>{
+    addElementTip(
+      mainSections[2].querySelector(".content .timeTable .card .dropdown-toggle"),
+      {
+        title: "Similar Sections",
+        text: "View generated schedules from best to worst"
+      },
+      {
+        ignorable: true
+      },
+      opt
+    );
+  }
 
   addModal();
-  tips.tipsArr.push(addModal,searchTip,addCourseTip,coursesTip,removeCourseTip,filterTip,optionsTip,closeFilterTip,tableTip,tableControllsTip);
+  const coursesTipsGroup = [searchTip,addCourseTip,coursesTip,removeCourseTip];
+  const filterTipsGroup = [filterTip,optionsTip,closeFilterTip];
+  const tableTipsGroup = [tableTip,tableControllsTip,tableGroupsTip,tableNextPrevTip,tableToolbarTip];
+  const scheduleTipsGroup = [scheduleTip,sectionCardTip,sectionNumTip];
+  tips.tipsArr.push(addModal,...coursesTipsGroup,...filterTipsGroup,...tableTipsGroup,...scheduleTipsGroup);
   
   function addElementTip(elem, content = {}, options = {}, ...addOpt){
+    if(!elem){
+      if(options.ignorable){
+        tips.step++;
+      }else{
+        tips.step = -1;
+      }
+      console.error("Element not Found");
+      return;
+    }
     for (const obj of addOpt) {
       for(const prop in obj){
         options[prop] = obj[prop];
@@ -210,6 +304,10 @@ function playTutorial(){
     <span class="btn btn-primary ms-auto col-auto">${options.nextBtnText || "Next"}</i></span>`;
     if(options.requireClick)btnsHTML = `<span class="ms-auto col-auto fs-6 text-secondary">Click Button to Cont.</span>`;
 
+    if(elem.title){
+      var oldTitle = elem.title;
+      elem.title = content.title;
+    }
     let popover = new bootstrap.Popover(elem, {
         container: 'body',
         trigger: "manual",
@@ -223,14 +321,27 @@ function playTutorial(){
         </div>`,
     });
     elem.addEventListener('shown.bs.popover', function(){
-      const popoverElem = document.querySelector(".popover");
-      const btns = popoverElem.querySelectorAll(".btn");
-      // btns[0].addEventListener("click", prev);
-      if(btns[0]) btns[0].addEventListener("click", next);
+      if(options.requireClick)return;
+      // console.log("adding next");
+      let popoverElem = document.querySelector(".popover");
+      let btns = popoverElem.querySelector(".btn");
+      if(btns) btns.onclick = next;
+      else{
+        requestAnimationFrame(loop);
+        function loop(){
+          console.warn("next not working.\nTrying again")
+          popoverElem = document.querySelector(".popover");
+          btns = popoverElem.querySelector(".btn");
+          if(btns || !btns.onclick) btns.onclick = next;
+          else requestAnimationFrame(loop);
+        }
+      }
+      // setTimeout(btns.onclick, 0);
+      
       popoverElem.addEventListener("click", (ev)=>{ev.stopPropagation();});
     }, {once : true});
     elem.addEventListener("click", (ev)=>{ev.stopPropagation();});
-    document.body.addEventListener("keydown", function (event) {
+    document.body.addEventListener("keydown", function closeOnEscape(event) {
       if (event.key === "Escape") {
         close();
       }
@@ -259,7 +370,7 @@ function playTutorial(){
       }
     }
 
-    if(options.apply)options.apply({elem,next,popover});
+    // if(options.apply)options.apply({elem,next,popover});
 
     function next(){
       close();
@@ -268,8 +379,14 @@ function playTutorial(){
 
     function close(){
       popover.hide();
-      elem.addEventListener("hidden.bs.popover", ()=>{popover.dispose();}, {once:true})
+      elem.addEventListener("hidden.bs.popover", ()=>{
+        if(popover._element)popover.dispose();
+        document.body.addEventListener
+      }, {once:true})
 
+      if(oldTitle){
+        elem.title = oldTitle;
+      }
       cover.remove();
       focusElement.className = focusElement.className.replace(" tutorialFocus", "");
       if(options.background){
@@ -286,7 +403,7 @@ function playTutorial(){
   function addModal(){
     let elem = document.querySelector(".modal.tipModal");
     let modal;
-    if(!elem){
+    // if(!elem){
       elem = htmlCreator("div", document.body, "", "modal tipModal", 
         `<div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -322,20 +439,21 @@ function playTutorial(){
           modal.hide();
         }
       })
-    }
-    else{
-      modal = bootstrap.Modal.getInstance(elem);
-      // if(!modal){
-      //   modal = new bootstrap.Modal(elem, {
-      //     keyboard: false,
-      //     backdrop: "static"
-      //   });
-      // }
-    }
+    // }
+    // else{
+    //   modal = bootstrap.Modal.getInstance(elem);
+    //   // if(!modal){
+    //   //   modal = new bootstrap.Modal(elem, {
+    //   //     keyboard: false,
+    //   //     backdrop: "static"
+    //   //   });
+    //   // }
+    // }
     modal.show();
 
     function cancel(){
       modal.hide();
+      elem.addEventListener("hidden.bs.modal", ()=>{modal.dispose(); elem.remove();})
       tips.step--;
     }
     function start(){
