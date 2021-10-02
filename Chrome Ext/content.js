@@ -31,7 +31,7 @@ function filterHTML(html){
   
   let c = document.querySelector("table.gvSchedule");
   if(c != null){
-  
+      
       let text = document.body.innerHTML;
       text = filterHTML(text);
       text = `HTMLData.push(\`${text}\`);\n`;
