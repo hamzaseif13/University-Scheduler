@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 const authRoutes = require("./routes/authRoutes");
 const pinRoutes = require("./routes/pinRoutes");
 const genRoutes = require("./routes/genRoutes");
+const {search}=require("./db/Database")
 //database connection
 const dbUrl =
   "mongodb+srv://hamzaseif:125369325147@unischedulercluster.fhjnr.mongodb.net/uniSchedulerDb?retryWrites=true&w=majority";
@@ -25,11 +26,13 @@ app.use(cookieParser());
 //routes
 app.get("*", checkUser);
 app.get("/", (req, res) => {
+ 
   res.render("landing");
 });
 app.get("/pinned",(req, res)=>{
     res.render("pinned")
 })
+
 app.use(authRoutes);
 app.use(genRoutes);
 app.use(pinRoutes);

@@ -1,0 +1,11 @@
+{
+    "name": "Schedule Extractor",
+    "version": "1.0",
+    "manifest_version": 2,
+    "content_scripts": [
+        {
+            "matches": ["https://services.just.edu.jo/CourseSchedule/Default_En.aspx"],
+            "js": ["content.js"]
+        }
+    ]
+}
