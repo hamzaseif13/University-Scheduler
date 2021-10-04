@@ -194,16 +194,16 @@ const options = {},
 
       const row = htmlCreator("tr", this.body);
 
-      const num = htmlCreator("th", row, "", "", ++this.counter);
+      const num = htmlCreator("th", row, "", "d-none d-sm-table-cell", ++this.counter);
       this.cardsNum.push(num);
 
       htmlCreator("td", row, "", "", copy.lineNumber);
       htmlCreator("td", row, "", "", copy.name.toLowerCase());
       htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
-      htmlCreator("td", row, "", "", copy.creditHours);
+      htmlCreator("td", row, "", "d-none d-sm-table-cell", copy.creditHours);
       
-      const actionCol = htmlCreator("td", row);
-      const deleteBtn = htmlCreator("button",actionCol, "", "btn btn-outline-danger me-1", `<i class="fas fa-trash-alt"></i>`);
+      const actionCol = htmlCreator("div", htmlCreator("td", row), "", "d-flex flex-column flex-md-row justify-content-center h-100");
+      const deleteBtn = htmlCreator("button",actionCol, "", "btn btn-outline-danger me-0 me-md-1 mb-1 mb-md-0", `<i class="fas fa-trash-alt"></i>`);
       const detailsBtn = htmlCreator("button",actionCol, "", "btn btn-outline-info", `<i class="fas fa-info"></i>`);
       
 
@@ -673,25 +673,44 @@ async function updateGenerated(){
     // });
     
     let daysString = "all";
+    let daysNum = 5;
     let dayStart = new Time(8.5 * 60);
-    let dayEnd = new Time(20.5);
+    let dayEnd = new Time(20.5 * 60);
     for(const day in options["days"]){
       options.days[day].addEventListener("change", function(){
         changeFilter = true;
         daysString = daysString.replace("all","");
 
         if(this.checked){
-          if(!daysString.includes(day))
+          if(!daysString.includes(day)){
             daysString += day;
+            daysNum = 5;
+            options.days["daysnum"].value = 5;
+          }
         }
-        else
+        else{
           daysString = daysString.replace(day,"");
+        }
         
-        if(daysString.length === 0)
+        if(daysString.length === 0){
           daysString = "all";
-        app.setOptions(daysString,dayStart,dayEnd);
+        }
+        app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours);
       });
     }
+    options.days["daysnum"].addEventListener("change", function(){
+      const val = parseInt(this.value);
+      if(val >= 1 && val <= 5){
+        daysNum = val;
+        for(const day in options["days"]){
+          options["days"][day].checked = false;
+        }
+        app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours);
+      }
+      else{
+        this.value = daysNum;
+      }
+    })
 
     // let timeoutID;
     options["time"].range.onchange = function(){
@@ -703,7 +722,7 @@ async function updateGenerated(){
       options["time"].min.value = dayStart.string12;
       options["time"].max.value = dayEnd.string12;
 
-      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum, dayStart.totalHours, dayEnd.totalHours);
       // timeoutID = setTimeout(generate,100);//wait to stop changing for 100ms 
     };
     options["time"].min.addEventListener("change", function(){
@@ -723,7 +742,7 @@ async function updateGenerated(){
       
       options["time"].range.minValue = dayStart.totalHours;
 
-      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum, dayStart.totalHours, dayEnd.totalHours);
     });
     options["time"].max.addEventListener("change", function(){
       if(!Time.isValid(this.value)) {
@@ -742,7 +761,7 @@ async function updateGenerated(){
       
       options["time"].range.maxValue = dayEnd.totalHours;
 
-      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum, dayStart.totalHours, dayEnd.totalHours);
     });
   }
 

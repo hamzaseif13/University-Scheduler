@@ -28,12 +28,13 @@
                         <table id="coursesTable" class="table table-striped text-center text-capitalize">
                             <thead class="">
                                 <tr>
-                                <th scope="col">#</th>
+                                <th scope="col" class="d-none d-sm-table-cell">#</th>
                                 <th scope="col">Line Number</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Symbol</th>
-                                <th scope="col">Credit Hours</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col" class="d-none d-sm-table-cell">Credit Hours</th>
+                                <th scope="col" class="d-none d-sm-table-cell">Actions</th>
+                                <th scope="col" class="d-table-cell d-sm-none">Act.</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -189,7 +190,7 @@
         </div>
         <div class="offcanvas-body">
             <div id="options" class="border rounded-2 col-12 row g-1 m-0 justify-content-center">
-                <div class="option col-12" title="days">
+                <div class="option col-12 border-bottom" title="days">
                     <h5 class="text-center">Days:</h5>
                     <ul class="ks-cboxtags">
                         <li><input type="checkbox" id="sun" name="sun"><label for="sun">Sun</label></li>
@@ -198,6 +199,9 @@
                         <li><input type="checkbox" id="wed" name="wed"><label for="wed">Wen</label></li>
                         <li><input type="checkbox" id="thu" name="thu"><label for="thu">Thu</label></li>
                     </ul>
+                    <h6 class="text-center">Min Days Number:</h6>
+                    <input type="number" name="daysNum" value="5" max="5" min="1" class="w-25 mx-auto mb-1 text-center fs-6">
+                    <small class="mx-3 text-center" style="font-size: 12px;">*The above two options do not work together</small>
                 </div>
                 <div class="option col-12" title="time">
                     <h5 class="text-center ">Hours:</h5>
@@ -289,13 +293,16 @@
                         <h3>Sections</h3>
                         <table class="table table-striped text-center text-capitalize border border-1">
                             <thead>
-                                <th>Section</th>
+                                <th class="d-none d-sm-table-cell">Section</th>
+                                <th class="d-table-cell d-sm-none">Sec.</th>
                                 <th>Days</th>
                                 <th>Time</th>
                                 <th>Hall</th>
                                 <th>Seat Count</th>
-                                <th>Capacity</th>
-                                <th>Registered</th>
+                                <th class="d-none d-sm-table-cell">Capacity</th>
+                                <th class="d-table-cell d-sm-none">Cap.</th>
+                                <th class="d-none d-sm-table-cell">Registered</th>
+                                <th class="d-table-cell d-sm-none">Reg.</th>
                                 <th>Instructor</th>
                                 <th>Teaching Type</th>
                             </thead>
@@ -317,7 +324,7 @@
             <div class="toast-body">
                 Take a quick tour around <strong>Jadwali</strong>
               <div class="mt-2 pt-2 border-top">
-                <button type="button" class="btn btn-primary btn-sm px-3">Start</button>
+                <button type="button" class="btn btn-primary btn-sm px-3" data-bs-dismiss="toast">Start</button>
               </div>
             </div>
           </div>

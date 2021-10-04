@@ -127,6 +127,13 @@ class TimeTable {
       listGroup,
       "",
       "list-group-item",
+      '<span class="h6">Line Number:</span> ' + sec.course.lineNumber
+    );
+    htmlCreator(
+      "li",
+      listGroup,
+      "",
+      "list-group-item",
       '<span class="h6">Symbol:</span> ' + sec.course.symbol
     );
     htmlCreator(

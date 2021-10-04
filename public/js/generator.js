@@ -1,6 +1,6 @@
 import calcScore from "./Calculate Score.js";
 const myCourses = [],
-  options = ["all",8.5,20.5];
+  options = ["all", 5, 8.5, 20.5];
 
 function courseIndex(courseNum) {
   //function to search the index of a course inside #myCourses
@@ -341,6 +341,7 @@ function generateSchedules_Client(sets) {
   return result;
 }
 //sub-functions for generateSchedules_Client
+
 function filterSchedule(list) {
   const lengthArray = list.length;
   let filteredArray = [];
@@ -439,17 +440,25 @@ function filterSchedule(list) {
       }
     }
 
-    if (!invalidSchedule) {
+    let numberOfDays = 0;
+    if(sun.length)numberOfDays++;
+    if(mon.length)numberOfDays++;
+    if(tue.length)numberOfDays++;
+    if(wed.length)numberOfDays++;
+    if(thu.length)numberOfDays++;
+
+    if (!invalidSchedule && numberOfDays <= options[1]) {//options[1] -> daysNum (user)
       filteredArray.push(list[j]);
     }
     // if schedule is not invalid add it to filteredArray
   }
   if (filteredArray.length == 0) {
-    alert("there is no schedule with the options selected");
+    console.log("no schedule")
     return [];
   }
   return filteredArray;
 }
+
 function checkInterSection(sec1, sec2) {
   if (sec1.start == sec2.start) {
     return true;
@@ -465,7 +474,7 @@ function checkInterSection(sec1, sec2) {
 function filterSet(set){
     const filteredArray = [];
     
-    let daysString=options[0],dayStart=options[1],dayEnd=options[2];
+    let daysString=options[0],dayStart=options[2],dayEnd=options[3];
   
     daysString = daysString.toLowerCase();
   
@@ -493,10 +502,11 @@ function filterSet(set){
     return filteredArray;
 }
 //functions to access options from outside module
-function setOptions(days,dayStart,dayEnd){
+function setOptions(days,daysNum,dayStart,dayEnd){
   options[0] = days;
-  options[1] = dayStart;
-  options[2] = dayEnd;
+  options[1] = daysNum;
+  options[2] = dayStart;
+  options[3] = dayEnd;
 }
 function getDays(){
   return options[0];

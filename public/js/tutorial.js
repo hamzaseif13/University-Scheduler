@@ -294,7 +294,7 @@ export function coursesTip(opt){
       text: "View your courses info and manipulate them."
     },
     {
-      disableElements: mainSections[1].querySelectorAll(".btn-outline-danger")
+      disableElements: mainSections[1].querySelectorAll(".btn")
     },
     opt
   );
@@ -500,5 +500,3 @@ export function sectionNumTip(opt){
     opt
   );
 }
-
-// export {playTutorial};

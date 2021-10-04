@@ -176,7 +176,14 @@ function filterSchedule(list) {
       }
     }
 
-    if (!invalidSchedule) {
+    let numberOfDays = 0;
+    if(sun.length)numberOfDays++;
+    if(mon.length)numberOfDays++;
+    if(tue.length)numberOfDays++;
+    if(wed.length)numberOfDays++;
+    if(thu.length)numberOfDays++;
+
+    if (!invalidSchedule && numberOfDays <= options[1]) {//options[1] -> daysNum (user)
       filteredArray.push(list[j]);
     }
     // if schedule is not invalid add it to filteredArray
@@ -203,7 +210,7 @@ function checkInterSection(sec1, sec2) {
 function filterSet(set){
     const filteredArray = [];
     
-    let daysString=options[0],dayStart=options[1],dayEnd=options[2];
+    let daysString=options[0],dayStart=options[2],dayEnd=options[3];
   
     daysString = daysString.toLowerCase();
   
