@@ -255,8 +255,12 @@ class Section {
         return;
 
       let arr = val.split("**");
-      if(parseInt(arr[0]) < 700) arr[0] += "pm";
-      if(parseInt(arr[1]) < 700) arr[1] += "pm";
+      let startPMFlag = false;
+      if(parseInt(arr[0]) < 700){ 
+        arr[0] += "pm";
+        startPMFlag = true;
+      }
+      if(startPMFlag || parseInt(arr[1]) < 700) arr[1] += "pm";
 
       this.timeObj.start.setTime(arr[0]);
       this.timeObj.end.setTime(arr[1]);

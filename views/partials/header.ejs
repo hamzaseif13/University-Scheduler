@@ -18,17 +18,17 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="z-index: 1000;">
         <div class="container-fluid mx-md-4 px-md-4 mx-lg-5 px-lg-5">
-            <a class="navbar-brand" href="/">JusTutor</a>
+            <a class="navbar-brand" href="/"><i class="fas fa-calendar-alt"></i> Jadwali</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-md-between " id="navbarSupportedContent">
                 <ul class="navbar-nav border-bottom border-light">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/generator">Generator</a>
+                        <a class="nav-link" href="/generator"><i class="fas fa-cogs"></i> Generator</a>
                     </li>
                 </ul>
             <div class="d-flex mt-2 mt-md-0">
@@ -36,10 +36,10 @@
                     <span class="navbar-text fw-bold me-2">
                         <%= user.name %>
                     </span>
-                    <a class="btn btn-outline-light" href="/logout">Log out</a>
-                    <a class="btn btn-outline-light" href="/settings">Settings</a>
+                    <a class="btn btn-outline-light me-1" href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                    <a class="btn btn-outline-light" href="/settings"><i class="fas fa-cog"></i> Settings</a>
                 <% } else { %>
-                    <a class="btn btn-outline-light me-1" href="/login">Log in</a>
+                    <a class="btn btn-outline-light me-1" href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
                     <a class="btn btn-outline-light" href="/signup">Sign up</a>
                 <% } %>
             </div>

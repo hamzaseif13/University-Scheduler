@@ -184,13 +184,13 @@ body{
     /* font-size: 1.5vw; */
     width: 100%;
     padding-top: 10px;
-    aspect-ratio: 1/1.5;
+    aspect-ratio: 1/1.8;
     /* border: 1px solid black; */
     position: relative;
 }
 @media only screen and (min-width: 576px) {
     .timeTable{
-        aspect-ratio: 1.5/1;
+        aspect-ratio: 1.3/1;
     }
 }
 .timeTable .tableHead{
@@ -220,7 +220,7 @@ body{
 }
 .timeTable .tableKeys .hours{
     width: 100%;
-    height: 9%;
+    height: calc(100% / 13);
     font-size: var(--dynamic-fs);
     position: relative;
 }

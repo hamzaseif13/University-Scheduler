@@ -127,6 +127,13 @@ class TimeTable {
       listGroup,
       "",
       "list-group-item",
+      '<span class="h6">Line Number:</span> ' + sec.course.lineNumber
+    );
+    htmlCreator(
+      "li",
+      listGroup,
+      "",
+      "list-group-item",
       '<span class="h6">Symbol:</span> ' + sec.course.symbol
     );
     htmlCreator(
@@ -330,7 +337,7 @@ class TimeTable {
     this.updateCellHeight();
   }
   updateCellHeight() {
-    this.cellHeight = this.#table.querySelector(".tableCol").offsetHeight * 9/100;
+    this.cellHeight = this.#table.querySelector(".tableCol").offsetHeight * 1 / 13;
 
     for (const col of this.#columns) {
       col.style.backgroundImage =
@@ -624,8 +631,8 @@ function pinnedSchedule() {
   activeTab = "pinned";
   setTimeout(() => {
     table.pinnedTable.refreshTable();
-    table.pinBtn.style.display = "none";
-    table.unpinBtn.style.display = "block";
+    table.pinBtn.parentNode.style.display = "none";
+    table.unpinBtn.style.display = "";
     displaySchedule();
   }, 200);
 }
@@ -633,7 +640,7 @@ function allSchedule() {
   activeTable = table.allTable;
   activeTab = "all";
   setTimeout(() => {
-    table.pinBtn.style.display = "block";
+    table.pinBtn.parentNode.style.display = "";
     table.unpinBtn.style.display = "none";
     displaySchedule();
   }, 200);
