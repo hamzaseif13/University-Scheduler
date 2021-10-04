@@ -453,7 +453,7 @@ async function updateGenerated(){
 
     coursesDropmenu.body = document.querySelector(".option[title=search] .dropdown-menu");
 
-    const tRange = document.querySelector(".option[title=time] .doubleRange");
+    const tRange = document.querySelector(".option[title=Time] .doubleRange");
     options.time.range = new DoubleRange(tRange,8.5,20.5,0.5);
 
     const t = document.getElementById("table");
@@ -662,20 +662,19 @@ async function updateGenerated(){
         submitSearch();
       }
     });
-
-    // options["courses"].submit.addEventListener("click", function () {
-    //   updateModal(app.courses, "My Courses: ", "Remove Courses");
-    //   cousresModal.submitFunction = function () {
-    //     for (const course of cousresModal.selected) {
-    //       app._removeCourseFunction(course.lineNumber);
-    //     }
-    //   };
-    // });
     
+
     let daysString = "all";
     let daysNum = 5;
     let dayStart = new Time(8.5 * 60);
     let dayEnd = new Time(20.5 * 60);
+    let openSectionsFlag = true;
+    
+    options["sectionsstatus"].opensections.addEventListener("change", function(){
+      changeFilter = true;
+      openSectionsFlag = this.checked;
+      app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
+    });
     for(const day in options["days"]){
       options.days[day].addEventListener("change", function(){
         changeFilter = true;
@@ -695,7 +694,7 @@ async function updateGenerated(){
         if(daysString.length === 0){
           daysString = "all";
         }
-        app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours);
+        app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
       });
     }
     options.days["daysnum"].addEventListener("change", function(){
@@ -705,7 +704,7 @@ async function updateGenerated(){
         for(const day in options["days"]){
           options["days"][day].checked = false;
         }
-        app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours);
+        app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
       }
       else{
         this.value = daysNum;
@@ -722,7 +721,7 @@ async function updateGenerated(){
       options["time"].min.value = dayStart.string12;
       options["time"].max.value = dayEnd.string12;
 
-      app.setOptions(daysString,daysNum, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
       // timeoutID = setTimeout(generate,100);//wait to stop changing for 100ms 
     };
     options["time"].min.addEventListener("change", function(){
@@ -742,7 +741,7 @@ async function updateGenerated(){
       
       options["time"].range.minValue = dayStart.totalHours;
 
-      app.setOptions(daysString,daysNum, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
     });
     options["time"].max.addEventListener("change", function(){
       if(!Time.isValid(this.value)) {
@@ -761,7 +760,7 @@ async function updateGenerated(){
       
       options["time"].range.maxValue = dayEnd.totalHours;
 
-      app.setOptions(daysString,daysNum, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
     });
   }
 

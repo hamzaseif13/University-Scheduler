@@ -213,7 +213,8 @@ function checkInterSection(sec1, sec2) {
 function filterSet(set){
     const filteredArray = [];
     
-    let daysString=options[0],dayStart=options[2],dayEnd=options[3];
+    
+    let daysString=options[0],dayStart=options[2],dayEnd=options[3],openSectionsFlag = options[4];
   
     daysString = daysString.toLowerCase();
   
@@ -234,12 +235,18 @@ function filterSet(set){
         invalid = true;
         continue;
       }
+
+      if(openSectionsFlag){
+        invalid = parseInt(sec.capacity) <= parseInt(sec.registered);
+      }
+
+      
   
       if(!invalid)
         filteredArray.push(set[i]);
     }
     return filteredArray;
-  }
+}
 
 function calcScore(schedule){
     const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Sat"];

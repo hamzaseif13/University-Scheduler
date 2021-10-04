@@ -1,6 +1,6 @@
 import calcScore from "./Calculate Score.js";
 const myCourses = [],
-  options = ["all", 5, 8.5, 20.5];
+  options = ["all", 5, 8.5, 20.5, true];
 
 function courseIndex(courseNum) {
   //function to search the index of a course inside #myCourses
@@ -49,7 +49,7 @@ async function _generateScheduleFunction() {
     tempArray.push(myCourses[j].sections);
   }
   
-  const generatedArray = await generateSchedules_Server(tempArray); //switch between server/client processing
+  const generatedArray = await generateSchedules_Client(tempArray); //switch between server/client processing
   return generatedArray;
 }
 
@@ -477,7 +477,8 @@ function checkInterSection(sec1, sec2) {
 function filterSet(set){
     const filteredArray = [];
     
-    let daysString=options[0],dayStart=options[2],dayEnd=options[3];
+    
+    let daysString=options[0],dayStart=options[2],dayEnd=options[3],openSectionsFlag = options[4];
   
     daysString = daysString.toLowerCase();
   
@@ -498,6 +499,12 @@ function filterSet(set){
         invalid = true;
         continue;
       }
+
+      if(openSectionsFlag){
+        invalid = parseInt(sec.capacity) <= parseInt(sec.registered);
+      }
+
+      
   
       if(!invalid)
         filteredArray.push(set[i]);
@@ -505,11 +512,12 @@ function filterSet(set){
     return filteredArray;
 }
 //functions to access options from outside module
-function setOptions(days,daysNum,dayStart,dayEnd){
+function setOptions(days,daysNum,dayStart,dayEnd,openSectionsFlag){
   options[0] = days;
   options[1] = daysNum;
   options[2] = dayStart;
   options[3] = dayEnd;
+  options[4] = openSectionsFlag;
 }
 function getDays(){
   return options[0];
