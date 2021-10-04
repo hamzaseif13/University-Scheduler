@@ -4,7 +4,6 @@ import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
 import * as tutorial from "./tutorial.js"
 
-window.tutorial = tutorial;
 export const resizeContainerEvent = new Event("container.resize");
 
 class DoubleRange{
@@ -187,10 +186,11 @@ const options = {},
       copy.name = course.name;
       copy.symbol = course.symbol;
       copy.creditHours = course.creditHours;
-      copy.lineNumber = course.lineNumber
-      copy.faculty = course.faculty
-      copy.department = course.department
-      copy.sections = course.sections
+      copy.lineNumber = course.lineNumber;
+      copy.faculty = course.faculty;
+      copy.department = course.department;
+      copy.sections = course.sections;
+      addTimeObj([copy.sections]);
 
       const row = htmlCreator("tr", this.body);
 
@@ -221,6 +221,8 @@ const options = {},
         updateGenerated();
       });
       detailsBtn.addEventListener("click", function(){
+        self.modal.courseTbody.innerHTML = "";
+        self.modal.sectionsTbody.innerHTML = "";
         self.modal.bootstrapModal.show();
         const row = htmlCreator("tr", self.modal.courseTbody);
         htmlCreator("td", row, "", "", copy.faculty);
@@ -234,7 +236,7 @@ const options = {},
           const row = htmlCreator("tr", self.modal.sectionsTbody);
           htmlCreator("td", row, "", "", sec.sectionNumber);
           htmlCreator("td", row, "", "", sec.days);
-          htmlCreator("td", row, "", "", sec.time);
+          htmlCreator("td", row, "", "", sec.timeObj.string("12").replace(/am|pm/ig,""));
           htmlCreator("td", row, "", "", sec.hall);
           htmlCreator("td", row, "", "", sec.seatCount);
           htmlCreator("td", row, "", "", sec.capacity);
@@ -250,7 +252,8 @@ const options = {},
     bootstrapToast: undefined,
     submitBtn: undefined
   },
-  covers = {};
+  covers = {},
+  hintBtns = [];
 let oldCoursesLength = 0;
 let changeFilter = false;
 
@@ -370,16 +373,32 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 function addTimeObj(arr){
   for (const schedule of arr) {
     for(const sections of schedule){
-      for (const sec of sections) {
-        sec.timeObj = {
-          start: new Time(sec.startTime * 60),
-          end: new Time(sec.endTime * 60),
+      if(Array.isArray(sections)){
+        for (const sec of sections) {
+          sec.timeObj = {
+            start: new Time(sec.startTime * 60),
+            end: new Time(sec.endTime * 60),
+            delta(){return Time.subtract(this.end , this.start);},
+            string: function (type = "24") {
+              return (
+                this.start["string" + type] +
+                " - " +
+                this.end["string" + type]
+              );
+            },
+          };
+        }
+      }
+      else{
+        sections.timeObj = {
+          start: new Time(sections.startTime * 60),
+          end: new Time(sections.endTime * 60),
           delta(){return Time.subtract(this.end , this.start);},
-          string: function () {
+          string: function (type = "24") {
             return (
-              this.start.string24 +
+              this.start["string" + type] +
               " - " +
-              this.end.string24
+              this.end["string" + type]
             );
           },
         };
@@ -450,7 +469,7 @@ async function updateGenerated(){
       let opName = btn.name || btn.innerText;
       opName = opName.trim();
       opName = opName.toLowerCase();
-      if(opName != "filter")
+      if(opName != "filter" && !btn.className.includes("hint"))
         table[opName+"Btn"] = btn;
     }
     table.unpinBtn.style.display = "none";
@@ -497,6 +516,8 @@ async function updateGenerated(){
     tutorialToast.submitBtn = toast.querySelector(".btn");
     tutorialToast.bootstrapToast = new bootstrap.Toast(toast);
     tutorialToast.bootstrapToast.show();
+
+    hintBtns.push(...document.querySelectorAll(".hint"));
 })();
 (function addEvents() {
   { //options events
@@ -559,7 +580,7 @@ async function updateGenerated(){
           cousresModal.submitFunction = function () {
             for (const course of cousresModal.selected) {
               app._addCourseFunction(course);
-              coursesTable.addCourseCard(course);
+              coursesTable.addCourseCard(app.courses[app.courses.length - 1]);
               updateGenerated();
             }
           };
@@ -826,9 +847,14 @@ async function updateGenerated(){
   });
   
   covers["main cover"].addEventListener("click", (ev)=>{ev.stopPropagation();})
+
+  for (const btn of hintBtns) {
+    btn.addEventListener("click", ()=>{
+      tutorial[btn.name]({requireClick: false, nextBtnText: "Close"});
+    });
+  }
   
 })();
-document.body.querySelector(".tip").addEventListener("click", ()=>{tutorial.filterTip()});
 
 window.addEventListener("load",async function(){
   const pinnedArr = await app.getUserPinned();

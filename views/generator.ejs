@@ -20,10 +20,7 @@
             <div class="accordion col-12">
                 <div class="accordion-item">
                     <h2 class="accordion-header d-flex" id="headingOne">
-                        <div class="btn-group">
-                            <button class="tip btn btn-sm btn-outline-primary fw-bold fs-6">?</button>
-                        </div>
-                        <button class="accordion-button py-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                             My Courses
                         </button>
                     </h2>
@@ -74,10 +71,16 @@
                     </div>
                     <div class="btn-toolbar col-auto order-first order-sm-last justify-content-end">
                             <button id="printBtn" class="btn btn-sm btn-success me-1" disabled><i class="fas fa-print"></i> Print</button>
-                            <button class="btn btn-success text-center me-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#optionsOffcanvas">
-                                Filter 
-                            </button>
-                            <button class="btn btn-sm btn-success" name="Pin"><i class="fas fa-heart"></i> Add to Fav</button>
+                            <div class="btn-group me-1">
+                                <button class="btn btn-success text-center" name="Filter" type="button" data-bs-toggle="offcanvas" data-bs-target="#optionsOffcanvas">
+                                    Filter 
+                                </button>
+                                <button class="hint btn btn-sm btn-outline-success fw-bold fs-6" name="filterTip">?</button>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-success" name="Pin"><i class="fas fa-heart"></i> Add to Fav</button>
+                                <button class="hint btn btn-sm btn-outline-success fw-bold fs-6" name="favTip">?</button>
+                            </div>
                             <button class="btn btn-sm btn-danger" name="Unpin" style="display: none;"><i class="fas fa-heart"></i> Remove from Fav</button>
                     </div>
                 </div>
