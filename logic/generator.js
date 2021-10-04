@@ -9,6 +9,9 @@ function generate(sections,opt) {
 }
 function generateSchedules(sets) {
   const copy = [...sets];
+  copy.sort((a,b)=>{
+    return b.length - a.length;
+  });
   function addSet(mainSet, set) {
     const arr = [];
     if (mainSet.length == 0) mainSet.push([]);
@@ -62,8 +65,8 @@ function generateSchedules(sets) {
     result = addSet(result, set);
     result = filterSchedule(result, ...options);
     sortByScore(result);
-    if(result.length > 10000)
-      result = result.slice(0,10000);
+    if(result.length > 1000)
+      result = result.slice(0,1000);
     if (result.length === 0)
       return [];
   }

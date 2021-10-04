@@ -210,7 +210,7 @@ const options = {},
       deleteBtn.addEventListener("click", function(){
         self.coursesNum.splice(num.innerText - 1, 1);
         self.cardsNum.splice(num.innerText - 1, 1);
-        this.parentNode.parentNode.remove();
+        this.parentNode.parentNode.parentNode.remove();
         self.counter--;
 
         for(let i=0; i<self.counter; i++){
@@ -592,7 +592,7 @@ async function updateGenerated(){
             const courseCard = htmlCreator(
               "li", 
               coursesDropmenu.body, "", 
-              "dropdown-item btn", 
+              "dropdown-item btn text-wrap", 
               `${course.name} | ${course.symbol}`
             );
             
@@ -611,7 +611,7 @@ async function updateGenerated(){
               "li", 
               coursesDropmenu.body, "", 
               "dropdown-item btn text-primary", 
-              `View all results (${res.num} results found)`
+              `View all results (${res.length} results found)`
             );
             more.title = "View all results";
             more.addEventListener("click", ()=>{

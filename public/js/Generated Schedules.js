@@ -631,8 +631,8 @@ function pinnedSchedule() {
   activeTab = "pinned";
   setTimeout(() => {
     table.pinnedTable.refreshTable();
-    table.pinBtn.style.display = "none";
-    table.unpinBtn.style.display = "block";
+    table.pinBtn.parentNode.style.display = "none";
+    table.unpinBtn.style.display = "";
     displaySchedule();
   }, 200);
 }
@@ -640,7 +640,7 @@ function allSchedule() {
   activeTable = table.allTable;
   activeTab = "all";
   setTimeout(() => {
-    table.pinBtn.style.display = "block";
+    table.pinBtn.parentNode.style.display = "";
     table.unpinBtn.style.display = "none";
     displaySchedule();
   }, 200);

@@ -271,6 +271,9 @@ async function getUserPinned(){
 function generateSchedules_Client(sets) {
   console.log("Generate on Client");
   const copy = [...sets];
+  copy.sort((a,b)=>{
+    return b.length - a.length;
+  });
   function addSet(mainSet, set) {
     const arr = [];
     if (mainSet.length == 0) mainSet.push([]);
@@ -324,8 +327,8 @@ function generateSchedules_Client(sets) {
     result = addSet(result, set);
     result = filterSchedule(result, ...options);
     sortByScore(result);
-    if(result.length > 10000)
-      result = result.slice(0,10000);
+    if(result.length > 1000)
+      result = result.slice(0,1000);
     if (result.length === 0)
       return [];
   }
