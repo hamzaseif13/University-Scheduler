@@ -330,7 +330,7 @@ class TimeTable {
     this.updateCellHeight();
   }
   updateCellHeight() {
-    this.cellHeight = this.#table.querySelector(".tableCol").offsetHeight * 9/100;
+    this.cellHeight = this.#table.querySelector(".tableCol").offsetHeight * 1 / 13;
 
     for (const col of this.#columns) {
       col.style.backgroundImage =

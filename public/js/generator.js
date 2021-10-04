@@ -1,6 +1,6 @@
 import calcScore from "./Calculate Score.js";
 const myCourses = [],
-  options = ["all",8.5,18.5];
+  options = ["all",8.5,20.5];
 
 function courseIndex(courseNum) {
   //function to search the index of a course inside #myCourses

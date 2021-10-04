@@ -2,8 +2,9 @@ import app from "./generator.js";
 import schedulesControls from "./Generated Schedules.js";
 import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
-import {playTutorial} from "./tutorial.js"
+import * as tutorial from "./tutorial.js"
 
+window.tutorial = tutorial;
 export const resizeContainerEvent = new Event("container.resize");
 
 class DoubleRange{
@@ -181,9 +182,9 @@ const options = {},
       copy.name = course.name;
       copy.symbol = course.symbol;
       copy.creditHours = course.creditHours;
+      copy.lineNumber = course.lineNumber
       // copy.faculty = course.faculty
       // copy.department = course.department
-      // copy.lineNumber = course.lineNumber
       // copy.sections = course.sections
 
       const row = htmlCreator("tr", this.body);
@@ -191,6 +192,7 @@ const options = {},
       const num = htmlCreator("th", row, "", "", ++this.counter);
       this.cardsNum.push(num);
 
+      htmlCreator("td", row, "", "", copy.lineNumber);
       htmlCreator("td", row, "", "", copy.name.toLowerCase());
       htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
       htmlCreator("td", row, "", "", copy.creditHours);
@@ -404,7 +406,7 @@ async function updateGenerated(){
     coursesDropmenu.body = document.querySelector(".option[title=search] .dropdown-menu");
 
     const tRange = document.querySelector(".option[title=time] .doubleRange");
-    options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
+    options.time.range = new DoubleRange(tRange,8.5,20.5,0.5);
 
     const t = document.getElementById("table");
     table.content = t.querySelector(".content");
@@ -419,7 +421,8 @@ async function updateGenerated(){
       let opName = btn.name || btn.innerText;
       opName = opName.trim();
       opName = opName.toLowerCase();
-      table[opName+"Btn"] = btn;
+      if(opName != "filter")
+        table[opName+"Btn"] = btn;
     }
     table.unpinBtn.style.display = "none";
 
@@ -617,7 +620,7 @@ async function updateGenerated(){
     
     let daysString = "all";
     let dayStart = new Time(8.5 * 60);
-    let dayEnd = new Time(18.5);
+    let dayEnd = new Time(20.5);
     for(const day in options["days"]){
       options.days[day].addEventListener("change", function(){
         changeFilter = true;
@@ -655,7 +658,7 @@ async function updateGenerated(){
         console.error("invalid time format");
         return;
       }
-      if(Time.isOutOfBound(this.value, 8.5, 18.5)){
+      if(Time.isOutOfBound(this.value, 8.5, 20.5)){
         this.value = dayStart.string24;
         console.error("invalid time. Please choose time between 8:30 and 18:30");
         return;
@@ -674,7 +677,7 @@ async function updateGenerated(){
         console.error("invalid time format");
         return;
       }
-      if(Time.isOutOfBound(this.value, 8.5, 18.5)){
+      if(Time.isOutOfBound(this.value, 8.5, 20.5)){
         this.value = dayEnd.string24;
         console.error("invalid time. Please choose time between 8:30 and 18:30");
         return;
@@ -754,7 +757,7 @@ async function updateGenerated(){
     // })
   }
 
-  tutorialToast.submitBtn.addEventListener("click", playTutorial, true);
+  tutorialToast.submitBtn.addEventListener("click", tutorial.playTutorial, true);
 
   sectionModal.next.addEventListener("click", function(){
     const t = schedulesControls.getActiveTable().tableObj;
@@ -792,6 +795,7 @@ async function updateGenerated(){
   covers["main cover"].addEventListener("click", (ev)=>{ev.stopPropagation();})
   
 })();
+document.body.querySelector(".tip").addEventListener("click", ()=>{tutorial.filterTip()});
 
 window.addEventListener("load",async function(){
   const pinnedArr = await app.getUserPinned();

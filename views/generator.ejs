@@ -4,7 +4,7 @@
 
     <div id="container" class="row g-0 justify-content-center bg-warning" tabindex="-1">
         <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3">
-            <div class="col-12 row gx-2 gy-2 gy-md-0 mx-0 mt-3 p-1 border-2 border-bottom rounded-2 sticky-md-top bg-white justify-content-center">
+            <div class="col-12 row gx-2 gy-2 gy-md-0 mx-0 mt-3 p-1  justify-content-center">
                 <div class="option col-12" title="search">
                     <input type="text" name="searchval" maxlength="50" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
                     <div class="position-relative border-0 m-0 p-0" style="height: 0!important;">
@@ -20,9 +20,9 @@
             <div class="accordion col-12">
                 <div class="accordion-item">
                     <h2 class="accordion-header d-flex" id="headingOne">
-                        <button class="btn btn-primary text-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#optionsOffcanvas">
-                            Filter  
-                        </button>
+                        <div class="btn-group">
+                            <button class="tip btn btn-sm btn-outline-primary fw-bold fs-6">?</button>
+                        </div>
                         <button class="accordion-button py-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                             My Courses
                         </button>
@@ -32,6 +32,7 @@
                             <thead class="">
                                 <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">Line Number</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Symbol</th>
                                 <th scope="col">Credit Hours</th>
@@ -51,7 +52,7 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                <div class="col-12 row g-2 g-sm-0 m-0 p-2 justify-content-between">
+                <div class="col-12 row g-2 g-sm-0 m-0 p-2 justify-content-between sticky-sm-top border-1 border-bottom rounded-2 bg-white">
                     <ul class="nav nav-tabs border-bottom rounded-2 col-auto order-first justify-content-start border-0"
                     id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -73,6 +74,9 @@
                     </div>
                     <div class="btn-toolbar col-auto order-first order-sm-last justify-content-end">
                             <button id="printBtn" class="btn btn-sm btn-success me-1" disabled><i class="fas fa-print"></i> Print</button>
+                            <button class="btn btn-success text-center me-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#optionsOffcanvas">
+                                Filter 
+                            </button>
                             <button class="btn btn-sm btn-success" name="Pin"><i class="fas fa-heart"></i> Add to Fav</button>
                             <button class="btn btn-sm btn-danger" name="Unpin" style="display: none;"><i class="fas fa-heart"></i> Remove from Fav</button>
                     </div>
@@ -112,6 +116,8 @@
                                     <div class="hours"><span>4:30 PM</span></div>
                                     <div class="hours"><span>5:30 PM</span></div>
                                     <div class="hours"><span>6:30 PM</span></div>
+                                    <div class="hours"><span>7:30 PM</span></div>
+                                    <div class="hours"><span>8:30 PM</span></div>
                                 </div>
                                 <div class="tableCol border-end border-bottom border-start"></div>
                                 <div class="tableCol border-end border-bottom"></div>
@@ -147,6 +153,8 @@
                                     <div class="hours"><span>4:30 PM</span></div>
                                     <div class="hours"><span>5:30 PM</span></div>
                                     <div class="hours"><span>6:30 PM</span></div>
+                                    <div class="hours"><span>7:30 PM</span></div>
+                                    <div class="hours"><span>8:30 PM</span></div>
                                 </div>
                                 <div class="tableCol border-end border-bottom border-start"></div>
                                 <div class="tableCol border-end border-bottom"></div>
@@ -194,7 +202,7 @@
                         <span class="input-group-text px-1">From</span>
                         <input name="min" type="text" class="form-control fs-6 px-2" value="8:30AM">
                         <span class="input-group-text px-1">To</span>
-                        <input name="max" type="text" class="form-control fs-6 px-2" value="6:30PM">
+                        <input name="max" type="text" class="form-control fs-6 px-2" value="8:30PM">
                     </div>
                     <span class="doubleRange">
                         <span class="bar">
