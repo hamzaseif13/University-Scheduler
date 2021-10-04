@@ -6,7 +6,7 @@
         <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3">
             <div class="col-12 row gx-2 gy-2 gy-md-0 mx-0 mt-3 p-1  justify-content-center">
                 <div class="option col-12" title="search">
-                    <input type="text" name="searchval" maxlength="50" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
+                    <input type="text" name="searchval" maxlength="50" class="fs-5 px-3" placeholder=" Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;font-family: FontAwesome;">
                     <div class="position-relative border-0 m-0 p-0" style="height: 0!important;">
                         <ul class="dropdown-menu overflow-auto w-100" style="z-index: 1500;" title = "Add Course">
                             <li class="dropdown-item w-100 d-flex align-items-center">
@@ -21,25 +21,33 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header d-flex" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                            My Courses
+                            <i class="fas fa-book pe-2"></i>My Courses
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show">
                         <table id="coursesTable" class="table table-striped text-center text-capitalize">
                             <thead class="">
                                 <tr>
-                                <th scope="col" class="d-none d-sm-table-cell">#</th>
-                                <th scope="col">Line Number</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Symbol</th>
-                                <th scope="col" class="d-none d-sm-table-cell">Credit Hours</th>
-                                <th scope="col" class="d-none d-sm-table-cell">Actions</th>
-                                <th scope="col" class="d-table-cell d-sm-none">Act.</th>
-                            </tr>
+                                    <th scope="col" class="d-none d-sm-table-cell">#</th>
+                                    <th scope="col">Line Number</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Symbol</th>
+                                    <th scope="col" class="d-none d-sm-table-cell">Credit Hours</th>
+                                    <th scope="col" class="d-none d-sm-table-cell">Actions</th>
+                                    <th scope="col" class="d-table-cell d-sm-none">Act.</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="col" class="d-none d-sm-table-cell"></th>
+                                    <th scope="col" class="d-none d-sm-table-cell"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col" colspan="3" class="text-end text-sm-center"><span>Total Hours: 0</span></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -54,12 +62,12 @@
                     <ul class="nav nav-tabs border-bottom rounded-2 col-12 col-sm-auto order-first justify-content-center justify-content-sm-start border-0"
                     id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="btn nav-link active py-0 h-100" data-bs-toggle="tab" data-bs-target="#all"
+                            <button class="btn btn-outline-primary rounded-start rounded-0 active py-0 h-100" data-bs-toggle="tab" data-bs-target="#all"
                                 type="button">All</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="btn nav-link py-0 h-100" name="Pinned" data-bs-toggle="tab" data-bs-target="#pinned"
-                                type="button">Favorites</button>
+                            <button class="btn btn-outline-primary rounded-end rounded-0 py-0 h-100" name="Pinned" data-bs-toggle="tab" data-bs-target="#pinned"
+                                type="button"><i class="fas fa-heart"></i> Favorites</button>
                         </li>
                     </ul>
                     <div id="tableInput" class="col-12 col-sm-auto d-flex justify-content-between">
@@ -324,7 +332,7 @@
         </div>
     </div>
     <div class="toast-container position-fixed bottom-0 end-0 p-3 me-1" style="z-index: 200;">
-        <div class="toast" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true">
+        <div class="toast" role="alert" data-bs-delay="30000" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
               <strong class="me-auto">Tutorial</strong>
               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>

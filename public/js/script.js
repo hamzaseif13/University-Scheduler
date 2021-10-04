@@ -167,11 +167,13 @@ const options = {},
   },
   coursesTable = {
     body: undefined,
+    totalHoursSpan: undefined,
     modal:{
       courseTbody: undefined,
       sectionsTbody: undefined,
       bootstrapModal: undefined
     },
+    totalHours: 0,
     counter: 0,
     cardsNum: [],
     coursesNum: [],
@@ -191,6 +193,9 @@ const options = {},
       copy.department = course.department;
       copy.sections = course.sections;
       addTimeObj([copy.sections]);
+
+      this.totalHours += parseInt(copy.creditHours);
+      this.totalHoursSpan.innerText = "Total Hours: " + this.totalHours;
 
       const row = htmlCreator("tr", this.body);
 
@@ -212,6 +217,8 @@ const options = {},
         self.cardsNum.splice(num.innerText - 1, 1);
         this.parentNode.parentNode.parentNode.remove();
         self.counter--;
+        this.totalHours -= parseInt(copy.creditHours);
+        this.totalHoursSpan.innerText = "Total Hours: " + this.totalHours;
 
         for(let i=0; i<self.counter; i++){
           self.cardsNum[i].innerHTML = i+1;
@@ -506,6 +513,7 @@ async function updateGenerated(){
     });
 
     coursesTable.body = document.querySelector("#coursesTable tbody");
+    coursesTable.totalHoursSpan = document.querySelector("#coursesTable tfoot span");
     const courseDetailsModal = document.querySelector("#courseDetailsModal");
     coursesTable.modal.courseTbody = courseDetailsModal.querySelector("tbody");
     coursesTable.modal.sectionsTbody = courseDetailsModal.querySelectorAll("tbody")[1];

@@ -49,7 +49,7 @@ async function _generateScheduleFunction() {
     tempArray.push(myCourses[j].sections);
   }
   
-  const generatedArray = await generateSchedules_Client(tempArray); //switch between server/client processing
+  const generatedArray = await generateSchedules_Server(tempArray); //switch between server/client processing
   return generatedArray;
 }
 
