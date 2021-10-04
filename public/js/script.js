@@ -2,8 +2,9 @@ import app from "./generator.js";
 import schedulesControls from "./Generated Schedules.js";
 import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
-import {playTutorial} from "./tutorial.js"
+import * as tutorial from "./tutorial.js"
 
+window.tutorial = tutorial;
 export const resizeContainerEvent = new Event("container.resize");
 
 class DoubleRange{
@@ -167,6 +168,11 @@ const options = {},
   },
   coursesTable = {
     body: undefined,
+    modal:{
+      courseTbody: undefined,
+      sectionsTbody: undefined,
+      bootstrapModal: undefined
+    },
     counter: 0,
     cardsNum: [],
     coursesNum: [],
@@ -181,22 +187,24 @@ const options = {},
       copy.name = course.name;
       copy.symbol = course.symbol;
       copy.creditHours = course.creditHours;
-      // copy.faculty = course.faculty
-      // copy.department = course.department
-      // copy.lineNumber = course.lineNumber
-      // copy.sections = course.sections
+      copy.lineNumber = course.lineNumber
+      copy.faculty = course.faculty
+      copy.department = course.department
+      copy.sections = course.sections
 
       const row = htmlCreator("tr", this.body);
 
       const num = htmlCreator("th", row, "", "", ++this.counter);
       this.cardsNum.push(num);
 
+      htmlCreator("td", row, "", "", copy.lineNumber);
       htmlCreator("td", row, "", "", copy.name.toLowerCase());
       htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
       htmlCreator("td", row, "", "", copy.creditHours);
       
-      const deleteBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-outline-danger", `<i class="fas fa-trash-alt"></i>`);
-      // const detailsBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-danger", `<i class="fas fa-info"></i>`);
+      const actionCol = htmlCreator("td", row);
+      const deleteBtn = htmlCreator("button",actionCol, "", "btn btn-outline-danger me-1", `<i class="fas fa-trash-alt"></i>`);
+      const detailsBtn = htmlCreator("button",actionCol, "", "btn btn-outline-info", `<i class="fas fa-info"></i>`);
       
 
       deleteBtn.addEventListener("click", function(){
@@ -212,6 +220,29 @@ const options = {},
         app._removeCourseFunction(course.lineNumber);
         updateGenerated();
       });
+      detailsBtn.addEventListener("click", function(){
+        self.modal.bootstrapModal.show();
+        const row = htmlCreator("tr", self.modal.courseTbody);
+        htmlCreator("td", row, "", "", copy.faculty);
+        htmlCreator("td", row, "", "", copy.department);
+        htmlCreator("td", row, "", "", copy.lineNumber);
+        htmlCreator("td", row, "", "", copy.name.toLowerCase());
+        htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
+        htmlCreator("td", row, "", "", copy.creditHours);
+
+        for (const sec of copy.sections) {
+          const row = htmlCreator("tr", self.modal.sectionsTbody);
+          htmlCreator("td", row, "", "", sec.sectionNumber);
+          htmlCreator("td", row, "", "", sec.days);
+          htmlCreator("td", row, "", "", sec.time);
+          htmlCreator("td", row, "", "", sec.hall);
+          htmlCreator("td", row, "", "", sec.seatCount);
+          htmlCreator("td", row, "", "", sec.capacity);
+          htmlCreator("td", row, "", "", sec.registered);
+          htmlCreator("td", row, "", "", sec.instructor);
+          htmlCreator("td", row, "", "", sec.teachingType);
+        }
+      })
     }
   },
   tutorialToast = {
@@ -404,7 +435,7 @@ async function updateGenerated(){
     coursesDropmenu.body = document.querySelector(".option[title=search] .dropdown-menu");
 
     const tRange = document.querySelector(".option[title=time] .doubleRange");
-    options.time.range = new DoubleRange(tRange,8.5,18.5,0.5);
+    options.time.range = new DoubleRange(tRange,8.5,20.5,0.5);
 
     const t = document.getElementById("table");
     table.content = t.querySelector(".content");
@@ -419,7 +450,8 @@ async function updateGenerated(){
       let opName = btn.name || btn.innerText;
       opName = opName.trim();
       opName = opName.toLowerCase();
-      table[opName+"Btn"] = btn;
+      if(opName != "filter")
+        table[opName+"Btn"] = btn;
     }
     table.unpinBtn.style.display = "none";
 
@@ -455,6 +487,10 @@ async function updateGenerated(){
     });
 
     coursesTable.body = document.querySelector("#coursesTable tbody");
+    const courseDetailsModal = document.querySelector("#courseDetailsModal");
+    coursesTable.modal.courseTbody = courseDetailsModal.querySelector("tbody");
+    coursesTable.modal.sectionsTbody = courseDetailsModal.querySelectorAll("tbody")[1];
+    coursesTable.modal.bootstrapModal = new bootstrap.Modal(courseDetailsModal, {keyboard: false});
 
     const toast = document.querySelector(".toast");
     tutorialToast.elem = toast;
@@ -617,7 +653,7 @@ async function updateGenerated(){
     
     let daysString = "all";
     let dayStart = new Time(8.5 * 60);
-    let dayEnd = new Time(18.5);
+    let dayEnd = new Time(20.5);
     for(const day in options["days"]){
       options.days[day].addEventListener("change", function(){
         changeFilter = true;
@@ -655,7 +691,7 @@ async function updateGenerated(){
         console.error("invalid time format");
         return;
       }
-      if(Time.isOutOfBound(this.value, 8.5, 18.5)){
+      if(Time.isOutOfBound(this.value, 8.5, 20.5)){
         this.value = dayStart.string24;
         console.error("invalid time. Please choose time between 8:30 and 18:30");
         return;
@@ -674,7 +710,7 @@ async function updateGenerated(){
         console.error("invalid time format");
         return;
       }
-      if(Time.isOutOfBound(this.value, 8.5, 18.5)){
+      if(Time.isOutOfBound(this.value, 8.5, 20.5)){
         this.value = dayEnd.string24;
         console.error("invalid time. Please choose time between 8:30 and 18:30");
         return;
@@ -754,7 +790,7 @@ async function updateGenerated(){
     // })
   }
 
-  tutorialToast.submitBtn.addEventListener("click", playTutorial, true);
+  tutorialToast.submitBtn.addEventListener("click", tutorial.playTutorial, true);
 
   sectionModal.next.addEventListener("click", function(){
     const t = schedulesControls.getActiveTable().tableObj;
@@ -792,6 +828,7 @@ async function updateGenerated(){
   covers["main cover"].addEventListener("click", (ev)=>{ev.stopPropagation();})
   
 })();
+document.body.querySelector(".tip").addEventListener("click", ()=>{tutorial.filterTip()});
 
 window.addEventListener("load",async function(){
   const pinnedArr = await app.getUserPinned();

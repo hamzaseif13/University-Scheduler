@@ -1,5 +1,6 @@
 import { htmlCreator } from "./script.js";
 
+let filterTip;
 function playTutorial(){
   const toastCont = htmlCreator("div", document.body, "", "toast-container position-fixed top-0 w-100 mt-5 d-flex justify-content-center");
   const escapeToastEl = htmlCreator("div",toastCont,"","toast rounded-pill border-1 border-dark text-white",`
@@ -101,7 +102,7 @@ function playTutorial(){
     );
   }
 
-  const filterTip = (opt)=>{
+  filterTip = (opt)=>{
     addElementTip(
       mainSections[1].querySelector(".btn.btn-primary"),
       {
@@ -155,6 +156,7 @@ function playTutorial(){
       {
         delay: 300,
         placment: "top",
+        noScroll: true,
         disableElements: mainSections[2].querySelectorAll("div.col-12 .btn, .content .timeTable .card")
       },
       opt
@@ -181,7 +183,7 @@ function playTutorial(){
         title: "All / Favorites",
         text: "The All tab have all the possible schedules."+
               "<br>The Favorites tab have the schedules you liked"+
-              "<br>if you have an account your Favorite schedules will be saved in the Cloud"
+              "<br><small>*if you have an account your Favorite schedules will be saved in the cloud</small>"
       },
       {
         background: "white",
@@ -208,7 +210,7 @@ function playTutorial(){
       mainSections[2].querySelector("div.col-12 > .btn-toolbar"),
       {
         title: "Schedule Tools",
-        text: "If you liked a schedule you can add it to Favorites or Print it.<br><small>Print is in development</small>"
+        text: "If you liked a schedule you can add it to Favorites or Print it.<br><small>*Print is in development</small>"
       },
       {
         background: "white"
@@ -226,6 +228,7 @@ function playTutorial(){
       {
         background: "white",
         placment: "top",
+        noScroll: true,
         disableElements: mainSections[2].querySelectorAll(".content .timeTable .card")
       },
       opt
@@ -297,10 +300,12 @@ function playTutorial(){
     const cover = htmlCreator("div", focusElement.parentNode, "", "cover position-fixed vw-100 vh-100");
     focusElement.className += " tutorialFocus";
 
-    if(options.delay){
+    if(!options.noScroll){
+      if(options.delay){
       setTimeout(()=>{elem.scrollIntoView({behavior: "smooth", block: "nearest"});}, options.delay);
-    }else{
-      elem.scrollIntoView({behavior: "smooth", block: "nearest"});
+      }else{
+        elem.scrollIntoView({behavior: "smooth", block: "nearest"});
+      }
     }
     
     if(options.requireClick){
@@ -311,6 +316,7 @@ function playTutorial(){
     `<!--<span class="btn btn-primary col-auto">Back</i></span> -->
     <span class="btn btn-primary ms-auto col-auto">${options.nextBtnText || "Next"}</i></span>`;
     if(options.requireClick)btnsHTML = `<span class="ms-auto col-auto fs-6 text-secondary">Click Button to Cont.</span>`;
+    else if(options.nextBtnHidden)btnsHTML = "";
 
     if(elem.title){
       var oldTitle = elem.title;
@@ -467,4 +473,4 @@ function playTutorial(){
 
 
 
-export {playTutorial};
+export {playTutorial, filterTip};
