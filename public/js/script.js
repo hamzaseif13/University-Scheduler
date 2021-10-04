@@ -4,7 +4,6 @@ import  {ScheduleGroup} from "./Generated Schedules.js";
 import {Time} from "./Database.js";
 import * as tutorial from "./tutorial.js"
 
-window.tutorial = tutorial;
 export const resizeContainerEvent = new Event("container.resize");
 
 class DoubleRange{
@@ -168,11 +167,13 @@ const options = {},
   },
   coursesTable = {
     body: undefined,
+    totalHoursSpan: undefined,
     modal:{
       courseTbody: undefined,
       sectionsTbody: undefined,
       bootstrapModal: undefined
     },
+    totalHours: 0,
     counter: 0,
     cardsNum: [],
     coursesNum: [],
@@ -187,31 +188,37 @@ const options = {},
       copy.name = course.name;
       copy.symbol = course.symbol;
       copy.creditHours = course.creditHours;
-      copy.lineNumber = course.lineNumber
-      copy.faculty = course.faculty
-      copy.department = course.department
-      copy.sections = course.sections
+      copy.lineNumber = course.lineNumber;
+      copy.faculty = course.faculty;
+      copy.department = course.department;
+      copy.sections = course.sections;
+      addTimeObj([copy.sections]);
+
+      this.totalHours += parseInt(copy.creditHours);
+      this.totalHoursSpan.innerText = "Total Hours: " + this.totalHours;
 
       const row = htmlCreator("tr", this.body);
 
-      const num = htmlCreator("th", row, "", "", ++this.counter);
+      const num = htmlCreator("th", row, "", "d-none d-sm-table-cell", ++this.counter);
       this.cardsNum.push(num);
 
       htmlCreator("td", row, "", "", copy.lineNumber);
       htmlCreator("td", row, "", "", copy.name.toLowerCase());
       htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
-      htmlCreator("td", row, "", "", copy.creditHours);
+      htmlCreator("td", row, "", "d-none d-sm-table-cell", copy.creditHours);
       
-      const actionCol = htmlCreator("td", row);
-      const deleteBtn = htmlCreator("button",actionCol, "", "btn btn-outline-danger me-1", `<i class="fas fa-trash-alt"></i>`);
+      const actionCol = htmlCreator("div", htmlCreator("td", row), "", "d-flex flex-column flex-md-row justify-content-center h-100");
+      const deleteBtn = htmlCreator("button",actionCol, "", "btn btn-outline-danger me-0 me-md-1 mb-1 mb-md-0", `<i class="fas fa-trash-alt"></i>`);
       const detailsBtn = htmlCreator("button",actionCol, "", "btn btn-outline-info", `<i class="fas fa-info"></i>`);
       
 
       deleteBtn.addEventListener("click", function(){
         self.coursesNum.splice(num.innerText - 1, 1);
         self.cardsNum.splice(num.innerText - 1, 1);
-        this.parentNode.parentNode.remove();
+        this.parentNode.parentNode.parentNode.remove();
         self.counter--;
+        this.totalHours -= parseInt(copy.creditHours);
+        this.totalHoursSpan.innerText = "Total Hours: " + this.totalHours;
 
         for(let i=0; i<self.counter; i++){
           self.cardsNum[i].innerHTML = i+1;
@@ -221,6 +228,8 @@ const options = {},
         updateGenerated();
       });
       detailsBtn.addEventListener("click", function(){
+        self.modal.courseTbody.innerHTML = "";
+        self.modal.sectionsTbody.innerHTML = "";
         self.modal.bootstrapModal.show();
         const row = htmlCreator("tr", self.modal.courseTbody);
         htmlCreator("td", row, "", "", copy.faculty);
@@ -234,7 +243,7 @@ const options = {},
           const row = htmlCreator("tr", self.modal.sectionsTbody);
           htmlCreator("td", row, "", "", sec.sectionNumber);
           htmlCreator("td", row, "", "", sec.days);
-          htmlCreator("td", row, "", "", sec.time);
+          htmlCreator("td", row, "", "", sec.timeObj.string("12").replace(/am|pm/ig,""));
           htmlCreator("td", row, "", "", sec.hall);
           htmlCreator("td", row, "", "", sec.seatCount);
           htmlCreator("td", row, "", "", sec.capacity);
@@ -250,7 +259,8 @@ const options = {},
     bootstrapToast: undefined,
     submitBtn: undefined
   },
-  covers = {};
+  covers = {},
+  hintBtns = [];
 let oldCoursesLength = 0;
 let changeFilter = false;
 
@@ -370,16 +380,32 @@ function generateHTMLCourseCard(course, highlight = "", prop = "") {
 function addTimeObj(arr){
   for (const schedule of arr) {
     for(const sections of schedule){
-      for (const sec of sections) {
-        sec.timeObj = {
-          start: new Time(sec.startTime * 60),
-          end: new Time(sec.endTime * 60),
+      if(Array.isArray(sections)){
+        for (const sec of sections) {
+          sec.timeObj = {
+            start: new Time(sec.startTime * 60),
+            end: new Time(sec.endTime * 60),
+            delta(){return Time.subtract(this.end , this.start);},
+            string: function (type = "24") {
+              return (
+                this.start["string" + type] +
+                " - " +
+                this.end["string" + type]
+              );
+            },
+          };
+        }
+      }
+      else{
+        sections.timeObj = {
+          start: new Time(sections.startTime * 60),
+          end: new Time(sections.endTime * 60),
           delta(){return Time.subtract(this.end , this.start);},
-          string: function () {
+          string: function (type = "24") {
             return (
-              this.start.string24 +
+              this.start["string" + type] +
               " - " +
-              this.end.string24
+              this.end["string" + type]
             );
           },
         };
@@ -434,7 +460,7 @@ async function updateGenerated(){
 
     coursesDropmenu.body = document.querySelector(".option[title=search] .dropdown-menu");
 
-    const tRange = document.querySelector(".option[title=time] .doubleRange");
+    const tRange = document.querySelector(".option[title=Time] .doubleRange");
     options.time.range = new DoubleRange(tRange,8.5,20.5,0.5);
 
     const t = document.getElementById("table");
@@ -450,7 +476,7 @@ async function updateGenerated(){
       let opName = btn.name || btn.innerText;
       opName = opName.trim();
       opName = opName.toLowerCase();
-      if(opName != "filter")
+      if(opName != "filter" && !btn.className.includes("hint"))
         table[opName+"Btn"] = btn;
     }
     table.unpinBtn.style.display = "none";
@@ -487,6 +513,7 @@ async function updateGenerated(){
     });
 
     coursesTable.body = document.querySelector("#coursesTable tbody");
+    coursesTable.totalHoursSpan = document.querySelector("#coursesTable tfoot span");
     const courseDetailsModal = document.querySelector("#courseDetailsModal");
     coursesTable.modal.courseTbody = courseDetailsModal.querySelector("tbody");
     coursesTable.modal.sectionsTbody = courseDetailsModal.querySelectorAll("tbody")[1];
@@ -497,6 +524,8 @@ async function updateGenerated(){
     tutorialToast.submitBtn = toast.querySelector(".btn");
     tutorialToast.bootstrapToast = new bootstrap.Toast(toast);
     tutorialToast.bootstrapToast.show();
+
+    hintBtns.push(...document.querySelectorAll(".hint"));
 })();
 (function addEvents() {
   { //options events
@@ -559,7 +588,7 @@ async function updateGenerated(){
           cousresModal.submitFunction = function () {
             for (const course of cousresModal.selected) {
               app._addCourseFunction(course);
-              coursesTable.addCourseCard(course);
+              coursesTable.addCourseCard(app.courses[app.courses.length - 1]);
               updateGenerated();
             }
           };
@@ -571,7 +600,7 @@ async function updateGenerated(){
             const courseCard = htmlCreator(
               "li", 
               coursesDropmenu.body, "", 
-              "dropdown-item btn", 
+              "dropdown-item btn text-wrap", 
               `${course.name} | ${course.symbol}`
             );
             
@@ -590,7 +619,7 @@ async function updateGenerated(){
               "li", 
               coursesDropmenu.body, "", 
               "dropdown-item btn text-primary", 
-              `View all results (${res.num} results found)`
+              `View all results (${res.length} results found)`
             );
             more.title = "View all results";
             more.addEventListener("click", ()=>{
@@ -641,36 +670,54 @@ async function updateGenerated(){
         submitSearch();
       }
     });
-
-    // options["courses"].submit.addEventListener("click", function () {
-    //   updateModal(app.courses, "My Courses: ", "Remove Courses");
-    //   cousresModal.submitFunction = function () {
-    //     for (const course of cousresModal.selected) {
-    //       app._removeCourseFunction(course.lineNumber);
-    //     }
-    //   };
-    // });
     
+
     let daysString = "all";
+    let daysNum = 5;
     let dayStart = new Time(8.5 * 60);
-    let dayEnd = new Time(20.5);
+    let dayEnd = new Time(20.5 * 60);
+    let openSectionsFlag = true;
+    
+    options["sectionsstatus"].opensections.addEventListener("change", function(){
+      changeFilter = true;
+      openSectionsFlag = this.checked;
+      app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
+    });
     for(const day in options["days"]){
       options.days[day].addEventListener("change", function(){
         changeFilter = true;
         daysString = daysString.replace("all","");
 
         if(this.checked){
-          if(!daysString.includes(day))
+          if(!daysString.includes(day)){
             daysString += day;
+            daysNum = 5;
+            options.days["daysnum"].value = 5;
+          }
         }
-        else
+        else{
           daysString = daysString.replace(day,"");
+        }
         
-        if(daysString.length === 0)
+        if(daysString.length === 0){
           daysString = "all";
-        app.setOptions(daysString,dayStart,dayEnd);
+        }
+        app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
       });
     }
+    options.days["daysnum"].addEventListener("change", function(){
+      const val = parseInt(this.value);
+      if(val >= 1 && val <= 5){
+        daysNum = val;
+        for(const day in options["days"]){
+          options["days"][day].checked = false;
+        }
+        app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
+      }
+      else{
+        this.value = daysNum;
+      }
+    })
 
     // let timeoutID;
     options["time"].range.onchange = function(){
@@ -682,7 +729,7 @@ async function updateGenerated(){
       options["time"].min.value = dayStart.string12;
       options["time"].max.value = dayEnd.string12;
 
-      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
       // timeoutID = setTimeout(generate,100);//wait to stop changing for 100ms 
     };
     options["time"].min.addEventListener("change", function(){
@@ -702,7 +749,7 @@ async function updateGenerated(){
       
       options["time"].range.minValue = dayStart.totalHours;
 
-      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
     });
     options["time"].max.addEventListener("change", function(){
       if(!Time.isValid(this.value)) {
@@ -721,7 +768,7 @@ async function updateGenerated(){
       
       options["time"].range.maxValue = dayEnd.totalHours;
 
-      app.setOptions(daysString, dayStart.totalHours, dayEnd.totalHours);
+      app.setOptions(daysString,daysNum,dayStart.totalHours, dayEnd.totalHours, openSectionsFlag);
     });
   }
 
@@ -826,9 +873,14 @@ async function updateGenerated(){
   });
   
   covers["main cover"].addEventListener("click", (ev)=>{ev.stopPropagation();})
+
+  for (const btn of hintBtns) {
+    btn.addEventListener("click", ()=>{
+      tutorial[btn.name]({requireClick: false, nextBtnText: "Close"});
+    });
+  }
   
 })();
-document.body.querySelector(".tip").addEventListener("click", ()=>{tutorial.filterTip()});
 
 window.addEventListener("load",async function(){
   const pinnedArr = await app.getUserPinned();

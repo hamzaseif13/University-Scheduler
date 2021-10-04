@@ -6,7 +6,7 @@
         <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3">
             <div class="col-12 row gx-2 gy-2 gy-md-0 mx-0 mt-3 p-1  justify-content-center">
                 <div class="option col-12" title="search">
-                    <input type="text" name="searchval" maxlength="50" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
+                    <input type="text" name="searchval" maxlength="50" class="fs-5 px-3" placeholder=" Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;font-family: FontAwesome;">
                     <div class="position-relative border-0 m-0 p-0" style="height: 0!important;">
                         <ul class="dropdown-menu overflow-auto w-100" style="z-index: 1500;" title = "Add Course">
                             <li class="dropdown-item w-100 d-flex align-items-center">
@@ -20,28 +20,34 @@
             <div class="accordion col-12">
                 <div class="accordion-item">
                     <h2 class="accordion-header d-flex" id="headingOne">
-                        <div class="btn-group">
-                            <button class="tip btn btn-sm btn-outline-primary fw-bold fs-6">?</button>
-                        </div>
-                        <button class="accordion-button py-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                            My Courses
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            <i class="fas fa-book pe-2"></i>My Courses
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show">
                         <table id="coursesTable" class="table table-striped text-center text-capitalize">
                             <thead class="">
                                 <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Line Number</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Symbol</th>
-                                <th scope="col">Credit Hours</th>
-                                <th scope="col">Actions</th>
-                            </tr>
+                                    <th scope="col" class="d-none d-sm-table-cell">#</th>
+                                    <th scope="col">Line Number</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Symbol</th>
+                                    <th scope="col" class="d-none d-sm-table-cell">Credit Hours</th>
+                                    <th scope="col" class="d-none d-sm-table-cell">Actions</th>
+                                    <th scope="col" class="d-table-cell d-sm-none">Act.</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="col" class="d-none d-sm-table-cell"></th>
+                                    <th scope="col" class="d-none d-sm-table-cell"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col" colspan="3" class="text-end text-sm-center"><span>Total Hours: 0</span></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -53,15 +59,15 @@
                     </div>
                 </div>
                 <div class="col-12 row g-2 g-sm-0 m-0 p-2 justify-content-between sticky-sm-top border-1 border-bottom rounded-2 bg-white">
-                    <ul class="nav nav-tabs border-bottom rounded-2 col-auto order-first justify-content-start border-0"
+                    <ul class="nav nav-tabs border-bottom rounded-2 col-12 col-sm-auto order-first justify-content-center justify-content-sm-start border-0"
                     id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="btn nav-link active py-0 h-100" data-bs-toggle="tab" data-bs-target="#all"
+                            <button class="btn btn-outline-primary rounded-start rounded-0 active py-0 h-100" data-bs-toggle="tab" data-bs-target="#all"
                                 type="button">All</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="btn nav-link py-0 h-100" name="Pinned" data-bs-toggle="tab" data-bs-target="#pinned"
-                                type="button">Favorites</button>
+                            <button class="btn btn-outline-primary rounded-end rounded-0 py-0 h-100" name="Pinned" data-bs-toggle="tab" data-bs-target="#pinned"
+                                type="button"><i class="fas fa-heart"></i> Favorites</button>
                         </li>
                     </ul>
                     <div id="tableInput" class="col-12 col-sm-auto d-flex justify-content-between">
@@ -72,13 +78,19 @@
                         </div>
                         <button class="next btn btn-outline-secondary rounded-3 ms-1" name="next"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    <div class="btn-toolbar col-auto order-first order-sm-last justify-content-end">
+                    <div class="btn-toolbar col-12 col-sm-auto order-first order-sm-last justify-content-center justify-content-sm-end">
                             <button id="printBtn" class="btn btn-sm btn-success me-1" disabled><i class="fas fa-print"></i> Print</button>
-                            <button class="btn btn-success text-center me-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#optionsOffcanvas">
-                                Filter 
-                            </button>
-                            <button class="btn btn-sm btn-success" name="Pin"><i class="fas fa-heart"></i> Add to Fav</button>
-                            <button class="btn btn-sm btn-danger" name="Unpin" style="display: none;"><i class="fas fa-heart"></i> Remove from Fav</button>
+                            <div class="btn-group me-1">
+                                <button class="btn btn-success text-center" name="Filter" type="button" data-bs-toggle="offcanvas" data-bs-target="#optionsOffcanvas">
+                                    <i class="fas fa-filter"></i> Filter 
+                                </button>
+                                <button class="hint btn btn-sm btn-outline-success fw-bold fs-6" name="filterTip">?</button>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-success" name="Pin"><i class="fas fa-heart"></i> Add to Fav</button>
+                                <button class="hint btn btn-sm btn-outline-success fw-bold fs-6" name="favTip">?</button>
+                            </div>
+                            <button class="btn btn-sm btn-danger" name="Unpin" style="display: none;"><i class="fas fa-heart-broken"></i> Del. from Fav</button>
                     </div>
                 </div>
                 
@@ -186,7 +198,7 @@
         </div>
         <div class="offcanvas-body">
             <div id="options" class="border rounded-2 col-12 row g-1 m-0 justify-content-center">
-                <div class="option col-12" title="days">
+                <div class="option col-12 border-bottom" title="Days">
                     <h5 class="text-center">Days:</h5>
                     <ul class="ks-cboxtags">
                         <li><input type="checkbox" id="sun" name="sun"><label for="sun">Sun</label></li>
@@ -195,8 +207,11 @@
                         <li><input type="checkbox" id="wed" name="wed"><label for="wed">Wen</label></li>
                         <li><input type="checkbox" id="thu" name="thu"><label for="thu">Thu</label></li>
                     </ul>
+                    <h6 class="text-center">Min Days Number:</h6>
+                    <input type="number" name="daysNum" value="5" max="5" min="1" class="w-25 mx-auto mb-1 text-center fs-6">
+                    <small class="mx-3 text-center" style="font-size: 12px;">*The above two options do not work together</small>
                 </div>
-                <div class="option col-12" title="time">
+                <div class="option col-12 border-bottom" title="Time">
                     <h5 class="text-center ">Hours:</h5>
                     <div class="input-group">
                         <span class="input-group-text px-1">From</span>
@@ -211,6 +226,14 @@
                             <span class="rangeSlider" id="maxSlider"></span>
                         </span>
                     </span>
+                </div>
+                <div class="option col-12 border-bottom" title="SectionsStatus">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="openSections" id="openSectionsCheckbox" checked>
+                      <label class="form-check-label" for="openSectionsCheckbox">
+                        Only Open Sections
+                      </label>
+                    </div>
                 </div>
                 <div class="option col-12" title="generateSchedule">
                     <button type="button"id="genBtn" class="submit btn-sm btn-primary">Apply</button>
@@ -286,13 +309,16 @@
                         <h3>Sections</h3>
                         <table class="table table-striped text-center text-capitalize border border-1">
                             <thead>
-                                <th>Section</th>
+                                <th class="d-none d-sm-table-cell">Section</th>
+                                <th class="d-table-cell d-sm-none">Sec.</th>
                                 <th>Days</th>
                                 <th>Time</th>
                                 <th>Hall</th>
                                 <th>Seat Count</th>
-                                <th>Capacity</th>
-                                <th>Registered</th>
+                                <th class="d-none d-sm-table-cell">Capacity</th>
+                                <th class="d-table-cell d-sm-none">Cap.</th>
+                                <th class="d-none d-sm-table-cell">Registered</th>
+                                <th class="d-table-cell d-sm-none">Reg.</th>
                                 <th>Instructor</th>
                                 <th>Teaching Type</th>
                             </thead>
@@ -306,7 +332,7 @@
         </div>
     </div>
     <div class="toast-container position-fixed bottom-0 end-0 p-3 me-1" style="z-index: 200;">
-        <div class="toast" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true">
+        <div class="toast" role="alert" data-bs-delay="30000" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
               <strong class="me-auto">Tutorial</strong>
               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -314,7 +340,7 @@
             <div class="toast-body">
                 Take a quick tour around <strong>Jadwali</strong>
               <div class="mt-2 pt-2 border-top">
-                <button type="button" class="btn btn-primary btn-sm px-3">Start</button>
+                <button type="button" class="btn btn-primary btn-sm px-3" data-bs-dismiss="toast">Start</button>
               </div>
             </div>
           </div>

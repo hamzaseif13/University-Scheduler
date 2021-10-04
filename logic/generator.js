@@ -9,6 +9,9 @@ function generate(sections,opt) {
 }
 function generateSchedules(sets) {
   const copy = [...sets];
+  copy.sort((a,b)=>{
+    return b.length - a.length;
+  });
   function addSet(mainSet, set) {
     const arr = [];
     if (mainSet.length == 0) mainSet.push([]);
@@ -62,8 +65,8 @@ function generateSchedules(sets) {
     result = addSet(result, set);
     result = filterSchedule(result, ...options);
     sortByScore(result);
-    if(result.length > 10000)
-      result = result.slice(0,10000);
+    if(result.length > 1000)
+      result = result.slice(0,1000);
     if (result.length === 0)
       return [];
   }
@@ -176,7 +179,14 @@ function filterSchedule(list) {
       }
     }
 
-    if (!invalidSchedule) {
+    let numberOfDays = 0;
+    if(sun.length)numberOfDays++;
+    if(mon.length)numberOfDays++;
+    if(tue.length)numberOfDays++;
+    if(wed.length)numberOfDays++;
+    if(thu.length)numberOfDays++;
+
+    if (!invalidSchedule && numberOfDays <= options[1]) {//options[1] -> daysNum (user)
       filteredArray.push(list[j]);
     }
     // if schedule is not invalid add it to filteredArray
@@ -203,7 +213,8 @@ function checkInterSection(sec1, sec2) {
 function filterSet(set){
     const filteredArray = [];
     
-    let daysString=options[0],dayStart=options[1],dayEnd=options[2];
+    
+    let daysString=options[0],dayStart=options[2],dayEnd=options[3],openSectionsFlag = options[4];
   
     daysString = daysString.toLowerCase();
   
@@ -224,12 +235,18 @@ function filterSet(set){
         invalid = true;
         continue;
       }
+
+      if(openSectionsFlag){
+        invalid = parseInt(sec.capacity) <= parseInt(sec.registered);
+      }
+
+      
   
       if(!invalid)
         filteredArray.push(set[i]);
     }
     return filteredArray;
-  }
+}
 
 function calcScore(schedule){
     const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Sat"];

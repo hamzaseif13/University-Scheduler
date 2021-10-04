@@ -2,21 +2,21 @@
     <section class="login-clean" style="background: rgb(108,117,125);">
         <form  style="max-width: 520px;border: 1px none var(--bs-blue);">
             <h2 class="visually-hidden">Login Form</h2>
-            <h1 style="margin-top: -11px;margin-bottom: 32px;margin-left: 0px;">Settings&nbsp;</h1>
-            <h5 style="margin-top: 5px;">Name</h5><input class="form-control" type="text" name="name"
+            <h1 style="margin-top: -11px;margin-bottom: 32px;margin-left: 0px;"><i class="fas fa-cog"></i> Settings&nbsp;</h1>
+            <h5 style="margin-top: 5px;"><i class="far fa-user"></i> Name </i></h5><input class="form-control" type="text" name="name"
                 style="border-radius: 5px;border: 1px solid #a8abaf;border-bottom-style: solid;border-bottom-color: #a8abaf;margin-top: 10px;"
                 value="<%- user.name %> ">
                 <div class="name error"></div>
-            <h5 style="margin-top: 5px;">Email</h5><input class="form-control" disabled type="email" name="email"
+            <h5 style="margin-top: 5px;"><i class="far fa-envelope"></i> Email </h5><input class="form-control" disabled type="email" name="email"
                 placeholder="Password"
                 style="border-radius: 5px;border: 1px solid #a8abaf;border-bottom-style: solid;border-bottom-color: #a8abaf;margin-top: 10px;"
                 value="<%- user.email %>">
             <div class="mb-3"></div>
-            <h3 style="margin-top: 47px;">Change you're password</h3><input class="form-control" type="password"
-                name="oldPass" placeholder="Old password"
+            <h4 style="margin-top: 47px;"><i class="fas fa-key"></i> Change your Password </h4><input class="form-control" type="password"
+                name="oldPass" placeholder="Old Password"
                 style="border-radius: 5px;border: 1px solid #a8abaf;border-bottom-style: solid;border-bottom-color: #a8abaf;margin-top: 10px;">
             <div class="mb-3">
-                <input class="form-control" type="password" name="newPass1" placeholder="New password"
+                <input class="form-control" type="password" name="newPass1" placeholder="New Password"
                     style="border-radius: 5px;border: 1px solid #a8abaf;border-bottom-style: solid;border-bottom-color: #a8abaf;margin-top: 18px;">
                 <input class="form-control" type="password" name="newPass2" placeholder="Repeat Password"
                     style="border-radius: 5px;border: 1px solid #a8abaf;border-bottom-style: solid;border-bottom-color: #a8abaf;margin-top: 10px;margin-bottom: -27px;">
@@ -24,7 +24,7 @@
             <div class="password error"></div>
             <div class="d-flex justify-content-end">
                 <a class="btn btn-primary" href="/" style="margin-right: 10px;width: 90px;background: rgb(108,117,125);">Cancel</a>
-                <button class="btn btn-primary" type="submit" style="width: 90px;">Save</button>
+                <button class="btn btn-primary" type="submit" style="width: 90px;"><i class="fas fa-save pe-2"></i>Save</button>
             </div>
         </form>
     </section>
