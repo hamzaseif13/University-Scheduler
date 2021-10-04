@@ -168,6 +168,11 @@ const options = {},
   },
   coursesTable = {
     body: undefined,
+    modal:{
+      courseTbody: undefined,
+      sectionsTbody: undefined,
+      bootstrapModal: undefined
+    },
     counter: 0,
     cardsNum: [],
     coursesNum: [],
@@ -183,9 +188,9 @@ const options = {},
       copy.symbol = course.symbol;
       copy.creditHours = course.creditHours;
       copy.lineNumber = course.lineNumber
-      // copy.faculty = course.faculty
-      // copy.department = course.department
-      // copy.sections = course.sections
+      copy.faculty = course.faculty
+      copy.department = course.department
+      copy.sections = course.sections
 
       const row = htmlCreator("tr", this.body);
 
@@ -197,8 +202,9 @@ const options = {},
       htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
       htmlCreator("td", row, "", "", copy.creditHours);
       
-      const deleteBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-outline-danger", `<i class="fas fa-trash-alt"></i>`);
-      // const detailsBtn = htmlCreator("button",htmlCreator("td", row), "", "btn btn-danger", `<i class="fas fa-info"></i>`);
+      const actionCol = htmlCreator("td", row);
+      const deleteBtn = htmlCreator("button",actionCol, "", "btn btn-outline-danger me-1", `<i class="fas fa-trash-alt"></i>`);
+      const detailsBtn = htmlCreator("button",actionCol, "", "btn btn-outline-info", `<i class="fas fa-info"></i>`);
       
 
       deleteBtn.addEventListener("click", function(){
@@ -214,6 +220,29 @@ const options = {},
         app._removeCourseFunction(course.lineNumber);
         updateGenerated();
       });
+      detailsBtn.addEventListener("click", function(){
+        self.modal.bootstrapModal.show();
+        const row = htmlCreator("tr", self.modal.courseTbody);
+        htmlCreator("td", row, "", "", copy.faculty);
+        htmlCreator("td", row, "", "", copy.department);
+        htmlCreator("td", row, "", "", copy.lineNumber);
+        htmlCreator("td", row, "", "", copy.name.toLowerCase());
+        htmlCreator("td", row, "", "", copy.symbol.toUpperCase());
+        htmlCreator("td", row, "", "", copy.creditHours);
+
+        for (const sec of copy.sections) {
+          const row = htmlCreator("tr", self.modal.sectionsTbody);
+          htmlCreator("td", row, "", "", sec.sectionNumber);
+          htmlCreator("td", row, "", "", sec.days);
+          htmlCreator("td", row, "", "", sec.time);
+          htmlCreator("td", row, "", "", sec.hall);
+          htmlCreator("td", row, "", "", sec.seatCount);
+          htmlCreator("td", row, "", "", sec.capacity);
+          htmlCreator("td", row, "", "", sec.registered);
+          htmlCreator("td", row, "", "", sec.instructor);
+          htmlCreator("td", row, "", "", sec.teachingType);
+        }
+      })
     }
   },
   tutorialToast = {
@@ -458,6 +487,10 @@ async function updateGenerated(){
     });
 
     coursesTable.body = document.querySelector("#coursesTable tbody");
+    const courseDetailsModal = document.querySelector("#courseDetailsModal");
+    coursesTable.modal.courseTbody = courseDetailsModal.querySelector("tbody");
+    coursesTable.modal.sectionsTbody = courseDetailsModal.querySelectorAll("tbody")[1];
+    coursesTable.modal.bootstrapModal = new bootstrap.Modal(courseDetailsModal, {keyboard: false});
 
     const toast = document.querySelector(".toast");
     tutorialToast.elem = toast;

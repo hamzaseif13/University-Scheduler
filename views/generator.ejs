@@ -8,7 +8,7 @@
                 <div class="option col-12" title="search">
                     <input type="text" name="searchval" maxlength="50" class="" placeholder="Search for Courses, example: math101, calculus, 901010, ... " style="height: 40px;">
                     <div class="position-relative border-0 m-0 p-0" style="height: 0!important;">
-                        <ul class="dropdown-menu overflow-auto w-100" title = "Add Course">
+                        <ul class="dropdown-menu overflow-auto w-100" style="z-index: 1500;" title = "Add Course">
                             <li class="dropdown-item w-100 d-flex align-items-center">
                                 <strong>Loading...</strong>
                                 <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
@@ -254,6 +254,53 @@
                             <span class="position-absolute"><i class="fas fa-chevron-right" aria-hidden="true"></i></span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="courseDetailsModal">
+        <div class="modal-dialog modal-fullscreen modal-dialog-centered mh-100">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Details</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" tabindex="-1">
+                    <!-- <div class="d-flex"> -->
+                        <h3>Course Details</h3>
+                        <table class="table table-striped text-center text-capitalize border border-1">
+                            <thead>
+                                <tr>
+                                    <th>Faculty</th>
+                                    <th>Department</th>
+                                    <th>Line Number</th>
+                                    <th>Course Name</th>
+                                    <th>Course Symbol</th>
+                                    <th>Credit Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <h3>Sections</h3>
+                        <table class="table table-striped text-center text-capitalize border border-1">
+                            <thead>
+                                <th>Section</th>
+                                <th>Days</th>
+                                <th>Time</th>
+                                <th>Hall</th>
+                                <th>Seat Count</th>
+                                <th>Capacity</th>
+                                <th>Registered</th>
+                                <th>Instructor</th>
+                                <th>Teaching Type</th>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
