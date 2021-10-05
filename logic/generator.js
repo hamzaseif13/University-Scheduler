@@ -236,8 +236,8 @@ function filterSet(set){
         continue;
       }
 
-      if(openSectionsFlag){
-        invalid = parseInt(sec.capacity) <= parseInt(sec.registered);
+      if(openSectionsFlag && parseInt(sec.capacity) <= parseInt(sec.registered)){
+        invalid = true;
       }
 
       

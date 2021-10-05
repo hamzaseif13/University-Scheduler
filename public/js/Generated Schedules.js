@@ -520,10 +520,10 @@ function displaySchedule() {
     if (
       table.pinnedTable.searchScheduleIndex(activeTable.activeSchedule) != -1
     ) {
-      table.pinBtn.style.display = "none";
-      table.unpinBtn.style.display = "block";
+      table.pinBtn.parentNode.style.display = "none";
+      table.unpinBtn.style.display = "";
     } else {
-      table.pinBtn.style.display = "block";
+      table.pinBtn.parentNode.style.display = "";
       table.unpinBtn.style.display = "none";
     }
   }
