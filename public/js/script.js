@@ -217,8 +217,8 @@ const options = {},
         self.cardsNum.splice(num.innerText - 1, 1);
         this.parentNode.parentNode.parentNode.remove();
         self.counter--;
-        this.totalHours -= parseInt(copy.creditHours);
-        this.totalHoursSpan.innerText = "Total Hours: " + this.totalHours;
+        self.totalHours -= parseInt(copy.creditHours);
+        self.totalHoursSpan.innerText = "Total Hours: " + self.totalHours;
 
         for(let i=0; i<self.counter; i++){
           self.cardsNum[i].innerHTML = i+1;
@@ -263,6 +263,7 @@ const options = {},
   hintBtns = [];
 let oldCoursesLength = 0;
 let changeFilter = false;
+// let iframeElem;
 
 function updateModal(
   arr,
@@ -471,7 +472,7 @@ async function updateGenerated(){
     table.pinnedBody = t.querySelector("#pinned .timeTable");
     [table.dragLeft , table.dragRight] = t.querySelectorAll(".dragArrow");
     
-    let tableBtns = t.querySelectorAll(".btn");
+    let tableBtns = document.querySelectorAll("#table > .row .btn");
     for (const btn of tableBtns) {
       let opName = btn.name || btn.innerText;
       opName = opName.trim();
@@ -526,6 +527,8 @@ async function updateGenerated(){
     tutorialToast.bootstrapToast.show();
 
     hintBtns.push(...document.querySelectorAll(".hint"));
+
+//     iframeElem = document.querySelector("iframe");
 })();
 (function addEvents() {
   { //options events
@@ -856,6 +859,7 @@ async function updateGenerated(){
     cousresModal.selected = [];
   });
   document.body.addEventListener("keydown", function (event) {
+//     console.log(iframeElem.contentWindow.document);
     if (event.key === "Escape") {
       cousresModal.bootstrapModal.hide();
       coursesDropmenu.hide();
