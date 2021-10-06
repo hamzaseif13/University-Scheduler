@@ -255,6 +255,26 @@ body{
     font-size: var(--dynamic-fs);
     /* color: #000000b0; */
 }
+.timeTable .tableCol .card-header{
+    transition: all 0.3s ease-in-out;
+    z-index: 90;
+    bottom: 0;
+    opacity: 0;
+}
+.timeTable .tableCol .card-body{
+    background: inherit;
+    z-index: 0;
+    transition: z-index;
+    transition-delay: 0.3s;
+}
+.timeTable .tableCol .card:hover .card-header{
+    bottom: 100%;
+    opacity: 1;
+}
+.timeTable .tableCol .card:hover .card-body{
+    transition-delay: 0s;
+    z-index: 100;
+}
 @media only screen and (min-width: 576px) {
     .timeTable .tableCol{
         font-size: var(--dynamic-fs-l);

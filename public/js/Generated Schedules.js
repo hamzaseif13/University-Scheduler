@@ -68,12 +68,25 @@ class TimeTable {
       }
     }
     for (const clone of clones) {
+      const btns = clone.querySelectorAll(".card-header .btn");
+
       clone.addEventListener("click", (event) => {
         this.#activeGroupIndex = groupIndex;
         if (event.target.className.includes("dropdown-item")) {
           const secNum = event.target.innerHTML.replace("Sec: ", "");
           this.changeActiveSec(secNum);
-        } else if (!event.target.className.includes("badge")) {
+        }
+        else if(btns[0].contains(event.target)){
+          navigator.clipboard.writeText(secGroup[0].course.lineNumber);
+          const tooltip = new bootstrap.Tooltip(btns[0],{
+            title: "Line Number Copied!"
+          })
+          tooltip.show();
+          btns[0].addEventListener("hidden.bs.tooltip", ()=>{tooltip.dispose();}, {once:true})
+
+          setTimeout(()=>{tooltip.hide();}, 5000);
+        }
+        else if(btns[1].contains(event.target)){
           this.displaySectionDetails();
         }
       });
@@ -101,7 +114,7 @@ class TimeTable {
       });
     secGroup.activeSecIndex = activeSecIndex;
     const cardsBody = secGroup.cards.map((val) => {
-      return val.querySelector(".cardBody");
+      return val.querySelector(".card-body");
     });
     for (const cardBody of cardsBody) {
       cardBody.querySelector("p").innerHTML =
@@ -182,48 +195,58 @@ class TimeTable {
       "div",
       "",
       "",
-      "dropend card text-center w-100 overflow-visible fw-bold"
+      "card text-center w-100 overflow-visible fw-bold position-absolute"
     );
-    card.style.position = "absolute";
     card.style.height =
       this.cellHeight * sections[0].timeObj.delta().totalHours + "px";
     card.style.top =
       this.cellHeight * (sections[0].timeObj.start.totalHours - 8) + "px";
 
-    let colIndex = 0;
+    let colorIndex = 0;
     let str = sections[0].course.name;
     str += sections[0].course.lineNumber;
     str += sections[0].course.symbol;
     for (let i = 0; i < str.length; i++) {
       let a = parseInt(str[i].charCodeAt());
       if (isNaN(a)) a = i;
-      colIndex += 2 * a;
+      colorIndex += 2 * a;
     }
-    card.style.backgroundColor = colors.array[colIndex % colors.array.length];
-    card.style.cursor = "pointer";
-    card.title = "Show Details";
+    card.style.backgroundColor = colors.array[colorIndex % colors.array.length];
+    
+    const cardHeader = htmlCreator("div", card, "", "card-header position-absolute w-100 bg-light border d-none d-sm-block p-0");
+    const btnsRow = htmlCreator("div", cardHeader, "", "row g-1 m-0 pb-1 text-center");
+    const copyDiv = htmlCreator("div", btnsRow, "", "col");
+    copyDiv.title="Copy Line Number";
+    htmlCreator("button", copyDiv, "", "btn btn-primary btn-sm m-auto w-100", `<i class="far fa-clipboard"></i>`)
+    const detailsDiv = htmlCreator("div", btnsRow, "", "col");
+    detailsDiv.title="Section Details";
+    htmlCreator("button", detailsDiv, "", "btn btn-primary btn-sm m-auto w-100", `<i class="fas fa-info"></i>`)
+    const pinDiv = htmlCreator("div", btnsRow, "", "col");
+    detailsDiv.title="Pin Section";
+    htmlCreator("button", pinDiv, "", "btn btn-primary btn-sm m-auto w-100 disabled", `<i class="fas fa-thumbtack"></i>`)
 
-    let cardBody = htmlCreator("div", card, "", "m-auto cardBody overflow-hidden");
-    // cardBody.style.fontSize = "x-small";
-    const tElem = htmlCreator("time", cardBody, "", "", sections[0].timeObj.string());
-    const dElem = htmlCreator("div", cardBody, "", "", sections[0].course.symbol);
-    const pElem = htmlCreator("p", cardBody, "", "m-0 p-0", "Sec: " + sections[0].sectionNumber);
-    // htmlCreator("div", cardBody, "", "", sections[0].timeObj.string());
+    const similarSecDiv = htmlCreator("div", btnsRow, "", "col dropend");
+    similarSecDiv.title="Similar Sections";
+    const similarSecBtn = htmlCreator("button", similarSecDiv, "", "btn btn-primary btn-sm m-auto w-100", `<i class="fas fa-list-ul"></i>`)
+    similarSecBtn.setAttribute("data-bs-toggle", "dropdown");
+
+
+    const cardBody = htmlCreator("div", card, "", "card-body d-flex overflow-hidden p-0");
+    const dataDiv = htmlCreator("div", cardBody, "", "m-auto");
+    const tElem = htmlCreator("time", dataDiv, "", "", sections[0].timeObj.string());
+    const dElem = htmlCreator("div", dataDiv, "", "", sections[0].course.symbol);
+    const pElem = htmlCreator("p", dataDiv, "", "m-0 p-0", "Sec: " + sections[0].sectionNumber);
 
     if (sections.length > 1) {
       let badge = htmlCreator(
         "span",
-        card,
+        similarSecBtn,
         "",
-        "dropdown-toggle btn position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger dynamic-fs-s",
+        "badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle",
         sections.length
       );
-      badge.style.zIndex = 100;
-      badge.setAttribute("data-bs-toggle", "dropdown");
-      badge.title = "Similar Sections";
-      badge.style.fontSize = "small";
 
-      let list = htmlCreator("ul", card, "", "dropdown-menu");
+      let list = htmlCreator("ul", similarSecDiv, "", "dropdown-menu");
       list.title = "Change Section";
       list.style.minWidth = "fit-content";
 
@@ -237,12 +260,15 @@ class TimeTable {
         );
       }
     }
+    else{
+      similarSecDiv.remove();
+    }
 
     return {
       card,
       checkOverflow(){
-        if(cardBody.offsetHeight < tElem.offsetHeight + dElem.offsetHeight + pElem.offsetHeight || 
-          card.offsetWidth < cardBody.offsetWidth
+        if(cardBody.offsetHeight < dataDiv.offsetHeight || 
+          card.offsetWidth < cardBody.offsetWidth //need check
           ){
           tElem.style.display = "none";
         }

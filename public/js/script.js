@@ -472,7 +472,7 @@ async function updateGenerated(){
     table.pinnedBody = t.querySelector("#pinned .timeTable");
     [table.dragLeft , table.dragRight] = t.querySelectorAll(".dragArrow");
     
-    let tableBtns = t.querySelectorAll(".btn");
+    let tableBtns = document.querySelectorAll("#table > .row .btn");
     for (const btn of tableBtns) {
       let opName = btn.name || btn.innerText;
       opName = opName.trim();
