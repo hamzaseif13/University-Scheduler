@@ -483,7 +483,7 @@ async function updateGenerated(){
     table.unpinBtn.style.display = "none";
 
     const secModal = document.getElementById("sectionModal");
-    sectionModal.body = secModal.querySelector(".modal-body .col-10");
+    sectionModal.body = secModal.querySelector(".modal-body .col-12");
     sectionModal.next = secModal.querySelector(".modal-body .next");
     sectionModal.prev = secModal.querySelector(".modal-body .prev");
     sectionModal.title = secModal.querySelector(".modal-title");
