@@ -77,17 +77,13 @@ class TimeTable {
           this.changeActiveSec(secNum);
         }
         else if(btns[0].contains(event.target)){
-          navigator.clipboard.writeText(secGroup[0].course.lineNumber);
-          const tooltip = new bootstrap.Tooltip(btns[0],{
-            title: "Line Number Copied!"
-          })
-          tooltip.show();
-          btns[0].addEventListener("hidden.bs.tooltip", ()=>{tooltip.dispose();}, {once:true})
-
-          setTimeout(()=>{tooltip.hide();}, 5000);
+          this.#copyLineNumber(btns[0]);
         }
         else if(btns[1].contains(event.target)){
           this.displaySectionDetails();
+        }
+        else if(event.target.id === "offcanvasToggle"){
+          this.#openOffcanvasToolbar();
         }
       });
     }
@@ -101,6 +97,15 @@ class TimeTable {
         return this._index;
       },
       _index: 0,
+    });
+  }
+  #copyLineNumber(elem){
+    const secGroup = this.#sectionGroups[this.#activeGroupIndex];
+    const sec = secGroup.arr[0];
+    navigator.clipboard.writeText(sec.course.lineNumber).then(function() {
+      addTooltip(elem, "Line Number Copied!");
+    }, function() {
+      addTooltip(elem, "Copy Failed!");
     });
   }
   changeActiveSec(activeSecNum, activeSecIndex = "") {
@@ -185,10 +190,126 @@ class TimeTable {
       '<span class="h6">Credit Hours:</span> ' + sec.course.creditHours
     );
     this.#modal.title.innerHTML = `Section ${this.activeGroup.activeSecIndex + 1
-      } of ${this.activeGroup.arr.length}`;
+      } of ${this.activeGroup.arr.length} <small class="text-muted fs-6 fw-normal">(of similar sections)</small>`;
     this.#modal.body.innerHTML = "";
     this.#modal.body.appendChild(col);
     this.#modal.bootstrapModal.show();
+  }
+  #openOffcanvasToolbar(){
+    const secGroup = this.#sectionGroups[this.#activeGroupIndex];
+    const sections = secGroup.arr;
+
+    const offcanvas = htmlCreator("div", document.body, "bottom-toolbar", "offcanvas offcanvas-bottom");
+    offcanvas.style.height = "fit-content";
+    // const offcanvasBody = htmlCreator("div", offcanvas);
+    const offcanvasBody = htmlCreator("div", offcanvas, "", "offcanvas-body row row-cols-1 g-0 p-0");
+
+    const copyBtn = htmlCreator("div", offcanvasBody, "", "col bg-light", `
+    <div class="row g-0">
+        <div class="col-2 text-center align-self-center"><i class="far fa-clipboard fs-1"></i></div>
+        <div class="col">
+            <div class="card border-0 bg-transparent">
+                <div class="card-body">
+                    <h4 class="card-title">Copy Line Number</h4>
+                    <h6 class="text-muted card-subtitle mb-2">Copy <i>Course Line Number</i> to clipboard</h6>
+                </div>
+            </div>
+        </div>
+    </div>`);
+    const detailsBtn = htmlCreator("div", offcanvasBody, "", "col bg-light", `
+    <div class="row g-0">
+        <div class="col-2 text-center align-self-center"><i class="fas fa-info fs-1"></i></div>
+        <div class="col">
+            <div class="card border-0 bg-transparent">
+                <div class="card-body">
+                    <h4 class="card-title">Section Details</h4>
+                    <h6 class="text-muted card-subtitle mb-2">View the details of the section</h6>
+                </div>
+            </div>
+        </div>
+    </div>`);
+    const pinBtn = htmlCreator("div", offcanvasBody, "", "col bg-light disabled", `
+    <div class="row g-0">
+        <div class="col-2 text-center align-self-center"><i class="fas fa-thumbtack fs-1"></i></div>
+        <div class="col">
+            <div class="card border-0 bg-transparent">
+                <div class="card-body">
+                    <h4 class="card-title">Pin Section</h4>
+                    <h6 class="text-muted card-subtitle mb-2">Pin section in place</h6>
+                </div>
+            </div>
+        </div>
+    </div>`);
+    if (sections.length > 1) {
+      const similarSecBtn = htmlCreator("div", offcanvasBody, "", "col bg-light dropup", `
+      <div class="row g-0">
+          <div class="col-2 text-center align-self-center"><i class="fas fa-list-ul fs-1"></i></div>
+          <div class="col">
+              <div class="card border-0 bg-transparent">
+                  <div class="card-body">
+                      <h4 class="card-title">Similar Sections</h4>
+                      <h6 class="text-muted card-subtitle mb-2">Switch between sections with the same <i>Time</i> but different <i>Instructor/Hall</i></h6>
+                  </div>
+              </div>
+          </div>
+          <div class="col-2 align-self-center"><span class="badge bg-danger fs-6">${sections.length}</span></div>
+      </div>`);
+      let sectionsElem = "";
+      for (let i = 0; i < sections.length; i++) {
+        sectionsElem += 
+        `<div class="list-group-item btn btn-light">
+          <h4>Section ${sections[i].sectionNumber}</h4>
+        </div>
+        `
+      }
+      const modalElem = htmlCreator("div", document.body, "", "modal fade", 
+      `<div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <ul class="list-group text-center">
+              ${sectionsElem}
+            </ul>
+          </div>
+        </div>
+      </div>`);
+
+      const modalObj = new bootstrap.Modal(modalElem);
+
+      similarSecBtn.addEventListener("click", ()=>{modalObj.show()},{once:true});
+      const secBtns = modalElem.querySelectorAll("ul .btn");
+      for (const btn of secBtns) {
+        btn.addEventListener("click", ()=>{
+          const secNum = btn.innerText.replace("Section ", "");
+          this.changeActiveSec(secNum);
+          modalObj.hide();
+        });
+      }
+      
+      modalElem.addEventListener("hidden.bs.modal",()=>{
+        modalObj.dispose();
+        modalElem.remove();
+      }, {once:true});
+    }
+
+    const offcanvasObj = new bootstrap.Offcanvas(offcanvas);
+    offcanvasObj.show();
+
+    offcanvas.addEventListener("click", (event)=>{
+      if(copyBtn.contains(event.target)){
+        this.#copyLineNumber(copyBtn);
+      }
+      else if(detailsBtn.contains(event.target)){
+        this.displaySectionDetails();
+      }
+      else if(pinBtn.contains(event.target)){
+        alert("pin in development");
+      }
+      offcanvasObj.hide();
+    });
+    offcanvas.addEventListener("hidden.bs.offcanvas",()=>{
+      offcanvasObj.dispose();
+      offcanvas.remove();
+    }, {once:true});
   }
   #generateHTMLSectionCard(sections) {
     let card = htmlCreator(
@@ -222,7 +343,7 @@ class TimeTable {
     detailsDiv.title="Section Details";
     htmlCreator("button", detailsDiv, "", "btn btn-primary btn-sm m-auto w-100", `<i class="fas fa-info"></i>`)
     const pinDiv = htmlCreator("div", btnsRow, "", "col");
-    detailsDiv.title="Pin Section";
+    pinDiv.title="Pin Section";
     htmlCreator("button", pinDiv, "", "btn btn-primary btn-sm m-auto w-100 disabled", `<i class="fas fa-thumbtack"></i>`)
 
     const similarSecDiv = htmlCreator("div", btnsRow, "", "col dropend");
@@ -236,6 +357,13 @@ class TimeTable {
     const tElem = htmlCreator("time", dataDiv, "", "", sections[0].timeObj.string());
     const dElem = htmlCreator("div", dataDiv, "", "", sections[0].course.symbol);
     const pElem = htmlCreator("p", dataDiv, "", "m-0 p-0", "Sec: " + sections[0].sectionNumber);
+
+    const offcanvasToggle = htmlCreator("a", card, "offcanvasToggle", "position-absolute top-0 start-0 w-100 h-100 d-sm-none");
+    offcanvasToggle.style.zIndex = 200;
+    
+    
+
+    
 
     if (sections.length > 1) {
       let badge = htmlCreator(
@@ -689,3 +817,12 @@ export default {
   getActiveTable,
 };
 export { ScheduleGroup };
+
+function addTooltip(elem, text, hideDelay = 1000){
+  const tooltip = new bootstrap.Tooltip(elem,{
+    title: text
+  })
+  tooltip.show();
+  setTimeout(()=>{tooltip.hide();}, hideDelay);
+  elem.addEventListener("hidden.bs.tooltip", ()=>{tooltip.dispose();}, {once:true})
+}

@@ -299,6 +299,16 @@ body{
 
     font-size: 30px;
 }
+#bottom-toolbar .offcanvas-body > .col{
+    cursor: pointer;
+}
+#bottom-toolbar .offcanvas-body > .col.disabled{
+    pointer-events: none;
+    opacity: .65;
+}
+#bottom-toolbar .offcanvas-body > .col:hover{
+    background-color: var(--bs-gray-300) !important;
+}
 /* #sectionModal .modal-body .col-1 span .next{
     right: 0;
 }
