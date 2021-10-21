@@ -36,32 +36,32 @@
 body{
     margin: 0;
     padding: 0;
-    overflow: hidden;
 }
 #container{
     width: var(--container-width);
-    height: calc(100vh - 56px);
-
-    min-width: 100vw;
+    
+    min-height: calc(100vh - 56px);
+    min-width: 100%;
+    max-width: 100%;
     
     margin: 0;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
     border: 0;
+    background-color: #ffffff;
     align-items: center;
     overflow-x: hidden;
 
-    position: absolute;
-    top: 56px;
-    right: 0;
-    
-    transition-duration: 0.3s;
-    transition-property: width;
-    transition-timing-function: ease-in-out;
+    position: relative;
+    left: calc(100vw - var(--container-width));
 
-    /* display: flex;
-    flex-direction: column; */
+    transition-duration: 0.3s;
+    transition-property: width left;
+    transition-timing-function: ease-in-out;
 }
 @media only screen and (min-width: 800px) {
     #container{
+        background-color: #ffc107;
         min-width: 0;
     }
 }

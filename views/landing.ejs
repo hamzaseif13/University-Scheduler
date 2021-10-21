@@ -1,8 +1,9 @@
 <%- include("partials/header")%>
-    <div class="row g-0 m-0 border-0 align-items-center position-absolute start-0 justify-content-center bg-warning vw-100" tabindex="-1" style="height: calc(100vh - 56px);top: 56px;overflow-x: hidden;">
+    <div class="row g-0 m-0 border-0 align-items-center justify-content-center bg-warning w-100" tabindex="-1" style="height: calc(100vh - 56px);overflow-x: hidden;">
         <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3" style="background-color: #ffffff65;">
             <div class="col-12 row g-0 my-5">
-                <h1 class="col-12 text-center mb-3 px-3">Hi! This is Your University Schedule Generator</h1>
+                <h1 class="col-12 text-center mb-1 px-3">Welcome to Jadwali</h1>
+                <h4 class="col-12 text-center text-muted mb-2 px-3">Your University Schedule Generator</h4>
                 <div class="col-12 d-flex flex-column align-items-center">
                     <%if (user){%>
                         <h4 class="text-center">
@@ -16,6 +17,70 @@
                     <%}%>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row g-0 px-lg-5 py-5 justify-content-center">
+        <div class="col-12 col-md-4 col-xl-3 px-2 d-flex justify-content-center">
+            <div class="card text-center border-0" style="max-width: 300px;">
+                <span class="m-0 p-3 text-primary"><i class="fas fa-calendar-alt fa-4x"></i></span>
+                <div class="card-body pt-0">
+                  <h3 class="card-title">Card title</h3>
+                  <p class="card-text fs-5">Some quick example text to build on the card's content.</p>
+                </div>
+              </div>
+        </div>
+        <div class="col-12 col-md-4 col-xl-3 px-2 d-flex justify-content-center">
+            <div class="card text-center border-0" style="max-width: 300px;">
+                <span class="m-0 p-3 text-primary"><i class="fas fa-calendar-alt fa-4x"></i></span>
+                <div class="card-body pt-0">
+                  <h3 class="card-title">Card title</h3>
+                  <p class="card-text fs-5">Some quick example text to build on the card's content.</p>
+                </div>
+              </div>
+        </div>
+        <div class="col-12 col-md-4 col-xl-3 px-2 d-flex justify-content-center">
+            <div class="card text-center border-0" style="max-width: 300px;">
+                <span class="m-0 p-3 text-primary"><i class="fas fa-calendar-alt fa-4x"></i></span>
+                <div class="card-body pt-0">
+                  <h3 class="card-title">Card title</h3>
+                  <p class="card-text fs-5">Some quick example text to build on the card's content.</p>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="row g-0 px-lg-5 py-5 justify-content-center">
+        <div class="col-12 text-center pb-5">
+            <h1>Developers</h1>
+        </div>
+        <div class="col-12 col-md-4 col-xl-3 px-2 d-flex justify-content-center">
+            <div class="card text-center border-0" style="max-width: 300px;">
+                <img src="./imgs/Mohammad.jpg" class="card-img-top rounded-circle p-5 py-1" alt="Mohammad Saad">
+                <div class="card-body pt-0">
+                  <h3 class="card-title">Mohammad Saad</h3>
+                  <p class="card-text fs-5">Frontend Developer</p>
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a href="#"><i class="fa fa-facebook fa-lg fa-fw"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="far fa-envelope fa-lg fa-fw"></i></a></li>
+                    <!-- <li class="list-inline-item"><a href="#"><i class="fa fa-twitter fa-2x fa-fw"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fa fa-instagram fa-2x fa-fw"></i></a></li> -->
+                  </ul>
+                </div>
+              </div>
+        </div>
+        <div class="col-12 col-md-4 col-xl-3 px-2 d-flex justify-content-center">
+            <div class="card text-center border-0" style="max-width: 300px;">
+                <img src="./imgs/Hamza.jpg" class="card-img-top rounded-circle p-5 py-1" alt="Mohammad Saad">
+                <div class="card-body pt-0">
+                  <h3 class="card-title">Hamza Sief</h3>
+                  <p class="card-text fs-5">Backend Developer</p>
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a href="#"><i class="fa fa-facebook fa-lg fa-fw"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="far fa-envelope fa-lg fa-fw"></i></a></li>
+                    <!-- <li class="list-inline-item"><a href="#"><i class="fa fa-twitter fa-2x fa-fw"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fa fa-instagram fa-2x fa-fw"></i></a></li> -->
+                  </ul>
+                </div>
+              </div>
         </div>
     </div>
 <%- include("partials/footer")%>

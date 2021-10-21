@@ -201,7 +201,7 @@ class TimeTable {
 
     const offcanvas = htmlCreator("div", document.body, "bottom-toolbar", "offcanvas offcanvas-bottom");
     offcanvas.style.height = "fit-content";
-    // const offcanvasBody = htmlCreator("div", offcanvas);
+    offcanvas.style.height = "-moz-fit-content";
     const offcanvasBody = htmlCreator("div", offcanvas, "", "offcanvas-body row row-cols-1 g-0 p-0");
 
     const copyBtn = htmlCreator("div", offcanvasBody, "", "col bg-light", `
@@ -241,7 +241,7 @@ class TimeTable {
         </div>
     </div>`);
     if (sections.length > 1) {
-      const similarSecBtn = htmlCreator("div", offcanvasBody, "", "col bg-light dropup", `
+      const similarSecBtn = htmlCreator("div", offcanvasBody, "", "col bg-light", `
       <div class="row g-0">
           <div class="col-2 text-center align-self-center"><i class="fas fa-list-ul fs-1"></i></div>
           <div class="col">
