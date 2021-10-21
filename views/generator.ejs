@@ -1,8 +1,8 @@
 <%- include("partials/header")%>
 <link rel="stylesheet" href="./css/style2.css" />
-<div class="cover hidden" aria-label="Main Cover"></div>
+<div class="cover hidden" aria-label="Main Cover" data-name="Main Cover"></div>
 
-    <div id="container" class="row g-0 justify-content-center bg-warning" tabindex="-1">
+    <div id="container" class="row g-0 justify-content-center" tabindex="-1">
         <div class="col col-md-11 col-lg-10 col-xl-9 row g-0 bg-white rounded-3">
             <div class="col-12 row gx-2 gy-2 gy-md-0 mx-0 mt-3 p-1  justify-content-center">
                 <!-- <button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" data-bs-target="#captchaModal">
@@ -107,7 +107,7 @@
                     </div>
                     <div class="h-100 tab-content" id="myTabContent">
                         <div class="tab-pane fade h-100 show active" id="all">
-                            <div class="timeTable row row-cols-6 g-0 py-2 px-3">
+                            <div class="timeTable row row-cols-6 g-0 py-2 px-3 justify-content-center">
                                 <div class="col-1"></div>
                                 <div class="tableHead border-end border-start d-none d-sm-block">Sunday</div>
                                 <div class="tableHead border-end border-start dynamic-fs-l d-block d-sm-none">Sun</div>
@@ -117,9 +117,8 @@
                                 <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Tue</div>
                                 <div class="tableHead border-end d-none d-sm-block">Wednesday</div>
                                 <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Wed</div>
-                                <div class="tableHead border-end d-none d-sm-block">Thursday</div>
-                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Thu</div>
-                                <div class="col-1"></div>
+                                <div class="tableHead border-end d-none d-sm-block me-2">Thursday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none me-2">Thu</div>
                                 <div class="tableKeys col-1">
                                     <div class="hours"><span>8:30 AM</span></div>
                                     <div class="hours"><span>9:30 AM</span></div>
@@ -139,24 +138,22 @@
                                 <div class="tableCol border-end border-bottom"></div>
                                 <div class="tableCol border-end border-bottom"></div>
                                 <div class="tableCol border-end border-bottom"></div>
-                                <div class="tableCol border-end border-bottom"></div>
-                                <div class="col-1"></div>
+                                <div class="tableCol border-end border-bottom me-2"></div>
                             </div>
                         </div>
                         <div class="tab-pane fade h-100 " id="pinned">
-                            <div class="timeTable row row-cols-6 g-0 py-2 px-3">
+                            <div class="timeTable row row-cols-6 g-0 py-2 px-3 justify-content-center">
                                 <div class="col-1"></div>
                                 <div class="tableHead border-end border-start d-none d-sm-block">Sunday</div>
-                                <div class="tableHead border-end border-start d-block d-sm-none">Sun</div>
+                                <div class="tableHead border-end border-start dynamic-fs-l d-block d-sm-none">Sun</div>
                                 <div class="tableHead border-end d-none d-sm-block">Monday</div>
-                                <div class="tableHead border-end d-block d-sm-none">Mon</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Mon</div>
                                 <div class="tableHead border-end d-none d-sm-block">Tuesday</div>
-                                <div class="tableHead border-end d-block d-sm-none">Tue</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Tue</div>
                                 <div class="tableHead border-end d-none d-sm-block">Wednesday</div>
-                                <div class="tableHead border-end d-block d-sm-none">Wed</div>
-                                <div class="tableHead border-end d-none d-sm-block">Thursday</div>
-                                <div class="tableHead border-end d-block d-sm-none">Thu</div>
-                                <div class="col-1"></div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none">Wed</div>
+                                <div class="tableHead border-end d-none d-sm-block me-2">Thursday</div>
+                                <div class="tableHead border-end d-block dynamic-fs-l d-sm-none me-2">Thu</div>
                                 <div class="tableKeys col-1">
                                     <div class="hours"><span>8:30 AM</span></div>
                                     <div class="hours"><span>9:30 AM</span></div>
@@ -176,8 +173,7 @@
                                 <div class="tableCol border-end border-bottom"></div>
                                 <div class="tableCol border-end border-bottom"></div>
                                 <div class="tableCol border-end border-bottom"></div>
-                                <div class="tableCol border-end border-bottom"></div>
-                                <div class="col-1"></div>
+                                <div class="tableCol border-end border-bottom me-2"></div>
                             </div>
                         </div>
                     </div>

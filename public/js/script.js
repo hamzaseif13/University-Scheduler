@@ -432,7 +432,7 @@ async function updateGenerated(){
   
     let cov = document.querySelectorAll(".cover");
     for (const cover of cov) {
-      let opName = cover.title || cover.ariaLabel;
+      let opName = cover.title || cover.ariaLabel || cover.dataset.name;
       opName = opName.toLowerCase();
       covers[opName] = cover;
     }
@@ -442,7 +442,7 @@ async function updateGenerated(){
     //#options.option1Name.option1Name.innerHTML = "dvz"
     let opt = document.querySelectorAll(".option");
     for (const option of opt) {
-      let opName = option.title;
+      let opName = option.title || options.dataset.name;
       opName = opName.toLowerCase();
       options[opName] = {};
 
@@ -474,7 +474,7 @@ async function updateGenerated(){
     
     let tableBtns = document.querySelectorAll("#table > .row .btn");
     for (const btn of tableBtns) {
-      let opName = btn.name || btn.innerText;
+      let opName = btn.name || btn.innerText || btn.dataset.name;
       opName = opName.trim();
       opName = opName.toLowerCase();
       if(opName != "filter" && !btn.className.includes("hint"))
